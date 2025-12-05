@@ -1,0 +1,1058 @@
+<!-- <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定制 Linkly Studio (商务版) - Linkly</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --panel-bg: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #86868b;
+            --accent-blue: #0a84ff;
+            --border-color: #333333;
+            --input-bg: #1c1c1e;
+            --nav-height: 48px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: saturate(180%) blur(20px);
+            height: var(--nav-height); width: 100%; position: fixed; top: 0; z-index: 999;
+            border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center;
+        }
+        .nav-content { width: 100%; max-width: 980px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-link { font-size: 12px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 4px; opacity: 0.8; transition: opacity 0.2s;}
+        .nav-link:hover { opacity: 1; }
+
+        /* 主布局 */
+        .main-container {
+            max-width: 1080px; margin: 0 auto; padding: calc(var(--nav-height) + 40px) 20px 80px;
+            min-height: 100vh;
+        }
+
+        .product-configurator {
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start;
+        }
+
+        /* --- 左侧：动态预览舞台 --- */
+        .preview-stage {
+            position: sticky; top: 100px;
+            background: var(--panel-bg); border-radius: 24px;
+            padding: 80px 40px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .preview-card-container { perspective: 1000px; margin-bottom: 30px; }
+        
+        .interactive-card {
+            width: 340px; height: 214px;
+            border-radius: 16px; position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d; overflow: hidden;
+            display: flex; flex-direction: column; padding: 24px;
+        }
+
+        /* 视觉层 */
+        .layer-base, .layer-texture, .layer-pattern-overlay { position: absolute; inset: 0; pointer-events: none; transition: opacity 0.3s; }
+        
+        /* 材质纹理定义 */
+        .tex-walnut { background: #5c4033; background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, transparent 2px); display: none; }
+        .tex-bamboo { background: #e3cca8; background-image: linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 3px 100%; display: none; }
+        
+        /* 颜色定义 [Source: 2] */
+        .bg-obsidian { background: #1a1a1a; }
+        .bg-prussian { background: #003153; }
+        .bg-burgundy { background: #660012; }
+        .bg-ivory { background: #fffff0; color: #333 !important; }
+        .bg-spacegrey { background: #4a4a4a; }
+        .bg-champagne { background: #F7E7CE; color: #333 !important; }
+
+        /* 图案定义 [Source: 2] */
+        .pat-metal { background: conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.1) 20deg, transparent 40deg); opacity: 0; }
+        .pat-marble { background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1), transparent), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1), transparent); filter: contrast(1.5); opacity: 0; }
+        .pat-geo { background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.05) 75%, transparent 75%, transparent); background-size: 40px 40px; opacity: 0; }
+        .pat-side { background: linear-gradient(90deg, rgba(0,0,0,0.2) 25%, transparent 25%); opacity: 0; }
+
+        /* 状态激活类 */
+        .show-tex { display: block !important; }
+        .show-pat { opacity: 1 !important; }
+        .text-dark .card-content { color: #333 !important; } 
+
+        /* 内容排版 5种布局 */
+        .card-content { z-index: 2; width: 100%; height: 100%; display: flex; flex-direction: column; transition: all 0.3s ease; color: rgba(255,255,255,0.9); }
+        
+        /* Layouts */
+        .layout-1 { text-align: left; justify-content: space-between; }
+        .layout-1 .c-top { font-size: 10px; opacity: 0.6; text-transform: uppercase; letter-spacing: 2px; }
+        .layout-1 .c-mid h3 { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
+        .layout-1 .c-bot { font-size: 10px; opacity: 0.5; border-top: 1px solid currentColor; padding-top: 10px; width: 100%; }
+
+        .layout-2 { text-align: center; justify-content: center; align-items: center; gap: 10px; }
+        .layout-2 .c-top { margin-bottom: 20px; font-weight: 700; letter-spacing: 3px; }
+        .layout-2 .c-mid h3 { font-size: 24px; font-weight: 300; }
+        .layout-2 .c-bot { font-size: 11px; opacity: 0.7; }
+
+        .layout-3 { text-align: right; justify-content: flex-end; }
+        .layout-3 .c-top { position: absolute; top: 24px; left: 24px; font-weight: bold; }
+        .layout-3 .c-mid { margin-bottom: 40px; }
+        .layout-3 .c-mid h3 { font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+        .layout-3 .c-bot { font-size: 10px; font-family: monospace; }
+
+        .layout-4 { justify-content: center; }
+        .layout-4 .c-top { display: none; }
+        .layout-4 .c-mid h3 { font-size: 32px; font-weight: 800; line-height: 1; margin-bottom: 10px; }
+        .layout-4 .c-mid p { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-left: 2px solid currentColor; padding-left: 10px; }
+        .layout-4 .c-bot { position: absolute; bottom: 24px; right: 24px; font-size: 10px; }
+
+        /* Layout 5: Structural (结构化布局) - 修复版 */
+        .layout-5 { 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            text-align: left;
+        }
+
+        /* 顶部：Logo + 分割线 */
+        .layout-5 .c-top { 
+            font-weight: 700; 
+            letter-spacing: 2px; 
+            font-size: 11px;
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 12px;
+            margin-bottom: auto; /* 将下方内容推到底部 */
+            width: 100%;
+            opacity: 0.8;
+        }
+        /* 浅色背景时的分割线适配 */
+        .text-dark.layout-5 .c-top { border-bottom-color: rgba(0,0,0,0.1); }
+
+        /* 中部：姓名与职位 */
+        .layout-5 .c-mid { 
+            margin-bottom: 15px; /* 与底部保持距离 */
+        }
+        .layout-5 .c-mid h3 { 
+            font-size: 26px; 
+            font-weight: 700; 
+            margin-bottom: 6px; 
+            line-height: 1.1;
+        }
+        .layout-5 .c-mid p { 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            opacity: 0.7; 
+            display: inline-block;
+        }
+
+        /* 底部：联系方式 (右对齐 + 胶囊背景) */
+        .layout-5 .c-bot { 
+            align-self: flex-end; /* 靠右对齐 */
+            font-family: monospace; 
+            font-size: 10px; 
+            opacity: 0.9; 
+            background: rgba(255,255,255,0.15);
+            padding: 6px 10px;
+            border-radius: 4px;
+        }
+        /* 浅色背景时的底部适配 */
+        .text-dark.layout-5 .c-bot { background: rgba(0,0,0,0.06); }
+
+        .preview-note { font-size: 12px; color: var(--text-secondary); margin-top: 20px; text-align: center; }
+
+        /* --- 右侧：配置面板 --- */
+        .config-panel { padding-top: 0; }
+
+        .mode-badge {
+            display: inline-block; padding: 6px 12px; border-radius: 8px; 
+            font-size: 12px; font-weight: 600; margin-bottom: 10px;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .config-section { margin-top: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border-color); position: relative; transition: opacity 0.3s; }
+        .config-section.disabled { opacity: 0.2; pointer-events: none; filter: grayscale(1); } 
+        .config-section:last-child { border-bottom: none; }
+        
+        .config-label { font-size: 14px; font-weight: 600; margin-bottom: 12px; display: block; color: #e5e5e5; }
+        .selection-name { color: var(--text-secondary); font-weight: 400; margin-left: 6px; }
+
+        /* 选项组通用 */
+        .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-3-col { grid-template-columns: repeat(3, 1fr); }
+        
+        /* 修复订量布局：强制一行四列 */
+        .quantity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+
+        .option-btn {
+            padding: 12px; border: 1px solid var(--border-color); border-radius: 10px;
+            background: var(--input-bg); color: #fff; font-size: 12px; cursor: pointer;
+            transition: all 0.2s; text-align: center;
+        }
+        .option-btn:hover { border-color: #666; }
+        .option-btn.active { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(10, 132, 255, 0.1); }
+
+        /* 颜色圆点 */
+        .color-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .color-btn {
+            width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
+            transition: transform 0.2s; position: relative; box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
+        }
+        .color-btn.active { box-shadow: 0 0 0 2px #000, 0 0 0 4px #fff; transform: scale(1.1); }
+
+        /* 布局图标 */
+        .layout-selector { display: flex; gap: 10px; }
+        .layout-btn {
+            width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--border-color);
+            background: var(--input-bg); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: #666; font-weight: bold;
+        }
+        .layout-btn.active { border-color: var(--accent-blue); background: rgba(10, 132, 255, 0.1); color: var(--accent-blue); }
+
+        /* 输入框 */
+        .input-group { display: grid; gap: 12px; }
+        .input-field {
+            width: 100%; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color);
+            background: var(--input-bg); color: #fff; font-size: 13px; outline: none;
+        }
+        .input-field:focus { border-color: var(--accent-blue); }
+
+        /* 底部操作栏 */
+        .action-area {
+            background: var(--panel-bg); border-radius: 18px; padding: 24px; margin-top: 20px; border: 1px solid var(--border-color);
+        }
+        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: 600; font-size: 16px; }
+        
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .btn {
+            padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: center;
+            cursor: pointer; border: none; width: 100%; transition: all 0.2s;
+        }
+        .btn-primary { background: #fff; color: #000; }
+        .btn-primary:hover { background: #e5e5e5; }
+        .btn-secondary { background: #333; color: #fff; }
+        .btn-secondary:hover { background: #444; }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-content">
+        <a href="shop.html" class="nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <span>返回商店</span>
+        </a>
+        <span style="font-weight:600; color:#fff;">Linkly Studio</span>
+        <a href="#" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+            <span>(0)</span>
+        </a>
+    </div>
+</nav>
+
+<div class="main-container">
+    <div class="product-configurator">
+        
+        <div class="preview-stage">
+            <div class="preview-card-container">
+                <div id="dynamic-card" class="interactive-card bg-obsidian layout-1">
+                    <div id="tex-wood" class="layer-texture"></div>
+                    <div id="pat-overlay" class="layer-pattern-overlay"></div>
+                    
+                    <div class="card-content">
+                        <div class="c-top">LINKLY</div>
+                        <div class="c-mid">
+                            <h3 id="prev-name">John Doe</h3>
+                            <p id="prev-role">Design Lead</p>
+                        </div>
+                        <div class="c-bot">
+                            <span id="prev-company">Global Inc.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="preview-note">商务正装模式 · 实时预览</p>
+        </div>
+
+        <div class="config-panel">
+            
+            <div class="mode-badge">Business Mode</div>
+
+            <div class="config-section">
+                <span class="config-label">材质 <span id="lbl-mat" class="selection-name">标准 PVC</span></span>
+                <div class="option-group" id="group-mat">
+                    <div class="option-btn active" data-type="pvc" data-price="34.90">标准 PVC</div>
+                    <div class="option-btn" data-type="pvc-matte" data-price="34.90">哑光磨砂 PVC</div>
+                    <div class="option-btn" data-type="bamboo" data-price="39.90">楠竹 (环保)</div>
+                    <div class="option-btn" data-type="walnut" data-price="49.90">胡桃木 (高端)</div>
+                </div>
+            </div>
+
+            <div class="config-section" id="sec-color">
+                <span class="config-label">底色 <span id="lbl-color" class="selection-name">曜石黑</span></span>
+                <div class="color-grid" id="group-color">
+                    <div class="color-btn active" data-color="bg-obsidian" data-name="曜石黑" style="background:#1a1a1a;"></div>
+                    <div class="color-btn" data-color="bg-prussian" data-name="普鲁士蓝" style="background:#003153;"></div>
+                    <div class="color-btn" data-color="bg-burgundy" data-name="勃艮第红" style="background:#660012;"></div>
+                    <div class="color-btn" data-color="bg-ivory" data-name="象牙白" style="background:#fffff0;"></div>
+                    <div class="color-btn" data-color="bg-spacegrey" data-name="太空灰" style="background:#4a4a4a;"></div>
+                    <div class="color-btn" data-color="bg-champagne" data-name="香槟金" style="background:#F7E7CE;"></div>
+                </div>
+            </div>
+
+            <div class="config-section" id="sec-pattern">
+                <span class="config-label">图案 <span id="lbl-pat" class="selection-name">纯色</span></span>
+                <div class="option-group grid-3-col" id="group-pat">
+                    <div class="option-btn active" data-pat="none" data-name="纯色">纯色</div>
+                    <div class="option-btn" data-pat="pat-metal" data-name="拉丝金属">拉丝金属</div>
+                    <div class="option-btn" data-pat="pat-marble" data-name="大理石纹">大理石纹</div>
+                    <div class="option-btn" data-pat="pat-geo" data-name="几何折线">几何折线</div>
+                    <div class="option-btn" data-pat="pat-side" data-name="侧边色块">侧边色块</div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">版式布局</span>
+                <div class="layout-selector" id="group-layout">
+                    <div class="layout-btn active" data-layout="layout-1">1</div>
+                    <div class="layout-btn" data-layout="layout-2">2</div>
+                    <div class="layout-btn" data-layout="layout-3">3</div>
+                    <div class="layout-btn" data-layout="layout-4">4</div>
+                    <div class="layout-btn" data-layout="layout-5">5</div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">卡面信息</span>
+                <div class="input-group">
+                    <input type="text" class="input-field" placeholder="姓名: John Doe" oninput="updateTxt('prev-name', this.value)">
+                    <input type="text" class="input-field" placeholder="职位: CEO" oninput="updateTxt('prev-role', this.value)">
+                    <input type="text" class="input-field" placeholder="公司/电话: Global Inc." oninput="updateTxt('prev-company', this.value)">
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">订量 <span class="selection-name">量大从优</span></span>
+                <div class="quantity-grid" id="group-qty">
+                    <div class="option-btn active" data-qty="1" data-discount="0">1<br>零售</div>
+                    <div class="option-btn" data-qty="20" data-discount="5">20+<br>团队</div>
+                    <div class="option-btn" data-qty="50" data-discount="10">50+<br>企业</div>
+                    <div class="option-btn" data-qty="100" data-discount="15">100+<br>批发</div>
+                </div>
+            </div>
+
+            <div class="action-area">
+                <div class="total-row">
+                    <span>当前单价</span>
+                    <span id="final-price">--</span>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary">立即结账</button>
+                    <button class="btn btn-secondary">添加到购物袋</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 状态管理
+        const state = {
+            matType: 'pvc',  // pvc, pvc-matte, bamboo, walnut
+            matPrice: 34.90,
+            colorClass: 'bg-obsidian',
+            colorName: '曜石黑',
+            patClass: 'none',
+            patName: '纯色',
+            layout: 'layout-1',
+            discount: 0
+        };
+
+        // DOM 元素
+        const dom = {
+            card: document.getElementById('dynamic-card'),
+            texLayer: document.getElementById('tex-wood'),
+            patLayer: document.getElementById('pat-overlay'),
+            secColor: document.getElementById('sec-color'),
+            secPat: document.getElementById('sec-pattern'),
+            priceDisplay: document.getElementById('final-price'),
+            lblMat: document.getElementById('lbl-mat'),
+            lblColor: document.getElementById('lbl-color'),
+            lblPat: document.getElementById('lbl-pat')
+        };
+
+        // --- 交互绑定 ---
+
+        // 1. 材质点击
+        document.getElementById('group-mat').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('option-btn')) return;
+            setActive(e.target);
+            
+            state.matType = e.target.dataset.type;
+            state.matPrice = parseFloat(e.target.dataset.price);
+            dom.lblMat.textContent = e.target.textContent;
+
+            updateView();
+        });
+
+        // 2. 颜色点击
+        document.getElementById('group-color').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('color-btn')) return;
+            setActive(e.target);
+            
+            state.colorClass = e.target.dataset.color;
+            state.colorName = e.target.dataset.name;
+            dom.lblColor.textContent = state.colorName;
+
+            updateView();
+        });
+
+        // 3. 图案点击
+        document.getElementById('group-pat').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('option-btn')) return;
+            setActive(e.target);
+            
+            state.patClass = e.target.dataset.pat;
+            state.patName = e.target.dataset.name;
+            dom.lblPat.textContent = state.patName;
+
+            updateView();
+        });
+
+        // 4. 布局点击
+        document.getElementById('group-layout').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('layout-btn')) return;
+            setActive(e.target);
+            state.layout = e.target.dataset.layout;
+            updateView();
+        });
+
+        // 5. 数量点击
+        document.getElementById('group-qty').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('option-btn')) return;
+            setActive(e.target);
+            state.discount = parseFloat(e.target.dataset.discount);
+            updateView();
+        });
+
+        // --- 核心逻辑 ---
+
+        function updateView() {
+            // 1. 处理材质互斥逻辑 (Wood vs PVC)
+            const isWood = (state.matType === 'bamboo' || state.matType === 'walnut');
+            
+            if (isWood) {
+                // 禁用颜色和图案区域
+                dom.secColor.classList.add('disabled');
+                dom.secPat.classList.add('disabled');
+                
+                // 显示木纹
+                dom.texLayer.className = 'layer-texture show-tex ' + (state.matType === 'bamboo' ? 'tex-bamboo' : 'tex-walnut');
+                dom.patLayer.className = 'layer-pattern-overlay'; // 清除图案
+                
+                // 移除背景色，根据木质决定文字颜色
+                dom.card.className = `interactive-card ${state.layout}`;
+                if(state.matType === 'bamboo') {
+                    dom.card.classList.add('text-dark'); // 竹子颜色浅，用深色字
+                }
+            } else {
+                // PVC 模式：启用颜色和图案
+                dom.secColor.classList.remove('disabled');
+                dom.secPat.classList.remove('disabled');
+                
+                // 隐藏木纹
+                dom.texLayer.className = 'layer-texture';
+                
+                // 应用图案
+                dom.patLayer.className = 'layer-pattern-overlay ' + (state.patClass !== 'none' ? 'show-pat ' + state.patClass : '');
+                
+                // 应用颜色和布局
+                dom.card.className = `interactive-card ${state.layout} ${state.colorClass}`;
+                
+                // 象牙白和香槟金需要深色字
+                if(state.colorClass === 'bg-ivory' || state.colorClass === 'bg-champagne') {
+                    dom.card.classList.add('text-dark');
+                }
+            }
+
+            // 2. 计算价格
+            let final = state.matPrice - state.discount;
+            if (final < 0) final = 0;
+            
+            dom.priceDisplay.textContent = `$${final.toFixed(2)}`;
+        }
+
+        // 辅助：设置按钮激活态
+        function setActive(target) {
+            Array.from(target.parentElement.children).forEach(c => c.classList.remove('active'));
+            target.classList.add('active');
+        }
+
+        // 文本更新
+        window.updateTxt = function(id, val) {
+            document.getElementById(id).textContent = val;
+        }
+
+        // 初始化一次
+        updateView();
+    });
+</script>
+
+</body>
+</html> -->
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定制 Linkly Studio (商务版) - Linkly</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --panel-bg: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #86868b;
+            --accent-blue: #0a84ff;
+            --border-color: #333333;
+            --input-bg: #1c1c1e;
+            --nav-height: 48px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+
+        /* 导航栏 */
+        nav {
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: saturate(180%) blur(20px);
+            height: var(--nav-height); width: 100%; position: fixed; top: 0; z-index: 999;
+            border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center;
+        }
+        .nav-content { width: 100%; max-width: 980px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-link { font-size: 12px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 4px; opacity: 0.8; transition: opacity 0.2s;}
+        .nav-link:hover { opacity: 1; }
+
+        /* 主布局 */
+        .main-container {
+            max-width: 1080px; margin: 0 auto; padding: calc(var(--nav-height) + 40px) 20px 80px;
+            min-height: 100vh;
+        }
+
+        .product-configurator {
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start;
+        }
+
+        /* --- 左侧：动态预览舞台 --- */
+        .preview-stage {
+            position: sticky; top: 100px;
+            background: var(--panel-bg); border-radius: 24px;
+            padding: 80px 40px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .preview-card-container { perspective: 1000px; margin-bottom: 30px; }
+        
+        /* 卡片容器：尺寸锁定 */
+        .interactive-card {
+            width: 340px; height: 214px; /* 固定尺寸 */
+            border-radius: 16px; position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d; 
+            overflow: hidden; /* 防止溢出 */
+            display: block; 
+        }
+
+        /* 视觉层 */
+        .layer-base, .layer-texture, .layer-pattern-overlay { position: absolute; inset: 0; pointer-events: none; transition: opacity 0.3s; z-index: 0; }
+        
+        /* 材质纹理定义 */
+        .tex-walnut { background: #5c4033; background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, transparent 2px); display: none; }
+        .tex-bamboo { background: #e3cca8; background-image: linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 3px 100%; display: none; }
+        
+        /* 颜色定义 [Source: 2] */
+        .bg-obsidian { background: #1a1a1a; }
+        .bg-prussian { background: #003153; }
+        .bg-burgundy { background: #660012; }
+        .bg-ivory { background: #fffff0; color: #333 !important; }
+        .bg-spacegrey { background: #4a4a4a; }
+        .bg-champagne { background: #F7E7CE; color: #333 !important; }
+
+        /* 图案定义 [Source: 2] */
+        .pat-metal { background: conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.1) 20deg, transparent 40deg); opacity: 0; }
+        .pat-marble { background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1), transparent), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1), transparent); filter: contrast(1.5); opacity: 0; }
+        .pat-geo { background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.05) 75%, transparent 75%, transparent); background-size: 40px 40px; opacity: 0; }
+        .pat-side { background: linear-gradient(90deg, rgba(0,0,0,0.2) 25%, transparent 25%); opacity: 0; }
+
+        /* 状态激活类 */
+        .show-tex { display: block !important; }
+        .show-pat { opacity: 1 !important; }
+        .text-dark .card-content { color: #333 !important; text-shadow: none !important; } 
+        .text-dark .c-bot { border-top-color: rgba(0,0,0,0.1) !important; }
+        .text-dark .c-avatar { border-color: rgba(0,0,0,0.2) !important; }
+
+        /* --- 商务内容排版 (Grid System) --- */
+        .card-content { 
+            position: relative; z-index: 2; width: 100%; height: 100%; 
+            padding: 24px; box-sizing: border-box;
+            display: grid; /* 默认 Grid */
+            transition: all 0.3s ease; 
+            color: rgba(255,255,255,0.9);
+            overflow: hidden;
+        }
+
+        /* 元素基础样式 */
+        .c-avatar {
+            background-color: rgba(255,255,255,0.1);
+            background-size: cover; background-position: center;
+            border: 1px solid rgba(255,255,255,0.5);
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; 
+        }
+        .c-avatar::after { content: "PHOTO"; font-size: 9px; opacity: 0.5; }
+        .c-avatar.has-img::after { display: none; }
+
+        .c-item { overflow: hidden; text-overflow: ellipsis; min-width: 0; } /* 防止撑开 */
+        
+        .c-name { font-size: 20px; font-weight: 700; line-height: 1.2; }
+        .c-role { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+        .c-company { font-size: 10px; opacity: 0.6; font-family: monospace; }
+        .c-custom { font-size: 10px; opacity: 0.7; font-style: italic; margin-top: 4px; border-left: 2px solid currentColor; padding-left: 6px; }
+        .c-top { font-size: 9px; opacity: 0.5; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* === 5种防遮挡布局 === */
+
+        /* Layout 1: Left Standard (标准左对齐 - 左右分栏) */
+        .layout-1 {
+            grid-template-columns: 80px 1fr; /* 左头 右文 */
+            grid-template-rows: auto 1fr auto;
+            gap: 15px 20px;
+            align-items: center;
+        }
+        .layout-1 .c-top { grid-column: 1 / -1; } /* Logo 占满顶部 */
+        .layout-1 .c-avatar { width: 80px; height: 80px; border-radius: 50%; grid-row: 2 / 3; }
+        .layout-1 .info-group { display: flex; flex-direction: column; justify-content: center; gap: 2px; }
+        .layout-1 .c-name { font-size: 22px; }
+        .layout-1 .c-company { grid-column: 1 / -1; width: 100%; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; align-self: end; }
+
+        /* Layout 2: Center Stack (居中堆叠 - 垂直流) */
+        .layout-2 {
+            display: flex; flex-direction: column; 
+            align-items: center; justify-content: space-between; text-align: center;
+        }
+        .layout-2 .c-top { margin-bottom: 5px; }
+        .layout-2 .c-avatar { width: 70px; height: 70px; border-radius: 12px; margin: 5px 0; }
+        .layout-2 .info-group { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .layout-2 .c-name { font-size: 24px; font-weight: 300; }
+        .layout-2 .c-role { text-transform: uppercase; letter-spacing: 1px; font-size: 10px; }
+        .layout-2 .c-custom { border: none; padding: 0; font-style: normal; opacity: 0.5; }
+        .layout-2 .c-company { margin-top: auto; opacity: 0.8; }
+
+        /* Layout 3: Sidebar Right (右侧栏 - 网格) */
+        .layout-3 {
+            grid-template-columns: 1fr 90px;
+            grid-template-rows: auto 1fr auto;
+            padding: 0 !important; /* 全屏布局 */
+            gap: 0;
+        }
+        .layout-3 .c-avatar { grid-column: 2; grid-row: 1 / -1; width: 100%; height: 100%; border: none; border-left: 1px solid rgba(255,255,255,0.2); border-radius: 0; }
+        .layout-3 .c-top { padding: 24px 0 0 24px; }
+        .layout-3 .info-group { padding-left: 24px; align-self: center; display: flex; flex-direction: column; justify-content: center; }
+        .layout-3 .c-name { font-size: 26px; }
+        .layout-3 .c-company { padding: 0 0 24px 24px; align-self: end; }
+
+        /* Layout 4: ID Card (横向名片 - 上下结构) */
+        .layout-4 {
+            grid-template-columns: 90px 1fr;
+            grid-template-rows: 1fr auto;
+            gap: 20px;
+        }
+        .layout-4 .c-avatar { width: 90px; height: 110px; border-radius: 4px; grid-row: 1 / 2; }
+        .layout-4 .info-group { display: flex; flex-direction: column; padding-top: 10px; }
+        .layout-4 .c-top { order: -1; margin-bottom: 5px; } /* Flex order调整显示顺序 */
+        .layout-4 .c-name { font-size: 22px; font-weight: 800; text-transform: uppercase; }
+        .layout-4 .c-company { grid-column: 1 / -1; border-top: 2px solid currentColor; padding-top: 10px; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+        .layout-4 .c-custom { margin-top: auto; margin-bottom: 5px; }
+
+        /* Layout 5: Minimal Grid (四象限) */
+        .layout-5 {
+            grid-template-columns: 1fr auto;
+            grid-template-rows: 1fr 1fr;
+            gap: 10px;
+        }
+        .layout-5 .c-top { grid-column: 1 / -1; display: block; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 5px;}
+        .layout-5 .info-group { grid-column: 1 / 2; display: flex; flex-direction: column; justify-content: center; }
+        .layout-5 .c-avatar { grid-column: 2 / 3; width: 60px; height: 60px; border-radius: 50%; align-self: center; justify-self: end;}
+        .layout-5 .c-company { grid-column: 1 / -1; align-self: end; text-align: right; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 4px; width: fit-content; justify-self: end;}
+        .layout-5 .c-custom { grid-column: 1 / 2; align-self: end; border: none; padding: 0; }
+
+        /* --- 配置面板 --- */
+        .preview-note { font-size: 12px; color: var(--text-secondary); margin-top: 20px; text-align: center; }
+        .config-panel { padding-top: 0; }
+        
+        .mode-badge {
+            display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+            background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .config-section { margin-top: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border-color); position: relative; transition: opacity 0.3s; }
+        .config-section.disabled { opacity: 0.3; pointer-events: none; filter: grayscale(100%); } 
+        .config-section:last-child { border-bottom: none; }
+        
+        .config-label { font-size: 14px; font-weight: 600; margin-bottom: 12px; display: block; color: #e5e5e5; }
+        .selection-name { color: var(--text-secondary); font-weight: 400; margin-left: 6px; }
+
+        /* 选项按钮 */
+        .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .grid-3-col { grid-template-columns: repeat(3, 1fr); }
+        .quantity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; } /* 强制单行 */
+
+        .option-btn {
+            padding: 12px; border: 1px solid var(--border-color); border-radius: 10px;
+            background: var(--input-bg); color: #fff; font-size: 12px; cursor: pointer;
+            transition: all 0.2s; text-align: center;
+        }
+        .option-btn:hover { border-color: #666; }
+        .option-btn.active { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(10, 132, 255, 0.1); }
+
+        /* 颜色圆点 */
+        .color-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .color-btn {
+            width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
+            transition: transform 0.2s; position: relative; box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
+        }
+        .color-btn.active { box-shadow: 0 0 0 2px #000, 0 0 0 4px #fff; transform: scale(1.1); }
+
+        /* 布局图标 */
+        .layout-selector { display: flex; gap: 10px; }
+        .layout-btn {
+            width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--border-color);
+            background: var(--input-bg); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: #666; font-weight: bold;
+        }
+        .layout-btn.active { border-color: var(--accent-blue); background: rgba(10, 132, 255, 0.1); color: var(--accent-blue); }
+
+        /* 输入框 */
+        .input-group { display: grid; gap: 12px; }
+        .input-field {
+            width: 100%; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color);
+            background: var(--input-bg); color: #fff; font-size: 13px; outline: none;
+        }
+        .input-field:focus { border-color: var(--accent-blue); }
+
+        /* 上传按钮 */
+        .upload-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 12px; border: 1px dashed var(--border-color); border-radius: 8px;
+            background: rgba(255,255,255,0.05); color: #ccc; font-size: 13px; cursor: pointer; transition: 0.2s;
+        }
+        .upload-btn:hover { border-color: var(--accent-blue); color: #fff; }
+
+        /* 底部操作栏 */
+        .action-area {
+            background: var(--panel-bg); border-radius: 18px; padding: 24px; margin-top: 20px; border: 1px solid var(--border-color);
+        }
+        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: 600; font-size: 16px; }
+        
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .btn {
+            padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: center;
+            cursor: pointer; border: none; width: 100%; transition: all 0.2s;
+        }
+        .btn-primary { background: #fff; color: #000; }
+        .btn-primary:hover { background: #e5e5e5; }
+        .btn-secondary { background: #333; color: #fff; }
+        .btn-secondary:hover { background: #444; }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-content">
+        <a href="shop.html" class="nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            <span>返回商店</span>
+        </a>
+        <span style="font-weight:600; color:#fff;">Linkly Studio</span>
+        <a href="#" class="nav-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+            <span>(0)</span>
+        </a>
+    </div>
+</nav>
+
+<div class="main-container">
+    <div class="product-configurator">
+        
+        <div class="preview-stage">
+            <div class="preview-card-container">
+                <div id="dynamic-card" class="interactive-card bg-obsidian layout-1">
+                    <div id="tex-wood" class="layer-texture"></div>
+                    <div id="pat-overlay" class="layer-pattern-overlay"></div>
+                    
+                    <div class="card-content">
+                        <div class="c-top" id="prev-logo">LINKLY</div>
+                        
+                        <div class="c-avatar" id="prev-avatar"></div>
+                        
+                        <div class="info-group">
+                            <div class="c-name c-item" id="prev-name">John Doe</div>
+                            <div class="c-role c-item" id="prev-role">Design Lead</div>
+                            <div class="c-custom c-item" id="prev-custom"></div> </div>
+                        
+                        <div class="c-company c-item" id="prev-company">Global Inc.</div>
+                    </div>
+                </div>
+            </div>
+            <p class="preview-note">商务正装模式 · 实时预览</p>
+        </div>
+
+        <div class="config-panel">
+            
+            <div class="mode-badge">Business Mode</div>
+
+            <div class="config-section">
+                <span class="config-label">材质 <span id="lbl-mat" class="selection-name">标准 PVC</span></span>
+                <div class="option-group" id="group-mat">
+                    <div class="option-btn active" data-type="pvc" data-price="34.90">标准 PVC</div>
+                    <div class="option-btn" data-type="pvc-matte" data-price="34.90">哑光磨砂 PVC</div>
+                    <div class="option-btn" data-type="bamboo" data-price="39.90">楠竹 (环保)</div>
+                    <div class="option-btn" data-type="walnut" data-price="49.90">胡桃木 (高端)</div>
+                </div>
+            </div>
+
+            <div class="config-section" id="sec-color">
+                <span class="config-label">底色 <span id="lbl-color" class="selection-name">曜石黑</span></span>
+                <div class="color-grid" id="group-color">
+                    <div class="color-btn active" data-color="bg-obsidian" data-name="曜石黑" style="background:#1a1a1a;"></div>
+                    <div class="color-btn" data-color="bg-prussian" data-name="普鲁士蓝" style="background:#003153;"></div>
+                    <div class="color-btn" data-color="bg-burgundy" data-name="勃艮第红" style="background:#660012;"></div>
+                    <div class="color-btn" data-color="bg-ivory" data-name="象牙白" style="background:#fffff0;"></div>
+                    <div class="color-btn" data-color="bg-spacegrey" data-name="太空灰" style="background:#4a4a4a;"></div>
+                    <div class="color-btn" data-color="bg-champagne" data-name="香槟金" style="background:#F7E7CE;"></div>
+                </div>
+            </div>
+
+            <div class="config-section" id="sec-pattern">
+                <span class="config-label">图案 <span id="lbl-pat" class="selection-name">纯色</span></span>
+                <div class="option-group grid-3-col" id="group-pat">
+                    <div class="option-btn active" data-pat="none" data-name="纯色">纯色</div>
+                    <div class="option-btn" data-pat="pat-metal" data-name="拉丝金属">拉丝金属</div>
+                    <div class="option-btn" data-pat="pat-marble" data-name="大理石纹">大理石纹</div>
+                    <div class="option-btn" data-pat="pat-geo" data-name="几何折线">几何折线</div>
+                    <div class="option-btn" data-pat="pat-side" data-name="侧边色块">侧边色块</div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">版式布局 (含头像)</span>
+                <div class="layout-selector" id="group-layout">
+                    <div class="layout-btn active" data-layout="layout-1">1</div>
+                    <div class="layout-btn" data-layout="layout-2">2</div>
+                    <div class="layout-btn" data-layout="layout-3">3</div>
+                    <div class="layout-btn" data-layout="layout-4">4</div>
+                    <div class="layout-btn" data-layout="layout-5">5</div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">卡面信息</span>
+                <div class="input-group">
+                    <label class="upload-btn">
+                        <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleUpload(this)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        上传头像 (支持 JPG/PNG)
+                    </label>
+
+                    <input type="text" class="input-field" placeholder="姓名: John Doe" oninput="updateTxt('prev-name', this.value)">
+                    <input type="text" class="input-field" placeholder="职位: CEO" oninput="updateTxt('prev-role', this.value)">
+                    <input type="text" class="input-field" placeholder="公司/电话: Global Inc." oninput="updateTxt('prev-company', this.value)">
+                    <input type="text" class="input-field" placeholder="自定义文本 (可选)" oninput="updateTxt('prev-custom', this.value)">
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">订量 <span class="selection-name">量大从优</span></span>
+                <div class="quantity-grid" id="group-qty">
+                    <div class="option-btn active" data-qty="1" data-discount="0">1<br>零售</div>
+                    <div class="option-btn" data-qty="20" data-discount="5">20+<br>团队</div>
+                    <div class="option-btn" data-qty="50" data-discount="10">50+<br>企业</div>
+                    <div class="option-btn" data-qty="100" data-discount="15">100+<br>批发</div>
+                </div>
+            </div>
+
+            <div class="action-area">
+                <div class="total-row">
+                    <span>当前单价</span>
+                    <span id="final-price">--</span>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary">立即结账</button>
+                    <button class="btn btn-secondary">添加到购物袋</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 状态管理
+        const state = {
+            matType: 'pvc',  
+            matPrice: 34.90,
+            colorClass: 'bg-obsidian',
+            colorName: '曜石黑',
+            patClass: 'none',
+            patName: '纯色',
+            layout: 'layout-1',
+            discount: 0
+        };
+
+        // DOM 元素
+        const dom = {
+            card: document.getElementById('dynamic-card'),
+            texLayer: document.getElementById('tex-wood'),
+            patLayer: document.getElementById('pat-overlay'),
+            secColor: document.getElementById('sec-color'),
+            secPat: document.getElementById('sec-pattern'),
+            priceDisplay: document.getElementById('final-price'),
+            lblMat: document.getElementById('lbl-mat'),
+            lblColor: document.getElementById('lbl-color'),
+            lblPat: document.getElementById('lbl-pat')
+        };
+
+        // 1. 材质点击 (互斥逻辑核心)
+        document.getElementById('group-mat').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('option-btn')) return;
+            setActive(e.target);
+            
+            state.matType = e.target.dataset.type;
+            state.matPrice = parseFloat(e.target.dataset.price);
+            dom.lblMat.textContent = e.target.textContent;
+
+            updateView();
+        });
+
+        // 2. 颜色点击
+        document.getElementById('group-color').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('color-btn')) return;
+            setActive(e.target);
+            state.colorClass = e.target.dataset.color;
+            state.colorName = e.target.dataset.name;
+            dom.lblColor.textContent = state.colorName;
+            updateView();
+        });
+
+        // 3. 图案点击
+        document.getElementById('group-pat').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('option-btn')) return;
+            setActive(e.target);
+            state.patClass = e.target.dataset.pat;
+            state.patName = e.target.dataset.name;
+            dom.lblPat.textContent = state.patName;
+            updateView();
+        });
+
+        // 4. 布局点击
+        document.getElementById('group-layout').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('layout-btn')) return;
+            setActive(e.target);
+            state.layout = e.target.dataset.layout;
+            updateView();
+        });
+
+        // 5. 数量点击
+        document.getElementById('group-qty').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('option-btn')) return;
+            setActive(e.target);
+            state.discount = parseFloat(e.target.dataset.discount);
+            updateView();
+        });
+
+        // --- 核心逻辑 ---
+
+        function updateView() {
+            // 材质互斥判断
+            const isWood = (state.matType === 'bamboo' || state.matType === 'walnut');
+            
+            if (isWood) {
+                // 禁用颜色和图案
+                dom.secColor.classList.add('disabled');
+                dom.secPat.classList.add('disabled');
+                
+                // 显示纹理
+                dom.texLayer.className = 'layer-texture show-tex ' + (state.matType === 'bamboo' ? 'tex-bamboo' : 'tex-walnut');
+                dom.patLayer.className = 'layer-pattern-overlay';
+                
+                // 应用布局
+                dom.card.className = `interactive-card ${state.layout}`;
+                if(state.matType === 'bamboo') {
+                    dom.card.classList.add('text-dark');
+                }
+            } else {
+                // PVC 模式：启用
+                dom.secColor.classList.remove('disabled');
+                dom.secPat.classList.remove('disabled');
+                
+                dom.texLayer.className = 'layer-texture';
+                dom.patLayer.className = 'layer-pattern-overlay ' + (state.patClass !== 'none' ? 'show-pat ' + state.patClass : '');
+                
+                dom.card.className = `interactive-card ${state.layout} ${state.colorClass}`;
+                
+                if(state.colorClass === 'bg-ivory' || state.colorClass === 'bg-champagne') {
+                    dom.card.classList.add('text-dark');
+                }
+            }
+
+            // 价格计算
+            let final = state.matPrice - state.discount;
+            if (final < 0) final = 0;
+            dom.priceDisplay.textContent = `$${final.toFixed(2)}`;
+        }
+
+        function setActive(target) {
+            Array.from(target.parentElement.children).forEach(c => c.classList.remove('active'));
+            target.classList.add('active');
+        }
+
+        window.updateTxt = function(id, val) {
+            document.getElementById(id).textContent = val;
+        }
+
+        // 头像上传
+        window.handleUpload = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const avatar = document.getElementById('prev-avatar');
+                    avatar.style.backgroundImage = `url(${e.target.result})`;
+                    avatar.classList.add('has-img');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // 初始化
+        updateView();
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购买 Linkly Essentials - Linkly</title>
+    <style>
+        :root {
+            --bg-color: #f5f5f7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-blue: #0071e3;
+            --btn-hover: #0077ed;
+            --nav-height: 48px;
+        }
+
+        /* 基础重置 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+
+        /* 极简导航 */
+        nav {
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px);
+            height: var(--nav-height); width: 100%; position: fixed; top: 0; z-index: 999;
+            border-bottom: 1px solid rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center;
+        }
+        .nav-content { width: 100%; max-width: 980px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { font-weight: 600; text-decoration: none; color: #000; font-size: 16px; }
+        .nav-link { font-size: 14px; color: #333; text-decoration: none; }
+
+        /* 主容器 */
+        .main-container {
+            max-width: 1080px; margin: 0 auto; padding: calc(var(--nav-height) + 60px) 20px 80px;
+            min-height: 100vh;
+        }
+
+        /* 布局网格：左预览，右配置 */
+        .product-configurator {
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start;
+        }
+
+        /* --- 左侧：动态预览舞台 --- */
+        .preview-stage {
+            position: sticky; top: 120px;
+            background: #fff; border-radius: 24px;
+            padding: 80px 40px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .preview-card-container { perspective: 1000px; margin-bottom: 30px; }
+        
+        .interactive-card {
+            width: 340px; height: 214px; /* 真实比例放大 */
+            border-radius: 16px; position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d; overflow: hidden;
+            display: flex; flex-direction: column; justify-content: space-between; padding: 28px;
+        }
+
+        /* 卡片内容层 */
+        .card-content { z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .card-slogan { font-size: 15px; font-weight: 500; opacity: 0.9; letter-spacing: -0.01em; }
+        .card-logo-mark { font-weight: 700; font-size: 18px; align-self: flex-end; opacity: 0.8; }
+
+        /* 预览提示文字 */
+        .preview-note { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 20px; }
+
+        /* --- 材质/颜色渲染引擎 (CSS Layering) --- */
+        /* 1. 颜色定义 [Source: 1] */
+        .color-jet-black { background: #1d1d1f; color: rgba(255,255,255,0.95); }
+        .color-mica-white { background: #f5f5f7; color: #1d1d1f; border: 1px solid #d2d2d7; }
+        .color-tech-blue { background: #0071e3; color: #fff; }
+        .color-concrete-grey { background: #8e8e93; color: #fff; }
+        .color-forest-green { background: #228b22; color: #fff; }
+        .color-orange { background: #ff9500; color: #fff; }
+        .color-pink { background: #ffb6c1; color: #1d1d1f; }
+        .color-purple { background: #800080; color: #fff; }
+
+        /* 2. 材质层 (Glossy vs Matte) */
+        .layer-reflection, .layer-texture, .layer-pattern { position: absolute; inset: 0; pointer-events: none; border-radius: 16px; }
+
+        /* 亮面反光 */
+        .material-glossy .layer-reflection {
+            background: linear-gradient(125deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 70%);
+            mix-blend-mode: overlay;
+        }
+        /* 磨砂噪点 */
+        .material-matte .layer-texture {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+            opacity: 0.6;
+        }
+        .material-matte { box-shadow: 0 10px 25px rgba(0,0,0,0.1); } /* 磨砂阴影更柔和 */
+
+        /* 3. 图案层 */
+        .pattern-grid .layer-pattern {
+            background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .color-mica-white.pattern-grid .layer-pattern { /* 白卡反色 */
+            background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+        }
+        .pattern-soft-glow .layer-pattern {
+            background: radial-gradient(circle at top left, rgba(255,255,255,0.3), transparent 70%);
+            mix-blend-mode: overlay;
+        }
+
+        /* --- 右侧：配置面板 --- */
+        .config-panel { padding-top: 10px; }
+        
+        .panel-header { margin-bottom: 40px; border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; }
+        .series-tag { color: #bf4800; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px; }
+        .panel-title { font-size: 40px; line-height: 1.1; font-weight: 600; margin-bottom: 12px; }
+        .price-display { font-size: 24px; font-weight: 500; }
+        .price-display .unit { font-size: 14px; color: var(--text-secondary); }
+
+        .config-section { margin-bottom: 36px; }
+        .config-label { font-size: 14px; font-weight: 600; margin-bottom: 14px; display: block; }
+        .selection-name { color: var(--text-secondary); font-weight: 400; margin-left: 6px; }
+
+        /* 颜色选择器 */
+        .color-grid { display: flex; gap: 14px; flex-wrap: wrap; }
+        .color-btn {
+            width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
+            box-shadow: inset 0 0 2px rgba(0,0,0,0.2); position: relative;
+            transition: transform 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+        }
+        .color-btn:hover { transform: scale(1.1); }
+        .color-btn.active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent-blue); transform: scale(1.1); }
+
+        /* 矩形选项按钮 (图案/材质) */
+        .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .option-group.three-col { grid-template-columns: 1fr 1fr 1fr; }
+
+        /* 修复订量选择排列：强制 4 列显示在一行 */
+        .quantity-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); /* 核心代码：4等分列 */
+            gap: 10px; 
+        }
+        
+        .option-btn {
+            padding: 14px 10px; border: 1px solid #d2d2d7; border-radius: 12px;
+            background: #fff; color: var(--text-primary); font-size: 14px; cursor: pointer;
+            transition: all 0.2s; text-align: center;
+        }
+        .option-btn:hover { border-color: #86868b; }
+        .option-btn.active { border-color: var(--accent-blue); color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); }
+
+        .option-desc { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
+
+        /* 数量选择 */
+        .quantity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .qty-btn {
+            padding: 12px 0; border: 1px solid #d2d2d7; border-radius: 10px; background: #fff;
+            cursor: pointer; text-align: center; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .qty-btn:hover { border-color: #86868b; }
+        .qty-btn.active { border-color: var(--text-primary); background: var(--text-primary); color: #fff; }
+        .qty-num { font-size: 16px; font-weight: 600; display: block; }
+        .qty-desc { font-size: 11px; margin-top: 2px; opacity: 0.7; display: block; }
+        
+        /* 底部操作区 */
+        .action-area {
+            background: #fbfbfd; border-radius: 18px; padding: 24px; margin-top: 40px;
+        }
+        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: 600; font-size: 16px; }
+        .total-price { font-size: 24px; }
+        
+        /* .btn-group { display: grid; gap: 12px; } */
+        .btn-group { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; /* 这一行让它们变为两列等宽 */
+            gap: 12px; 
+        }
+        .btn {
+            width: 100%; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600;
+            text-align: center; cursor: pointer; transition: all 0.2s; border: none; text-decoration: none;
+        }
+        
+        /* 主要是去付款 */
+        .btn-primary { background: var(--accent-blue); color: #fff; }
+        .btn-primary:hover { background: var(--btn-hover); }
+        
+        /* 次要是加购 */
+        .btn-secondary { background: #e8e8ed; color: var(--text-primary); }
+        .btn-secondary:hover { background: #d2d2d7; }
+
+        @media (max-width: 900px) {
+            .product-configurator { grid-template-columns: 1fr; gap: 40px; }
+            .preview-stage { position: relative; top: 0; padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-content">
+        <!-- <a href="shop.html" class="nav-link">‹ 返回商店</a> -->
+        <a href="Shop_General.html" class="nav-link" style="display: flex; align-items: center; gap: 2px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            <span>返回商店</span>
+        </a>
+        <a href="#" class="nav-logo">Linkly Essentials</a>
+        <!-- <a href="#" class="nav-link">购物袋 (0)</a> -->
+        <a href="#" class="nav-link" style="display: flex; align-items: center; gap: 4px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+            </svg>
+            <span>(0)</span>
+        </a>
+    </div>
+</nav>
+
+<div class="main-container">
+    <div class="product-configurator">
+        
+        <div class="preview-stage">
+            <div class="preview-card-container">
+                <div id="dynamic-card" class="interactive-card color-jet-black material-glossy pattern-solid">
+                    <div class="layer-texture"></div>
+                    <div class="layer-pattern"></div>
+                    <div class="layer-reflection"></div>
+                    
+                    <div class="card-content">
+                        <span class="card-slogan">Connect instantly.</span>
+                        <div class="card-logo-mark">Linkly</div>
+                    </div>
+                </div>
+            </div>
+            <p class="preview-note">正面预览 · 实际效果可能随光线变化</p>
+        </div>
+
+        <div class="config-panel">
+            <!-- <div class="panel-header">
+                <span class="series-tag">Essentials</span>
+            </div> -->
+
+            <div class="config-section">
+                <span class="config-label">材质 <span id="lbl-material" class="selection-name">标准亮面 PVC</span></span>
+                <div class="option-group">
+                    <div class="option-btn active" data-type="material" data-value="glossy" data-name="标准亮面 PVC">
+                        标准亮面
+                    </div>
+                    <div class="option-btn" data-type="material" data-value="matte" data-name="哑光磨砂 PVC">
+                        哑光磨砂
+                    </div>
+                </div>
+                <p class="option-desc">* 均含防指纹处理工艺</p>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">颜色 <span id="lbl-color" class="selection-name">极夜黑</span></span>
+                <div class="color-grid">
+                    <button class="color-btn active" data-color="jet-black" data-name="极夜黑" style="background-color: #1d1d1f;"></button>
+                    <button class="color-btn" data-color="mica-white" data-name="云母白" style="background-color: #f5f5f7; border: 1px solid #e5e5e5;"></button>
+                    <button class="color-btn" data-color="tech-blue" data-name="科技蓝" style="background-color: #0071e3;"></button>
+                    <button class="color-btn" data-color="concrete-grey" data-name="水泥灰" style="background-color: #8e8e93;"></button>
+                    <button class="color-btn" data-color="forest-green" data-name="森林绿" style="background-color: #228b22;"></button>
+                    <button class="color-btn" data-color="orange" data-name="活力橙" style="background-color: #ff9500;"></button>
+                    <button class="color-btn" data-color="pink" data-name="樱花粉" style="background-color: #ffb6c1;"></button>
+                    <button class="color-btn" data-color="purple" data-name="灵动紫" style="background-color: #800080;"></button>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">图案 <span id="lbl-pattern" class="selection-name">纯色</span></span>
+                <div class="option-group three-col">
+                    <div class="option-btn active" data-type="pattern" data-value="solid" data-name="纯色">纯色</div>
+                    <div class="option-btn" data-type="pattern" data-value="soft-glow" data-name="微光渐变">微光渐变</div>
+                    <div class="option-btn" data-type="pattern" data-value="grid" data-name="网格线">网格线</div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">数量 <span class="selection-name">阶梯定价</span></span>
+                <div class="quantity-grid">
+                    <div class="qty-btn active" data-qty="1" data-price="24.90"> 
+                        <span class="qty-num">1</span>
+                        <span class="qty-desc">零售</span>
+                    </div>
+                    <div class="qty-btn" data-qty="20" data-price="19.90">
+                        <span class="qty-num">20+</span>
+                        <span class="qty-desc">团队</span>
+                    </div>
+                    <div class="qty-btn" data-qty="50" data-price="15.90">
+                        <span class="qty-num">50+</span>
+                        <span class="qty-desc">企业</span>
+                    </div>
+                    <div class="qty-btn" data-qty="100" data-price="12.90">
+                        <span class="qty-num">100+</span>
+                        <span class="qty-desc">批发</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-area">
+                <div class="total-row">
+                    <span>当前单价</span>
+                    <span id="final-price-display" class="total-price">$24.90</span>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary">立即结账</button>
+                    <button class="btn btn-secondary">添加到购物袋</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // 1. 初始化状态 (支持 URL 参数继承)
+        // 例如: essentials.html?color=tech-blue&material=matte
+        const params = new URLSearchParams(window.location.search);
+        
+        const state = {
+            material: params.get('material') || 'glossy',
+            color: params.get('color') || 'jet-black',
+            pattern: params.get('pattern') || 'solid',
+            qty: 1,
+            unitPrice: 24.90
+        };
+
+        const card = document.getElementById('dynamic-card');
+        const labels = {
+            material: document.getElementById('lbl-material'),
+            color: document.getElementById('lbl-color'),
+            pattern: document.getElementById('lbl-pattern')
+        };
+        const prices = {
+            bottom: document.getElementById('final-price-display')
+        };
+
+        // 2. 初始化 UI 选择状态
+        // 根据 state 的值去激活对应的按钮
+        function initUI() {
+            // 材质
+            activateBtn(`[data-type="material"][data-value="${state.material}"]`);
+            // 颜色
+            activateBtn(`[data-color="${state.color}"]`);
+            // 图案
+            activateBtn(`[data-type="pattern"][data-value="${state.pattern}"]`);
+            
+            updateCardPreview();
+            updatePriceDisplay();
+        }
+
+        function activateBtn(selector) {
+            const btn = document.querySelector(selector);
+            if (btn) {
+                // 模拟点击来触发 UI 更新，或者手动添加 active 类
+                // 这里我们手动添加 active，并更新 Label
+                const group = btn.parentElement;
+                Array.from(group.children).forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // 更新 Label
+                if (btn.dataset.name) {
+                    if (btn.dataset.type === 'material') labels.material.textContent = btn.dataset.name;
+                    if (btn.dataset.color) labels.color.textContent = btn.dataset.name; // 颜色按钮特殊
+                    if (btn.dataset.type === 'pattern') labels.pattern.textContent = btn.dataset.name;
+                }
+            }
+        }
+
+        // 3. 绑定事件监听
+        
+        // 材质 & 图案点击
+        document.querySelectorAll('.option-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const type = e.currentTarget.dataset.type;
+                const value = e.currentTarget.dataset.value;
+                const name = e.currentTarget.dataset.name;
+
+                // UI 更新
+                updateGroupUI(e.currentTarget);
+                labels[type].textContent = name;
+                
+                // 状态更新
+                state[type] = value;
+                updateCardPreview();
+            });
+        });
+
+        // 颜色点击
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const color = e.currentTarget.dataset.color;
+                const name = e.currentTarget.dataset.name;
+
+                updateGroupUI(e.currentTarget);
+                labels.color.textContent = name;
+                
+                state.color = color;
+                updateCardPreview();
+            });
+        });
+
+        // 数量点击
+        document.querySelectorAll('.qty-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                updateGroupUI(e.currentTarget);
+                
+                state.qty = parseInt(e.currentTarget.dataset.qty);
+                state.unitPrice = parseFloat(e.currentTarget.dataset.price);
+                
+                updatePriceDisplay();
+            });
+        });
+
+        // 4. 核心逻辑函数
+        
+        function updateGroupUI(activeBtn) {
+            const group = activeBtn.parentElement;
+            Array.from(group.children).forEach(child => child.classList.remove('active'));
+            activeBtn.classList.add('active');
+        }
+
+        function updateCardPreview() {
+            // 重置所有类名，保持基础类 interactive-card
+            card.className = `interactive-card color-${state.color} material-${state.material} pattern-${state.pattern}`;
+        }
+
+        function updatePriceDisplay() {
+            // 简单的动画效果
+            prices.bottom.textContent = `$${state.unitPrice.toFixed(2)}`;
+        }
+
+        // 启动
+        initUI();
+    });
+</script>
+
+</body>
+</html>

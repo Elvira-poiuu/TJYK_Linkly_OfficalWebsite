@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>选购 Linkly - 商店</title>
+    <style>
+        :root {
+            --bg-color: #f5f5f7;
+            --card-bg: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-blue: #0071e3;
+            --btn-hover: #0077ed;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            padding-bottom: 80px;
+        }
+
+        /* 顶部导航 */
+        nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            height: 48px;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 页面标题 */
+        .shop-header {
+            padding: 80px 0 40px;
+            text-align: center;
+        }
+
+        .shop-header h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .shop-header p {
+            font-size: 24px;
+            color: var(--text-secondary);
+        }
+
+        /* 分区标题 */
+        .section-title {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 60px 0 24px;
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .section-tag {
+            font-size: 14px;
+            color: #bf4800;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* 网格布局 */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        /* 商品卡片 */
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 18px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 20px 30px rgba(0,0,0,0.08);
+            z-index: 10;
+        }
+
+        /* 标签 (New / Best Seller) */
+        .badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            color: #bf4800;
+            background: #fff0e6;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* 产品预览图 (CSS 绘制) */
+        .card-preview {
+            width: 200px;
+            height: 126px; /* 信用卡比例 */
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            position: relative;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255,255,255,0.8);
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        /* 颜色/材质选择器 */
+        .swatch-container {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            min-height: 24px;
+        }
+
+        .swatch {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: inset 0 0 2px rgba(0,0,0,0.2);
+            border: 2px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .swatch.active {
+            border-color: #0071e3;
+            transform: scale(1.2);
+        }
+
+        .swatch:hover {
+            transform: scale(1.1);
+        }
+
+        /* 文本信息 */
+        .product-name {
+            font-size: 21px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .product-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            height: 40px; /* 固定高度保持对齐 */
+        }
+
+        .product-price {
+            font-size: 17px;
+            margin-bottom: 20px;
+        }
+
+        /* 购买按钮 */
+        .buy-btn {
+            background-color: var(--accent-blue);
+            color: white;
+            text-decoration: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            transition: background 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .buy-btn:hover {
+            background-color: var(--btn-hover);
+        }
+
+        /* --- 材质与颜色定义 (CSS 模拟) --- */
+        /* Essentials Colors */
+        .bg-jet-black { background: #1d1d1f; }
+        .bg-mica-white { background: #f5f5f7; color: #333; border: 1px solid #ddd; }
+        .bg-tech-blue { background: #0071e3; }
+        .bg-concrete { background: #8e8e93; }
+        .bg-forest { background: #228b22; }
+        .bg-orange { background: #ff9500; }
+        .bg-pink { background: #ffb6c1; color: #333; }
+        .bg-purple { background: #800080; }
+
+        /* Studio Business Colors */
+        .bg-obsidian { background: #1a1a1a; }
+        .bg-prussian { background: #003153; }
+        .bg-burgundy { background: #800020; }
+        .bg-ivory { background: #fffff0; color: #333; border: 1px solid #ddd; }
+        .bg-spacegrey { background: #4a4a4a; }
+        .bg-champagne { background: #F7E7CE; color: #333; }
+
+        /* Studio Social Colors */
+        .bg-aurora { background: linear-gradient(135deg, #00c6ff, #0072ff); }
+        .bg-sunset { background: linear-gradient(to right, #ff512f, #f09819); }
+        .bg-mint { background: #98ff98; color: #006400; }
+        .bg-lemon { background: #fff700; color: #333; }
+
+        /* Materials */
+        .mat-bamboo { 
+            background: #d2b48c; 
+            background-image: linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
+            background-size: 3px 100%;
+            color: #5c4033;
+        }
+        .mat-walnut {
+            background: #5c4033;
+            background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.1) 0px, transparent 2px);
+            color: #d2b48c;
+        }
+        .mat-clear {
+            background: rgba(0,0,0,0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0,0,0,0.1);
+            color: #333;
+        }
+        /* Bespoke */
+        .mat-blueprint {
+            background-color: #003366;
+            background-image: radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1px);
+            background-size: 10px 10px;
+        }
+        .mat-service {
+            background: #f2f2f2;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="#" style="text-decoration:none; color:#000; font-weight:600;">Linkly</a>
+</nav>
+
+<div class="container">
+    <div class="shop-header">
+        <h1>购买 Linkly</h1>
+        <p>选择属于你的数字身份。</p>
+    </div>
+
+    <h2 class="section-title"><span class="section-tag">Essentials</span> 基础系列</h2>
+    <div class="product-grid">
+        <div class="product-card">
+            <span class="badge">Most Popular</span>
+            <div class="card-preview bg-jet-black" id="preview-ess">Linkly</div>
+            
+            <div class="swatch-container">
+                <div class="swatch bg-jet-black active" onclick="changeColor('preview-ess', 'bg-jet-black', this)"></div>
+                <div class="swatch bg-mica-white" onclick="changeColor('preview-ess', 'bg-mica-white', this)"></div>
+                <div class="swatch bg-tech-blue" onclick="changeColor('preview-ess', 'bg-tech-blue', this)"></div>
+                <div class="swatch bg-concrete" onclick="changeColor('preview-ess', 'bg-concrete', this)"></div>
+                <div class="swatch bg-forest" onclick="changeColor('preview-ess', 'bg-forest', this)"></div>
+                <div class="swatch bg-orange" onclick="changeColor('preview-ess', 'bg-orange', this)"></div>
+                <div class="swatch bg-pink" onclick="changeColor('preview-ess', 'bg-pink', this)"></div>
+                <div class="swatch bg-purple" onclick="changeColor('preview-ess', 'bg-purple', this)"></div>
+            </div>
+
+            <h3 class="product-name">Standard / Matte PVC</h3>
+            <p class="product-desc">入门首选。防指纹处理工艺，即买即发。</p>
+            <div class="product-price">$19.90</div>
+            <a href="xxx.html" class="buy-btn">购买</a>
+        </div>
+    </div>
+
+    <h2 class="section-title"><span class="section-tag">Studio</span> 商务正装模式 (Business)</h2>
+    <div class="product-grid">
+        
+        <div class="product-card">
+            <div class="card-preview bg-obsidian" id="preview-biz-pvc">John Doe<br>CEO</div>
+            <div class="swatch-container">
+                <div class="swatch bg-obsidian active" onclick="changeColor('preview-biz-pvc', 'bg-obsidian', this)"></div>
+                <div class="swatch bg-prussian" onclick="changeColor('preview-biz-pvc', 'bg-prussian', this)"></div>
+                <div class="swatch bg-burgundy" onclick="changeColor('preview-biz-pvc', 'bg-burgundy', this)"></div>
+                <div class="swatch bg-ivory" onclick="changeColor('preview-biz-pvc', 'bg-ivory', this)"></div>
+                <div class="swatch bg-spacegrey" onclick="changeColor('preview-biz-pvc', 'bg-spacegrey', this)"></div>
+                <div class="swatch bg-champagne" onclick="changeColor('preview-biz-pvc', 'bg-champagne', this)"></div>
+            </div>
+            <h3 class="product-name">Business PVC</h3>
+            <p class="product-desc">稳重配色，支持拉丝金属与大理石纹。</p>
+            <div class="product-price">$34.90</div>
+            <a href="xxx.html" class="buy-btn">定制</a>
+        </div>
+
+        <div class="product-card">
+            <div class="card-preview mat-bamboo">John Doe</div>
+            <div class="swatch-container">
+                <div class="swatch mat-bamboo active" style="cursor:default;"></div>
+            </div>
+            <h3 class="product-name">楠竹 (Bamboo)</h3>
+            <p class="product-desc">浅色楠竹原色，天然环保纹理。</p>
+            <div class="product-price">$39.90</div>
+            <a href="xxx.html" class="buy-btn">定制</a>
+        </div>
+
+        <div class="product-card">
+            <span class="badge">Premium</span>
+            <div class="card-preview mat-walnut">John Doe</div>
+            <div class="swatch-container">
+                <div class="swatch mat-walnut active" style="cursor:default;"></div>
+            </div>
+            <h3 class="product-name">胡桃木 (Walnut)</h3>
+            <p class="product-desc">深色实木，尊贵质感。</p>
+            <div class="product-price">$49.90</div>
+            <a href="xxx.html" class="buy-btn">定制</a>
+        </div>
+    </div>
+
+    <h2 class="section-title"><span class="section-tag">Studio</span> 轻松个性模式 (Social)</h2>
+    <div class="product-grid">
+        
+        <div class="product-card">
+            <div class="card-preview bg-aurora" id="preview-soc-pvc">@alex</div>
+            <div class="swatch-container">
+                <div class="swatch bg-aurora active" onclick="changeColor('preview-soc-pvc', 'bg-aurora', this)"></div>
+                <div class="swatch bg-sunset" onclick="changeColor('preview-soc-pvc', 'bg-sunset', this)"></div>
+                <div class="swatch bg-mint" onclick="changeColor('preview-soc-pvc', 'bg-mint', this)"></div>
+                <div class="swatch bg-pink" onclick="changeColor('preview-soc-pvc', 'bg-pink', this)"></div>
+                <div class="swatch bg-lemon" onclick="changeColor('preview-soc-pvc', 'bg-lemon', this)"></div>
+            </div>
+            <h3 class="product-name">Social PVC</h3>
+            <p class="product-desc">高饱和渐变，支持赛博朋克与涂鸦风格。</p>
+            <div class="product-price">$34.90</div>
+            <a href="xxx.html" class="buy-btn">定制</a>
+        </div>
+
+        <div class="product-card">
+            <div class="card-preview mat-bamboo">@alex</div>
+            <div class="swatch-container">
+                <div class="swatch mat-bamboo active" style="cursor:default;"></div>
+            </div>
+            <h3 class="product-name">楠竹 (Bamboo)</h3>
+            <p class="product-desc">支持彩色封边与局部烫金。</p>
+            <div class="product-price">$39.90</div>
+            <a href="xxx.html" class="buy-btn">定制</a>
+        </div>
+
+        <div class="product-card">
+            <span class="badge">Unique</span>
+            <div class="card-preview mat-clear">@alex</div>
+            <div class="swatch-container">
+                <div class="swatch mat-clear active" style="cursor:default;"></div>
+            </div>
+            <h3 class="product-name">透明 PET (Clear)</h3>
+            <p class="product-desc">全透明或磨砂半透，极客科技感。</p>
+            <div class="product-price">$44.90</div>
+            <a href="xxx.html" class="buy-btn">定制</a>
+        </div>
+    </div>
+
+    <h2 class="section-title"><span class="section-tag">Bespoke</span> 企业级定制</h2>
+    <div class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));">
+        
+        <div class="product-card">
+            <div class="card-preview mat-blueprint">DESIGN<br>FILE</div>
+            <h3 class="product-name">自主设计模式</h3>
+            <p class="product-desc">像素级还原。支持 CMYK 全色域与 Pantone 专色。</p>
+            <div class="product-price">100 张起订</div>
+            <a href="xxx.html" class="buy-btn">上传设计</a>
+        </div>
+
+        <div class="product-card">
+            <div class="card-preview mat-service">1v1<br>Service</div>
+            <h3 class="product-name">全包设计服务</h3>
+            <p class="product-desc">1v1 专人对接，包含两版方案与修改服务。</p>
+            <div class="product-price">100 张起订</div>
+            <a href="xxx.html" class="buy-btn">咨询顾问</a>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    // 简单的脚本：处理颜色圆点的点击，更新预览图
+    function changeColor(targetId, newClass, swatchEl) {
+        // 1. 获取预览卡片
+        const preview = document.getElementById(targetId);
+        
+        // 2. 清除预览卡片上所有的颜色类 (以 bg- 开头)
+        const classes = preview.className.split(" ");
+        const baseClasses = classes.filter(c => !c.startsWith('bg-'));
+        preview.className = baseClasses.join(" ") + " " + newClass;
+
+        // 3. 更新圆点激活状态
+        const siblings = swatchEl.parentElement.children;
+        for (let el of siblings) {
+            el.classList.remove('active');
+        }
+        swatchEl.classList.add('active');
+    }
+</script>
+
+</body>
+</html>
