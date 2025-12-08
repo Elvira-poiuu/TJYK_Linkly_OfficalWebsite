@@ -5,19 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Linkly - 全功能对比</title>
-
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'] },
+                    fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'] },
                     colors: {
                         'bg-black': '#000000',
-                        'card-dark': '#161617',
-                        'text-grey': '#86868b',
-                        'accent-blue': '#2997ff'
+                        'apple-dark': '#161617',
+                        'text-white': '#f5f5f7',
+                        'text-gray': '#86868b',
+                        'accent-blue': '#2997ff',
+                        'divider': '#424245'
                     }
                 }
             }
@@ -28,56 +30,50 @@
         body { background-color: #000; color: #f5f5f7; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* 吸附表头
-        .sticky-header {
-            position: sticky; top: 0; z-index: 50;
-            background: rgba(22, 22, 23, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid #424245;
-        } */
-
-        /* 玻璃导航效果 */
+        /* --- 深色版玻璃导航 --- */
         .glass-nav {
+            /* 背景改为黑色半透明 */
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
+            /* 边框改为白色微光 */
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* 导航链接样式 */
+        /* --- 链接文字颜色 --- */
         .navbar-links a {
-            color: white;
+            color: white; /* 默认白色 */
             text-decoration: none;
-            font-size: 0.875rem;  /* 默认字体大小 */
-            transition: font-weight 0.3s ease;  /* 字体加粗时平滑过渡 */
+            font-size: 0.875rem;
+            transition: font-weight 0.3s ease;
         }
 
-        /* 鼠标悬停时字体加粗 & 高亮 */
+        /* 鼠标悬停效果 */
         .navbar-links a:hover {
             font-weight: bold;
-            color: #2997ff;
+            color: #2997ff; /* Linkly 亮蓝色 */
         }
 
-        /* 选中状态（当前页面）样式 */
+        /* 选中状态 */
         .navbar-links a.active {
             font-weight: bold;
-            color: white; 
+            color: white;
         }
 
-        /* 按钮通用过渡 */
+        /* 按钮通用 */
         .navbar-btns a {
             font-size: 0.875rem;
             transition: all 0.3s ease;
         }
 
-        /* “购买”按钮悬停效果 */
+        /* “购买”按钮悬停 (深色模式下按钮通常是白底黑字) */
         .navbar-btns .buy-btn:hover {
             background-color: #2997ff;
             color: white;
             font-weight: bold;
         }
 
-        /* “登录”按钮悬停效果 */
+        /* “登录”按钮悬停 */
         .navbar-btns .login-btn:hover {
             color: #2997ff;
             font-weight: bold;
@@ -145,21 +141,33 @@
 </head>
 <body class="antialiased">
 
-    <!-- 顶部导航栏 -->
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
         <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
-            <div class="text-lg font-semibold text-white">Linkly</div>
+            <a href="index.html" class="text-lg font-semibold text-white hover:text-gray-300 transition-colors">
+                Linkly
+            </a>
             <div class="hidden md:flex items-center gap-8 navbar-links">
-                <a href="index.html" class="active">概览</a> 
-                <a href="Product.html">产品</a>
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        产品
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Linkly_AI_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly AI
+                            </a>
+                            <a href="Enterprise_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                企业版
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <a href="AI_Detailed_2.html">Linkly AI</a> 
                 <a href="B_Detailed_2black_WordPolish.html">企业版</a> 
-                <!-- <a href="Price_Card.html">定价</a>  -->
                 <div class="relative group h-full flex items-center">
                     <span class="cursor-pointer py-4 text-[0.875rem] text-white group-hover:text-[#2997ff] group-hover:font-bold transition-all duration-300">
                         定价
                     </span>
-
                     <div class="absolute left-1/2 -translate-x-1/2 top-[3rem] pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
                         <div class="bg-[#161617]/90 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-2xl w-32 flex flex-col p-1">
                             <a href="VIP_Compare_2.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#e8e8ed] hover:bg-white/10 rounded-lg hover:text-white transition-colors !font-normal">
@@ -171,39 +179,39 @@
                         </div>
                     </div>
                 </div>
-                <a href="Download.html">应用</a>
-                <a href="Tech_Spec.html">技术详情</a>
-                <a href="Contact_Us.html">联系我们</a>
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        支持
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                应用
+                            </a>
+                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                技术详情
+                            </a>
+                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                联系我们
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="flex items-center gap-4 text-[0.875rem]">
-                <!-- 放大镜图标 -->
                 <a href="#" class="text-[#e8e8ed] hover:text-white transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                     </svg>
                 </a>
-                <!-- 购物袋图标 -->
                 <a href="#" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
-                    </a>
-                <!-- 购物车图标
-                <a href="#" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h15l1 12H5L6 6z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h15l1 12H5L6 6z" />
-                        <circle cx="9" cy="21" r="2" />
-                        <circle cx="18" cy="21" r="2" />
-                    </svg>
-                </a> -->
-
-
+                </a>
                 <a href="Shop_General.html" class="bg-white text-black px-3 py-1 rounded-full font-medium hover:bg-[#2997ff] hover:text-white hover:font-bold transition-all duration-300 buy-btn">购买</a>
-
                 <a href="#" class="hidden md:block text-[#e8e8ed] hover:text-[#2997ff] hover:font-bold transition-all duration-300 login-btn">登录</a>
             </div>
-
         </div>
     </nav>
 
@@ -629,22 +637,21 @@
     </main>
 
     <script>
-
         window.addEventListener('load', () => {
-            const currentPage = window.location.pathname;  // 获取当前页面路径
-            const links = document.querySelectorAll('.navbar-links a');  // 获取导航栏中的所有链接
-            
-            links.forEach(link => {
-                // 获取 href 属性
-                const href = link.getAttribute('href');
-                // 如果当前页面路径包含链接的 href，且 href 不为空或仅仅是 #
-                if (href && href !== '#' && currentPage.includes(href)) {
-                    link.classList.add('active');  // 给当前链接添加 active 类
-                } else {
-                    link.classList.remove('active');  // 否则移除 active 类
-                }
+                const currentPage = window.location.pathname;  // 获取当前页面路径
+                const links = document.querySelectorAll('.navbar-links a');  // 获取导航栏中的所有链接
+                
+                links.forEach(link => {
+                    // 获取 href 属性
+                    const href = link.getAttribute('href');
+                    // 如果当前页面路径包含链接的 href，且 href 不为空或仅仅是 #
+                    if (href && href !== '#' && currentPage.includes(href)) {
+                        link.classList.add('active');  // 给当前链接添加 active 类
+                    } else {
+                        link.classList.remove('active');  // 否则移除 active 类
+                    }
+                });
             });
-        });
 
         function switchView(view) {
             const toggleBg = document.getElementById('toggle-bg');
