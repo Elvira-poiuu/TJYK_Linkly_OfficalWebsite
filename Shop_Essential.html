@@ -10,36 +10,43 @@
             --text-primary: #1d1d1f;
             --text-secondary: #86868b;
             --accent-blue: #0071e3;
-            --btn-hover: #0077ed;
-            --nav-height: 48px;
+            --border-color: #d2d2d7;
+            --nav-height: 52px; /* 微调导航高度 */
         }
 
-        /* 基础重置 */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
+        
+        /* 优化全局行高，增加可读性 */
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-primary); 
+            -webkit-font-smoothing: antialiased; 
+            line-height: 1.5; 
+        }
 
-        /* 极简导航 */
+        /* 导航栏 */
         nav {
             background: rgba(255, 255, 255, 0.8); backdrop-filter: saturate(180%) blur(20px);
             height: var(--nav-height); width: 100%; position: fixed; top: 0; z-index: 999;
             border-bottom: 1px solid rgba(0,0,0,0.1); display: flex; justify-content: center; align-items: center;
         }
-        .nav-content { width: 100%; max-width: 980px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-content { width: 100%; max-width: 980px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
         .nav-logo { font-weight: 600; text-decoration: none; color: #000; font-size: 16px; }
-        .nav-link { font-size: 14px; color: #333; text-decoration: none; }
+        .nav-link { font-size: 12px; color: #333; text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+        .nav-link:hover { color: var(--accent-blue); }
 
         /* 主容器 */
         .main-container {
-            max-width: 1080px; margin: 0 auto; padding: calc(var(--nav-height) + 60px) 20px 80px;
+            max-width: 1080px; margin: 0 auto; 
+            padding: calc(var(--nav-height) + 60px) 24px 120px; /* 增加左右内边距 */
             min-height: 100vh;
         }
 
-        /* 布局网格：左预览，右配置 */
         .product-configurator {
             display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start;
         }
 
-        /* --- 左侧：动态预览舞台 --- */
+        /* --- 左侧：预览 --- */
         .preview-stage {
             position: sticky; top: 120px;
             background: #fff; border-radius: 24px;
@@ -52,7 +59,7 @@
         .preview-card-container { perspective: 1000px; margin-bottom: 30px; }
         
         .interactive-card {
-            width: 340px; height: 214px; /* 真实比例放大 */
+            width: 340px; height: 214px;
             border-radius: 16px; position: relative;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -60,16 +67,12 @@
             display: flex; flex-direction: column; justify-content: space-between; padding: 28px;
         }
 
-        /* 卡片内容层 */
         .card-content { z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
         .card-slogan { font-size: 15px; font-weight: 500; opacity: 0.9; letter-spacing: -0.01em; }
         .card-logo-mark { font-weight: 700; font-size: 18px; align-self: flex-end; opacity: 0.8; }
+        .preview-note { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 24px; }
 
-        /* 预览提示文字 */
-        .preview-note { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 20px; }
-
-        /* --- 材质/颜色渲染引擎 (CSS Layering) --- */
-        /* 1. 颜色定义 [Source: 1] */
+        /* 材质渲染 */
         .color-jet-black { background: #1d1d1f; color: rgba(255,255,255,0.95); }
         .color-mica-white { background: #f5f5f7; color: #1d1d1f; border: 1px solid #d2d2d7; }
         .color-tech-blue { background: #0071e3; color: #fff; }
@@ -79,120 +82,114 @@
         .color-pink { background: #ffb6c1; color: #1d1d1f; }
         .color-purple { background: #800080; color: #fff; }
 
-        /* 2. 材质层 (Glossy vs Matte) */
         .layer-reflection, .layer-texture, .layer-pattern { position: absolute; inset: 0; pointer-events: none; border-radius: 16px; }
-
-        /* 亮面反光 */
-        .material-glossy .layer-reflection {
-            background: linear-gradient(125deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 70%);
-            mix-blend-mode: overlay;
-        }
-        /* 磨砂噪点 */
-        .material-matte .layer-texture {
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-            opacity: 0.6;
-        }
-        .material-matte { box-shadow: 0 10px 25px rgba(0,0,0,0.1); } /* 磨砂阴影更柔和 */
-
-        /* 3. 图案层 */
-        .pattern-grid .layer-pattern {
-            background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .color-mica-white.pattern-grid .layer-pattern { /* 白卡反色 */
-            background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-        }
-        .pattern-soft-glow .layer-pattern {
-            background: radial-gradient(circle at top left, rgba(255,255,255,0.3), transparent 70%);
-            mix-blend-mode: overlay;
-        }
+        .material-glossy .layer-reflection { background: linear-gradient(125deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 70%); mix-blend-mode: overlay; }
+        .material-matte .layer-texture { opacity: 0.6; filter: contrast(1.2); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"); }
+        .pattern-grid .layer-pattern { background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px; }
+        .pattern-soft-glow .layer-pattern { background: radial-gradient(circle at top left, rgba(255,255,255,0.3), transparent 70%); mix-blend-mode: overlay; }
 
         /* --- 右侧：配置面板 --- */
         .config-panel { padding-top: 10px; }
         
+        /* 增加头部间距 */
         .panel-header { margin-bottom: 40px; border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; }
         .series-tag { color: #bf4800; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px; }
-        .panel-title { font-size: 40px; line-height: 1.1; font-weight: 600; margin-bottom: 12px; }
-        .price-display { font-size: 24px; font-weight: 500; }
-        .price-display .unit { font-size: 14px; color: var(--text-secondary); }
+        
+        /* 价格显示微调 */
+        .price-display { font-size: 28px; font-weight: 600; line-height: 1.1; }
+        .price-display .unit { font-size: 15px; color: var(--text-secondary); margin-left: 4px; font-weight: 400; }
 
-        .config-section { margin-bottom: 36px; }
-        .config-label { font-size: 14px; font-weight: 600; margin-bottom: 14px; display: block; }
-        .selection-name { color: var(--text-secondary); font-weight: 400; margin-left: 6px; }
+        /* 增加区块间距，减少拥挤感 */
+        .config-section { margin-bottom: 48px; }
+        
+        .config-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        .config-label { font-size: 17px; font-weight: 600; display: block; margin-bottom: 16px; }
+        .config-label-row .config-label { margin-bottom: 0; } /* 在 flex 行中移除下边距 */
+        
+        .selection-name { color: var(--text-secondary); font-weight: 400; margin-left: 8px; font-size: 17px; }
+        .option-desc { font-size: 13px; color: var(--text-secondary); margin-top: 10px; line-height: 1.4; }
 
-        /* 颜色选择器 */
+        /* 通用按钮 */
         .color-grid { display: flex; gap: 14px; flex-wrap: wrap; }
-        .color-btn {
-            width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
-            box-shadow: inset 0 0 2px rgba(0,0,0,0.2); position: relative;
-            transition: transform 0.2s cubic-bezier(0.3, 0, 0.5, 1);
-        }
+        .color-btn { width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer; box-shadow: inset 0 0 2px rgba(0,0,0,0.2); transition: transform 0.2s; }
         .color-btn:hover { transform: scale(1.1); }
         .color-btn.active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent-blue); transform: scale(1.1); }
 
-        /* 矩形选项按钮 (图案/材质) */
         .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .option-group.three-col { grid-template-columns: 1fr 1fr 1fr; }
-
-        /* 修复订量选择排列：强制 4 列显示在一行 */
-        .quantity-grid { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); /* 核心代码：4等分列 */
-            gap: 10px; 
-        }
-        
-        .option-btn {
-            padding: 14px 10px; border: 1px solid #d2d2d7; border-radius: 12px;
-            background: #fff; color: var(--text-primary); font-size: 14px; cursor: pointer;
-            transition: all 0.2s; text-align: center;
-        }
+        /* 增加按钮高度 */
+        .option-btn { padding: 16px 10px; border: 1px solid #d2d2d7; border-radius: 12px; background: #fff; font-size: 15px; cursor: pointer; transition: all 0.2s; text-align: center; }
         .option-btn:hover { border-color: #86868b; }
         .option-btn.active { border-color: var(--accent-blue); color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); }
 
-        .option-desc { font-size: 12px; color: var(--text-secondary); margin-top: 8px; }
+        .quantity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+        .qty-btn { padding: 14px 0; border: 1px solid #d2d2d7; border-radius: 12px; background: #fff; cursor: pointer; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .qty-btn.active { border-color: #1d1d1f; background: #1d1d1f; color: #fff; }
+        .qty-num { font-size: 16px; font-weight: 600; margin-bottom: 2px;}
+        .qty-desc { font-size: 11px; opacity: 0.8; }
 
-        /* 数量选择 */
-        .quantity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .qty-btn {
-            padding: 12px 0; border: 1px solid #d2d2d7; border-radius: 10px; background: #fff;
-            cursor: pointer; text-align: center; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center;
-        }
-        .qty-btn:hover { border-color: #86868b; }
-        .qty-btn.active { border-color: var(--text-primary); background: var(--text-primary); color: #fff; }
-        .qty-num { font-size: 16px; font-weight: 600; display: block; }
-        .qty-desc { font-size: 11px; margin-top: 2px; opacity: 0.7; display: block; }
+        /* --- 5. SaaS 会员选择 (Apple 风格) --- */
         
+        /* 切换器 (月/年) */
+        .billing-toggle {
+            background: #e5e5ea; padding: 2px; border-radius: 8px; display: inline-flex; position: relative;
+        }
+        .bill-opt {
+            padding: 6px 14px; font-size: 13px; font-weight: 500; cursor: pointer; border-radius: 6px; 
+            color: var(--text-secondary); transition: all 0.2s; z-index: 1;
+        }
+        .bill-opt.active { background: #fff; color: #000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
+        /* SaaS 卡片容器 */
+        .saas-container { display: flex; flex-direction: column; gap: 12px; } /* 增加卡片间距 */
+        
+        /* 分组标题：增加上边距，拉开层级 */
+        .saas-group-title {
+            font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; 
+            color: var(--text-secondary); margin-top: 24px; margin-bottom: 8px; padding-left: 4px;
+        }
+        .saas-group-title:first-child { margin-top: 0; }
+
+        /* SaaS 卡片优化内边距 */
+        .saas-card {
+            border: 1px solid #d2d2d7; border-radius: 12px; 
+            padding: 18px 20px; /* 增加内填充 */
+            background: #fff;
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.2s;
+        }
+        .saas-card:hover { border-color: #86868b; }
+        .saas-card.active { border-color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); background: rgba(0, 113, 227, 0.03); }
+        
+        .saas-info { display: flex; flex-direction: column; gap: 4px; }
+        .saas-name { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px; }
+        /* 增加功能描述的行高 */
+        .saas-feat { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
+        
+        .saas-price-box { text-align: right; display: flex; flex-direction: column; justify-content: center; }
+        .s-price { font-size: 15px; font-weight: 500; display: block;}
+        .s-save { font-size: 11px; color: var(--accent-blue); font-weight: 600; display: block; margin-top: 4px;}
+
+        /* 推荐标签 */
+        .rec-tag {
+            font-size: 10px; background: var(--accent-blue); color: #fff; padding: 2px 6px; 
+            border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+
         /* 底部操作区 */
-        .action-area {
-            background: #fbfbfd; border-radius: 18px; padding: 24px; margin-top: 40px;
-        }
-        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: 600; font-size: 16px; }
-        .total-price { font-size: 24px; }
+        .action-area { background: #fbfbfd; border-radius: 20px; padding: 32px; margin-top: 60px; }
+        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-weight: 600; font-size: 17px; }
+        .total-price { font-size: 32px; letter-spacing: -0.5px; } /* 放大总价 */
         
-        /* .btn-group { display: grid; gap: 12px; } */
-        .btn-group { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; /* 这一行让它们变为两列等宽 */
-            gap: 12px; 
-        }
-        .btn {
-            width: 100%; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600;
-            text-align: center; cursor: pointer; transition: all 0.2s; border: none; text-decoration: none;
-        }
-        
-        /* 主要是去付款 */
-        .btn-primary { background: var(--accent-blue); color: #fff; }
-        .btn-primary:hover { background: var(--btn-hover); }
-        
-        /* 次要是加购 */
-        .btn-secondary { background: #e8e8ed; color: var(--text-primary); }
-        .btn-secondary:hover { background: #d2d2d7; }
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn { width: 100%; padding: 18px; border-radius: 14px; font-size: 17px; font-weight: 600; text-align: center; cursor: pointer; border: none; transition: 0.2s; }
+        .btn-primary { background: var(--accent-blue); color: #fff; } .btn-primary:hover { background: #0077ed; }
+        .btn-secondary { background: #e8e8ed; color: #1d1d1f; } .btn-secondary:hover { background: #d2d2d7; }
 
         @media (max-width: 900px) {
             .product-configurator { grid-template-columns: 1fr; gap: 40px; }
-            .preview-stage { position: relative; top: 0; padding: 40px 20px; }
+            .preview-stage { position: relative; top: 0; padding: 60px 20px; }
+            .main-container { padding: calc(var(--nav-height) + 40px) 20px 80px; }
         }
     </style>
 </head>
@@ -200,19 +197,13 @@
 
 <nav>
     <div class="nav-content">
-        <!-- <a href="shop.html" class="nav-link">‹ 返回商店</a> -->
-        <a href="Shop_General.html" class="nav-link" style="display: flex; align-items: center; gap: 2px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="15 18 9 12 15 6"></polyline>
-            </svg>
+        <a href="shop.html" class="nav-link">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
             <span>返回商店</span>
         </a>
         <a href="#" class="nav-logo">Linkly Essentials</a>
-        <!-- <a href="#" class="nav-link">购物袋 (0)</a> -->
         <a href="#" class="nav-link" style="display: flex; align-items: center; gap: 4px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
             <span>(0)</span>
         </a>
     </div>
@@ -227,7 +218,6 @@
                     <div class="layer-texture"></div>
                     <div class="layer-pattern"></div>
                     <div class="layer-reflection"></div>
-                    
                     <div class="card-content">
                         <span class="card-slogan">Connect instantly.</span>
                         <div class="card-logo-mark">Linkly</div>
@@ -238,19 +228,18 @@
         </div>
 
         <div class="config-panel">
-            <!-- <div class="panel-header">
+            <div class="panel-header">
                 <span class="series-tag">Essentials</span>
-            </div> -->
+                <div class="price-display">
+                    <span class="currency">$</span><span id="unit-price-display" class="amount">24.90</span><span class="unit">/ 张</span>
+                </div>
+            </div>
 
             <div class="config-section">
                 <span class="config-label">材质 <span id="lbl-material" class="selection-name">标准亮面 PVC</span></span>
                 <div class="option-group">
-                    <div class="option-btn active" data-type="material" data-value="glossy" data-name="标准亮面 PVC">
-                        标准亮面
-                    </div>
-                    <div class="option-btn" data-type="material" data-value="matte" data-name="哑光磨砂 PVC">
-                        哑光磨砂
-                    </div>
+                    <div class="option-btn active" data-type="material" data-value="glossy" data-name="标准亮面 PVC">标准亮面</div>
+                    <div class="option-btn" data-type="material" data-value="matte" data-name="哑光磨砂 PVC">哑光磨砂</div>
                 </div>
                 <p class="option-desc">* 均含防指纹处理工艺</p>
             </div>
@@ -281,28 +270,95 @@
             <div class="config-section">
                 <span class="config-label">数量 <span class="selection-name">阶梯定价</span></span>
                 <div class="quantity-grid">
-                    <div class="qty-btn active" data-qty="1" data-price="24.90"> 
-                        <span class="qty-num">1</span>
-                        <span class="qty-desc">零售</span>
+                    <div class="qty-btn active" data-qty="1" data-price="24.90">
+                        <span class="qty-num">1</span><span class="qty-desc">零售</span>
                     </div>
                     <div class="qty-btn" data-qty="20" data-price="19.90">
-                        <span class="qty-num">20+</span>
-                        <span class="qty-desc">团队</span>
+                        <span class="qty-num">20+</span><span class="qty-desc">团队</span>
                     </div>
                     <div class="qty-btn" data-qty="50" data-price="15.90">
-                        <span class="qty-num">50+</span>
-                        <span class="qty-desc">企业</span>
+                        <span class="qty-num">50+</span><span class="qty-desc">企业</span>
                     </div>
                     <div class="qty-btn" data-qty="100" data-price="12.90">
-                        <span class="qty-num">100+</span>
-                        <span class="qty-desc">批发</span>
+                        <span class="qty-num">100+</span><span class="qty-desc">大客户</span>
                     </div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <div class="config-label-row">
+                    <span class="config-label">会员计划 <span class="selection-name">可选</span></span>
+                    <div class="billing-toggle">
+                        <div class="bill-opt" id="btn-monthly" onclick="toggleBilling('monthly')">按月</div>
+                        <div class="bill-opt active" id="btn-yearly" onclick="toggleBilling('yearly')">按年 (省20%)</div>
+                    </div>
+                </div>
+
+                <div class="saas-container">
+                    
+                    <div class="saas-group-title">个人版</div>
+                    
+                    <div class="saas-card active" onclick="selectSaas('free', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Free 免费版</div>
+                            <div class="saas-feat">基础功能，无广告。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price">免费</span>
+                        </div>
+                    </div>
+
+                    <div class="saas-card" onclick="selectSaas('pro', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Pro 专业版 </div>
+                            <div class="saas-feat">多身份管理，高级数据统计。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price" id="price-pro">$4.90/月</span>
+                            <span class="s-save" id="save-pro" style="display:none;">省 $10</span>
+                        </div>
+                    </div>
+
+                    <div class="saas-card" onclick="selectSaas('ultra', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Ultra 终极版 <span class="rec-tag">推荐</span></div>
+                            <div class="saas-feat">解锁个人版全部AI功能。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price" id="price-ultra">$14.90/月</span>
+                            <span class="s-save" id="save-ultra" style="display:none;">省 $30</span>
+                        </div>
+                    </div>
+
+                    <div class="saas-group-title">团队与企业</div>
+
+                    <div class="saas-card" onclick="selectSaas('team', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Team 团队版</div>
+                            <div class="saas-feat">统一管理后台，员工权限控制。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price" id="price-team">$12.90/人/月</span>
+                            <span class="s-save" id="save-team" style="display:none;">省 17%</span>
+                        </div>
+                    </div>
+
+                    <div class="saas-card" onclick="selectSaas('enterprise', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Enterprise 企业定制</div>
+                            <div class="saas-feat">API 对接，私有化部署，专属客服。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price">联系销售</span>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
             <div class="action-area">
                 <div class="total-row">
-                    <span>当前单价</span>
+                    <span>总计金额</span>
                     <span id="final-price-display" class="total-price">$24.90</span>
                 </div>
                 <div class="btn-group">
@@ -317,18 +373,30 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // 1. 初始化状态 (支持 URL 参数继承)
-        // 例如: essentials.html?color=tech-blue&material=matte
         const params = new URLSearchParams(window.location.search);
         
+        // 1. 核心状态：默认设为 'yearly'
         const state = {
             material: params.get('material') || 'glossy',
             color: params.get('color') || 'jet-black',
             pattern: params.get('pattern') || 'solid',
             qty: 1,
-            unitPrice: 24.90
+            unitPrice: 24.90,
+            billing: 'yearly', // <--- 关键修改：默认为按年
+            saasTier: 'free',
+            saasPrice: 0
         };
 
+        // 价格表
+        const saasPricing = {
+            free: { m: 0, y: 0 },
+            pro: { m: 4.90, y: 49.00 },
+            ultra: { m: 14.90, y: 119.00 },
+            team: { m: 12.90, y: 129.00 },
+            enterprise: { m: 0, y: 0 }
+        };
+
+        // DOM 引用
         const card = document.getElementById('dynamic-card');
         const labels = {
             material: document.getElementById('lbl-material'),
@@ -336,88 +404,130 @@
             pattern: document.getElementById('lbl-pattern')
         };
         const prices = {
+            top: document.getElementById('unit-price-display'),
             bottom: document.getElementById('final-price-display')
         };
 
-        // 2. 初始化 UI 选择状态
-        // 根据 state 的值去激活对应的按钮
+        // --- 初始化 UI ---
         function initUI() {
-            // 材质
+            // 激活选项按钮
             activateBtn(`[data-type="material"][data-value="${state.material}"]`);
-            // 颜色
             activateBtn(`[data-color="${state.color}"]`);
-            // 图案
             activateBtn(`[data-type="pattern"][data-value="${state.pattern}"]`);
             
             updateCardPreview();
+            
+            // ▼▼▼ 关键修改：页面加载时立即刷新 SaaS 文字和价格 ▼▼▼
+            updateSaaSDisplay();      // 刷新卡片上的文字 ($xx/年)
+            updateCurrentSaasPrice(); // 刷新计算逻辑
+            // ▲▲▲ 修改结束 ▲▲▲
+            
             updatePriceDisplay();
         }
 
         function activateBtn(selector) {
             const btn = document.querySelector(selector);
             if (btn) {
-                // 模拟点击来触发 UI 更新，或者手动添加 active 类
-                // 这里我们手动添加 active，并更新 Label
                 const group = btn.parentElement;
                 Array.from(group.children).forEach(c => c.classList.remove('active'));
                 btn.classList.add('active');
-                
-                // 更新 Label
                 if (btn.dataset.name) {
                     if (btn.dataset.type === 'material') labels.material.textContent = btn.dataset.name;
-                    if (btn.dataset.color) labels.color.textContent = btn.dataset.name; // 颜色按钮特殊
+                    if (btn.dataset.color) labels.color.textContent = btn.dataset.name;
                     if (btn.dataset.type === 'pattern') labels.pattern.textContent = btn.dataset.name;
                 }
             }
         }
 
-        // 3. 绑定事件监听
+        // --- 交互逻辑 ---
         
-        // 材质 & 图案点击
+        // 切换月/年
+        window.toggleBilling = function(cycle) {
+            state.billing = cycle;
+            document.getElementById('btn-monthly').classList.toggle('active', cycle === 'monthly');
+            document.getElementById('btn-yearly').classList.toggle('active', cycle === 'yearly');
+            
+            updateSaaSDisplay(); // 更新文字
+            updateCurrentSaasPrice(); // 更新价格
+        }
+
+        // 选择套餐
+        window.selectSaas = function(tier, cardEl) {
+            document.querySelectorAll('.saas-card').forEach(c => c.classList.remove('active'));
+            cardEl.classList.add('active');
+            state.saasTier = tier;
+            updateCurrentSaasPrice();
+        }
+
+        // 更新 SaaS 卡片上的文字显示
+        function updateSaaSDisplay() {
+            const isYear = state.billing === 'yearly';
+            
+            // Pro
+            document.getElementById('price-pro').textContent = isYear ? '$49.00/年' : '$4.90/月';
+            document.getElementById('save-pro').style.display = isYear ? 'block' : 'none';
+            document.getElementById('save-pro').textContent = '省 17%'; // 约数
+
+            // Ultra
+            document.getElementById('price-ultra').textContent = isYear ? '$119.00/年' : '$14.90/月';
+            document.getElementById('save-ultra').style.display = isYear ? 'block' : 'none';
+            document.getElementById('save-ultra').textContent = '省 33%';
+
+            // Team
+            document.getElementById('price-team').textContent = isYear ? '$129.00/人/年' : '$12.90/人/月';
+            document.getElementById('save-team').style.display = isYear ? 'block' : 'none';
+            document.getElementById('save-team').textContent = '省 17%';
+        }
+
+        // 计算当前选中的 SaaS 价格
+        function updateCurrentSaasPrice() {
+            const cycleKey = state.billing === 'yearly' ? 'y' : 'm';
+            state.saasPrice = saasPricing[state.saasTier][cycleKey];
+            updatePriceDisplay();
+        }
+
+        // 更新总价
+        function updatePriceDisplay() {
+            const hardwareTotal = state.unitPrice * state.qty;
+            const total = hardwareTotal + state.saasPrice;
+
+            prices.top.textContent = state.unitPrice.toFixed(2);
+            prices.bottom.textContent = `$${total.toFixed(2)}`;
+            
+            if(state.qty >= 100) {
+                prices.bottom.textContent = "联系客服获 57 折";
+            }
+        }
+
+        // 常规选项监听
         document.querySelectorAll('.option-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const type = e.currentTarget.dataset.type;
-                const value = e.currentTarget.dataset.value;
-                const name = e.currentTarget.dataset.name;
-
-                // UI 更新
                 updateGroupUI(e.currentTarget);
-                labels[type].textContent = name;
-                
-                // 状态更新
-                state[type] = value;
+                labels[type].textContent = e.currentTarget.dataset.name;
+                state[type] = e.currentTarget.dataset.value;
                 updateCardPreview();
             });
         });
 
-        // 颜色点击
         document.querySelectorAll('.color-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
-                const color = e.currentTarget.dataset.color;
-                const name = e.currentTarget.dataset.name;
-
                 updateGroupUI(e.currentTarget);
-                labels.color.textContent = name;
-                
-                state.color = color;
+                labels.color.textContent = e.currentTarget.dataset.name;
+                state.color = e.currentTarget.dataset.color;
                 updateCardPreview();
             });
         });
 
-        // 数量点击
         document.querySelectorAll('.qty-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 updateGroupUI(e.currentTarget);
-                
                 state.qty = parseInt(e.currentTarget.dataset.qty);
                 state.unitPrice = parseFloat(e.currentTarget.dataset.price);
-                
                 updatePriceDisplay();
             });
         });
 
-        // 4. 核心逻辑函数
-        
         function updateGroupUI(activeBtn) {
             const group = activeBtn.parentElement;
             Array.from(group.children).forEach(child => child.classList.remove('active'));
@@ -425,18 +535,13 @@
         }
 
         function updateCardPreview() {
-            // 重置所有类名，保持基础类 interactive-card
             card.className = `interactive-card color-${state.color} material-${state.material} pattern-${state.pattern}`;
-        }
-
-        function updatePriceDisplay() {
-            // 简单的动画效果
-            prices.bottom.textContent = `$${state.unitPrice.toFixed(2)}`;
         }
 
         // 启动
         initUI();
     });
+
 </script>
 
 </body>
