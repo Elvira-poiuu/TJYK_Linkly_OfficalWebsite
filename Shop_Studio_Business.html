@@ -6,6 +6,7 @@
     <title>定制 Linkly Studio (商务版) - Linkly</title>
     <style>
         :root {
+            /* 深色模式基调 */
             --bg-color: #000000;
             --panel-bg: #111111;
             --text-primary: #ffffff;
@@ -13,11 +14,17 @@
             --accent-blue: #0a84ff;
             --border-color: #333333;
             --input-bg: #1c1c1e;
-            --nav-height: 48px;
+            --nav-height: 52px; /* 与 Essential 保持一致 */
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
+        
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-primary); 
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5; /* 优化全局行高 */
+        }
 
         /* 导航栏 */
         nav {
@@ -25,50 +32,46 @@
             height: var(--nav-height); width: 100%; position: fixed; top: 0; z-index: 999;
             border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: center; align-items: center;
         }
-        .nav-content { width: 100%; max-width: 980px; padding: 0 20px; display: flex; justify-content: space-between; align-items: center; }
+        .nav-content { width: 100%; max-width: 1200px; padding: 0 24px; display: flex; justify-content: space-between; align-items: center; }
         .nav-link { font-size: 12px; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 4px; opacity: 0.8; transition: opacity 0.2s;}
         .nav-link:hover { opacity: 1; }
 
         /* 主布局 */
         .main-container {
-            max-width: 1080px; margin: 0 auto; padding: calc(var(--nav-height) + 40px) 20px 80px;
+            max-width: 1200px; margin: 0 auto; padding: calc(var(--nav-height) + 60px) 20px 120px;
             min-height: 100vh;
         }
 
         .product-configurator {
-            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start;
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start;
         }
 
         /* --- 左侧：动态预览舞台 --- */
         .preview-stage {
-            position: sticky; top: 100px;
+            position: sticky; top: 120px;
             background: var(--panel-bg); border-radius: 24px;
             padding: 80px 40px;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             border: 1px solid var(--border-color);
         }
 
-        .preview-card-container { perspective: 1000px; margin-bottom: 30px; }
+        .preview-card-container { perspective: 1000px; margin-bottom: 40px; }
         
-        /* 卡片容器：尺寸锁定 */
         .interactive-card {
-            width: 340px; height: 214px; /* 固定尺寸 */
+            width: 340px; height: 214px;
             border-radius: 16px; position: relative;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
             transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            transform-style: preserve-3d; 
-            overflow: hidden; /* 防止溢出 */
+            transform-style: preserve-3d; overflow: hidden;
             display: block; 
         }
 
         /* 视觉层 */
         .layer-base, .layer-texture, .layer-pattern-overlay { position: absolute; inset: 0; pointer-events: none; transition: opacity 0.3s; z-index: 0; }
         
-        /* 材质纹理定义 */
         .tex-walnut { background: #5c4033; background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, transparent 2px); display: none; }
         .tex-bamboo { background: #e3cca8; background-image: linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 3px 100%; display: none; }
         
-        /* 颜色定义 [Source: 2] */
         .bg-obsidian { background: #1a1a1a; }
         .bg-prussian { background: #003153; }
         .bg-burgundy { background: #660012; }
@@ -76,41 +79,31 @@
         .bg-spacegrey { background: #4a4a4a; }
         .bg-champagne { background: #F7E7CE; color: #333 !important; }
 
-        /* 图案定义 [Source: 2] */
         .pat-metal { background: conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.1) 20deg, transparent 40deg); opacity: 0; }
         .pat-marble { background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1), transparent), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1), transparent); filter: contrast(1.5); opacity: 0; }
         .pat-geo { background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.05) 75%, transparent 75%, transparent); background-size: 40px 40px; opacity: 0; }
         .pat-side { background: linear-gradient(90deg, rgba(0,0,0,0.2) 25%, transparent 25%); opacity: 0; }
 
-        /* 状态激活类 */
         .show-tex { display: block !important; }
         .show-pat { opacity: 1 !important; }
         .text-dark .card-content { color: #333 !important; text-shadow: none !important; } 
         .text-dark .c-bot { border-top-color: rgba(0,0,0,0.1) !important; }
         .text-dark .c-avatar { border-color: rgba(0,0,0,0.2) !important; }
 
-        /* --- 商务内容排版 (Grid System) --- */
         .card-content { 
             position: relative; z-index: 2; width: 100%; height: 100%; 
             padding: 24px; box-sizing: border-box;
-            display: grid; /* 默认 Grid */
-            transition: all 0.3s ease; 
-            color: rgba(255,255,255,0.9);
-            overflow: hidden;
+            display: grid; transition: all 0.3s ease; 
+            color: rgba(255,255,255,0.95);
         }
 
-        /* 元素基础样式 */
         .c-avatar {
-            background-color: rgba(255,255,255,0.1);
-            background-size: cover; background-position: center;
-            border: 1px solid rgba(255,255,255,0.5);
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden; 
+            background-color: rgba(255,255,255,0.1); background-size: cover; background-position: center;
+            border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; overflow: hidden; 
         }
         .c-avatar::after { content: "PHOTO"; font-size: 9px; opacity: 0.5; }
         .c-avatar.has-img::after { display: none; }
-
-        .c-item { overflow: hidden; text-overflow: ellipsis; min-width: 0; } /* 防止撑开 */
+        .c-item { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;}
         
         .c-name { font-size: 20px; font-weight: 700; line-height: 1.2; }
         .c-role { font-size: 11px; opacity: 0.8; margin-top: 2px; }
@@ -118,157 +111,186 @@
         .c-custom { font-size: 10px; opacity: 0.7; font-style: italic; margin-top: 4px; border-left: 2px solid currentColor; padding-left: 6px; }
         .c-top { font-size: 9px; opacity: 0.5; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* === 5种防遮挡布局 === */
+        /* Layouts */
+        .layout-1 { grid-template-columns: 80px 1fr; grid-template-rows: auto 1fr auto; gap: 20px; }
+        .layout-1 .c-top { grid-column: 1 / -1; }
+        .layout-1 .c-avatar { width: 80px; height: 80px; border-radius: 50%; grid-row: 2 / 3; align-self: center; }
+        .layout-1 .info-mid { display: flex; flex-direction: column; justify-content: center; }
+        .layout-1 .c-bot { grid-column: 1 / -1; font-size: 10px; opacity: 0.5; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 10px; width: 100%; align-self: end; }
 
-        /* Layout 1: Left Standard (标准左对齐 - 左右分栏) */
-        .layout-1 {
-            grid-template-columns: 80px 1fr; /* 左头 右文 */
-            grid-template-rows: auto 1fr auto;
-            gap: 15px 20px;
-            align-items: center;
-        }
-        .layout-1 .c-top { grid-column: 1 / -1; } /* Logo 占满顶部 */
-        .layout-1 .c-avatar { width: 80px; height: 80px; border-radius: 50%; grid-row: 2 / 3; }
-        .layout-1 .info-group { display: flex; flex-direction: column; justify-content: center; gap: 2px; }
-        .layout-1 .c-name { font-size: 22px; }
-        .layout-1 .c-company { grid-column: 1 / -1; width: 100%; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 10px; align-self: end; }
-
-        /* Layout 2: Center Stack (居中堆叠 - 垂直流) */
-        .layout-2 {
-            display: flex; flex-direction: column; 
-            align-items: center; justify-content: space-between; text-align: center;
-        }
+        .layout-2 { display: flex; flex-direction: column; align-items: center; justify-content: space-between; text-align: center; }
         .layout-2 .c-top { margin-bottom: 5px; }
         .layout-2 .c-avatar { width: 70px; height: 70px; border-radius: 12px; margin: 5px 0; }
-        .layout-2 .info-group { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .layout-2 .info-mid { display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .layout-2 .c-name { font-size: 24px; font-weight: 300; }
         .layout-2 .c-role { text-transform: uppercase; letter-spacing: 1px; font-size: 10px; }
-        .layout-2 .c-custom { border: none; padding: 0; font-style: normal; opacity: 0.5; }
         .layout-2 .c-company { margin-top: auto; opacity: 0.8; }
 
-        /* Layout 3: Sidebar Right (右侧栏 - 网格) */
-        .layout-3 {
-            grid-template-columns: 1fr 90px;
-            grid-template-rows: auto 1fr auto;
-            padding: 0 !important; /* 全屏布局 */
-            gap: 0;
-        }
-        .layout-3 .c-avatar { grid-column: 2; grid-row: 1 / -1; width: 100%; height: 100%; border: none; border-left: 1px solid rgba(255,255,255,0.2); border-radius: 0; }
+        .layout-3 { grid-template-columns: 1fr 90px; grid-template-rows: auto 1fr auto; padding: 0 !important; gap: 0; }
+        .layout-3 .c-avatar { grid-row: 1 / -1; grid-column: 2 / 3; width: 100%; height: 100%; border: none; border-left: 1px solid rgba(255,255,255,0.2); border-radius: 0; }
         .layout-3 .c-top { padding: 24px 0 0 24px; }
-        .layout-3 .info-group { padding-left: 24px; align-self: center; display: flex; flex-direction: column; justify-content: center; }
+        .layout-3 .info-mid { padding-left: 24px; align-self: center; display: flex; flex-direction: column; justify-content: center; }
         .layout-3 .c-name { font-size: 26px; }
         .layout-3 .c-company { padding: 0 0 24px 24px; align-self: end; }
 
-        /* Layout 4: ID Card (横向名片 - 上下结构) */
-        .layout-4 {
-            grid-template-columns: 90px 1fr;
-            grid-template-rows: 1fr auto;
-            gap: 20px;
-        }
+        .layout-4 { grid-template-columns: 90px 1fr; grid-template-rows: 1fr auto; gap: 20px; }
         .layout-4 .c-avatar { width: 90px; height: 110px; border-radius: 4px; grid-row: 1 / 2; }
-        .layout-4 .info-group { display: flex; flex-direction: column; padding-top: 10px; }
-        .layout-4 .c-top { order: -1; margin-bottom: 5px; } /* Flex order调整显示顺序 */
+        .layout-4 .info-mid { display: flex; flex-direction: column; padding-top: 10px; }
+        .layout-4 .c-top { order: -1; margin-bottom: 5px; }
         .layout-4 .c-name { font-size: 22px; font-weight: 800; text-transform: uppercase; }
         .layout-4 .c-company { grid-column: 1 / -1; border-top: 2px solid currentColor; padding-top: 10px; width: 100%; display: flex; justify-content: space-between; align-items: center; }
-        .layout-4 .c-custom { margin-top: auto; margin-bottom: 5px; }
 
-        /* Layout 5: Minimal Grid (四象限) */
-        .layout-5 {
-            grid-template-columns: 1fr auto;
-            grid-template-rows: 1fr 1fr;
-            gap: 10px;
-        }
+        .layout-5 { grid-template-columns: 1fr auto; grid-template-rows: 1fr 1fr; gap: 10px; }
         .layout-5 .c-top { grid-column: 1 / -1; display: block; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 5px;}
-        .layout-5 .info-group { grid-column: 1 / 2; display: flex; flex-direction: column; justify-content: center; }
+        .layout-5 .info-mid { grid-column: 1 / 2; display: flex; flex-direction: column; justify-content: center; }
         .layout-5 .c-avatar { grid-column: 2 / 3; width: 60px; height: 60px; border-radius: 50%; align-self: center; justify-self: end;}
         .layout-5 .c-company { grid-column: 1 / -1; align-self: end; text-align: right; background: rgba(255,255,255,0.1); padding: 5px 10px; border-radius: 4px; width: fit-content; justify-self: end;}
-        .layout-5 .c-custom { grid-column: 1 / 2; align-self: end; border: none; padding: 0; }
 
-        /* --- 配置面板 --- */
-        .preview-note { font-size: 12px; color: var(--text-secondary); margin-top: 20px; text-align: center; }
+        .preview-note { font-size: 13px; color: var(--text-secondary); margin-top: 30px; text-align: center; }
+
+        /* --- 右侧：配置面板 --- */
         .config-panel { padding-top: 0; }
+
+        /* 顶部标题区 */
+        .panel-header { 
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--border-color); 
+        }
         
         .mode-badge {
-            display: inline-block; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+            display: inline-block; padding: 6px 12px; border-radius: 8px; 
+            font-size: 11px; font-weight: 600; margin-bottom: 12px;
+            text-transform: uppercase; letter-spacing: 0.05em;
             background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);
         }
-
-        .config-section { margin-top: 24px; padding-bottom: 24px; border-bottom: 1px solid var(--border-color); position: relative; transition: opacity 0.3s; }
-        .config-section.disabled { opacity: 0.3; pointer-events: none; filter: grayscale(100%); } 
-        .config-section:last-child { border-bottom: none; }
         
-        .config-label { font-size: 14px; font-weight: 600; margin-bottom: 12px; display: block; color: #e5e5e5; }
-        .selection-name { color: var(--text-secondary); font-weight: 400; margin-left: 6px; }
+        .panel-title { font-size: 32px; font-weight: 700; line-height: 1.1; color: #fff; margin: 0; }
+        
+        /* 顶部单价显示 */
+        .top-price-box { text-align: right; }
+        .unit-price { font-size: 24px; font-weight: 600; display: block; color: #fff; }
+        .unit-label { font-size: 13px; color: var(--text-secondary); display: block; margin-top: 4px; }
+
+        /* 配置区块通用样式 (优化间距) */
+        .config-section { 
+            margin-bottom: 40px; /* 增加呼吸感 */
+            position: relative; transition: opacity 0.3s; 
+        }
+        .config-section.disabled { opacity: 0.3; pointer-events: none; filter: grayscale(100%); } 
+        
+        /* 标签行 (标签+副信息) */
+        .config-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        
+        .config-label { 
+            font-size: 17px; font-weight: 600; display: block; color: #e5e5e5; 
+            margin-bottom: 16px; /* 标题与内容的距离 */
+        }
+        .selection-name { color: var(--text-secondary); font-weight: 400; margin-left: 8px; font-size: 17px; }
 
         /* 选项按钮 */
-        .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .grid-3-col { grid-template-columns: repeat(3, 1fr); }
-        .quantity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; } /* 强制单行 */
+        .quantity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 
         .option-btn {
-            padding: 12px; border: 1px solid var(--border-color); border-radius: 10px;
-            background: var(--input-bg); color: #fff; font-size: 12px; cursor: pointer;
+            padding: 16px; border: 1px solid var(--border-color); border-radius: 12px;
+            background: var(--input-bg); color: #fff; font-size: 13px; cursor: pointer;
             transition: all 0.2s; text-align: center;
         }
-        .option-btn:hover { border-color: #666; }
-        .option-btn.active { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(10, 132, 255, 0.1); }
+        .option-btn:hover { border-color: #666; background: #2c2c2e; }
+        .option-btn.active { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(10, 132, 255, 0.15); font-weight: 500; }
 
         /* 颜色圆点 */
-        .color-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .color-grid { display: flex; gap: 14px; flex-wrap: wrap; }
         .color-btn {
-            width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer;
+            width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer;
             transition: transform 0.2s; position: relative; box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
         }
+        .color-btn:hover { transform: scale(1.1); }
         .color-btn.active { box-shadow: 0 0 0 2px #000, 0 0 0 4px #fff; transform: scale(1.1); }
 
         /* 布局图标 */
-        .layout-selector { display: flex; gap: 10px; }
+        .layout-selector { display: flex; gap: 12px; }
         .layout-btn {
-            width: 44px; height: 44px; border-radius: 8px; border: 1px solid var(--border-color);
+            width: 48px; height: 48px; border-radius: 10px; border: 1px solid var(--border-color);
             background: var(--input-bg); cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 14px; color: #666; font-weight: bold;
+            font-size: 14px; color: #666; font-weight: bold; transition: all 0.2s;
         }
-        .layout-btn.active { border-color: var(--accent-blue); background: rgba(10, 132, 255, 0.1); color: var(--accent-blue); }
+        .layout-btn:hover { border-color: #666; }
+        .layout-btn.active { border-color: var(--accent-blue); background: rgba(10, 132, 255, 0.15); color: var(--accent-blue); }
 
         /* 输入框 */
-        .input-group { display: grid; gap: 12px; }
+        .input-group { display: grid; gap: 16px; }
         .input-field {
-            width: 100%; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border-color);
-            background: var(--input-bg); color: #fff; font-size: 13px; outline: none;
+            width: 100%; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--border-color);
+            background: var(--input-bg); color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s;
         }
         .input-field:focus { border-color: var(--accent-blue); }
 
         /* 上传按钮 */
         .upload-btn {
             display: flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%; padding: 12px; border: 1px dashed var(--border-color); border-radius: 8px;
+            width: 100%; padding: 16px; border: 1px dashed var(--border-color); border-radius: 10px;
             background: rgba(255,255,255,0.05); color: #ccc; font-size: 13px; cursor: pointer; transition: 0.2s;
         }
-        .upload-btn:hover { border-color: var(--accent-blue); color: #fff; }
-
-        /* 底部操作栏 */
-        .action-area {
-            background: var(--panel-bg); border-radius: 18px; padding: 24px; margin-top: 20px; border: 1px solid var(--border-color);
-        }
-        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-weight: 600; font-size: 16px; }
+        .upload-btn:hover { border-color: var(--accent-blue); color: #fff; background: rgba(255,255,255,0.08); }
         
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .btn {
-            padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: center;
-            cursor: pointer; border: none; width: 100%; transition: all 0.2s;
-        }
-        .btn-primary { background: #fff; color: #000; }
-        .btn-primary:hover { background: #e5e5e5; }
-        .btn-secondary { background: #333; color: #fff; }
-        .btn-secondary:hover { background: #444; }
+        .qty-num { font-size: 15px; font-weight: 600; display: block; }
+        .qty-desc { font-size: 11px; margin-top: 4px; opacity: 0.7; display: block; }
 
+
+        /* --- SaaS 模块 (深色适配) --- */
+        .billing-toggle {
+            background: #2c2c2e; padding: 3px; border-radius: 8px; display: inline-flex;
+        }
+        .bill-opt {
+            padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 6px; 
+            color: #888; transition: all 0.2s;
+        }
+        .bill-opt.active { background: #555; color: #fff; }
+
+        .saas-container { display: flex; flex-direction: column; gap: 12px; }
+        .saas-group-title { font-size: 11px; font-weight: 600; text-transform: uppercase; color: #666; margin-top: 16px; margin-bottom: 6px; padding-left: 4px; }
+        .saas-group-title:first-child { margin-top: 0; }
+
+        .saas-card {
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; background: var(--input-bg);
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.2s;
+        }
+        .saas-card:hover { border-color: #666; background: #252528; }
+        .saas-card.active { border-color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); background: rgba(10, 132, 255, 0.15); }
+        
+        .saas-name { font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; color: #fff; }
+        .saas-feat { font-size: 12px; color: #888; margin-top: 4px; }
+        .s-price { font-size: 14px; font-weight: 500; color: #fff; display: block; text-align: right;}
+        .s-save { font-size: 11px; color: #0077ed; font-weight: 600; display: block; margin-top: 2px; text-align: right;}
+        .rec-tag { font-size: 10px; background: var(--accent-blue); color: #fff; padding: 2px 6px; border-radius: 4px; vertical-align: middle; }
+
+        /* 底部 */
+        .action-area {
+            background: var(--panel-bg); border-radius: 20px; padding: 30px; margin-top: 40px; border: 1px solid var(--border-color);
+        }
+        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .total-label { font-size: 15px; color: var(--text-secondary); }
+        .total-price { font-size: 28px; font-weight: 700; color: #fff; }
+        
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn { padding: 18px; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: center; cursor: pointer; border: none; width: 100%; transition: all 0.2s; }
+        .btn-primary { background: #fff; color: #000; } .btn-primary:hover { background: #e5e5e5; }
+        .btn-secondary { background: #333; color: #fff; } .btn-secondary:hover { background: #444; }
+
+        @media (max-width: 900px) {
+            .product-configurator { grid-template-columns: 1fr; gap: 40px; }
+            .preview-stage { position: relative; top: 0; padding: 40px 20px; }
+        }
     </style>
 </head>
 <body>
 
 <nav>
     <div class="nav-content">
-        <a href="Shop_General.html" class="nav-link">
+        <a href="shop.html" class="nav-link">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
             <span>返回商店</span>
         </a>
@@ -288,18 +310,15 @@
                 <div id="dynamic-card" class="interactive-card bg-obsidian layout-1">
                     <div id="tex-wood" class="layer-texture"></div>
                     <div id="pat-overlay" class="layer-pattern-overlay"></div>
-                    
                     <div class="card-content">
                         <div class="c-top" id="prev-logo">LINKLY</div>
-                        
                         <div class="c-avatar" id="prev-avatar"></div>
-                        
-                        <div class="info-group">
+                        <div class="info-mid">
                             <div class="c-name c-item" id="prev-name">John Doe</div>
                             <div class="c-role c-item" id="prev-role">Design Lead</div>
-                            <div class="c-custom c-item" id="prev-custom"></div> </div>
-                        
-                        <div class="c-company c-item" id="prev-company">Global Inc.</div>
+                            <div class="c-custom c-item" id="prev-custom"></div>
+                        </div>
+                        <div class="c-bot c-item" id="prev-company">Global Inc.</div>
                     </div>
                 </div>
             </div>
@@ -308,7 +327,16 @@
 
         <div class="config-panel">
             
-            <div class="mode-badge">Business Mode</div>
+            <div class="panel-header">
+                <div>
+                    <div class="mode-badge">Business Mode</div>
+                    
+                </div>
+                <div class="top-price-box">
+                    <span class="unit-price" id="unit-price-display">$34.90</span>
+                    <span class="unit-label">硬件单价</span>
+                </div>
+            </div>
 
             <div class="config-section">
                 <span class="config-label">材质 <span id="lbl-mat" class="selection-name">标准 PVC</span></span>
@@ -362,7 +390,6 @@
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                         上传头像 (支持 JPG/PNG)
                     </label>
-
                     <input type="text" class="input-field" placeholder="姓名: John Doe" oninput="updateTxt('prev-name', this.value)">
                     <input type="text" class="input-field" placeholder="职位: CEO" oninput="updateTxt('prev-role', this.value)">
                     <input type="text" class="input-field" placeholder="公司/电话: Global Inc." oninput="updateTxt('prev-company', this.value)">
@@ -373,16 +400,89 @@
             <div class="config-section">
                 <span class="config-label">订量 <span class="selection-name">量大从优</span></span>
                 <div class="quantity-grid" id="group-qty">
-                    <div class="option-btn active" data-qty="1" data-discount="0">1<br>零售</div>
-                    <div class="option-btn" data-qty="20" data-discount="5">20+<br>团队</div>
-                    <div class="option-btn" data-qty="50" data-discount="10">50+<br>企业</div>
-                    <div class="option-btn" data-qty="100" data-discount="15">100+<br>批发</div>
+                    <div class="option-btn active" data-qty="1" data-discount="0">
+                        <span class="qty-num">1</span>
+                        <span class="qty-desc">零售</span>
+                    </div>
+                    <div class="option-btn" data-qty="20" data-discount="5">
+                        <span class="qty-num">20+</span>
+                        <span class="qty-desc">团队</span>
+                    </div>
+                    <div class="option-btn" data-qty="50" data-discount="10">
+                        <span class="qty-num">50+</span>
+                        <span class="qty-desc">企业</span>
+                    </div>
+                    <div class="option-btn" data-qty="100" data-discount="15">
+                        <span class="qty-num">100+</span>
+                        <span class="qty-desc">批发</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <div class="config-label-row">
+                    <span class="config-label">Linkly Ultra 智能服务 <span class="selection-name">可选</span></span>
+                    <div class="billing-toggle">
+                        <div class="bill-opt active" id="btn-yearly" onclick="toggleBilling('yearly')">按年 (省20%)</div>
+                        <div class="bill-opt" id="btn-monthly" onclick="toggleBilling('monthly')">按月</div>
+                        
+                    </div>
+                </div>
+
+                <div class="saas-container">
+                    <div class="saas-group-title">个人版</div>
+                    <div class="saas-card active" onclick="selectSaas('free', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Free 免费版</div>
+                            <div class="saas-feat">基础功能，无广告。</div>
+                        </div>
+                        <div class="saas-price-box"><span class="s-price">免费</span></div>
+                    </div>
+                    <div class="saas-card" onclick="selectSaas('pro', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Pro 专业版 <span class="rec-tag">推荐</span></div>
+                            <div class="saas-feat">多身份管理，高级数据统计。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price" id="price-pro">$49.00/年</span>
+                            <span class="s-save" id="save-pro">省 17%</span>
+                        </div>
+                    </div>
+                    <div class="saas-card" onclick="selectSaas('ultra', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Ultra 终极版</div>
+                            <div class="saas-feat">AI 全局助手，无限文件库。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price" id="price-ultra">$119.00/年</span>
+                            <span class="s-save" id="save-ultra">省 33%</span>
+                        </div>
+                    </div>
+
+                    <div class="saas-group-title">团队与企业</div>
+                    <div class="saas-card" onclick="selectSaas('team', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Team 团队版</div>
+                            <div class="saas-feat">统一管理后台，员工权限控制。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price" id="price-team">$129.00/人/年</span>
+                            <span class="s-save" id="save-team">省 17%</span>
+                        </div>
+                    </div>
+                    <div class="saas-card" onclick="selectSaas('enterprise', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Enterprise 企业定制</div>
+                            <div class="saas-feat">API 对接，私有化部署。</div>
+                        </div>
+                        <div class="saas-price-box"><span class="s-price">联系销售</span></div>
+                    </div>
                 </div>
             </div>
 
             <div class="action-area">
                 <div class="total-row">
-                    <span>当前单价</span>
+                    <span class="total-label">预计总价 (含会员)</span>
                     <span id="final-price">--</span>
                 </div>
                 <div class="btn-group">
@@ -397,19 +497,26 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        // 状态管理
+        // 核心状态
         const state = {
-            matType: 'pvc',  
-            matPrice: 34.90,
-            colorClass: 'bg-obsidian',
-            colorName: '曜石黑',
-            patClass: 'none',
-            patName: '纯色',
+            matType: 'pvc', matPrice: 34.90,
+            colorClass: 'bg-obsidian', colorName: '曜石黑',
+            patClass: 'none', patName: '纯色',
             layout: 'layout-1',
-            discount: 0
+            qty: 1, discount: 0,
+            billing: 'yearly', // 默认按年
+            saasTier: 'free', saasPrice: 0
         };
 
-        // DOM 元素
+        // 价格表
+        const saasPricing = {
+            free: { m: 0, y: 0 },
+            pro: { m: 4.90, y: 49.00 },
+            ultra: { m: 14.90, y: 119.00 },
+            team: { m: 12.90, y: 129.00 },
+            enterprise: { m: 0, y: 0 }
+        };
+
         const dom = {
             card: document.getElementById('dynamic-card'),
             texLayer: document.getElementById('tex-wood'),
@@ -417,98 +524,108 @@
             secColor: document.getElementById('sec-color'),
             secPat: document.getElementById('sec-pattern'),
             priceDisplay: document.getElementById('final-price'),
+            topPriceDisplay: document.getElementById('unit-price-display'),
             lblMat: document.getElementById('lbl-mat'),
             lblColor: document.getElementById('lbl-color'),
             lblPat: document.getElementById('lbl-pat')
         };
 
-        // 1. 材质点击 (互斥逻辑核心)
+        // 材质互斥逻辑
         document.getElementById('group-mat').addEventListener('click', (e) => {
             if(!e.target.classList.contains('option-btn')) return;
             setActive(e.target);
-            
             state.matType = e.target.dataset.type;
             state.matPrice = parseFloat(e.target.dataset.price);
             dom.lblMat.textContent = e.target.textContent;
-
             updateView();
         });
 
-        // 2. 颜色点击
-        document.getElementById('group-color').addEventListener('click', (e) => {
-            if(!e.target.classList.contains('color-btn')) return;
-            setActive(e.target);
-            state.colorClass = e.target.dataset.color;
-            state.colorName = e.target.dataset.name;
-            dom.lblColor.textContent = state.colorName;
-            updateView();
+        // 其他选项点击 (颜色/图案/布局/数量)
+        ['group-color', 'group-pat', 'group-layout', 'group-qty'].forEach(id => {
+            document.getElementById(id).addEventListener('click', (e) => {
+                const btn = e.target.closest('.option-btn, .color-btn, .layout-btn');
+                if(!btn) return;
+                setActive(btn);
+                
+                if(btn.dataset.color) { state.colorClass = btn.dataset.color; state.colorName = btn.dataset.name; dom.lblColor.textContent = state.colorName; }
+                if(btn.dataset.pat) { state.patClass = btn.dataset.pat; state.patName = btn.dataset.name; dom.lblPat.textContent = state.patName; }
+                if(btn.dataset.layout) state.layout = btn.dataset.layout;
+                if(btn.dataset.qty) { state.qty = parseInt(btn.dataset.qty); state.discount = parseFloat(btn.dataset.discount); }
+                
+                updateView();
+            });
         });
 
-        // 3. 图案点击
-        document.getElementById('group-pat').addEventListener('click', (e) => {
-            if(!e.target.classList.contains('option-btn')) return;
-            setActive(e.target);
-            state.patClass = e.target.dataset.pat;
-            state.patName = e.target.dataset.name;
-            dom.lblPat.textContent = state.patName;
-            updateView();
-        });
+        // SaaS 切换逻辑
+        window.toggleBilling = function(cycle) {
+            state.billing = cycle;
+            document.getElementById('btn-monthly').classList.toggle('active', cycle === 'monthly');
+            document.getElementById('btn-yearly').classList.toggle('active', cycle === 'yearly');
+            
+            updateSaaSDisplay();
+            updateCurrentSaasPrice();
+        }
 
-        // 4. 布局点击
-        document.getElementById('group-layout').addEventListener('click', (e) => {
-            if(!e.target.classList.contains('layout-btn')) return;
-            setActive(e.target);
-            state.layout = e.target.dataset.layout;
-            updateView();
-        });
+        window.selectSaas = function(tier, cardEl) {
+            document.querySelectorAll('.saas-card').forEach(c => c.classList.remove('active'));
+            cardEl.classList.add('active');
+            state.saasTier = tier;
+            updateCurrentSaasPrice();
+        }
 
-        // 5. 数量点击
-        document.getElementById('group-qty').addEventListener('click', (e) => {
-            if(!e.target.classList.contains('option-btn')) return;
-            setActive(e.target);
-            state.discount = parseFloat(e.target.dataset.discount);
-            updateView();
-        });
+        // 更新 SaaS 文字
+        function updateSaaSDisplay() {
+            const isYear = state.billing === 'yearly';
+            
+            document.getElementById('price-pro').textContent = isYear ? '$49.00/年' : '$4.90/月';
+            document.getElementById('save-pro').style.display = isYear ? 'block' : 'none';
+            
+            document.getElementById('price-ultra').textContent = isYear ? '$119.00/年' : '$14.90/月';
+            document.getElementById('save-ultra').style.display = isYear ? 'block' : 'none';
+            
+            document.getElementById('price-team').textContent = isYear ? '$129.00/人/年' : '$12.90/人/月';
+            document.getElementById('save-team').style.display = isYear ? 'block' : 'none';
+        }
 
-        // --- 核心逻辑 ---
+        function updateCurrentSaasPrice() {
+            const cycleKey = state.billing === 'yearly' ? 'y' : 'm';
+            state.saasPrice = saasPricing[state.saasTier][cycleKey];
+            updateTotalPrice();
+        }
 
+        function updateTotalPrice() {
+            // 总价 = (材质单价 - 折扣) * 数量 + SaaS费用(假设随单买1份)
+            let hardwareUnit = state.matPrice - state.discount;
+            if (hardwareUnit < 0) hardwareUnit = 0;
+            
+            // 更新顶部单价
+            dom.topPriceDisplay.textContent = `$${state.matPrice.toFixed(2)}`;
+
+            // 更新底部总价
+            const total = (hardwareUnit * state.qty) + state.saasPrice;
+            dom.priceDisplay.textContent = `$${total.toFixed(2)}`;
+        }
+
+        // 核心视图逻辑 (材质互斥)
         function updateView() {
-            // 材质互斥判断
             const isWood = (state.matType === 'bamboo' || state.matType === 'walnut');
             
             if (isWood) {
-                // 禁用颜色和图案
                 dom.secColor.classList.add('disabled');
                 dom.secPat.classList.add('disabled');
-                
-                // 显示纹理
                 dom.texLayer.className = 'layer-texture show-tex ' + (state.matType === 'bamboo' ? 'tex-bamboo' : 'tex-walnut');
                 dom.patLayer.className = 'layer-pattern-overlay';
-                
-                // 应用布局
                 dom.card.className = `interactive-card ${state.layout}`;
-                if(state.matType === 'bamboo') {
-                    dom.card.classList.add('text-dark');
-                }
+                if(state.matType === 'bamboo') dom.card.classList.add('text-dark');
             } else {
-                // PVC 模式：启用
                 dom.secColor.classList.remove('disabled');
                 dom.secPat.classList.remove('disabled');
-                
                 dom.texLayer.className = 'layer-texture';
                 dom.patLayer.className = 'layer-pattern-overlay ' + (state.patClass !== 'none' ? 'show-pat ' + state.patClass : '');
-                
                 dom.card.className = `interactive-card ${state.layout} ${state.colorClass}`;
-                
-                if(state.colorClass === 'bg-ivory' || state.colorClass === 'bg-champagne') {
-                    dom.card.classList.add('text-dark');
-                }
+                if(state.colorClass === 'bg-ivory' || state.colorClass === 'bg-champagne') dom.card.classList.add('text-dark');
             }
-
-            // 价格计算
-            let final = state.matPrice - state.discount;
-            if (final < 0) final = 0;
-            dom.priceDisplay.textContent = `$${final.toFixed(2)}`;
+            updateTotalPrice();
         }
 
         function setActive(target) {
@@ -520,7 +637,6 @@
             document.getElementById(id).textContent = val;
         }
 
-        // 头像上传
         window.handleUpload = function(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -535,6 +651,7 @@
 
         // 初始化
         updateView();
+        updateSaaSDisplay();
     });
 </script>
 
