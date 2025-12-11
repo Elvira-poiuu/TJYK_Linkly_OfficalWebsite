@@ -137,15 +137,29 @@
         }
         .expand-trigger:hover { color: #5ac8fa; }
         .expand-content { overflow: hidden; height: 0; opacity: 0; }
+
+        /* 新增：展开区域的双栏布局 (1.5份标签 : 2份内容) */
+        .compare-grid-expanded { 
+            display: grid; 
+            grid-template-columns: 1.5fr 2fr; /* 左侧对齐标题，右侧跨越原本的Team+Ent区域 */
+            gap: 16px; 
+            align-items: center; 
+        }
+
     </style>
 </head>
 <body class="antialiased">
 
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
         <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
-            <a href="index.html" class="text-lg font-semibold text-white hover:text-gray-300 transition-colors">
-                Linkly
-            </a>
+    
+            <div class="nav-content">
+                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
+                    <img src="Logo/darkBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;">
+                </a>
+                <div style="display:flex; gap:24px;">
+                    </div>
+            </div>
             <div class="hidden md:flex items-center gap-8 navbar-links">
                 <div class="relative group h-full flex items-center">
                     <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
@@ -153,17 +167,20 @@
                     </a>
                     <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
                         <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                产品
+                            </a>
                             <a href="Linkly_AI_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
                                 Linkly AI
                             </a>
                             <a href="Enterprise_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                企业版
+                                Linkly 企业版
                             </a>
                         </div>
                     </div>
                 </div>
                 <a href="AI_Detailed_2.html">Linkly AI</a> 
-                <a href="B_Detailed_2black_WordPolish.html">企业版</a> 
+                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
                 <div class="relative group h-full flex items-center">
                     <span class="cursor-pointer py-4 text-[0.875rem] text-white group-hover:text-[#2997ff] group-hover:font-bold transition-all duration-300">
                         定价
@@ -180,13 +197,13 @@
                     </div>
                 </div>
                 <div class="relative group h-full flex items-center">
-                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
                         支持
                     </a>
                     <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
                         <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
                             <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                应用
+                                应用下载
                             </a>
                             <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
                                 技术详情
@@ -204,7 +221,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                     </svg>
                 </a>
-                <a href="#" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
+                <a href="ShopBag.html" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                     </svg>
@@ -231,29 +248,39 @@
                 <div class="text-xs text-gray-500 font-medium">功能对比</div>
                 <div class="flex flex-col items-center">
                     <h3 class="text-lg font-bold">Free</h3>
-                    <a href="#" class="buy-btn disabled mt-2">当前版本</a>
                 </div>
+                <!-- <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-bold">Pro</h3>
+                    <a href="#" class="buy-btn mt-2">购买</a>
+                </div> -->
                 <div class="flex flex-col items-center">
                     <h3 class="text-lg font-bold">Pro</h3>
-                    <a href="#" class="buy-btn mt-2">升级 Pro</a>
+                    <a href="Shop_SaaS.html?plan=pro" class="buy-btn mt-2">购买</a>
                 </div>
+
                 <div class="flex flex-col items-center">
-                    <h3 class="text-lg font-bold text-[#2997ff]">Ultra AI</h3>
-                    <a href="#" class="buy-btn mt-2 bg-[#2997ff]">升级 Ultra</a>
+                    <h3 class="text-lg font-bold">Ultra</h3>
+                    <a href="Shop_SaaS.html?plan=ultra" class="buy-btn mt-2 bg-[#2997ff]">购买</a>
                 </div>
             </div>
 
             <div id="head-business" class="compare-grid-business hidden">
                 <div class="text-xs text-gray-500 font-medium">功能对比</div>
+                <!-- <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-bold">Team</h3>
+                    <p class="text-[10px] text-gray-500">小型团队</p>
+                    <a href="#" class="buy-btn mt-2">购买</a>
+                </div> -->
                 <div class="flex flex-col items-center">
                     <h3 class="text-lg font-bold">Team</h3>
                     <p class="text-[10px] text-gray-500">小型团队</p>
-                    <a href="#" class="buy-btn mt-2">购买 Team</a>
+                    <a href="Shop_SaaS.html?plan=team" class="buy-btn mt-2">购买</a>
                 </div>
+
                 <div class="flex flex-col items-center">
                     <h3 class="text-lg font-bold">Enterprise</h3>
                     <p class="text-[10px] text-gray-500">大型企业</p>
-                    <a href="#" class="buy-btn mt-2 bg-white text-black hover:bg-gray-200">联系销售</a>
+                    <a href="Contact_Us.html" class="buy-btn mt-2 bg-white text-black hover:bg-gray-200">联系我们</a>
                 </div>
             </div>
         </div>
@@ -501,62 +528,128 @@
             <div class="text-center py-10 border-b border-[#424245] mb-10">
                 <p class="text-xl text-white mb-4">✅ Team 与 Enterprise 均包含所有 Personal Ultra 功能。</p>
                 <div class="expand-trigger" id="btn-expand" onclick="toggleExpand()">
-                    <span>查看包含的个人版功能 (Ultra 级)</span>
+                    <span>查看包含的个人版功能</span>
                     <svg id="icon-expand" class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
                 <div id="content-expand" class="expand-content">
                     
-                    <div class="row compare-grid-business bg-[#111] border-t border-[#333]">
-                        <div class="cell-label pl-4">NFC 激活与绑定</div>
-                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
-                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
-                    </div>
-                    <div class="row compare-grid-business bg-[#111]">
-                        <div class="cell-label pl-4">编辑个人主页</div>
-                        <div class="cell-data">完整版</div>
-                        <div class="cell-data">完整版</div>
-                    </div>
-                    <div class="row compare-grid-business bg-[#111]">
-                        <div class="cell-label pl-4">多媒体上传</div>
-                        <div class="cell-data">1 GB<span>Max</span></div>
-                        <div class="cell-data">1 GB<span>Max</span></div>
-                    </div>
-                    <div class="row compare-grid-business bg-[#111]">
-                        <div class="cell-label pl-4">多身份数量</div>
-                        <div class="cell-data">∞ 不限</div>
-                        <div class="cell-data">∞ 不限</div>
-                    </div>
-                    
-                    <div class="row compare-grid-business bg-[#111]">
-                        <div class="cell-label pl-4">触即分享 & 保存</div>
-                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    <div class="row compare-grid-expanded bg-[#111] border-t border-[#333]">
+                        <div class="cell-label pl-4">NFC 激活与绑定<span>碰一下手机即可激活，将卡片与您的账户永久绑定。</span></div>
                         <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
                     </div>
-                    <div class="row compare-grid-business bg-[#111]">
-                        <div class="cell-label pl-4">储存库容量</div>
-                        <div class="cell-data">100 GB</div>
-                        <div class="cell-data">100 GB</div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">编辑个人主页<span>配置头像、职位、MBTI 标签及社交账号跳转。</span></div>
+                        <div class="cell-data">完整版<span>支持自定义所有字段与模块</span></div>
                     </div>
-                    <div class="row compare-grid-business bg-[#111]">
-                        <div class="cell-label pl-4">聊天下单与支付</div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">动态管理主页<span>App 修改内容，卡片感应时实时同步。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>无需重新制卡，修改即时生效</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">多媒体上传<span>支持上传动图、高清视频及 PDF 作品集。</span></div>
+                        <div class="cell-data highlight">1 GB<span>支持原画质播放与文件下载</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">多身份数量<span>一张卡片，切换不同身份。</span></div>
+                        <div class="cell-data highlight">∞ 不限</div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">添加身份时信息继承<span>创建新身份时，自动复用旧身份的通用信息。</span></div>
                         <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">批量录入信息<span>配合专用“刷卡器”，一次性将数据写入多张卡片。</span></div>
                         <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
                     </div>
 
-                    <div class="row compare-grid-business bg-[#111]">
-                        <div class="cell-label pl-4">AI 记忆时长</div>
-                        <div class="cell-data">7 天</div>
-                        <div class="cell-data">7 天</div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">触即分享 & 自动保存<span>对方碰卡后，您的信息将直接写入其手机通讯录。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>无需手动输入</span></div>
                     </div>
-                    <div class="row compare-grid-business bg-[#111]">
-                        <div class="cell-label pl-4">智能生成回复</div>
-                        <div class="cell-data">个性化</div>
-                        <div class="cell-data">个性化</div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">通讯方式<span>App 内原生聊天 + 网页版轻量级聊天。</span></div>
+                        <div class="cell-data">App + 网页版</div>
                     </div>
-                    <div class="row compare-grid-business bg-[#111]">
-                        <div class="cell-label pl-4">离线自动代理</div>
-                        <div class="cell-data">全功能</div>
-                        <div class="cell-data">全功能</div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">手动储存库容量<span>用于真人对话时手动发送文件的云端空间。</span></div>
+                        <div class="cell-data highlight">100 GB</div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">文件分类与管理<span>自定义标签索引，并在聊天中一键调用发送。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">聊天下单与支付<span>在对话流中直接发送商品卡片并收款。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">智能匹配回复内容<span>检测到问题命中 AI 知识库时，自动调取标准答案。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">智能生成回复建议<span>AI 模仿您的用词习惯与语气，生成回复草稿。</span></div>
+                        <div class="cell-data highlight">个性化模仿<span>深度学习用户语气</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">智能提醒文档发送<span>识别对话中的文件需求，自动从库中调取并提示发送。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">智能摘要生成<span>自动提取接收文件的核心架构与关键信息。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">自动发送预设资料<span>离线时自动发送个人介绍，维持连接热度。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">解析知识库基础问题<span>优先调用知识库自动解答常见 FAQ。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">引导对方需求留言<span>遇到超纲问题，自动引导访客留下具体需求。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">AI 记忆时长<span>记住多天内的对话历史，无需重复提供背景信息。</span></div>
+                        <div class="cell-data highlight">7 天</div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">个性化问答<span>基于专属资料提供专业建议。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">检索账号内资源<span>自然语言搜索聊天记录、文件和任务。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">检索全平台用户<span>在 Linkly 平台内查找潜在合作伙伴。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">全网公开资源检索 (背调)<span>聚合全网公开信息，辅助背景调查。</span></div>
+                        <div class="cell-data highlight"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">访问者画像与行为<span>生成性别/职业画像，分析停留时长与跳出率。</span></div>
+                        <div class="cell-data highlight">完整画像<span>+ 行为追踪</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">对话交互分析<span>量化回复频率与态度，分析用户兴趣与意向等级。</span></div>
+                        <div class="cell-data highlight"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">AI 社交需求预测<span>预测资源缺口，主动推荐潜在合作伙伴。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">域名/Logo/邮箱定制</div>
+                        <div class="cell-data">可选购</div>
                     </div>
                 </div>
             </div>
@@ -635,6 +728,88 @@
         </div>
 
     </main>
+
+    <footer style="background-color: #000000; color: #86868b; font-size: 12px; line-height: 1.33337; font-weight: 400; padding: 0 20px; border-top: 1px solid #333; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+        <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px;">
+            
+            <div style="border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px;">
+                更多选购方式：<a href="Shop_General.html" style="color: #2997ff; text-decoration: none;">前往 Linkly 商店</a>，或发送邮件至 <a href="mailto:contact@linklyai.net" style="color: #2997ff; text-decoration: none;">contact@linklyai.net</a> 与我们取得联系。
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
+                
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">选购与了解</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Shop_General.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 商店</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#essentials" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 基础版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#studio" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 半定制版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#bespoke" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 全定制版</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">软件服务</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="AI_Detailed_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly AI</a></li>
+                            <li style="margin-bottom: 8px;"><a href="VIP_Compare_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">会员计划</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Download.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">应用下载</a></li>
+                            <li style="margin-bottom: 8px;"><a href="#" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">网页登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">商务应用</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="B_Detailed_2black_WordPolish.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 企业版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">企业版采购咨询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">客户支持</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Tech_Spec.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">技术规格参数</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">联系支持团队</a></li>
+                            <li style="margin-bottom: 8px;"><a href="#" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">订单状态查询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">关于 Linkly</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Brand_Story.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">品牌故事</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Environment.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">环境责任</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Privacy.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私保护</a></li>
+                            <li style="margin-bottom: 8px;"><a href="mailto:contact@linklyai.net" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                <div style="color: #86868b;">Copyright © 2025 Linkly Inc. 保留所有权利。</div>
+                <div style="display: flex; flex-wrap: wrap;">
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私政策</a>
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">使用条款</a>
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">销售政策</a>
+                    <a href="#" style="color: #86868b; text-decoration: none;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">法律信息</a>
+                </div>
+                <a href="#" style="color: #f5f5f7; text-decoration: none; margin-left: auto;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">中国大陆 (简体中文)</a>
+            </div>
+
+        </div>
+    </footer>
 
     <script>
         window.addEventListener('load', () => {
