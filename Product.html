@@ -239,11 +239,34 @@
         .sync-spinner { animation: spin-slow 8s linear infinite; }
         .group:hover .sync-spinner { animation-duration: 2s; border-color: rgba(34, 197, 94, 0.4); }
         @keyframes spin-slow { 100% { transform: rotate(360deg); } }
+
+        /* 产品卡片退后动画 */
+        @keyframes productCycle {
+            0%, 20% { transform: translateY(0) scale(1); opacity: 1; } /* 初始状态：显示产品 */
+            30%, 90% { transform: translateY(-16px) scale(0.95); opacity: 0.5; } /* 结账状态：退后变淡 */
+            100% { transform: translateY(0) scale(1); opacity: 1; } /* 回到初始 */
+        }
+
+        /* 结账面板滑入动画 */
+        @keyframes checkoutCycle {
+            0%, 20% { transform: translateY(200px); } /* 初始状态：隐藏在下方 */
+            30%, 90% { transform: translateY(-40px); } /* 结账状态：滑入显示 */
+            100% { transform: translateY(200px); } /* 回到下方 */
+        }
+
+        /* 应用动画的类 */
+        .auto-cycle-product {
+            animation: productCycle 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
+        .auto-cycle-checkout {
+            animation: checkoutCycle 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+        }
+
     </style>
 </head>
 <body class="antialiased font-sans">
 
-    <!-- 顶部导航栏 -->
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
         <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
             <!-- <a href="index.html" class="text-lg font-semibold text-white hover:text-gray-300 transition-colors">
@@ -263,21 +286,25 @@
                     </a>
                     <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
                         <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly 名片
+                            <a href="Shop_General.html#essential" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                智能名片·基础版
                             </a>
-                            <a href="Linkly_AI_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly AI
+                            <a href="Shop_General.html#studio" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                智能名片·半定制版
                             </a>
-                            <a href="Enterprise_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly 企业版
+                            <a href="Shop_General.html#bespoke" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                智能名片·全定制版
+                            </a>
+                            <a href="Shop_General.html#saas" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                软件会员
                             </a>
                         </div>
                     </div>
                 </div>
+                <a href="Product.html">Linkly 名片</a> 
                 <a href="AI_Detailed_2.html">Linkly AI</a> 
                 <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
-                <div class="relative group h-full flex items-center">
+                <!-- <div class="relative group h-full flex items-center">
                     <span class="cursor-pointer py-4 text-[0.875rem] text-white group-hover:text-[#2997ff] group-hover:font-bold transition-all duration-300">
                         定价
                     </span>
@@ -291,6 +318,11 @@
                             </a>
                         </div>
                     </div>
+                </div> -->
+                <div class="relative group h-full flex items-center">
+                    <a href="VIP_Compare_2.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        定价
+                    </a>
                 </div>
                 <div class="relative group h-full flex items-center">
                     <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
@@ -318,11 +350,11 @@
                 </div>
             </div>
             <div class="flex items-center gap-4 text-[0.875rem]">
-                <a href="#" class="text-[#e8e8ed] hover:text-white transition-colors">
+                <!-- <a href="#" class="text-[#e8e8ed] hover:text-white transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                     </svg>
-                </a>
+                </a> -->
                 <a href="ShopBag.html" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -363,8 +395,8 @@
             <h1 id="hero-text" class="text-5xl md:text-7xl font-semibold tracking-tighter mb-4 opacity-0 translate-y-10 text-gradient-header">一触，即合。</h1>
             <p id="hero-sub" class="text-xl md:text-2xl text-text-grey font-medium mb-8 opacity-0 translate-y-10">将实体卡片与数字身份瞬间连接。<br class="hidden md:block">只需轻轻一扫，即可开启全新的交互体验。</p>
             <div id="hero-cta" class="flex gap-6 justify-center opacity-0 translate-y-10">
-                <a href="#" class="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors">购买 Linkly</a>
-                <a href="#" class="text-accent-blue hover:underline flex items-center gap-1 py-3 font-medium">观看影片 ></a>
+                <a href="Shop_General.html" class="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors">购买 Linkly</a>
+                <!-- <a href="#" class="text-accent-blue hover:underline flex items-center gap-1 py-3 font-medium">观看影片 ></a> -->
             </div>
         </div>
     </section>
@@ -376,86 +408,6 @@
                 <p class="text-xl text-text-grey max-w-2xl font-medium">告别单薄的文字。用视频、作品集和全域社交链接，构建一个立体、鲜活且随时同步的你。</p>
             </div>
 
-            <!-- <div class="flex gap-6 overflow-x-auto no-scrollbar pb-12 snap-x snap-mandatory pr-10" id="identity-scroll">
-                
-                <div class="apple-card min-w-[320px] w-[320px] h-[560px] snap-center flex flex-col group">
-                    <div class="visual-container">
-                        <div class="absolute w-48 h-48 border border-white/5 rounded-full animate-[ping_3s_linear_infinite]"></div>
-                        <div class="w-16 h-16 bg-white/10 backdrop-blur rounded-2xl flex items-center justify-center border border-white/10 z-10 shadow-[0_0_30px_rgba(255,255,255,0.1)]">
-                            <svg class="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                        </div>
-                    </div>
-                    <div class="p-8 flex-1 flex flex-col justify-end">
-                        <h3 class="text-2xl font-semibold text-white mb-3">NFC 瞬时激活</h3>
-                        <p class="text-[15px] text-text-grey leading-relaxed">无需下载应用，无需安装驱动。只需将卡片靠近手机顶部，即可触发系统级弹窗，瞬间完成账户绑定。</p>
-                    </div>
-                </div>
-
-                <div class="apple-card min-w-[320px] w-[320px] h-[560px] snap-center flex flex-col group">
-                    <div class="visual-container bg-[#1a1a1a]">
-                        <div class="absolute flex flex-col gap-3 items-center transform group-hover:scale-105 transition-transform duration-500">
-                            <div class="w-48 h-12 glass-block rounded-xl flex items-center px-3 gap-2">
-                                <div class="w-6 h-6 rounded-full bg-gradient-to-r from-purple-500 to-pink-500"></div>
-                                <div class="w-20 h-2 bg-gray-600 rounded"></div>
-                            </div>
-                            <div class="w-48 h-20 glass-block rounded-xl p-3">
-                                <div class="w-12 h-2 bg-gray-600 rounded mb-3"></div>
-                                <div class="flex gap-2"><div class="w-8 h-8 bg-blue-500/20 rounded"></div><div class="w-8 h-8 bg-green-500/20 rounded"></div></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="p-8 flex-1 flex flex-col justify-end">
-                        <h3 class="text-2xl font-semibold text-white mb-3">模块化架构</h3>
-                        <p class="text-[15px] text-text-grey leading-relaxed">像搭积木一样构建您的主页。支持自定义字段、MBTI 标签及社交账号一键跳转。</p>
-                    </div>
-                </div>
-
-                <div class="apple-card min-w-[320px] w-[320px] h-[560px] snap-center flex flex-col group">
-                    <div class="visual-container overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-900/60 to-black"></div>
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <div class="w-14 h-14 bg-white/20 backdrop-blur rounded-full flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform duration-300">
-                                <svg class="w-6 h-6 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                        </div>
-                        <div class="absolute bottom-6 right-6 bg-red-500/20 border border-red-500/30 px-3 py-1 rounded text-[10px] text-red-300 transform rotate-6">PDF Portfolio</div>
-                    </div>
-                    <div class="p-8 flex-1 flex flex-col justify-end">
-                        <h3 class="text-2xl font-semibold text-white mb-3">富媒体引擎</h3>
-                        <p class="text-[15px] text-text-grey leading-relaxed">打破文本限制。原生支持动图与高清视频流播放，支持上传 PDF 作品集，打造立体的移动展示厅。</p>
-                    </div>
-                </div>
-
-                <div class="apple-card min-w-[320px] w-[320px] h-[560px] snap-center flex flex-col group">
-                    <div class="visual-container bg-[#0a0a0a]">
-                        <div class="w-32 h-32 border-2 border-dashed border-green-500/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
-                        <div class="absolute flex flex-col items-center">
-                            <svg class="w-8 h-8 text-green-500 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
-                            <span class="text-[10px] text-green-500 font-mono tracking-widest">SYNCED</span>
-                        </div>
-                    </div>
-                    <div class="p-8 flex-1 flex flex-col justify-end">
-                        <h3 class="text-2xl font-semibold text-white mb-3">动态云同步</h3>
-                        <p class="text-[15px] text-text-grey leading-relaxed">修改一次，全网更新。App 或网页端的任何变更都会实时映射至 NFC 芯片，确保永远展示最新状态。</p>
-                    </div>
-                </div>
-
-                <div class="apple-card min-w-[320px] w-[320px] h-[560px] snap-center flex flex-col group">
-                    <div class="visual-container bg-[#1a1a1a] relative flex items-center justify-center">
-                        <div class="w-48 h-32 bg-gray-800 rounded-lg border border-gray-700 relative shadow-2xl flex items-center justify-center transform group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-2 bg-black/50 rounded-b-md"></div>
-                            <div class="absolute bottom-4 right-4 w-2 h-2 bg-green-500 rounded-full shadow-[0_0_8px_#22c55e] animate-pulse"></div>
-                            <div class="absolute -top-10 left-1/2 -translate-x-1/2 w-40 h-24 bg-gradient-to-br from-gray-700 to-black rounded-lg border border-white/20 transform -rotate-6 shadow-lg z-10"></div>
-                            <div class="absolute -top-14 left-1/2 -translate-x-1/2 w-40 h-24 bg-gradient-to-br from-gray-700 to-black rounded-lg border border-white/20 transform rotate-3 shadow-lg z-0 opacity-70"></div>
-                        </div>
-                    </div>
-                    <div class="p-8 flex-1 flex flex-col justify-end">
-                        <h3 class="text-2xl font-semibold text-white mb-3">自动化批量部署</h3>
-                        <p class="text-[15px] text-text-grey leading-relaxed">针对大规模采购场景，提供基于“批量刷卡器”的自动化录入方案。通过高并发写入协议将数据一次性烧录至多张 NFC 卡片。</p>
-                    </div>
-                </div>
-
-            </div> -->
             <div class="flex gap-6 overflow-x-auto no-scrollbar pb-12 snap-x snap-mandatory pr-10" id="identity-scroll">
                 
                 <div class="apple-card min-w-[320px] w-[320px] h-[560px] snap-center flex flex-col group bg-[#161617]">
@@ -771,51 +723,6 @@
         </div>
     </section>
 
-    <!-- <section class="py-32 px-6 bg-bg-black">
-        <div class="max-w-[1200px] mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:h-[600px]">
-                
-                <div class="apple-card col-span-1 md:row-span-2 bg-[#161617] p-8 flex flex-col justify-between group bento-card">
-                    <div>
-                        <div class="text-xs font-bold text-text-grey mb-2 uppercase tracking-wider">IM & Web</div>
-                        <h3 class="text-3xl font-semibold text-white mb-4">沟通，无间无界。</h3>
-                        <p class="text-text-grey leading-relaxed">构建“原生应用 + 网页轻量化”双模架构。注册用户享受应用内闭环沟通；非注册访客通过网页端轻量级网关，仅需基础验证即可建立临时通讯连接。</p>
-                    </div>
-                    <div class="relative w-full h-64 mt-8 bg-[#000] rounded-2xl border border-white/10 overflow-hidden flex items-center justify-center">
-                        <div class="absolute left-6 top-10 w-40 h-10 bg-[#2c2c2e] rounded-2xl rounded-tl-sm"></div>
-                        <div class="absolute right-6 top-24 w-40 h-10 bg-accent-blue rounded-2xl rounded-tr-sm"></div>
-                        <div class="absolute left-6 top-38 w-32 h-10 bg-[#2c2c2e] rounded-2xl rounded-tl-sm"></div>
-                    </div>
-                </div>
-
-                <div class="apple-card bg-[#161617] p-8 flex flex-col justify-between group bento-card">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <h3 class="text-2xl font-semibold text-white mb-2">你的随身资料库。</h3>
-                            <p class="text-sm text-text-grey">内置企业级 CMS，支持云端存储与自定义分类标签索引。</p>
-                        </div>
-                        <div class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center"><svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v8a2 2 0 01-2 2H5z"/></svg></div>
-                    </div>
-                    <div class="mt-4 text-xs text-green-500 font-mono flex items-center gap-2">
-                        <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>动态链接同步：源文件更新，分发链接自动指向最新版
-                    </div>
-                </div>
-
-                <div class="apple-card bg-[#161617] p-8 flex flex-col justify-between group bento-card">
-                    <div>
-                        <h3 class="text-2xl font-semibold text-white mb-2">对话，即成交。</h3>
-                        <p class="text-sm text-text-grey">集成电子商务闭环。卖方在对话流中生成结构化交易链接，买方点击即可唤起收银台完成支付。</p>
-                    </div>
-                    <div class="w-full h-14 bg-[#2c2c2e] rounded-xl flex items-center px-4 gap-3 mt-4 border border-white/5">
-                        <div class="w-8 h-8 bg-white rounded"></div>
-                        <div class="flex-1 space-y-1"><div class="h-2 w-20 bg-gray-600 rounded"></div><div class="h-2 w-10 bg-gray-600 rounded"></div></div>
-                        <div class="px-3 py-1 bg-accent-blue rounded-full text-[10px] font-bold">PAY</div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section> -->
     <section class="py-32 px-6 bg-[#000000]">
         <div class="max-w-[1200px] mx-auto">
             
@@ -868,7 +775,7 @@
                     </div>
                 </div>
 
-                <div class="apple-card min-h-[600px] bg-[#161617] flex flex-col group overflow-hidden relative">
+                <div class="apple-card min-h-[600px] bg-[#161617] flex flex-col overflow-hidden relative">
                     <div class="p-10 z-20">
                         <div class="text-xs font-bold text-green-500 mb-3 uppercase tracking-wider">Commerce</div>
                         <h3 class="text-3xl font-semibold text-white mb-4">对话，即成交。</h3>
@@ -880,7 +787,7 @@
                     <div class="flex-1 relative flex flex-col items-center justify-start pt-8 overflow-hidden">
                         <div class="absolute w-64 h-64 bg-green-900/10 rounded-full blur-[80px] bottom-0 left-1/2 -translate-x-1/2"></div>
 
-                        <div class="w-56 bg-[#2c2c2e] rounded-xl p-3 border border-white/5 shadow-lg transform translate-y-0 opacity-100 transition-all duration-500 group-hover:-translate-y-4 group-hover:scale-95 group-hover:opacity-50 z-10">
+                        <div class="w-56 bg-[#2c2c2e] rounded-xl p-3 border border-white/5 shadow-lg z-10 auto-cycle-product">
                             <div class="flex gap-3">
                                 <div class="w-10 h-10 bg-white/10 rounded-md"></div>
                                 <div class="flex-1">
@@ -892,7 +799,7 @@
                             <div class="mt-2 w-full h-6 bg-blue-600 rounded flex items-center justify-center text-[10px] text-white font-medium">购买链接</div>
                         </div>
 
-                        <div class="absolute top-[160px] w-64 bg-[#f5f5f7] rounded-t-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] transform translate-y-[200px] group-hover:translate-y-[-40px] transition-transform duration-700 ease-out z-20">
+                        <div class="absolute top-[160px] w-64 bg-[#f5f5f7] rounded-t-2xl shadow-[0_-10px_40px_rgba(0,0,0,0.5)] z-20 auto-cycle-checkout">
                             <div class="p-5 space-y-4">
                                 <div class="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-2"></div>
                                 <div class="text-black text-sm font-bold">确认订单</div>
@@ -1009,7 +916,7 @@
                             <h3 class="text-2xl font-semibold text-white mb-3">实时对话辅助</h3>
                             <p class="text-gray-400 text-sm leading-relaxed">懂你想说的。智能匹配回复，甚至自动嗅探文件需求。</p>
                         </div>
-                        <a href="AI_Detailed_2.html#assistant" class="inline-block text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium">了解辅助原理 ></a>
+                        <a href="AI_Detailed_2.html#assistant-proactive" class="inline-block text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium">了解更多 ></a>
                     </div>
                 </div>
 
@@ -1029,7 +936,7 @@
                             <h3 class="text-2xl font-semibold text-white mb-3">离线自动代理</h3>
                             <p class="text-gray-400 text-sm leading-relaxed">24小时数字分身。自动接待、答疑、留资。</p>
                         </div>
-                        <a href="AI_Detailed_2.html#agent" class="inline-block text-purple-400 hover:text-purple-300 transition-colors text-sm font-medium">查看代理机制 ></a>
+                        <a href="AI_Detailed_2.html#agent" class="inline-block text-purple-400 hover:text-purple-300 transition-colors text-sm font-medium">了解更多 ></a>
                     </div>
                 </div>
 
@@ -1049,9 +956,9 @@
                         <div>
                             <div class="text-xs font-bold text-green-400 mb-2 uppercase tracking-wider">SEARCH</div>
                             <h3 class="text-2xl font-semibold text-white mb-3">全域检索</h3>
-                            <p class="text-gray-400 text-sm leading-relaxed">私有域深度搜索，支持自然语言与模糊匹配。</p>
+                            <p class="text-gray-400 text-sm leading-relaxed">Linkly平台深度搜索，支持自然语言与模糊匹配。</p>
                         </div>
-                        <a href="AI_Detailed_2.html#likeGPT" class="inline-block text-green-400 hover:text-green-300 transition-colors text-sm font-medium">了解更多 ></a>
+                        <a href="AI_Detailed_2.html#global-search" class="inline-block text-green-400 hover:text-green-300 transition-colors text-sm font-medium">了解更多 ></a>
                     </div>
                 </div>
 
@@ -1068,7 +975,7 @@
                             <h3 class="text-2xl font-semibold text-white mb-3">访客洞察</h3>
                             <p class="text-gray-400 text-sm leading-relaxed">生成画像与意向评分，预测你的下一个合作伙伴。</p>
                         </div>
-                        <a href="AI_Detailed_2.html#CRM" class="inline-block text-orange-400 hover:text-orange-300 transition-colors text-sm font-medium">了解更多 ></a>
+                        <a href="AI_Detailed_2.html#crm-global" class="inline-block text-orange-400 hover:text-orange-300 transition-colors text-sm font-medium">了解更多 ></a>
                     </div>
                 </div>
 
@@ -1179,25 +1086,6 @@
                         <a href="B_Detailed_2black_WordPolish.html#ProjectFlow" class="text-blue-600 text-sm font-medium">了解更多 ></a>
                     </div>
                 </div>
-<!-- 
-                <div class="ent-card min-w-[320px] md:min-w-[400px] h-[600px] bg-white rounded-[32px] border border-gray-200 overflow-hidden snap-center flex flex-col group cursor-pointer transition-transform hover:-translate-y-2 duration-300 shadow-sm hover:shadow-xl" onclick="window.location.href='linkly_business_v3.html#workflow'">
-                    <div class="h-[60%] bg-gray-100 relative flex items-center justify-center overflow-hidden">
-                        <div class="w-40 space-y-3">
-                            <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden"><div class="w-full h-full bg-green-500"></div></div>
-                            <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden"><div class="w-2/3 h-full bg-yellow-500"></div></div>
-                            <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden"><div class="w-1/3 h-full bg-red-500"></div></div>
-                        </div>
-                    </div>
-                    <div class="h-[40%] p-8 flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-xl font-bold text-black mb-2">项目自动化巡航</h3>
-                            <p class="text-sm text-gray-500 leading-relaxed">
-                                实时跟踪项目进度，自动更新关键任务状态，帮助团队有效管理和控制项目风险与交付时限。
-                            </p>
-                        </div>
-                        <a href="B_Detailed_2black_WordPolish.html#ProjectFlow" class="text-blue-600 text-sm font-medium">了解更多 ></a>
-                    </div>
-                </div> -->
 
             </div>
         </div>
@@ -1345,10 +1233,11 @@
             </div>
 
             <div class="mt-20 text-center reveal-on-scroll">
-                <a href="VIP_Compare_2.html" class="text-apple-blue hover:underline text-lg font-medium flex items-center justify-center gap-1 group">
+                <!-- <a href="VIP_Compare_2.html" class="text-apple-blue hover:underline text-lg font-medium flex items-center justify-center gap-1 group">
                     查看会员详细对比
                     <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                </a>
+                </a> -->
+                <a href="VIP_Compare_2.html" class="bg-white text-black px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-colors">查看会员详细对比</a>
             </div>
         </div>
     </section>

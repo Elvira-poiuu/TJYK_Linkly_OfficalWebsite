@@ -244,7 +244,20 @@
         }
         .saas-card:hover { border-color: var(--accent-blue); }
         
-        .saas-icon { font-size: 32px; margin-bottom: 16px; }
+        /* .saas-icon { font-size: 32px; margin-bottom: 16px; } */
+        /* 修改 SaaS 图标容器样式，适配 SVG */
+        .saas-icon { 
+            width: 40px; 
+            height: 40px; 
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .saas-icon svg {
+            width: 100%;
+            height: 100%;
+        }
         .saas-title { font-size: 19px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;}
         .saas-sub { font-size: 13px; color: var(--text-secondary); margin-bottom: 16px; }
         
@@ -294,6 +307,11 @@
             .promo-banner::before { display: none; }
         }
 
+        .section-title{
+        scroll-margin-top: 80px; /* 根据你的导航高度微调，比如 60/72/80 */
+        }
+
+
     </style>
 </head>
 <body>
@@ -316,23 +334,26 @@
                     </a>
                     <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
                         <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly 名片
+                            <a href="Shop_General.html#essential" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                智能名片·基础版
                             </a>
-                            <a href="Linkly_AI_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly AI
+                            <a href="Shop_General.html#studio" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                智能名片·半定制版
                             </a>
-                            <a href="Enterprise_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly 企业版
+                            <a href="Shop_General.html#bespoke" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                智能名片·全定制版
+                            </a>
+                            <a href="Shop_General.html#saas" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                软件会员
                             </a>
                         </div>
                     </div>
                 </div>
-
+                <a href="Product.html">Linkly 名片</a> 
                 <a href="AI_Detailed_2.html">Linkly AI</a> 
                 <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
                 
-                <div class="relative group h-full flex items-center">
+                <!-- <div class="relative group h-full flex items-center">
                     <span class="cursor-pointer py-4 text-[0.875rem] text-[#1d1d1f] group-hover:text-[#0071e3] group-hover:font-bold transition-all duration-300">
                         定价
                     </span>
@@ -346,6 +367,11 @@
                             </a>
                         </div>
                     </div>
+                </div> -->
+                <div class="relative group h-full flex items-center">
+                    <a href="VIP_Compare_2.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        定价
+                    </a>
                 </div>
 
                 <div class="relative group h-full flex items-center">
@@ -372,14 +398,15 @@
                         </div>
                     </div>
                 </div>
+
             </div>
 
             <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
-                <a href="#" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors">
+                <!-- <a href="#" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                     </svg>
-                </a>
+                </a> -->
                 
                 <a href="ShopBag.html" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -407,7 +434,13 @@
 
     <main>
         
-        <h2 class="section-title"><span class="section-tag" style="background:rgba(168, 85, 247, 0.1); color:#A855F7">Essentials</span> 基础系列</h2>
+        <!-- <h2 id="essential" class="section-title"><span class="section-tag" style="background:rgba(168, 85, 247, 0.1); color:#A855F7">Essentials</span> 基础系列</h2> -->
+        <h2 id="essential" class="section-title">
+        <span class="section-tag" style="background:rgba(168, 85, 247, 0.1); color:#A855F7">
+            Essentials
+        </span>
+        基础系列
+        </h2>
         <div class="product-grid">
             <div class="product-card">
                 <span class="badge">Most Popular</span>
@@ -427,7 +460,7 @@
             </div>
         </div>
 
-        <h2 class="section-title"><span class="section-tag" style="background:rgba(0, 113, 227, 0.1); color:#0071e3">Studio</span> 商务与个性</h2>
+        <h2 id="studio" class="section-title"><span class="section-tag" style="background:rgba(0, 113, 227, 0.1); color:#0071e3">Studio</span> 商务与个性</h2>
         <div class="product-grid">
             <div class="product-card">
                 <div class="card-preview bg-obsidian" id="preview-biz">John Doe</div>
@@ -436,20 +469,20 @@
                     <div class="swatch bg-prussian" onclick="changeColor('preview-biz', 'bg-prussian', this)"></div>
                     <div class="swatch bg-burgundy" onclick="changeColor('preview-biz', 'bg-burgundy', this)"></div>
                 </div>
-                <h3 class="product-name">Business PVC</h3>
+                <h3 class="product-name">沉稳商务版</h3>
                 <p class="product-desc">稳重配色，商务排版。</p>
-                <div class="product-price">$34.90</div>
-                <a href="Shop_Studio_Business.html" class="buy-btn">定制</a>
+                <div class="product-price">$34.90 起</div>
+                <a href="Shop_Studio_Business.html" class="buy-btn">购买</a>
             </div>
 
-            <div class="product-card">
+            <!-- <div class="product-card">
                 <div class="card-preview mat-walnut">John Doe</div>
                 <div class="swatch-container"><div class="swatch mat-walnut active"></div></div>
                 <h3 class="product-name">胡桃木</h3>
                 <p class="product-desc">深色实木，尊贵质感。</p>
                 <div class="product-price">$49.90</div>
                 <a href="Shop_Studio_Business.html" class="buy-btn">定制</a>
-            </div>
+            </div> -->
 
             <div class="product-card">
                 <div class="card-preview bg-aurora" id="preview-soc">@alex</div>
@@ -457,48 +490,55 @@
                     <div class="swatch bg-aurora active" onclick="changeColor('preview-soc', 'bg-aurora', this)"></div>
                     <div class="swatch bg-sunset" onclick="changeColor('preview-soc', 'bg-sunset', this)"></div>
                 </div>
-                <h3 class="product-name">Social PVC</h3>
-                <p class="product-desc">高饱和渐变，赛博风格。</p>
-                <div class="product-price">$34.90</div>
-                <a href="Shop_Studio_Happy.html" class="buy-btn">定制</a>
+                <h3 class="product-name">个性社交版</h3>
+                <p class="product-desc">高饱和渐变、赛博风格，应有尽有。</p>
+                <div class="product-price">$34.90 起</div>
+                <a href="Shop_Studio_Happy.html" class="buy-btn">购买</a>
             </div>
         </div>
 
-        <h2 class="section-title"><span class="section-tag" style="background:rgba(212, 175, 55, 0.1); color:#d4af37">Bespoke</span> 企业定制</h2>
+        <h2 id="bespoke" class="section-title"><span class="section-tag" style="background:rgba(212, 175, 55, 0.1); color:#d4af37">Bespoke</span> 企业定制</h2>
         <div class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
             <div class="product-card">
                 <div class="card-preview mat-blueprint">DESIGN</div>
                 <h3 class="product-name">自主传统设计</h3>
                 <p class="product-desc">上传 AI/PSD，像素级还原。</p>
                 <div class="product-price">100 张起订</div>
-                <a href="Shop_Bespoke_YouDesign.html" class="buy-btn">开始</a>
+                <a href="Shop_Bespoke_YouDesign.html" class="buy-btn">开始设计</a>
             </div>
             <div class="product-card">
                 <div class="card-preview bg-aurora">DESIGN</div>
                 <h3 class="product-name">自主AI设计</h3>
                 <p class="product-desc">上传思路,直接AI出图。</p>
                 <div class="product-price">100 张起订</div>
-                <a href="Shop_Bespoke_AIDesign.html" class="buy-btn">开始</a>
+                <a href="Shop_Bespoke_AIDesign.html" class="buy-btn">开始设计</a>
             </div>
             <div class="product-card">
                 <div class="card-preview mat-service">VIP Service</div>
                 <h3 class="product-name">全包设计服务</h3>
                 <p class="product-desc">专人对接，含设计修改。</p>
                 <div class="product-price">100 张起订</div>
-                <a href="contact.html" class="buy-btn">开始</a>
+                <a href="Contact_Us.html" class="buy-btn">开始设计</a>
             </div>
 
         </div>
 
-        <h2 class="section-title">
+        <h2 id="saas" class="section-title">
             <span class="section-tag" style="background:rgba(0, 0, 0, 0.05); color:#333">Software</span> 
-            Linkly Cloud 会员计划
+            Linkly SaaS 会员计划
         </h2>
-        
+
         <div class="product-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
             
             <div class="product-card saas-card">
-                <div class="saas-icon">🌱</div>
+                <div class="saas-icon" style="color: #6e6e73;">
+                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                    </svg>
+                </div>
                 <h3 class="saas-title">Free</h3>
                 <p class="saas-sub">个人基础版</p>
                 <ul class="saas-features">
@@ -507,11 +547,15 @@
                     <li>无广告体验</li>
                 </ul>
                 <div class="product-price">免费</div>
-                <a href="apps.html" class="buy-btn" style="background:#e5e5e5; color:#000;">查看详情</a>
+                <a href="VIP_Compare_2.html" class="buy-btn" style="background:#e5e5e5; color:#000;">查看详情</a>
             </div>
 
             <div class="product-card saas-card">
-                <div class="saas-icon">⚡️</div>
+                <div class="saas-icon" style="color: #0071e3;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M13 2L3 14h8l-1 8 11-12h-9l1-8z"></path>
+                    </svg>
+                </div>
                 <h3 class="saas-title">Pro</h3>
                 <p class="saas-sub">个人专业版</p>
                 <ul class="saas-features">
@@ -520,11 +564,16 @@
                     <li>文件存储扩容</li>
                 </ul>
                 <div class="product-price">$4.90 / 月</div>
-                <a href="apps.html" class="buy-btn">订阅</a>
+                <a href="Shop_SaaS.html?plan=pro" class="buy-btn">订阅</a>
             </div>
 
             <div class="product-card saas-card">
-                <div class="saas-icon">🧠</div>
+                <div class="saas-icon" style="color: #A855F7;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3L14.5 8.5L20 11L14.5 13.5L12 19L9.5 13.5L4 11L9.5 8.5L12 3Z"></path>
+                        <path d="M19 18L20 20L22 21L20 22L19 24L18 22L16 21L18 20L19 18Z"></path>
+                    </svg>
+                </div>
                 <h3 class="saas-title">Ultra</h3>
                 <p class="saas-sub">个人终极版</p>
                 <ul class="saas-features">
@@ -533,11 +582,18 @@
                     <li>深度访客洞察</li>
                 </ul>
                 <div class="product-price">$14.90 / 月</div>
-                <a href="apps.html" class="buy-btn">订阅</a>
+                <a href="Shop_SaaS.html?plan=ultra" class="buy-btn">订阅</a>
             </div>
 
             <div class="product-card saas-card">
-                <div class="saas-icon">👥</div>
+                <div class="saas-icon" style="color: #bf4800;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
                 <h3 class="saas-title">Team</h3>
                 <p class="saas-sub">团队协作版</p>
                 <ul class="saas-features">
@@ -546,20 +602,30 @@
                     <li>成员权限管理</li>
                 </ul>
                 <div class="product-price">$12.90 / 人 / 月</div>
-                <a href="apps.html" class="buy-btn">开通</a>
+                <a href="Shop_SaaS.html?plan=team" class="buy-btn">订阅</a>
             </div>
 
-            <div class="product-card saas-card" style="background:#1d1d1f; color:white;">
-                <div class="saas-icon">🏢</div>
-                <h3 class="saas-title" style="color:white;">Enterprise</h3>
-                <p class="saas-sub" style="color:#aaa;">企业定制版</p>
+            <div class="product-card saas-card">
+                <div class="saas-icon" style="color: #1d1d1f;">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                        <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                        <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                        <path d="M10 6h4"></path>
+                        <path d="M10 10h4"></path>
+                        <path d="M10 14h4"></path>
+                        <path d="M10 18h4"></path>
+                    </svg>
+                </div>
+                <h3 class="saas-title">Enterprise</h3>
+                <p class="saas-sub">企业定制版</p>
                 <ul class="saas-features">
-                    <li style="color:#ccc;">API 对接集成</li>
-                    <li style="color:#ccc;">私有化部署</li>
-                    <li style="color:#ccc;">专属客户经理</li>
+                    <li>API 对接集成</li>
+                    <li>私有化部署</li>
+                    <li>专属客户经理</li>
                 </ul>
                 <div class="product-price">联系销售</div>
-                <a href="contact.html" class="buy-btn" style="background:white; color:black;">咨询</a>
+                <a href="Contact_Us.html" class="buy-btn">咨询</a>
             </div>
 
         </div>
