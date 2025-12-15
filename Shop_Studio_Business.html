@@ -1,0 +1,1877 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Logo/webLOGOpart_icon_w_TRANSBG.png" type="image/x-icon">
+    <title>Linkly-BuyCard-Studio-Business</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'] },
+                    colors: {
+                        'bg-black': '#000000',
+                        'card-dark': '#161617',
+                        'text-grey': '#86868b',
+                        'accent-blue': '#2997ff'
+                    }
+                }
+            }
+        }
+    </script>
+
+
+
+    <style>
+        :root {
+            /* 深色模式基调 */
+            --bg-color: #000000;
+            --panel-bg: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #86868b;
+            --accent-blue: #0a84ff;
+            --border-color: #333333;
+            --input-bg: #1c1c1e;
+            --nav-height: 52px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
+        
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-primary); 
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5; 
+        }
+
+        /* 导航栏 */
+        /* 玻璃导航效果 */
+        .glass-nav {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* 导航链接样式 */
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.875rem;  /* 默认字体大小 */
+            transition: font-weight 0.3s ease;  /* 字体加粗时平滑过渡 */
+        }
+
+        /* 鼠标悬停时字体加粗 & 高亮 */
+        .navbar-links a:hover {
+            font-weight: bold;
+            color: #2997ff;
+        }
+
+        /* 选中状态（当前页面）样式 */
+        .navbar-links a.active {
+            font-weight: bold;
+            color: white; 
+        }
+
+        /* 按钮通用过渡 */
+        .navbar-btns a {
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        /* “购买”按钮悬停效果 */
+        .navbar-btns .buy-btn:hover {
+            background-color: #2997ff;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* “登录”按钮悬停效果 */
+        .navbar-btns .login-btn:hover {
+            color: #2997ff;
+            font-weight: bold;
+        }
+
+        /* 主布局 */
+        .main-container {
+            max-width: 1200px; margin: 0 auto; padding: calc(var(--nav-height) + 60px) 20px 120px;
+            min-height: 100vh;
+        }
+
+        .product-configurator {
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start;
+        }
+
+        /* --- 左侧：动态预览舞台 --- */
+        .preview-stage {
+            position: sticky; top: 120px;
+            background: var(--panel-bg); border-radius: 24px;
+            padding: 80px 40px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .preview-card-container { perspective: 1000px; margin-bottom: 40px; }
+        
+        .interactive-card {
+            width: 340px; height: 214px;
+            border-radius: 16px; position: relative;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            transform-style: preserve-3d; overflow: hidden;
+            display: block; 
+        }
+
+        /* 视觉层 */
+        .layer-base, .layer-texture, .layer-pattern-overlay { position: absolute; inset: 0; pointer-events: none; transition: opacity 0.3s; z-index: 0; }
+        
+        .tex-walnut { background: #5c4033; background-image: repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, transparent 2px); display: none; }
+        .tex-bamboo { background: #e3cca8; background-image: linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 3px 100%; display: none; }
+        
+        .bg-obsidian { background: #1a1a1a; }
+        .bg-prussian { background: #003153; }
+        .bg-burgundy { background: #660012; }
+        .bg-ivory { background: #fffff0; color: #333 !important; }
+        .bg-spacegrey { background: #4a4a4a; }
+        .bg-champagne { background: #F7E7CE; color: #333 !important; }
+
+        .pat-metal { background: conic-gradient(from 0deg, transparent 0deg, rgba(255,255,255,0.1) 20deg, transparent 40deg); opacity: 0; }
+        .pat-marble { background: radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1), transparent), radial-gradient(circle at 80% 20%, rgba(255,255,255,0.1), transparent); filter: contrast(1.5); opacity: 0; }
+        .pat-geo { background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.05) 75%, transparent 75%, transparent); background-size: 40px 40px; opacity: 0; }
+        .pat-side { background: linear-gradient(90deg, rgba(0,0,0,0.2) 25%, transparent 25%); opacity: 0; }
+
+        .show-tex { display: block !important; }
+        .show-pat { opacity: 1 !important; }
+        .text-dark .card-content { color: #333 !important; text-shadow: none !important; } 
+        .text-dark .c-bot { border-top-color: rgba(0,0,0,0.1) !important; }
+        .text-dark .c-avatar { border-color: rgba(0,0,0,0.2) !important; }
+
+        .card-content { 
+            position: relative; z-index: 2; width: 100%; height: 100%; 
+            padding: 24px; box-sizing: border-box;
+            display: grid; transition: all 0.3s ease; 
+            color: rgba(255,255,255,0.95);
+        }
+
+        .c-avatar {
+            background-color: rgba(255,255,255,0.1); background-size: cover; background-position: center;
+            border: 1px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; overflow: hidden; 
+        }
+        .c-avatar::after { content: "PHOTO"; font-size: 9px; opacity: 0.5; }
+        .c-avatar.has-img::after { display: none; }
+        .c-item { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;}
+        
+        .c-name { 
+            font-size: 20px; 
+            font-weight: 700; 
+            line-height: 1.3; /* 增加行高防止裁剪 */
+            padding-bottom: 2px; /* 增加底部内边距 */
+        }
+        .c-role { font-size: 11px; opacity: 0.8; margin-top: 2px; }
+        .c-company { font-size: 10px; opacity: 0.6; font-family: monospace; }
+        .c-custom { font-size: 10px; opacity: 0.7; font-style: italic; margin-top: 4px; border-left: 2px solid currentColor; padding-left: 6px; }
+        .c-top { font-size: 9px; opacity: 0.5; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Layout 1 修复：调整间距，防止重叠 */
+        .layout-1 { grid-template-columns: 80px 1fr; grid-template-rows: auto 1fr auto; gap: 15px; } /* 减小Gap防止撑破 */
+        .layout-1 .c-top { grid-column: 1 / -1; margin-bottom: 5px; } /* 增加与头像距离 */
+        .layout-1 .c-avatar { width: 80px; height: 80px; border-radius: 50%; grid-row: 2 / 3; align-self: center; }
+        .layout-1 .info-mid { display: flex; flex-direction: column; justify-content: center; gap: 4px; overflow: visible; } /* 允许溢出防止裁剪 */
+        .layout-1 .c-bot { grid-column: 1 / -1; font-size: 10px; opacity: 0.6; border-top: 1px solid rgba(255,255,255,0.3); padding-top: 12px; margin-top: 5px; width: 100%; align-self: end; display: flex; justify-content: space-between; }
+        /* 专门修复 Layout 1 电话和自定义文字重叠 */
+        .layout-1 .c-company { flex: 1; margin-right: 10px; }
+        .layout-1 .c-custom { border: none; padding: 0; margin: 0; text-align: right; }
+
+        /* --- Layout 2 终极修复版：强制显示所有元素 --- */
+        /* 1. 重置卡片内容容器为 Flex 列布局 */
+        .layout-2 .card-content { 
+            display: flex !important; 
+            flex-direction: column !important; 
+            align-items: center !important; 
+            justify-content: center !important; 
+            text-align: center; 
+            padding: 20px !important; 
+            height: 100%;
+        }
+
+        /* 2. LOGO (最顶部) */
+        .layout-2 .c-top { 
+            margin-bottom: 3px; 
+            font-size: 6px; 
+            opacity: 0.6;
+            order: 1; /* 强制排序 */
+            display: block !important;
+        }
+
+        /* 3. 头像 */
+        .layout-2 .c-avatar { 
+            width: 70px; 
+            height: 70px; 
+            border-radius: 12px; 
+            margin: 10px 0 10px 0;
+            border: 1px solid rgba(255,255,255,0.3);
+            order: 2; /* 强制排序 */
+            display: flex !important;
+        }
+
+        /* 4. 中间信息块 (姓名+职位+自定义) */
+        .layout-2 .info-mid { 
+            display: flex !important; 
+            flex-direction: column !important; 
+            align-items: center !important; 
+            width: 100%;
+            order: 3; /* 强制排序 */
+            overflow: visible !important; /* 防止内容被隐藏 */
+        }
+
+        .layout-2 .c-name { 
+            font-size: 16px; 
+            font-weight: 300; 
+            margin-bottom: 3px;
+            line-height: 1.2;
+        }
+
+        .layout-2 .c-role { 
+            font-size: 9px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+            opacity: 0.8;
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 4px;
+        }
+
+        /* 重点修复：自定义文字 */
+        .layout-2 .c-custom { 
+            display: block !important; /* 强制显示 */
+            font-size: 9px; 
+            opacity: 0.8; 
+            color: #fff; /* 强制白色，防止看不见 */
+            min-height: 14px;
+            margin-top: 2px;
+        }
+
+        /* 5. 底部电话/公司 (重点修复) */
+        /* 注意：这里同时选中类名和ID，确保权重最高 */
+        .layout-2 .c-bot,
+        .layout-2 #prev-company { 
+            display: block !important; /* 强制显示 */
+            order: 4; /* 强制排序在最后 */
+            margin-top: 5px; 
+            font-size: 12px; 
+            color: #fff;
+            opacity: 0.9; 
+            font-family: monospace; 
+            background: rgba(255,255,255,0.15); 
+            padding: 4px 12px;
+            border-radius: 4px;
+            width: auto;
+            visibility: visible !important;
+        }
+        /* Layout 3 修复：左侧对齐，修复重叠 */
+        .layout-3 { grid-template-columns: 1fr 100px; grid-template-rows: auto 1fr auto; padding: 0 !important; gap: 0; }
+        .layout-3 .c-avatar { grid-row: 1 / -1; grid-column: 2 / 3; width: 100%; height: 100%; border: none; border-left: 1px solid rgba(255,255,255,0.2); border-radius: 0; }
+        .layout-3 .c-top { padding: 24px 0 0 24px; margin-bottom: 20px; }
+        .layout-3 .info-mid { padding-left: 24px; align-self: start; display: flex; flex-direction: column; justify-content: center; gap: 8px; margin-top: 20px;}
+        .layout-3 .c-name { font-size: 26px; line-height: 1.3; }
+        .layout-3 .c-role { opacity: 0.9; }
+        .layout-3 .c-custom { margin-top: 10px; border-left: none; padding-left: 0; opacity: 0.6; }
+        .layout-3 .c-company { padding: 0 0 24px 24px; align-self: end; width: calc(100% - 20px); } /* 防止撞到头像 */
+
+        /* Layout 4 修复：左图右文，显示电话和自定义 */
+        .layout-4 { grid-template-columns: 100px 1fr; grid-template-rows: auto 1fr auto; gap: 20px; align-items: center; }
+        .layout-4 .c-top { grid-column: 2; margin-bottom: 0; align-self: start; }
+        .layout-4 .c-avatar { width: 100px; height: 130px; border-radius: 4px; grid-row: 1 / 4; grid-column: 1; object-fit: cover; }
+        .layout-4 .info-mid { grid-column: 2; display: flex; flex-direction: column; gap: 6px; }
+        .layout-4 .c-name { font-size: 22px; font-weight: 800; text-transform: uppercase; line-height: 1.3; }
+        .layout-4 .c-role { border-bottom: 2px solid currentColor; padding-bottom: 10px; margin-bottom: 5px; display: inline-block; width: 50px; }
+        .layout-4 .c-company { grid-column: 2; font-size: 11px; opacity: 0.8; }
+        .layout-4 .c-custom { grid-column: 2; font-size: 10px; opacity: 0.6; font-style: normal; border:none; padding:0; margin-top: 2px;}
+
+        /* Layout 5 修复：增加间距，防止裁剪 */
+        .layout-5 { grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto; gap: 15px; padding: 30px; }
+        .layout-5 .c-top { grid-column: 1 / -1; display: block; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px; margin-bottom: 10px;}
+        .layout-5 .info-mid { grid-column: 1 / 2; display: flex; flex-direction: column; justify-content: center; gap: 8px; }
+        .layout-5 .c-name { font-size: 22px; line-height: 1.4; }
+        .layout-5 .c-avatar { grid-column: 2 / 3; width: 60px; height: 60px; border-radius: 50%; align-self: center; justify-self: end;}
+        .layout-5 .c-company { grid-column: 1 / 2; align-self: end; opacity: 0.8;}
+        .layout-5 .c-custom { grid-column: 2 / 3; align-self: end; justify-self: end; text-align: right; font-size: 10px; border: none; padding: 0; max-width: 100px;}
+
+        /* --- 新增：背面样式 --- */
+        .card-back-content {
+            position: relative; width: 100%; height: 100%;
+        }
+        .back-logo {
+            position: absolute;
+            max-width: 120px;
+            max-height: 60px;
+            object-fit: contain;
+            /* 默认居中 */
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+        }
+        /* 背面 Logo 位置类 */
+        .pos-tl { top: 24px; left: 24px; transform: none; bottom: auto; right: auto; }
+        .pos-tr { top: 24px; right: 24px; transform: none; bottom: auto; left: auto; }
+        .pos-center { top: 50%; left: 50%; transform: translate(-50%, -50%); bottom: auto; right: auto; }
+        .pos-bl { bottom: 24px; left: 24px; transform: none; top: auto; right: auto; }
+        .pos-br { bottom: 24px; right: 24px; transform: none; top: auto; left: auto; }
+
+        /* 区域分割标题 */
+        .config-group-header {
+            font-size: 14px; color: #86868b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
+            margin: 40px 0 20px 0; border-bottom: 1px solid #333; padding-bottom: 10px;
+        }
+        .preview-note { font-size: 13px; color: var(--text-secondary); margin-top: 30px; text-align: center; }
+
+        /* --- 右侧：配置面板 --- */
+        .config-panel { padding-top: 0; }
+
+        /* 顶部标题区 */
+        .panel-header { 
+            display: flex; justify-content: space-between; align-items: flex-start;
+            margin-bottom: 40px; padding-bottom: 24px; border-bottom: 1px solid var(--border-color); 
+        }
+        
+        .mode-badge {
+            display: inline-block; padding: 6px 12px; border-radius: 8px; 
+            font-size: 11px; font-weight: 600; margin-bottom: 12px;
+            text-transform: uppercase; letter-spacing: 0.05em;
+            background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .panel-title { font-size: 32px; font-weight: 700; line-height: 1.1; color: #fff; margin: 0; }
+        
+        /* 顶部单价显示 */
+        .top-price-box { text-align: right; }
+        .unit-price { font-size: 24px; font-weight: 600; display: block; color: #fff; }
+        .unit-label { font-size: 13px; color: var(--text-secondary); display: block; margin-top: 4px; }
+
+        /* 配置区块通用样式 */
+        .config-section { 
+            margin-bottom: 40px; 
+            position: relative; transition: opacity 0.3s; 
+        }
+        .config-section.disabled { opacity: 0.3; pointer-events: none; filter: grayscale(100%); } 
+        
+        /* 标签行 */
+        .config-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+        
+        .config-label { 
+            font-size: 17px; font-weight: 600; display: block; color: #e5e5e5; 
+            margin-bottom: 16px; 
+        }
+        .selection-name { color: var(--text-secondary); font-weight: 400; margin-left: 8px; font-size: 17px; }
+
+        /* 选项按钮 */
+        .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid-3-col { grid-template-columns: repeat(3, 1fr); }
+        
+        .option-btn {
+            padding: 16px; border: 1px solid var(--border-color); border-radius: 12px;
+            background: var(--input-bg); color: #fff; font-size: 13px; cursor: pointer;
+            transition: all 0.2s; text-align: center;
+        }
+        .option-btn:hover { border-color: #666; background: #2c2c2e; }
+        .option-btn.active { border-color: var(--accent-blue); color: var(--accent-blue); background: rgba(10, 132, 255, 0.15); font-weight: 500; }
+        
+        /* 禁用按钮样式 */
+        .option-btn.disabled { opacity: 0.3; pointer-events: none; border-color: #333; background: #111; color: #666; }
+
+        /* 颜色圆点 */
+        .color-grid { display: flex; gap: 14px; flex-wrap: wrap; }
+        .color-btn {
+            width: 38px; height: 38px; border-radius: 50%; border: none; cursor: pointer;
+            transition: transform 0.2s; position: relative; box-shadow: inset 0 0 2px rgba(0,0,0,0.5);
+        }
+        .color-btn:hover { transform: scale(1.1); }
+        .color-btn.active { box-shadow: 0 0 0 2px #000, 0 0 0 4px #fff; transform: scale(1.1); }
+
+        /* 布局图标 */
+        .layout-selector { display: flex; gap: 12px; }
+        .layout-btn {
+            width: 48px; height: 48px; border-radius: 10px; border: 1px solid var(--border-color);
+            background: var(--input-bg); cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 14px; color: #666; font-weight: bold; transition: all 0.2s;
+        }
+        .layout-btn:hover { border-color: #666; }
+        .layout-btn.active { border-color: var(--accent-blue); background: rgba(10, 132, 255, 0.15); color: var(--accent-blue); }
+
+        /* 输入框 */
+        .input-group { display: grid; gap: 16px; }
+        .input-field {
+            width: 100%; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--border-color);
+            background: var(--input-bg); color: #fff; font-size: 14px; outline: none; transition: border-color 0.2s;
+        }
+        .input-field:focus { border-color: var(--accent-blue); }
+
+        /* 上传按钮 */
+        .upload-btn {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 16px; border: 1px dashed var(--border-color); border-radius: 10px;
+            background: rgba(255,255,255,0.05); color: #ccc; font-size: 13px; cursor: pointer; transition: 0.2s;
+        }
+        .upload-btn:hover { border-color: var(--accent-blue); color: #fff; background: rgba(255,255,255,0.08); }
+
+        /* 数量选择模块 */
+        .qty-wrapper { display: flex; flex-direction: column; gap: 16px; }
+        .qty-control-box {
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px;
+            padding: 4px; transition: border-color 0.2s;
+        }
+        .qty-control-box:focus-within { border-color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); }
+
+        .qty-btn-adjust {
+            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
+            border: none; background: transparent; cursor: pointer; color: var(--accent-blue);
+            font-size: 24px; font-weight: 300; border-radius: 8px; transition: background 0.2s;
+            user-select: none;
+        }
+        .qty-btn-adjust:hover { background: rgba(255,255,255,0.1); }
+        .qty-btn-adjust:active { background: rgba(255,255,255,0.2); }
+
+        #custom-qty-input {
+            flex: 1; border: none; outline: none; text-align: center;
+            font-size: 20px; font-weight: 600; color: #fff; 
+            -moz-appearance: textfield; background: transparent;
+        }
+        #custom-qty-input::-webkit-inner-spin-button, 
+        #custom-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+
+        .tier-legend {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px;
+        }
+        .tier-item {
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            padding: 10px 0; border-radius: 8px; 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid transparent; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            opacity: 0.6; cursor: pointer;
+        }
+        .tier-item:hover { opacity: 0.9; background: rgba(255,255,255,0.1); }
+        .tier-item.active {
+            background: rgba(10, 132, 255, 0.15); border-color: var(--accent-blue);
+            opacity: 1; transform: scale(1.02); z-index: 1;
+        }
+        .t-range { font-size: 11px; color: #888; margin-bottom: 2px; }
+        .t-price { font-size: 14px; font-weight: 600; color: #fff; }
+        .tier-item.active .t-price { color: var(--accent-blue); }
+
+        /* --- SaaS 模块 (深色适配) --- */
+        .billing-toggle {
+            background: #2c2c2e; padding: 3px; border-radius: 8px; display: inline-flex;
+        }
+        .bill-opt {
+            padding: 6px 12px; font-size: 12px; font-weight: 500; cursor: pointer; border-radius: 6px; 
+            color: #888; transition: all 0.2s;
+        }
+        .bill-opt.active { background: #555; color: #fff; }
+
+        .saas-container { display: flex; flex-direction: column; gap: 12px; }
+        .saas-group-title { font-size: 11px; font-weight: 600; text-transform: uppercase; color: #666; margin-top: 16px; margin-bottom: 6px; padding-left: 4px; }
+        .saas-group-title:first-child { margin-top: 0; }
+
+        .saas-card {
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; background: var(--input-bg);
+            cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+            transition: all 0.2s;
+        }
+        .saas-card:hover { border-color: #666; background: #252528; }
+        .saas-card.active { border-color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); background: rgba(10, 132, 255, 0.15); }
+        
+        .saas-name { font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; color: #fff; }
+        .saas-feat { font-size: 12px; color: #888; margin-top: 4px; }
+        .s-price { font-size: 14px; font-weight: 500; color: #fff; display: block; text-align: right;}
+        .s-save { font-size: 11px; color: #0a84ff; font-weight: 600; display: block; margin-top: 2px; text-align: right;}
+        .rec-tag { font-size: 10px; background: var(--accent-blue); color: #fff; padding: 2px 6px; border-radius: 4px; vertical-align: middle; }
+
+        /* 底部 */
+        .action-area {
+            background: var(--panel-bg); border-radius: 20px; padding: 30px; margin-top: 40px; border: 1px solid var(--border-color);
+        }
+        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .total-label { font-size: 15px; color: var(--text-secondary); }
+        .total-price { font-size: 28px; font-weight: 700; color: #fff; }
+        
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .btn { padding: 18px; border-radius: 12px; font-size: 16px; font-weight: 600; text-align: center; cursor: pointer; border: none; width: 100%; transition: all 0.2s; }
+        .btn-primary { background: #fff; color: #000; } .btn-primary:hover { background: #e5e5e5; }
+        .btn-secondary { background: #333; color: #fff; } .btn-secondary:hover { background: #444; }
+
+        @media (max-width: 900px) {
+            .product-configurator { grid-template-columns: 1fr; gap: 40px; }
+            .preview-stage { position: relative; top: 0; padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
+            <!-- <a href="index.html" class="text-lg font-semibold text-white hover:text-gray-300 transition-colors">
+                Linkly
+            </a> -->
+            <div class="nav-content">
+                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
+                    <img src="Logo/darkBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;">
+                </a>
+                <div style="display:flex; gap:24px;">
+                    </div>
+            </div>
+            <div class="hidden md:flex items-center gap-8 navbar-links">
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        产品
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 名片
+                            </a>
+                            <a href="Linkly_AI_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly AI
+                            </a>
+                            <a href="Enterprise_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 企业版
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="AI_Detailed_2.html">Linkly AI</a> 
+                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
+                <div class="relative group h-full flex items-center">
+                    <span class="cursor-pointer py-4 text-[0.875rem] text-white group-hover:text-[#2997ff] group-hover:font-bold transition-all duration-300">
+                        定价
+                    </span>
+                    <div class="absolute left-1/2 -translate-x-1/2 top-[3rem] pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-2xl w-32 flex flex-col p-1">
+                            <a href="VIP_Compare_2.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#e8e8ed] hover:bg-white/10 rounded-lg hover:text-white transition-colors !font-normal">
+                                软件应用
+                            </a>
+                            <a href="Price_Card.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#e8e8ed] hover:bg-white/10 rounded-lg hover:text-white transition-colors !font-normal">
+                                实体名片
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        支持
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                应用下载
+                            </a>
+                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                技术详情
+                            </a>
+                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                联系我们
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 text-[0.875rem]">
+                <a href="#" class="text-[#e8e8ed] hover:text-white transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                    </svg>
+                </a>
+                <a href="ShopBag.html" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                </a>
+                <a href="Shop_General.html" class="bg-white text-black px-3 py-1 rounded-full font-medium hover:bg-[#2997ff] hover:text-white hover:font-bold transition-all duration-300 buy-btn">购买</a>
+                <a href="#" class="hidden md:block text-[#e8e8ed] hover:text-[#2997ff] hover:font-bold transition-all duration-300 login-btn">登录</a>
+            </div>
+        </div>
+    </nav>
+
+<div class="main-container">
+    <div class="product-configurator">
+        
+        <div class="preview-stage">
+            <div class="preview-card-container">
+                <div id="dynamic-card" class="interactive-card bg-obsidian layout-1">
+                    <div id="tex-wood" class="layer-texture"></div>
+                    <div id="pat-overlay" class="layer-pattern-overlay"></div>
+                    <div class="card-content">
+                        <div class="c-top" id="prev-logo">LINKLY</div>
+                        <div class="c-avatar" id="prev-avatar"></div>
+                        <div class="info-mid">
+                            <div class="c-name c-item" id="prev-name">John Doe</div>
+                            <div class="c-role c-item" id="prev-role">Design Lead</div>
+                            <div class="c-custom c-item" id="prev-custom"></div>
+                        </div>
+                        <div class="c-bot c-item" id="prev-company">Global Inc.</div>
+                    </div>
+                </div>
+                
+                <p class="preview-note" style="margin-bottom: 30px;">正面预览</p>
+
+                <div id="dynamic-card-back" class="interactive-card bg-obsidian" style="transform: none;">
+                    <div id="tex-wood-back" class="layer-texture"></div>
+                    <div id="pat-overlay-back" class="layer-pattern-overlay"></div>
+                    <div class="card-back-content">
+                        <img id="prev-back-logo" src="Logo/webLOGOpart_icon_w_TRANSBG.png" class="back-logo pos-center" alt="Logo" style="opacity: 0.3;">
+                    </div>
+                </div>
+                <p class="preview-note">背面预览</p>
+            </div>
+        </div>
+
+        <div class="config-panel">
+            
+            <div class="panel-header">
+                <div>
+                    <div class="mode-badge">Business Mode</div>
+                </div>
+                <div class="top-price-box">
+                    <span class="unit-price" id="unit-price-display">$34.90</span>
+                    <span class="unit-label">实体卡单价</span>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">材质 <span id="lbl-mat" class="selection-name">标准 PVC</span></span>
+                <div class="option-group" id="group-mat">
+                    <div class="option-btn active" data-type="pvc" data-name="标准 PVC">标准 PVC</div>
+                    <div class="option-btn" data-type="pvc-matte" data-name="哑光磨砂 PVC">哑光磨砂 PVC</div>
+                    <div class="option-btn" data-type="bamboo" data-name="楠竹 (环保)">楠竹 (环保)</div>
+                    <div class="option-btn" data-type="walnut" data-name="胡桃木 (高端)">胡桃木 (高端)</div>
+                </div>
+            </div>
+
+            <div class="config-section" id="sec-color">
+                <span class="config-label">底色 <span id="lbl-color" class="selection-name">曜石黑</span></span>
+                <div class="color-grid" id="group-color">
+                    <div class="color-btn active" data-color="bg-obsidian" data-name="曜石黑" style="background:#1a1a1a;"></div>
+                    <div class="color-btn" data-color="bg-prussian" data-name="普鲁士蓝" style="background:#003153;"></div>
+                    <div class="color-btn" data-color="bg-burgundy" data-name="勃艮第红" style="background:#660012;"></div>
+                    <div class="color-btn" data-color="bg-ivory" data-name="象牙白" style="background:#fffff0;"></div>
+                    <div class="color-btn" data-color="bg-spacegrey" data-name="太空灰" style="background:#4a4a4a;"></div>
+                    <div class="color-btn" data-color="bg-champagne" data-name="香槟金" style="background:#F7E7CE;"></div>
+                </div>
+            </div>
+
+            <div class="config-section" id="sec-pattern">
+                <span class="config-label">图案 <span id="lbl-pat" class="selection-name">纯色</span></span>
+                <div class="option-group grid-3-col" id="group-pat">
+                    <div class="option-btn active" data-pat="none" data-name="纯色">纯色</div>
+                    <div class="option-btn" data-pat="pat-metal" data-name="拉丝金属">拉丝金属</div>
+                    <div class="option-btn" data-pat="pat-marble" data-name="大理石纹">大理石纹</div>
+                    <div class="option-btn" data-pat="pat-geo" data-name="几何折线">几何折线</div>
+                    <div class="option-btn" data-pat="pat-side" data-name="侧边色块">侧边色块</div>
+                </div>
+            </div>
+
+            <!-- <div class="config-section">
+                <span class="config-label">版式布局 (含头像)</span>
+                <div class="layout-selector" id="group-layout">
+                    <div class="layout-btn active" data-layout="layout-1">1</div>
+                    <div class="layout-btn" data-layout="layout-2">2</div>
+                    <div class="layout-btn" data-layout="layout-3">3</div>
+                    <div class="layout-btn" data-layout="layout-4">4</div>
+                    <div class="layout-btn" data-layout="layout-5">5</div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">卡面信息</span>
+                <div class="input-group">
+                    <label class="upload-btn">
+                        <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleUpload(this)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        上传头像 (支持 JPG/PNG)
+                    </label>
+                    <input type="text" class="input-field" placeholder="姓名: John Doe" oninput="updateTxt('prev-name', this.value)">
+                    <input type="text" class="input-field" placeholder="职位: CEO" oninput="updateTxt('prev-role', this.value)">
+                    <input type="text" class="input-field" placeholder="公司/电话: Global Inc." oninput="updateTxt('prev-company', this.value)">
+                    <input type="text" class="input-field" placeholder="自定义文本 (可选)" oninput="updateTxt('prev-custom', this.value)">
+                </div>
+            </div> -->
+<div class="config-section">
+                <span class="config-label">版式布局 (含头像)</span>
+                <div class="layout-selector" id="group-layout">
+                    <div class="layout-btn active" data-layout="layout-1">1</div>
+                    <div class="layout-btn" data-layout="layout-2">2</div>
+                    <div class="layout-btn" data-layout="layout-3">3</div>
+                    <div class="layout-btn" data-layout="layout-4">4</div>
+                    <div class="layout-btn" data-layout="layout-5">5</div>
+                </div>
+                
+                <div style="margin-top: 20px; display: flex; align-items: center; justify-content: space-between;">
+                    <span class="config-label" style="font-size: 15px; margin: 0;">保留 Linkly 品牌标识</span>
+                    <div class="billing-toggle">
+                        <div class="bill-opt active" id="brand-on" onclick="toggleBranding(true)">保留</div>
+                        <div class="bill-opt" id="brand-off" onclick="toggleBranding(false)">隐藏</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">正面信息录入</span>
+                <div class="input-group">
+                    <label class="upload-btn">
+                        <input type="file" id="file-input" accept="image/*" style="display:none;" onchange="handleUpload(this)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        上传头像 (支持 JPG/PNG)
+                    </label>
+                    <input type="text" class="input-field" placeholder="姓名: John Doe" oninput="updateTxt('prev-name', this.value)">
+                    <input type="text" class="input-field" placeholder="职位: CEO" oninput="updateTxt('prev-role', this.value)">
+                    <input type="text" class="input-field" placeholder="公司/电话: Global Inc." oninput="updateTxt('prev-company', this.value)">
+                    <input type="text" class="input-field" placeholder="自定义文本 (可选)" oninput="updateTxt('prev-custom', this.value)">
+                </div>
+            </div>
+
+            <div class="config-group-header">卡片背面定制</div>
+
+            <div class="config-section">
+                <span class="config-label">企业 Logo 位置</span>
+                <div class="layout-selector" id="group-back-pos">
+                    <div class="layout-btn" data-pos="pos-tl" title="左上">↖</div>
+                    <div class="layout-btn" data-pos="pos-tr" title="右上">↗</div>
+                    <div class="layout-btn active" data-pos="pos-center" title="居中">●</div>
+                    <div class="layout-btn" data-pos="pos-bl" title="左下">↙</div>
+                    <div class="layout-btn" data-pos="pos-br" title="右下">↘</div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">上传 Logo</span>
+                <div class="input-group">
+                    <label class="upload-btn">
+                        <input type="file" id="logo-input" accept="image/*" style="display:none;" onchange="handleLogoUpload(this)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                        上传背面 Logo (PNG透明底最佳)
+                    </label>
+                </div>
+            </div>
+
+            <div class="config-group-header" style="border:none;">
+
+            <div class="config-section">
+                <span class="config-label">数量 <span id="lbl-qty" class="selection-name">输入具体数量</span></span>
+                
+                <div class="qty-wrapper">
+                    <div class="qty-control-box">
+                        <button class="qty-btn-adjust" onclick="adjustQty(-1)">−</button>
+                        <input type="number" id="custom-qty-input" value="1" min="1" max="50000" oninput="handleQtyInput(this.value)">
+                        <button class="qty-btn-adjust" onclick="adjustQty(1)">+</button>
+                    </div>
+
+                    <div class="tier-legend">
+                        <div class="tier-item active" id="tier-1" onclick="selectTier(1)">
+                            <span class="t-range">1-99</span>
+                            <span class="t-price" id="p-tier-1">$--</span>
+                        </div>
+                        <div class="tier-item" id="tier-100" onclick="selectTier(100)">
+                            <span class="t-range">100-999</span>
+                            <span class="t-price" id="p-tier-100">$--</span>
+                        </div>
+                        <div class="tier-item" id="tier-1000" onclick="selectTier(1000)">
+                            <span class="t-range">1k-9999</span>
+                            <span class="t-price" id="p-tier-1000">$--</span>
+                        </div>
+                        <div class="tier-item" id="tier-10000" onclick="selectTier(10000)">
+                            <span class="t-range">10k+</span>
+                            <span class="t-price" id="p-tier-10000">$--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">赠送会员体验 <span class="selection-name" id="lbl-saas-gift">Ultra AI 6个月</span></span>
+                <div class="option-group grid-3-col" id="group-saas-gift">
+                    <div class="option-btn active" id="btn-gift-pvc" data-gift="ultra-6m">Ultra AI 6个月</div>
+                    <div class="option-btn disabled" id="btn-gift-nonpvc-1" data-gift="ultra-1y">Ultra AI 1年</div>
+                    <div class="option-btn disabled" id="btn-gift-nonpvc-2" data-gift="team-6m">Team 6个月</div>
+                </div>
+                 <p style="margin-top:10px; font-size:12px; color:#666;">* 随实体卡赠送，收货激活后立即生效。</p>
+            </div>
+            <div class="config-section">
+                <div class="config-label-row">
+                    <span class="config-label">Linkly Ultra 智能服务 <span class="selection-name">可选</span></span>
+                    <div class="billing-toggle">
+                        <div class="bill-opt active" id="btn-yearly" onclick="toggleBilling('yearly')">按年 (省20%)</div>
+                        <div class="bill-opt" id="btn-monthly" onclick="toggleBilling('monthly')">按月</div>
+                        
+                    </div>
+                </div>
+
+                <div class="saas-container">
+                    <div class="saas-group-title">个人版</div>
+                    <div class="saas-card active" onclick="selectSaas('free', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Free 免费版</div>
+                            <div class="saas-feat">基础功能，无广告。</div>
+                        </div>
+                        <div class="saas-price-box"><span class="s-price">免费</span></div>
+                    </div>
+                    <div class="saas-card" onclick="selectSaas('pro', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Pro 专业版 <span class="rec-tag">推荐</span></div>
+                            <div class="saas-feat">多身份管理，高级数据统计。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price" id="price-pro">$49.00/年</span>
+                            <span class="s-save" id="save-pro">省 17%</span>
+                        </div>
+                    </div>
+                    <div class="saas-card" onclick="selectSaas('ultra', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Ultra 终极版</div>
+                            <div class="saas-feat">AI 全局助手，无限文件库。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price" id="price-ultra">$119.00/年</span>
+                            <span class="s-save" id="save-ultra">省 33%</span>
+                        </div>
+                    </div>
+
+                    <div class="saas-group-title">团队与企业</div>
+                    <div class="saas-card" onclick="selectSaas('team', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Team 团队版</div>
+                            <div class="saas-feat">统一管理后台，员工权限控制。</div>
+                        </div>
+                        <div class="saas-price-box">
+                            <span class="s-price" id="price-team">$129.00/人/年</span>
+                            <span class="s-save" id="save-team">省 17%</span>
+                        </div>
+                    </div>
+                    <div class="saas-card" onclick="selectSaas('enterprise', this)">
+                        <div class="saas-info">
+                            <div class="saas-name">Enterprise 企业定制</div>
+                            <div class="saas-feat">API 对接，私有化部署。</div>
+                        </div>
+                        <div class="saas-price-box"><span class="s-price">联系销售</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-area">
+                <div class="total-row">
+                    <span class="total-label">预计总价 (含会员)</span>
+                    <span id="final-price">--</span>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary">立即结账</button>
+                    <button class="btn btn-secondary">添加到购物袋</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <footer style="background-color: #000000; color: #86868b; font-size: 12px; line-height: 1.33337; font-weight: 400; padding: 0 20px; border-top: 1px solid #333; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+        <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px;">
+            
+            <div style="border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px;">
+                更多选购方式：<a href="Shop_General.html" style="color: #2997ff; text-decoration: none;">前往 Linkly 商店</a>，或发送邮件至 <a href="mailto:contact@linklyai.net" style="color: #2997ff; text-decoration: none;">contact@linklyai.net</a> 与我们取得联系。
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
+                
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">选购与了解</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Shop_General.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 商店</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#essentials" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 基础版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#studio" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 半定制版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#bespoke" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 全定制版</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">软件服务</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="AI_Detailed_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly AI</a></li>
+                            <li style="margin-bottom: 8px;"><a href="VIP_Compare_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">会员计划</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Download.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">应用下载</a></li>
+                            <li style="margin-bottom: 8px;"><a href="#" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">网页登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">商务应用</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="B_Detailed_2black_WordPolish.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 企业版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">企业版采购咨询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">客户支持</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Tech_Spec.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">技术规格参数</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">联系支持团队</a></li>
+                            <li style="margin-bottom: 8px;"><a href="#" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">订单状态查询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">关于 Linkly</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Brand_Story.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">品牌故事</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Environment.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">环境责任</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Privacy.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私保护</a></li>
+                            <li style="margin-bottom: 8px;"><a href="mailto:contact@linklyai.net" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                <div style="color: #86868b;">Copyright © 2025 Linkly Inc. 保留所有权利。</div>
+                <div style="display: flex; flex-wrap: wrap;">
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私政策</a>
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">使用条款</a>
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">销售政策</a>
+                    <a href="#" style="color: #86868b; text-decoration: none;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">法律信息</a>
+                </div>
+                <a href="#" style="color: #f5f5f7; text-decoration: none; margin-left: auto;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">中国大陆 (简体中文)</a>
+            </div>
+
+        </div>
+    </footer>
+
+
+<!-- <script>
+    // 1. 导航栏高亮逻辑
+    window.addEventListener('load', () => {
+        const currentPage = window.location.pathname;
+        const links = document.querySelectorAll('.navbar-links a');
+        
+        links.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href !== '#' && currentPage.includes(href)) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        // ▼▼▼ 动态价格矩阵 (材质 vs 数量梯度) ▼▼▼
+        const pricingDatabase = {
+            'pvc':       { 1: 34.90, 100: 29.90, 1000: 24.90, 10000: 19.90 },
+            'pvc-matte': { 1: 34.90, 100: 29.90, 1000: 24.90, 10000: 19.90 },
+            'bamboo':    { 1: 39.90, 100: 34.90, 1000: 29.90, 10000: 24.90 },
+            'walnut':    { 1: 49.90, 100: 44.90, 1000: 39.90, 10000: 34.90 }
+        };
+
+        // 核心状态 (新增 showBranding 和 backLogoPos)
+        const state = {
+            matType: 'pvc',
+            colorClass: 'bg-obsidian', colorName: '曜石黑',
+            patClass: 'none', patName: '纯色',
+            layout: 'layout-1',
+            showBranding: true,    // 默认开启
+            backLogoPos: 'pos-center', // 默认居中
+            qty: 1, 
+            unitPrice: 34.90, 
+            billing: 'yearly',
+            saasTier: 'free', saasPrice: 0,
+            gift: 'ultra-6m'
+        };
+
+        const saasPricing = {
+            free: { m: 0, y: 0 },
+            pro: { m: 4.90, y: 49.00 },
+            ultra: { m: 14.90, y: 119.00 },
+            team: { m: 12.90, y: 129.00 },
+            enterprise: { m: 0, y: 0 }
+        };
+
+        // DOM 引用 (新增了背面相关的引用)
+        const dom = {
+            // 正面元素
+            card: document.getElementById('dynamic-card'),
+            texLayer: document.getElementById('tex-wood'),
+            patLayer: document.getElementById('pat-overlay'),
+            prevLogo: document.getElementById('prev-logo'), // Linkly 标志
+            
+            // 背面元素 (新增)
+            cardBack: document.getElementById('dynamic-card-back'),
+            texLayerBack: document.getElementById('tex-wood-back'),
+            patLayerBack: document.getElementById('pat-overlay-back'),
+            backLogo: document.getElementById('prev-back-logo'),
+
+            // 配置面板元素
+            secColor: document.getElementById('sec-color'),
+            secPat: document.getElementById('sec-pattern'),
+            priceDisplay: document.getElementById('final-price'),
+            topPriceDisplay: document.getElementById('unit-price-display'),
+            lblMat: document.getElementById('lbl-mat'),
+            lblColor: document.getElementById('lbl-color'),
+            lblPat: document.getElementById('lbl-pat'),
+            qtyInput: document.getElementById('custom-qty-input'),
+            lblGift: document.getElementById('lbl-saas-gift'),
+            
+            // 开关按钮
+            btnBrandOn: document.getElementById('brand-on'),
+            btnBrandOff: document.getElementById('brand-off')
+        };
+
+        // --- 核心逻辑：材质切换 ---
+        document.getElementById('group-mat').addEventListener('click', (e) => {
+            if(!e.target.classList.contains('option-btn')) return;
+            setActive(e.target);
+            state.matType = e.target.dataset.type;
+            dom.lblMat.textContent = e.target.dataset.name;
+            
+            refreshMaterialPricing(); 
+            handleQtyInput(state.qty); 
+            updateView();
+            updateGiftLogic(); 
+        });
+        
+        // 赠送会员逻辑
+        document.getElementById('group-saas-gift').addEventListener('click', (e) => {
+            const btn = e.target;
+            if(!btn.classList.contains('option-btn') || btn.classList.contains('disabled')) return;
+            
+            if(state.matType === 'bamboo' || state.matType === 'walnut') {
+                document.querySelectorAll('#group-saas-gift .option-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.gift = btn.dataset.gift;
+                dom.lblGift.textContent = btn.innerText;
+            }
+        });
+        
+        function updateGiftLogic() {
+            const isPVC = (state.matType === 'pvc' || state.matType === 'pvc-matte');
+            const btnPvc = document.getElementById('btn-gift-pvc');
+            const btnNonPvc1 = document.getElementById('btn-gift-nonpvc-1');
+            const btnNonPvc2 = document.getElementById('btn-gift-nonpvc-2');
+
+            [btnPvc, btnNonPvc1, btnNonPvc2].forEach(b => {
+                b.classList.remove('active');
+                b.classList.add('disabled');
+            });
+
+            if (isPVC) {
+                btnPvc.classList.remove('disabled');
+                btnPvc.classList.add('active');
+                state.gift = 'ultra-6m';
+                dom.lblGift.textContent = "Ultra AI 6个月";
+            } else {
+                btnNonPvc1.classList.remove('disabled');
+                btnNonPvc2.classList.remove('disabled');
+
+                if (state.gift === 'team-6m') {
+                     btnNonPvc2.classList.add('active');
+                     dom.lblGift.textContent = "Team 6个月";
+                } else {
+                     btnNonPvc1.classList.add('active'); 
+                     state.gift = 'ultra-1y';
+                     dom.lblGift.textContent = "Ultra AI 1年";
+                }
+            }
+        }
+
+        function refreshMaterialPricing() {
+            const table = pricingDatabase[state.matType];
+            document.getElementById('p-tier-1').textContent = `$${table[1].toFixed(2)}`;
+            document.getElementById('p-tier-100').textContent = `$${table[100].toFixed(2)}`;
+            document.getElementById('p-tier-1000').textContent = `$${table[1000].toFixed(2)}`;
+            document.getElementById('p-tier-10000').textContent = `$${table[10000].toFixed(2)}`;
+        }
+
+        // --- 数量输入逻辑 ---
+        window.selectTier = function(minQty) { handleQtyInput(minQty); }
+        window.adjustQty = function(delta) {
+            let newVal = parseInt(dom.qtyInput.value) + delta;
+            handleQtyInput(newVal);
+        }
+        window.handleQtyInput = function(val) {
+            let num = parseInt(val);
+            if (isNaN(num) || num < 1) num = 1;
+            if (num > 50000) num = 50000;
+            
+            dom.qtyInput.value = num;
+            state.qty = num;
+            updateTierLogic(num);
+            updateTotalPrice();
+        }
+
+        function updateTierLogic(num) {
+            const table = pricingDatabase[state.matType];
+            let activeTierId = 'tier-1';
+            let finalPrice = table[1];
+
+            if (num >= 10000) { finalPrice = table[10000]; activeTierId = 'tier-10000'; } 
+            else if (num >= 1000) { finalPrice = table[1000]; activeTierId = 'tier-1000'; } 
+            else if (num >= 100) { finalPrice = table[100]; activeTierId = 'tier-100'; }
+
+            state.unitPrice = finalPrice;
+            document.querySelectorAll('.tier-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(activeTierId).classList.add('active');
+        }
+
+        // --- 颜色/图案逻辑 ---
+        ['group-color', 'group-pat'].forEach(id => {
+            document.getElementById(id).addEventListener('click', (e) => {
+                const btn = e.target.closest('.option-btn, .color-btn');
+                if(!btn) return;
+                setActive(btn);
+                
+                if(btn.dataset.color) { state.colorClass = btn.dataset.color; state.colorName = btn.dataset.name; dom.lblColor.textContent = state.colorName; }
+                if(btn.dataset.pat) { state.patClass = btn.dataset.pat; state.patName = btn.dataset.name; dom.lblPat.textContent = state.patName; }
+                
+                updateView();
+            });
+        });
+
+        // --- 布局逻辑 (只针对 layout 选择) ---
+        document.getElementById('group-layout').addEventListener('click', (e) => {
+            const btn = e.target.closest('.layout-btn');
+            if(!btn) return;
+            // 确保只移除该组的 active
+            document.querySelectorAll('#group-layout .layout-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            if(btn.dataset.layout) state.layout = btn.dataset.layout;
+            updateView();
+        });
+
+        // --- 背面 Logo 位置逻辑 (新增) ---
+        document.getElementById('group-back-pos').addEventListener('click', (e) => {
+            const btn = e.target.closest('.layout-btn');
+            if(!btn) return;
+            
+            document.querySelectorAll('#group-back-pos .layout-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            state.backLogoPos = btn.dataset.pos;
+            dom.backLogo.className = `back-logo ${state.backLogoPos}`;
+        });
+
+        // --- 品牌开关逻辑 (新增) ---
+        window.toggleBranding = function(show) {
+            state.showBranding = show;
+            dom.btnBrandOn.classList.toggle('active', show);
+            dom.btnBrandOff.classList.toggle('active', !show);
+            dom.prevLogo.style.display = show ? 'block' : 'none';
+        }
+
+        // --- 上传逻辑 ---
+        // 正面头像
+        window.handleUpload = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const avatar = document.getElementById('prev-avatar');
+                    avatar.style.backgroundImage = `url(${e.target.result})`;
+                    avatar.classList.add('has-img');
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        // 背面Logo (新增)
+        window.handleLogoUpload = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    dom.backLogo.src = e.target.result;
+                    dom.backLogo.style.opacity = '1'; 
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // --- 更新视图 (双面渲染) ---
+        function updateView() {
+            const isWood = (state.matType === 'bamboo' || state.matType === 'walnut');
+            
+            // 构造类名
+            const texClass = 'layer-texture ' + (isWood ? 'show-tex ' + (state.matType === 'bamboo' ? 'tex-bamboo' : 'tex-walnut') : '');
+            const patClass = 'layer-pattern-overlay ' + (!isWood && state.patClass !== 'none' ? 'show-pat ' + state.patClass : '');
+            
+            // 1. 应用到正面
+            dom.texLayer.className = texClass;
+            dom.patLayer.className = patClass;
+            dom.card.className = isWood ? `interactive-card ${state.layout}` : `interactive-card ${state.layout} ${state.colorClass}`;
+
+            // 2. 应用到背面 (材质跟随正面，无 layout 类)
+            dom.texLayerBack.className = texClass;
+            dom.patLayerBack.className = patClass;
+            dom.cardBack.className = isWood ? `interactive-card` : `interactive-card ${state.colorClass}`;
+
+            // 字体颜色处理 (木质或浅色背景需深色文字)
+            let needsDark = false;
+            if (isWood) {
+                dom.secColor.classList.add('disabled');
+                dom.secPat.classList.add('disabled');
+                if(state.matType === 'bamboo') needsDark = true;
+            } else {
+                dom.secColor.classList.remove('disabled');
+                dom.secPat.classList.remove('disabled');
+                if(state.colorClass === 'bg-ivory' || state.colorClass === 'bg-champagne') needsDark = true;
+            }
+
+            if (needsDark) {
+                dom.card.classList.add('text-dark');
+                dom.cardBack.classList.add('text-dark');
+            } else {
+                dom.card.classList.remove('text-dark');
+                dom.cardBack.classList.remove('text-dark');
+            }
+        }
+
+        function setActive(target) {
+            Array.from(target.parentElement.children).forEach(c => c.classList.remove('active'));
+            target.classList.add('active');
+        }
+
+        window.updateTxt = function(id, val) {
+            document.getElementById(id).textContent = val;
+        }
+
+        // --- SaaS & 价格 ---
+        window.toggleBilling = function(cycle) {
+            state.billing = cycle;
+            document.getElementById('btn-monthly').classList.toggle('active', cycle === 'monthly');
+            document.getElementById('btn-yearly').classList.toggle('active', cycle === 'yearly');
+            updateSaaSDisplay();
+            updateCurrentSaasPrice();
+        }
+
+        window.selectSaas = function(tier, cardEl) {
+            document.querySelectorAll('.saas-card').forEach(c => c.classList.remove('active'));
+            cardEl.classList.add('active');
+            state.saasTier = tier;
+            updateCurrentSaasPrice();
+        }
+
+        function updateSaaSDisplay() {
+            const isYear = state.billing === 'yearly';
+            document.getElementById('price-pro').textContent = isYear ? '$49.00/年' : '$4.90/月';
+            document.getElementById('save-pro').style.display = isYear ? 'block' : 'none';
+            document.getElementById('price-ultra').textContent = isYear ? '$119.00/年' : '$14.90/月';
+            document.getElementById('save-ultra').style.display = isYear ? 'block' : 'none';
+            document.getElementById('price-team').textContent = isYear ? '$129.00/人/年' : '$12.90/人/月';
+            document.getElementById('save-team').style.display = isYear ? 'block' : 'none';
+        }
+
+        function updateCurrentSaasPrice() {
+            const cycleKey = state.billing === 'yearly' ? 'y' : 'm';
+            state.saasPrice = saasPricing[state.saasTier][cycleKey];
+            updateTotalPrice();
+        }
+
+        function updateTotalPrice() {
+            dom.topPriceDisplay.textContent = `$${state.unitPrice.toFixed(2)}`;
+            const total = (state.unitPrice * state.qty) + state.saasPrice;
+            dom.priceDisplay.textContent = `$${total.toFixed(2)}`;
+        }
+
+        // --- 购物车逻辑 (更新) ---
+        document.querySelector('.btn-secondary').addEventListener('click', function() {
+            const inputs = document.querySelectorAll('.input-field');
+            const cName = inputs[0] ? inputs[0].value : '';
+            const cTitle = inputs[1] ? inputs[1].value : '';
+            const cComp = inputs[2] ? inputs[2].value : '';
+            const cCust = inputs[3] ? inputs[3].value : '';
+
+            let saasList = [];
+            if (state.saasTier !== 'free') {
+                const activeSaas = document.querySelector('.saas-card.active');
+                const rawTitle = activeSaas ? activeSaas.querySelector('.saas-name').childNodes[0].textContent.trim() : state.saasTier;
+                const cycle = (state.billing === 'yearly') ? '(年付)' : '(月付)';
+                saasList.push({ name: state.saasTier, display: rawTitle + " " + cycle, price: state.saasPrice, type: 'paid' });
+            }
+
+            const activeGift = document.querySelector('#group-saas-gift .option-btn.active');
+            if (activeGift && !activeGift.classList.contains('disabled')) {
+                saasList.push({ name: activeGift.dataset.gift, display: "赠送: " + activeGift.innerText, price: 0, type: 'gift' });
+            }
+
+            const newItem = {
+                id: 'biz_' + Date.now(),
+                timestamp: Date.now(),
+                sourcePage: 'Studio_Business',
+                productName: 'Linkly Studio 半定制商务版',
+                qty: state.qty,
+
+                config: {
+                    material: state.matType,
+                    materialName: dom.lblMat.innerText,
+                    color: state.colorClass,
+                    colorName: state.colorName,
+                    pattern: state.patClass,
+                    patternName: state.patName,
+                    // 新增字段
+                    branding: state.showBranding,
+                    backLogoPosition: state.backLogoPos
+                },
+
+                custom: {
+                    name: cName,
+                    title: cTitle,
+                    company: cComp, 
+                    extra: cCust
+                },
+
+                saasList: saasList, 
+                saas: saasList.length > 0 ? saasList[0] : { name: 'free', display: 'Free', price: 0 }
+            };
+
+            addToLocalStorage(newItem);
+        });
+
+        window.addToLocalStorage = function(item) {
+            let cart = [];
+            try {
+                cart = JSON.parse(localStorage.getItem('linkly_cart') || '[]');
+            } catch(e) { cart = []; }
+            
+            cart.push(item);
+            localStorage.setItem('linkly_cart', JSON.stringify(cart));
+            
+            const btn = document.querySelector('.btn-secondary');
+            const oldText = btn.innerText;
+            btn.innerText = '已加入购物袋 ✔';
+            btn.style.background = '#fff';
+            btn.style.color = '#000';
+            setTimeout(() => {
+                btn.innerText = oldText;
+                btn.style.background = '';
+                btn.style.color = '';
+            }, 2000);
+        }
+
+        // 初始化
+        refreshMaterialPricing();
+        handleQtyInput(1);
+        updateView();
+        updateSaaSDisplay();
+        updateGiftLogic();
+    });
+</script> -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- 1. 核心数据定义 ---
+        const state = {
+            matType: 'pvc', 
+            // 默认单价必须与 matType 对应
+            unitPrice: 34.90, 
+            colorClass: 'bg-obsidian', colorName: '曜石黑',
+            patClass: 'none', patName: '纯色',
+            layout: 'layout-1',
+            qty: 1, discount: 0,
+            billing: 'yearly',
+            saasTier: 'free', saasPrice: 0,
+            backLogoPos: 'pos-center',
+            showBranding: true,
+            gift: 'ultra-6m'
+        };
+
+        const saasPricing = {
+            free: { m: 0, y: 0 },
+            pro: { m: 4.90, y: 49.00 },
+            ultra: { m: 14.90, y: 119.00 },
+            team: { m: 12.90, y: 129.00 },
+            enterprise: { m: 0, y: 0 }
+        };
+        
+        // 材质阶梯定价表
+        const pricingDatabase = {
+            'pvc':       { 1: 34.90, 100: 29.90, 1000: 24.90, 10000: 19.90 },
+            'pvc-matte': { 1: 34.90, 100: 29.90, 1000: 24.90, 10000: 19.90 },
+            'bamboo':    { 1: 39.90, 100: 34.90, 1000: 29.90, 10000: 24.90 },
+            'walnut':    { 1: 49.90, 100: 44.90, 1000: 39.90, 10000: 34.90 }
+        };
+
+        // --- 2. DOM 元素引用 (确保 HTML 中有这些 ID) ---
+        const dom = {
+            card: document.getElementById('dynamic-card'),
+            cardBack: document.getElementById('dynamic-card-back'),
+            texLayer: document.getElementById('tex-wood'),
+            texLayerBack: document.getElementById('tex-wood-back'),
+            patLayer: document.getElementById('pat-overlay'),
+            patLayerBack: document.getElementById('pat-overlay-back'),
+            secColor: document.getElementById('sec-color'),
+            secPat: document.getElementById('sec-pattern'),
+            // 价格显示区域
+            priceDisplay: document.getElementById('final-price'),
+            topPriceDisplay: document.getElementById('unit-price-display'),
+            // 标签
+            lblMat: document.getElementById('lbl-mat'),
+            lblColor: document.getElementById('lbl-color'),
+            lblPat: document.getElementById('lbl-pat'),
+            lblGift: document.getElementById('lbl-saas-gift'),
+            // 输入与控制
+            qtyInput: document.getElementById('custom-qty-input'),
+            backLogo: document.getElementById('prev-back-logo'),
+            btnBrandOn: document.getElementById('brand-on'),
+            btnBrandOff: document.getElementById('brand-off'),
+            prevLogo: document.getElementById('prev-logo')
+        };
+
+        // --- 3. 价格更新核心逻辑 ---
+        
+        // 更新总价 (此函数最为关键)
+        function updateTotalPrice() {
+            // 安全检查：如果单价未定义，强行重置
+            if (!state.unitPrice || isNaN(state.unitPrice)) {
+                state.unitPrice = pricingDatabase[state.matType][1];
+            }
+
+            let hardwareUnit = state.unitPrice;
+            const total = (hardwareUnit * state.qty) + state.saasPrice;
+            
+            // 更新顶部单价显示
+            if (dom.topPriceDisplay) {
+                dom.topPriceDisplay.textContent = `$${hardwareUnit.toFixed(2)}`;
+            }
+            
+            // 更新底部总价显示
+            if (dom.priceDisplay) {
+                dom.priceDisplay.textContent = `$${total.toFixed(2)}`;
+            }
+        }
+
+        // 处理数量输入与阶梯定价
+        window.handleQtyInput = function(val) {
+            let num = parseInt(val);
+            if (isNaN(num) || num < 1) num = 1;
+            if (num > 50000) num = 50000;
+            
+            if (dom.qtyInput) dom.qtyInput.value = num;
+            state.qty = num;
+            
+            // 根据当前材质和数量，查找单价
+            const table = pricingDatabase[state.matType];
+            let activeTierId = 'tier-1';
+            let finalPrice = table[1];
+
+            if (num >= 10000) { finalPrice = table[10000]; activeTierId = 'tier-10000'; } 
+            else if (num >= 1000) { finalPrice = table[1000]; activeTierId = 'tier-1000'; } 
+            else if (num >= 100) { finalPrice = table[100]; activeTierId = 'tier-100'; }
+
+            state.unitPrice = finalPrice;
+            
+            // 高亮对应的梯度块
+            document.querySelectorAll('.tier-item').forEach(el => el.classList.remove('active'));
+            const activeEl = document.getElementById(activeTierId);
+            if (activeEl) activeEl.classList.add('active');
+            
+            updateTotalPrice();
+        }
+
+        // --- 4. 事件监听绑定 ---
+
+        // 材质点击
+        const groupMat = document.getElementById('group-mat');
+        if (groupMat) {
+            groupMat.addEventListener('click', (e) => {
+                if(!e.target.classList.contains('option-btn')) return;
+                setActive(e.target);
+                state.matType = e.target.dataset.type;
+                if (dom.lblMat) dom.lblMat.textContent = e.target.textContent;
+                
+                refreshMaterialPricing();
+                handleQtyInput(state.qty); // 重新计算单价
+                updateView();
+                updateGiftLogic();
+            });
+        }
+
+        // 颜色点击
+        const groupColor = document.getElementById('group-color');
+        if (groupColor) {
+            groupColor.addEventListener('click', (e) => {
+                if(!e.target.classList.contains('color-btn')) return;
+                setActive(e.target);
+                state.colorClass = e.target.dataset.color;
+                state.colorName = e.target.dataset.name;
+                if (dom.lblColor) dom.lblColor.textContent = state.colorName;
+                updateView();
+            });
+        }
+
+        // 图案点击
+        const groupPat = document.getElementById('group-pat');
+        if (groupPat) {
+            groupPat.addEventListener('click', (e) => {
+                if(!e.target.classList.contains('option-btn')) return;
+                setActive(e.target);
+                state.patClass = e.target.dataset.pat;
+                state.patName = e.target.dataset.name;
+                if (dom.lblPat) dom.lblPat.textContent = state.patName;
+                updateView();
+            });
+        }
+
+        // 布局点击
+        const groupLayout = document.getElementById('group-layout');
+        if (groupLayout) {
+            groupLayout.addEventListener('click', (e) => {
+                const btn = e.target.closest('.layout-btn');
+                if(!btn) return;
+                document.querySelectorAll('#group-layout .layout-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.layout = btn.dataset.layout;
+                updateView();
+            });
+        }
+
+        // 背面 Logo 位置点击
+        const groupBackPos = document.getElementById('group-back-pos');
+        if (groupBackPos) {
+            groupBackPos.addEventListener('click', (e) => {
+                const btn = e.target.closest('.layout-btn');
+                if(!btn) return;
+                document.querySelectorAll('#group-back-pos .layout-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.backLogoPos = btn.dataset.pos;
+                updateBackView();
+            });
+        }
+
+        // 赠送会员逻辑
+        const groupGift = document.getElementById('group-saas-gift');
+        if (groupGift) {
+            groupGift.addEventListener('click', (e) => {
+                const btn = e.target;
+                if(!btn.classList.contains('option-btn') || btn.classList.contains('disabled')) return;
+                
+                document.querySelectorAll('#group-saas-gift .option-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.gift = btn.dataset.gift;
+                if (dom.lblGift) dom.lblGift.textContent = btn.innerText;
+            });
+        }
+
+        // 数量梯度点击
+        const tierLegend = document.querySelector('.tier-legend');
+        if (tierLegend) {
+            tierLegend.addEventListener('click', (e) => {
+                const item = e.target.closest('.tier-item');
+                if(item) {
+                    const minQty = parseInt(item.id.split('-')[1]);
+                    handleQtyInput(minQty);
+                }
+            });
+        }
+
+        // --- 5. 辅助功能函数 ---
+
+        window.toggleBilling = function(cycle) {
+            state.billing = cycle;
+            const btnM = document.getElementById('btn-monthly');
+            const btnY = document.getElementById('btn-yearly');
+            if (btnM) btnM.classList.toggle('active', cycle === 'monthly');
+            if (btnY) btnY.classList.toggle('active', cycle === 'yearly');
+            
+            updateSaaSDisplay();
+            updateCurrentSaasPrice();
+        }
+
+        window.selectSaas = function(tier, cardEl) {
+            document.querySelectorAll('.saas-card').forEach(c => c.classList.remove('active'));
+            cardEl.classList.add('active');
+            state.saasTier = tier;
+            updateCurrentSaasPrice();
+        }
+
+        window.toggleBrandLogo = function(show) {
+            state.showBranding = show;
+            if (dom.btnBrandOn) dom.btnBrandOn.classList.toggle('active', show);
+            if (dom.btnBrandOff) dom.btnBrandOff.classList.toggle('active', !show);
+            if (dom.prevLogo) dom.prevLogo.style.display = show ? 'block' : 'none';
+        }
+
+        window.adjustQty = function(delta) {
+            let currentVal = dom.qtyInput ? parseInt(dom.qtyInput.value) : 1;
+            handleQtyInput(currentVal + delta);
+        }
+
+        function updateView() {
+            const isWood = (state.matType === 'bamboo' || state.matType === 'walnut');
+            const texClass = 'layer-texture ' + (isWood ? 'show-tex ' + (state.matType === 'bamboo' ? 'tex-bamboo' : 'tex-walnut') : '');
+            const patClass = 'layer-pattern-overlay ' + (!isWood && state.patClass !== 'none' ? 'show-pat ' + state.patClass : '');
+            
+            if (dom.texLayer) dom.texLayer.className = texClass;
+            if (dom.patLayer) dom.patLayer.className = patClass;
+            if (dom.card) dom.card.className = isWood ? `interactive-card ${state.layout}` : `interactive-card ${state.layout} ${state.colorClass}`;
+
+            if (dom.texLayerBack) dom.texLayerBack.className = texClass;
+            if (dom.patLayerBack) dom.patLayerBack.className = patClass;
+            if (dom.cardBack) dom.cardBack.className = isWood ? `interactive-card` : `interactive-card ${state.colorClass}`;
+
+            let needsDark = false;
+            if (isWood) {
+                if (dom.secColor) dom.secColor.classList.add('disabled');
+                if (dom.secPat) dom.secPat.classList.add('disabled');
+                if (state.matType === 'bamboo') needsDark = true;
+            } else {
+                if (dom.secColor) dom.secColor.classList.remove('disabled');
+                if (dom.secPat) dom.secPat.classList.remove('disabled');
+                if (state.colorClass === 'bg-ivory' || state.colorClass === 'bg-champagne') needsDark = true;
+            }
+
+            if (dom.card && dom.cardBack) {
+                if (needsDark) {
+                    dom.card.classList.add('text-dark');
+                    dom.cardBack.classList.add('text-dark');
+                } else {
+                    dom.card.classList.remove('text-dark');
+                    dom.cardBack.classList.remove('text-dark');
+                }
+            }
+            updateTotalPrice();
+        }
+
+        function updateBackView() {
+            if (dom.backLogo) dom.backLogo.className = `back-logo ${state.backLogoPos}`;
+        }
+
+        function updateGiftLogic() {
+            const isPVC = (state.matType === 'pvc' || state.matType === 'pvc-matte');
+            const btnPvc = document.getElementById('btn-gift-pvc');
+            const btnNonPvc1 = document.getElementById('btn-gift-nonpvc-1');
+            const btnNonPvc2 = document.getElementById('btn-gift-nonpvc-2');
+
+            if (!btnPvc || !btnNonPvc1 || !btnNonPvc2) return;
+
+            [btnPvc, btnNonPvc1, btnNonPvc2].forEach(b => {
+                b.classList.remove('active');
+                b.classList.add('disabled');
+            });
+
+            if (isPVC) {
+                btnPvc.classList.remove('disabled');
+                btnPvc.classList.add('active');
+                state.gift = 'ultra-6m';
+                if(dom.lblGift) dom.lblGift.textContent = "Ultra AI 6个月";
+            } else {
+                btnNonPvc1.classList.remove('disabled');
+                btnNonPvc2.classList.remove('disabled');
+                btnNonPvc1.classList.add('active'); 
+                state.gift = 'ultra-1y';
+                if(dom.lblGift) dom.lblGift.textContent = "Ultra AI 1年";
+            }
+        }
+
+        function updateSaaSDisplay() {
+            const isYear = state.billing === 'yearly';
+            const ids = ['price-pro', 'save-pro', 'price-ultra', 'save-ultra', 'price-team', 'save-team'];
+            const exists = ids.every(id => document.getElementById(id));
+            
+            if (exists) {
+                document.getElementById('price-pro').textContent = isYear ? '$49.00/年' : '$4.90/月';
+                document.getElementById('save-pro').style.display = isYear ? 'block' : 'none';
+                document.getElementById('price-ultra').textContent = isYear ? '$119.00/年' : '$14.90/月';
+                document.getElementById('save-ultra').style.display = isYear ? 'block' : 'none';
+                document.getElementById('price-team').textContent = isYear ? '$129.00/人/年' : '$12.90/人/月';
+                document.getElementById('save-team').style.display = isYear ? 'block' : 'none';
+            }
+        }
+
+        function updateCurrentSaasPrice() {
+            const cycleKey = state.billing === 'yearly' ? 'y' : 'm';
+            state.saasPrice = saasPricing[state.saasTier][cycleKey];
+            updateTotalPrice();
+        }
+
+        function refreshMaterialPricing() {
+            const table = pricingDatabase[state.matType];
+            const p1 = document.getElementById('p-tier-1');
+            const p100 = document.getElementById('p-tier-100');
+            const p1000 = document.getElementById('p-tier-1000');
+            const p10000 = document.getElementById('p-tier-10000');
+
+            if (p1 && p100 && p1000 && p10000) {
+                p1.textContent = `$${table[1].toFixed(2)}`;
+                p100.textContent = `$${table[100].toFixed(2)}`;
+                p1000.textContent = `$${table[1000].toFixed(2)}`;
+                p10000.textContent = `$${table[10000].toFixed(2)}`;
+            }
+        }
+
+        function setActive(target) {
+            Array.from(target.parentElement.children).forEach(c => c.classList.remove('active'));
+            target.classList.add('active');
+        }
+
+        window.updateTxt = function(id, val) {
+            const el = document.getElementById(id);
+            if(el) el.textContent = val;
+        }
+
+        window.handleUpload = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const avatar = document.getElementById('prev-avatar');
+                    if (avatar) {
+                        avatar.style.backgroundImage = `url(${e.target.result})`;
+                        avatar.classList.add('has-img');
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+        
+        window.handleLogoUpload = function(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (dom.backLogo) {
+                        dom.backLogo.src = e.target.result;
+                        dom.backLogo.style.opacity = '1';
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // --- 6. 核心：数据构建函数 (供加购和购买使用) ---
+        function createCurrentItem() {
+            const inputs = document.querySelectorAll('.input-field');
+            // 安全获取输入框值
+            const cName = (inputs[0] && inputs[0].value) || '';
+            const cTitle = (inputs[1] && inputs[1].value) || '';
+            const cComp = (inputs[2] && inputs[2].value) || '';
+            const cCust = (inputs[3] && inputs[3].value) || '';
+
+            let saasList = [];
+            
+            // 1. 付费 SaaS
+            if (state.saasTier !== 'free') {
+                const activeSaas = document.querySelector('.saas-card.active');
+                let rawTitle = state.saasTier;
+                if (activeSaas) {
+                    const nameEl = activeSaas.querySelector('.saas-name');
+                    if (nameEl) rawTitle = nameEl.childNodes[0].textContent.trim();
+                }
+                const cycle = (state.billing === 'yearly') ? '(年付)' : '(月付)';
+                saasList.push({ name: state.saasTier, display: rawTitle + " " + cycle, price: state.saasPrice, type: 'paid' });
+            }
+
+            // 2. 赠送 SaaS
+            const activeGift = document.querySelector('#group-saas-gift .option-btn.active');
+            if (activeGift && !activeGift.classList.contains('disabled')) {
+                saasList.push({ name: activeGift.dataset.gift, display: "赠送: " + activeGift.innerText, price: 0, type: 'gift' });
+            }
+
+            return {
+                id: 'biz_' + Date.now(),
+                timestamp: Date.now(),
+                sourcePage: 'Studio_Business',
+                productName: 'Linkly Studio 半定制商务版',
+                qty: state.qty,
+
+                config: {
+                    material: state.matType,
+                    materialName: dom.lblMat ? dom.lblMat.innerText : state.matType,
+                    color: state.colorClass,
+                    colorName: state.colorName,
+                    pattern: state.patClass,
+                    patternName: state.patName,
+                    branding: state.showBranding,
+                    backLogoPosition: state.backLogoPos
+                },
+
+                custom: {
+                    name: cName,
+                    title: cTitle,
+                    company: cComp, 
+                    extra: cCust
+                },
+
+                saasList: saasList, 
+                // 兼容旧逻辑
+                saas: saasList.length > 0 ? saasList[0] : { name: 'free', display: 'Free', price: 0 }
+            };
+        }
+
+        // --- 7. 购买按钮事件 ---
+        
+        // 添加到购物袋
+        const btnAddBag = document.getElementById('btn-add-bag') || document.querySelector('.btn-secondary');
+        if (btnAddBag) {
+            btnAddBag.addEventListener('click', function() {
+                const newItem = createCurrentItem();
+                
+                let cart = [];
+                try {
+                    cart = JSON.parse(localStorage.getItem('linkly_cart') || '[]');
+                } catch(e) { cart = []; }
+                
+                cart.push(newItem);
+                localStorage.setItem('linkly_cart', JSON.stringify(cart));
+                
+                const originalText = this.innerText;
+                this.innerText = '已加入购物袋 ✔';
+                this.style.background = '#fff';
+                this.style.color = '#000';
+                setTimeout(() => {
+                    this.innerText = originalText;
+                    this.style.background = '';
+                    this.style.color = '';
+                }, 2000);
+            });
+        }
+
+        // 立即结账
+        const btnBuyNow = document.getElementById('btn-buy-now') || document.querySelector('.btn-primary');
+        if (btnBuyNow) {
+            btnBuyNow.addEventListener('click', function() {
+                const newItem = createCurrentItem();
+                
+                let hardwareTotal = state.unitPrice * state.qty;
+                if (hardwareTotal < 0) hardwareTotal = 0;
+                let saasTotal = 0;
+                newItem.saasList.forEach(s => saasTotal += s.price);
+                
+                const checkoutData = {
+                    items: [newItem],
+                    total: hardwareTotal + saasTotal,
+                    timestamp: Date.now()
+                };
+
+                localStorage.setItem('linkly_checkout_pending', JSON.stringify(checkoutData));
+                window.location.href = 'Checkout.html';
+            });
+        }
+
+        // --- 8. 执行初始化 ---
+        // 延迟一点执行，确保 DOM 渲染完毕
+        setTimeout(() => {
+            refreshMaterialPricing();
+            handleQtyInput(1); // 这会自动调用 updateTotalPrice
+            updateView();
+            updateSaaSDisplay();
+            updateGiftLogic();
+        }, 50);
+    });
+</script>
+
+
+</body>
+</html>

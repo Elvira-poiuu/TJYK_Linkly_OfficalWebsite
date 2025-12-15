@@ -1,0 +1,894 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkly - 全功能对比</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'] },
+                    colors: {
+                        'bg-black': '#000000',
+                        'apple-dark': '#161617',
+                        'text-white': '#f5f5f7',
+                        'text-gray': '#86868b',
+                        'accent-blue': '#2997ff',
+                        'divider': '#424245'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #000; color: #f5f5f7; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* --- 深色版玻璃导航 --- */
+        .glass-nav {
+            /* 背景改为黑色半透明 */
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            /* 边框改为白色微光 */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* --- 链接文字颜色 --- */
+        .navbar-links a {
+            color: white; /* 默认白色 */
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: font-weight 0.3s ease;
+        }
+
+        /* 鼠标悬停效果 */
+        .navbar-links a:hover {
+            font-weight: bold;
+            color: #2997ff; /* Linkly 亮蓝色 */
+        }
+
+        /* 选中状态 */
+        .navbar-links a.active {
+            font-weight: bold;
+            color: white;
+        }
+
+        /* 按钮通用 */
+        .navbar-btns a {
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        /* “购买”按钮悬停 (深色模式下按钮通常是白底黑字) */
+        .navbar-btns .buy-btn:hover {
+            background-color: #2997ff;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* “登录”按钮悬停 */
+        .navbar-btns .login-btn:hover {
+            color: #2997ff;
+            font-weight: bold;
+        }
+
+        /* 切换拨钮 */
+        .toggle-wrapper {
+            background: #2c2c2e; border-radius: 999px; padding: 3px; display: inline-flex; position: relative;
+        }
+        .toggle-pill {
+            position: absolute; top: 3px; left: 3px; height: calc(100% - 6px); width: calc(50% - 3px);
+            background: #636366; border-radius: 999px; z-index: 0;
+        }
+        .toggle-btn {
+            position: relative; z-index: 1; padding: 6px 24px; font-size: 13px; font-weight: 500;
+            cursor: pointer; color: #a1a1a6; transition: color 0.3s; width: 100px; text-align: center;
+        }
+        .toggle-btn.active { color: white; }
+
+        /* 表格布局 */
+        .compare-grid-personal { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 16px; align-items: center; }
+        .compare-grid-business { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 16px; align-items: center; }
+        
+        /* 单元格样式 */
+        .row {
+            padding: 24px 0;
+            border-bottom: 1px solid #424245;
+        }
+        .row:last-child { border-bottom: none; }
+        
+        .cell-label { text-align: left; font-size: 14px; font-weight: 600; color: #f5f5f7; display: flex; flex-direction: column; gap: 4px;}
+        .cell-label span { font-weight: 400; font-size: 12px; color: #86868b; }
+        
+        .cell-data { text-align: center; font-size: 14px; color: #f5f5f7; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+        .cell-data.highlight { font-weight: 600; color: #2997ff; }
+        .cell-data span { font-size: 11px; color: #86868b; line-height: 1.2; }
+
+        /* 分类标题 */
+        .category-title {
+            font-size: 24px; font-weight: 600; color: #f5f5f7; margin-top: 60px; margin-bottom: 30px; 
+            padding-bottom: 10px; border-bottom: 2px solid #f5f5f7; display: flex; align-items: center; gap: 10px;
+        }
+
+        /* 图标 */
+        .icon-check { width: 20px; height: 20px; color: #f5f5f7; }
+        .icon-dash { width: 20px; height: 20px; color: #424245; }
+        .icon-category { width: 28px; height: 28px; color: #86868b; }
+
+        /* 按钮 */
+        .buy-btn {
+            background: #0071e3; color: white; padding: 6px 16px; border-radius: 999px; font-size: 12px; font-weight: 500;
+            transition: background 0.2s;
+        }
+        .buy-btn:hover { background: #0077ed; }
+        .buy-btn.disabled { background: #424245; color: #86868b; cursor: default; }
+        /* 折叠区域样式 */
+        .expand-trigger {
+            cursor: pointer; user-select: none; transition: color 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 6px;
+            font-size: 14px; color: #2997ff; font-weight: 500; margin: 40px 0;
+        }
+        .expand-trigger:hover { color: #5ac8fa; }
+        .expand-content { overflow: hidden; height: 0; opacity: 0; }
+
+        /* 新增：展开区域的双栏布局 (1.5份标签 : 2份内容) */
+        .compare-grid-expanded { 
+            display: grid; 
+            grid-template-columns: 1.5fr 2fr; /* 左侧对齐标题，右侧跨越原本的Team+Ent区域 */
+            gap: 16px; 
+            align-items: center; 
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
+    
+            <div class="nav-content">
+                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
+                    <img src="Logo/darkBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;">
+                </a>
+                <div style="display:flex; gap:24px;">
+                    </div>
+            </div>
+            <div class="hidden md:flex items-center gap-8 navbar-links">
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        产品
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 名片
+                            </a>
+                            <a href="Linkly_AI_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly AI
+                            </a>
+                            <a href="Enterprise_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 企业版
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="AI_Detailed_2.html">Linkly AI</a> 
+                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
+                <div class="relative group h-full flex items-center">
+                    <span class="cursor-pointer py-4 text-[0.875rem] text-white group-hover:text-[#2997ff] group-hover:font-bold transition-all duration-300">
+                        定价
+                    </span>
+                    <div class="absolute left-1/2 -translate-x-1/2 top-[3rem] pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-2xl w-32 flex flex-col p-1">
+                            <a href="VIP_Compare_2.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#e8e8ed] hover:bg-white/10 rounded-lg hover:text-white transition-colors !font-normal">
+                                软件应用
+                            </a>
+                            <a href="Price_Card.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#e8e8ed] hover:bg-white/10 rounded-lg hover:text-white transition-colors !font-normal">
+                                实体名片
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group h-full flex items-center">
+                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        支持
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                应用下载
+                            </a>
+                            <a href="User_Guide.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                使用说明
+                            </a>
+                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                技术详情
+                            </a>
+                            <a href="QA.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                常见问题
+                            </a>
+                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                联系我们
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 text-[0.875rem]">
+                <a href="#" class="text-[#e8e8ed] hover:text-white transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                    </svg>
+                </a>
+                <a href="ShopBag.html" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                </a>
+                <a href="Shop_General.html" class="bg-white text-black px-3 py-1 rounded-full font-medium hover:bg-[#2997ff] hover:text-white hover:font-bold transition-all duration-300 buy-btn">购买</a>
+                <a href="#" class="hidden md:block text-[#e8e8ed] hover:text-[#2997ff] hover:font-bold transition-all duration-300 login-btn">登录</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-32 pb-10 px-6 text-center max-w-5xl mx-auto">
+        <h1 class="text-5xl font-bold mb-8">选择适合您的 Linkly。</h1>
+        <div class="toggle-wrapper">
+            <div class="toggle-pill" id="toggle-bg"></div>
+            <div class="toggle-btn active" onclick="switchView('personal')">个人版</div>
+            <div class="toggle-btn" onclick="switchView('business')">团队版</div>
+        </div>
+    </header>
+
+    <div class="sticky-header py-4 transition-all duration-300">
+        <div class="max-w-5xl mx-auto px-6">
+            
+            <div id="head-personal" class="compare-grid-personal">
+                <div class="text-xs text-gray-500 font-medium">功能对比</div>
+                <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-bold">Free</h3>
+                </div>
+                <!-- <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-bold">Pro</h3>
+                    <a href="#" class="buy-btn mt-2">购买</a>
+                </div> -->
+                <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-bold">Pro</h3>
+                    <a href="Shop_SaaS.html?plan=pro" class="buy-btn mt-2">购买</a>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-bold">Ultra</h3>
+                    <a href="Shop_SaaS.html?plan=ultra" class="buy-btn mt-2 bg-[#2997ff]">购买</a>
+                </div>
+            </div>
+
+            <div id="head-business" class="compare-grid-business hidden">
+                <div class="text-xs text-gray-500 font-medium">功能对比</div>
+                <!-- <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-bold">Team</h3>
+                    <p class="text-[10px] text-gray-500">小型团队</p>
+                    <a href="#" class="buy-btn mt-2">购买</a>
+                </div> -->
+                <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-bold">Team</h3>
+                    <p class="text-[10px] text-gray-500">小型团队</p>
+                    <a href="Shop_SaaS.html?plan=team" class="buy-btn mt-2">购买</a>
+                </div>
+
+                <div class="flex flex-col items-center">
+                    <h3 class="text-lg font-bold">Enterprise</h3>
+                    <p class="text-[10px] text-gray-500">大型企业</p>
+                    <a href="Contact_Us.html" class="buy-btn mt-2 bg-white text-black hover:bg-gray-200">联系我们</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-6xl mx-auto px-6 pb-40">
+
+        <div id="view-personal">
+            
+            <div class="category-title">
+                <svg class="icon-category" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
+                身份与内容展示
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">NFC 激活与绑定<span>碰一下手机即可激活，将卡片与您的账户永久绑定。</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">编辑个人主页<span>配置头像、职位、MBTI 标签及社交账号跳转。</span></div>
+                <div class="cell-data">基础版<span>有限字段</span></div>
+                <div class="cell-data">完整版<span>支持自定义所有字段与模块</span></div>
+                <div class="cell-data">完整版<span>支持自定义所有字段与模块</span></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">动态管理主页<span>App 修改内容，卡片感应时实时同步。</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>无需重新制卡，修改即时生效</span></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">多媒体上传<span>支持上传动图、高清视频及 PDF 作品集。</span></div>
+                <div class="cell-data">10 MB<span>仅限图片</span></div>
+                <div class="cell-data">100 MB<span>支持短视频</span></div>
+                <div class="cell-data highlight">1 GB<span>支持原画质播放与文件下载</span></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">多身份数量<span>一张卡片，切换不同身份（如：商务模式 / 社交模式）。</span></div>
+                <div class="cell-data">1 个</div>
+                <div class="cell-data">3 个</div>
+                <div class="cell-data highlight">∞ 不限</div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">添加身份时信息继承<span>创建新身份时，自动复用旧身份的通用信息。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">批量录入信息<span>配合专用“刷卡器”，一次性将数据写入多张卡片。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>(有限额)</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="category-title">
+                <svg class="icon-category" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                通讯与文件系统
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">触即分享 & 自动保存<span>对方碰卡后，您的信息将直接写入其手机通讯录。</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>无需手动输入</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>无需手动输入</span></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">通讯方式<span>App 内原生聊天 + 网页版轻量级聊天。</span></div>
+                <div class="cell-data">仅网页版</div>
+                <div class="cell-data">App + 网页版</div>
+                <div class="cell-data">App + 网页版</div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">手动储存库容量<span>用于真人对话时手动发送文件的云端空间。</span></div>
+                <div class="cell-data">1 GB</div>
+                <div class="cell-data">10 GB</div>
+                <div class="cell-data highlight">100 GB</div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">文件分类与管理<span>自定义标签索引，并在聊天中一键调用发送。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">聊天下单与支付<span>在对话流中直接发送商品卡片并收款。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="category-title">
+                <svg class="icon-category" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                AI 助手 (沟通辅助)
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">智能匹配回复内容<span>检测到问题命中 AI 知识库时，自动调取标准答案。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">智能生成回复建议<span>AI 模仿您的用词习惯与语气，生成回复草稿。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data">通用风格</div>
+                <div class="cell-data highlight">个性化模仿<span>深度学习用户语气</span></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">智能提醒文档发送<span>识别对话中的文件需求，自动从库中调取并提示发送。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">智能摘要生成<span>自动提取接收文件的核心架构与关键信息。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="category-title">
+                <svg class="icon-category" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                AI 离线代理
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">自动发送预设资料<span>离线时自动发送个人介绍，维持连接热度。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">解析知识库基础问题<span>优先调用知识库自动解答常见 FAQ（如营业时间）。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">引导对方需求留言<span>遇到超纲问题，自动引导访客留下具体需求。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="category-title">
+                <svg class="icon-category" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                深度问答 & 检索
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">AI 记忆时长<span>记住多天内的对话历史，无需重复提供背景信息。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data">3 天</div>
+                <div class="cell-data highlight">7 天</div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">个性化问答<span>基于您上传的专属资料（而非通用知识）提供专业建议。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">检索账号内资源<span>自然语言搜索聊天记录、文件和任务。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">检索全平台用户<span>在 Linkly 平台内查找潜在合作伙伴。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">全网公开资源检索 (背调)<span>聚合全网公开信息，辅助背景调查。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data highlight"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="category-title">
+                <svg class="icon-category" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                数据洞察
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">访问者画像与行为<span>生成性别/职业画像，分析停留时长与跳出率。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data">基础画像</div>
+                <div class="cell-data highlight">完整画像<span>+ 行为追踪</span></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">对话交互分析<span>量化回复频率与态度，分析用户兴趣与意向等级。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data highlight"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">AI 社交需求预测<span>预测资源缺口，主动推荐潜在合作伙伴。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="category-title">
+                <svg class="icon-category" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>
+                附加服务
+            </div>
+
+            <div class="row compare-grid-personal">
+                <div class="cell-label">域名/Logo/邮箱定制</div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg></div>
+                <div class="cell-data">可选购</div>
+                <div class="cell-data">可选购</div>
+            </div>
+
+        </div>
+
+        <div id="view-business" class="hidden">
+            
+            <div class="text-center py-10 border-b border-[#424245] mb-10">
+                <p class="text-xl text-white mb-4">✅ Team 与 Enterprise 均包含所有 Personal Ultra 功能。</p>
+                <div class="expand-trigger" id="btn-expand" onclick="toggleExpand()">
+                    <span>查看包含的个人版功能</span>
+                    <svg id="icon-expand" class="w-4 h-4 transform transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                </div>
+                <div id="content-expand" class="expand-content">
+                    
+                    <div class="row compare-grid-expanded bg-[#111] border-t border-[#333]">
+                        <div class="cell-label pl-4">NFC 激活与绑定<span>碰一下手机即可激活，将卡片与您的账户永久绑定。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">编辑个人主页<span>配置头像、职位、MBTI 标签及社交账号跳转。</span></div>
+                        <div class="cell-data">完整版<span>支持自定义所有字段与模块</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">动态管理主页<span>App 修改内容，卡片感应时实时同步。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>无需重新制卡，修改即时生效</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">多媒体上传<span>支持上传动图、高清视频及 PDF 作品集。</span></div>
+                        <div class="cell-data highlight">1 GB<span>支持原画质播放与文件下载</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">多身份数量<span>一张卡片，切换不同身份。</span></div>
+                        <div class="cell-data highlight">∞ 不限</div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">添加身份时信息继承<span>创建新身份时，自动复用旧身份的通用信息。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">批量录入信息<span>配合专用“刷卡器”，一次性将数据写入多张卡片。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">触即分享 & 自动保存<span>对方碰卡后，您的信息将直接写入其手机通讯录。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>无需手动输入</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">通讯方式<span>App 内原生聊天 + 网页版轻量级聊天。</span></div>
+                        <div class="cell-data">App + 网页版</div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">手动储存库容量<span>用于真人对话时手动发送文件的云端空间。</span></div>
+                        <div class="cell-data highlight">100 GB</div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">文件分类与管理<span>自定义标签索引，并在聊天中一键调用发送。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">聊天下单与支付<span>在对话流中直接发送商品卡片并收款。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">智能匹配回复内容<span>检测到问题命中 AI 知识库时，自动调取标准答案。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">智能生成回复建议<span>AI 模仿您的用词习惯与语气，生成回复草稿。</span></div>
+                        <div class="cell-data highlight">个性化模仿<span>深度学习用户语气</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">智能提醒文档发送<span>识别对话中的文件需求，自动从库中调取并提示发送。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">智能摘要生成<span>自动提取接收文件的核心架构与关键信息。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">自动发送预设资料<span>离线时自动发送个人介绍，维持连接热度。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">解析知识库基础问题<span>优先调用知识库自动解答常见 FAQ。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">引导对方需求留言<span>遇到超纲问题，自动引导访客留下具体需求。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">AI 记忆时长<span>记住多天内的对话历史，无需重复提供背景信息。</span></div>
+                        <div class="cell-data highlight">7 天</div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">个性化问答<span>基于专属资料提供专业建议。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">检索账号内资源<span>自然语言搜索聊天记录、文件和任务。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">检索全平台用户<span>在 Linkly 平台内查找潜在合作伙伴。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">全网公开资源检索 (背调)<span>聚合全网公开信息，辅助背景调查。</span></div>
+                        <div class="cell-data highlight"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">访问者画像与行为<span>生成性别/职业画像，分析停留时长与跳出率。</span></div>
+                        <div class="cell-data highlight">完整画像<span>+ 行为追踪</span></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">对话交互分析<span>量化回复频率与态度，分析用户兴趣与意向等级。</span></div>
+                        <div class="cell-data highlight"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">AI 社交需求预测<span>预测资源缺口，主动推荐潜在合作伙伴。</span></div>
+                        <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                    </div>
+
+                    <div class="row compare-grid-expanded bg-[#111]">
+                        <div class="cell-label pl-4">域名/Logo/邮箱定制</div>
+                        <div class="cell-data">可选购</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="category-title">
+                <svg class="icon-category" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                企业专属管理
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">账户批量管理<span>一键开通或冻结员工账号，支持 Excel 导入。</span></div>
+                <div class="cell-data">批量开通/冻结</div>
+                <div class="cell-data highlight">批量 + SSO 单点登录</div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">公司资料统一分发<span>集中上传报价单/手册，强制同步给全员。</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">员工权限设置<span>规定谁能修改资料，谁只能查看数据。</span></div>
+                <div class="cell-data">标准角色<span>(管理员/成员)</span></div>
+                <div class="cell-data">自定义角色<span>(按需配置权限)</span></div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">客户咨询自动分单<span>根据员工忙闲状态和技能，自动分配客户。</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">员工行为监控<span>查看员工登录次数、操作记录及客户列表。</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">聊天合规审计<span>查看全员聊天记录，支持删除违规内容。</span></div>
+                <div class="cell-data">仅看统计<span>(聊天数量/活跃度)</span></div>
+                <div class="cell-data highlight">看内容+删除<span>(防止飞单/违规)</span></div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">数据一键导出<span>导出所有聊天记录和客户资料，防止资产流失。</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">重要事项提醒<span>设置规则，自动提醒员工跟进客户或完成任务。</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">项目进度管理<span>设置里程碑，任务逾期自动变红报警。</span></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+                <div class="cell-data"><svg class="icon-check" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg></div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">AI 回答依据<span>限制 AI 只能回答公司统一上传的标准答案。</span></div>
+                <div class="cell-data">仅限公司标准答案<span>防止员工乱承诺</span></div>
+                <div class="cell-data highlight">标准答案 + 部门资料<span>更灵活</span></div>
+            </div>
+
+            <div class="row compare-grid-business">
+                <div class="cell-label">全网背景调查<span>一键聚合客户的公开信息。</span></div>
+                <div class="cell-data"><svg class="icon-dash" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path></svg><span>默认关闭 (无需全员)</span></div>
+                <div class="cell-data highlight">可选购<span>单独付费开通</span></div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer style="background-color: #000000; color: #86868b; font-size: 12px; line-height: 1.33337; font-weight: 400; padding: 0 20px; border-top: 1px solid #333; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+        <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px;">
+            
+            <div style="border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px;">
+                更多选购方式：<a href="Shop_General.html" style="color: #2997ff; text-decoration: none;">前往 Linkly 商店</a>，或发送邮件至 <a href="mailto:contact@linklyai.net" style="color: #2997ff; text-decoration: none;">contact@linklyai.net</a> 与我们取得联系。
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
+                
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">选购与了解</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Shop_General.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 商店</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#essentials" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 基础版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#studio" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 半定制版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#bespoke" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 全定制版</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">软件服务</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="AI_Detailed_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly AI</a></li>
+                            <li style="margin-bottom: 8px;"><a href="VIP_Compare_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">会员计划</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Download.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">应用下载</a></li>
+                            <li style="margin-bottom: 8px;"><a href="#" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">网页登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">商务应用</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="B_Detailed_2black_WordPolish.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 企业版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">企业版采购咨询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">客户支持</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Tech_Spec.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">技术规格参数</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">联系支持团队</a></li>
+                            <li style="margin-bottom: 8px;"><a href="#" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">订单状态查询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">关于 Linkly</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Brand_Story.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">品牌故事</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Environment.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">环境责任</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Privacy.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私保护</a></li>
+                            <li style="margin-bottom: 8px;"><a href="mailto:contact@linklyai.net" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                <div style="color: #86868b;">Copyright © 2025 Linkly Inc. 保留所有权利。</div>
+                <div style="display: flex; flex-wrap: wrap;">
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私政策</a>
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">使用条款</a>
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">销售政策</a>
+                    <a href="#" style="color: #86868b; text-decoration: none;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">法律信息</a>
+                </div>
+                <a href="#" style="color: #f5f5f7; text-decoration: none; margin-left: auto;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">中国大陆 (简体中文)</a>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        window.addEventListener('load', () => {
+                const currentPage = window.location.pathname;  // 获取当前页面路径
+                const links = document.querySelectorAll('.navbar-links a');  // 获取导航栏中的所有链接
+                
+                links.forEach(link => {
+                    // 获取 href 属性
+                    const href = link.getAttribute('href');
+                    // 如果当前页面路径包含链接的 href，且 href 不为空或仅仅是 #
+                    if (href && href !== '#' && currentPage.includes(href)) {
+                        link.classList.add('active');  // 给当前链接添加 active 类
+                    } else {
+                        link.classList.remove('active');  // 否则移除 active 类
+                    }
+                });
+            });
+
+        function switchView(view) {
+            const toggleBg = document.getElementById('toggle-bg');
+            const pHeader = document.getElementById('head-personal');
+            const bHeader = document.getElementById('head-business');
+            const pView = document.getElementById('view-personal');
+            const bView = document.getElementById('view-business');
+            const btns = document.querySelectorAll('.toggle-btn');
+
+            if (view === 'personal') {
+                toggleBg.style.transform = 'translateX(0)';
+                btns[0].classList.add('active');
+                btns[1].classList.remove('active');
+
+                gsap.to([bHeader, bView], { opacity: 0, duration: 0.2, onComplete: () => {
+                    bHeader.classList.add('hidden');
+                    bView.classList.add('hidden');
+                    pHeader.classList.remove('hidden');
+                    pView.classList.remove('hidden');
+                    gsap.fromTo([pHeader, pView], { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 });
+                }});
+            } else {
+                toggleBg.style.transform = 'translateX(100%)';
+                btns[0].classList.remove('active');
+                btns[1].classList.add('active');
+
+                gsap.to([pHeader, pView], { opacity: 0, duration: 0.2, onComplete: () => {
+                    pHeader.classList.add('hidden');
+                    pView.classList.add('hidden');
+                    bHeader.classList.remove('hidden');
+                    bView.classList.remove('hidden');
+                    gsap.fromTo([bHeader, bView], { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4 });
+                }});
+            }
+        }
+
+        // 折叠展开逻辑
+        let isExpanded = false;
+        function toggleExpand() {
+            const content = document.getElementById('content-expand');
+            const icon = document.getElementById('icon-expand');
+            
+            if (!isExpanded) {
+                gsap.to(content, { height: "auto", opacity: 1, duration: 0.5, ease: "power2.out" });
+                gsap.to(icon, { rotation: 180, duration: 0.3 });
+            } else {
+                gsap.to(content, { height: 0, opacity: 0, duration: 0.5, ease: "power2.out" });
+                gsap.to(icon, { rotation: 0, duration: 0.3 });
+            }
+            isExpanded = !isExpanded;
+        }
+
+        // 入场动画
+        gsap.from(".row", {
+            y: 20, opacity: 0, duration: 0.5, stagger: 0.05, ease: "power2.out", delay: 0.2
+        });
+    </script>
+</body>
+</html>

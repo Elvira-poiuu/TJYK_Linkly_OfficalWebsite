@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Logo/webLOGOpart_icon_w_TRANSBG.png" type="image/x-icon">
+    <title>Linkly - 使用指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f5f5f7;
+            --text-primary: #1d1d1f;
+            --text-secondary: #86868b;
+            --accent-blue: #007aff; /* iOS Standard Blue */
+            --ios-bg: #f2f2f7;
+            --ios-card: #ffffff;
+            --ios-separator: #c6c6c8;
+            --ios-green: #34c759;
+        }
+
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-primary); 
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* 适配浅色背景的玻璃导航效果 */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.75); /* 改为白色半透明 */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 边框改为淡淡的黑色 */
+        }
+
+        /* 导航链接样式 */
+        .navbar-links a {
+            color: #1d1d1f; /* 文字改为深灰色 */
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: font-weight 0.3s ease;
+        }
+
+        .navbar-links a:hover {
+            font-weight: bold;
+            color: #0071e3; /* 悬停保持蓝色 (Apple Blue) */
+        }
+
+        .navbar-links a.active {
+            font-weight: bold;
+            color: #000000; /* 激活状态为纯黑 */
+        }
+
+        .navbar-btns a {
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        /* “购买”按钮：浅色背景下通常用黑底白字，或者蓝底白字 */
+        .navbar-btns .buy-btn {
+            background-color: #1d1d1f; /* 黑底 */
+            color: white; /* 白字 */
+        }
+
+        .navbar-btns .buy-btn:hover {
+            background-color: #0071e3; /* 悬停变蓝 */
+            color: white;
+            font-weight: bold;
+        }
+
+        /* “登录”按钮悬停效果 */
+        .navbar-btns .login-btn:hover {
+            color: #0071e3;
+            font-weight: bold;
+        }
+    
+
+        /* --- 高保真 iPhone 模型 (CSS Pure Draw) --- */
+        .iphone-frame {
+            width: 280px; height: 560px;
+            background: #000;
+            border-radius: 50px;
+            /* 逼真的边框光影：内阴影模拟屏幕黑边，外阴影模拟机身 */
+            box-shadow: inset 0 0 0 2px #444, inset 0 0 0 6px #000, 0 40px 80px -20px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin: 0 auto;
+            border: 8px solid #1a1a1a;
+        }
+        /* 灵动岛 */
+        .dynamic-island {
+            position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+            width: 96px; height: 28px; background: #000; border-radius: 14px; z-index: 30;
+        }
+        /* 屏幕内容区 */
+        .screen-content {
+            width: 100%; height: 100%; background: var(--ios-bg);
+            border-radius: 40px; overflow: hidden; position: relative;
+            display: flex; flex-direction: column;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif; /* 强制 iOS 字体 */
+        }
+        
+        /* 状态栏占位 */
+        .status-bar { 
+            height: 50px; width: 100%; flex-shrink: 0; display: flex; justify-content: space-between; align-items: center; padding: 0 22px; padding-top: 10px; font-size: 12px; font-weight: 600; 
+            background: rgba(255,255,255,0.8); backdrop-filter: blur(10px); z-index: 20; position: absolute; top:0; left:0;
+        }
+
+        /* --- iOS UI 组件库 (High Fidelity) --- */
+        
+        /* 列表组 (Grouped Table View) */
+        .ios-list-group {
+            background: var(--ios-card); margin: 0 16px; border-radius: 10px; overflow: hidden;
+        }
+        
+        /* 列表项 */
+        .ios-cell {
+            display: flex; align-items: center; padding: 14px 16px;
+            background: #fff; position: relative;
+        }
+        /* 分隔线 (inset) */
+        .ios-cell:not(:last-child)::after {
+            content: ''; position: absolute; bottom: 0; right: 0; height: 0.5px; background: #c6c6c8;
+            left: 16px; 
+        }
+        
+        .ios-cell-label { font-size: 16px; color: #000; flex: 1; }
+        .ios-cell-value { font-size: 16px; color: #8e8e93; margin-right: 8px; }
+        /* 关键：iOS 跳转箭头 (Chevron) */
+        .ios-chevron { width: 8px; height: 14px; opacity: 0.3; } 
+
+        /* 按钮 */
+        .ios-btn-blue {
+            margin: 24px 16px; height: 50px; background: var(--accent-blue); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: 600; font-size: 17px;
+        }
+
+        /* App Store 风格组件 */
+        .app-store-header { display: flex; gap: 12px; padding: 0 20px; margin-top: 60px; }
+        .app-icon { width: 88px; height: 88px; border-radius: 20px; background: #000; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 700; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .app-info h3 { font-size: 20px; font-weight: 600; margin-bottom: 2px; line-height: 1.2; }
+        .app-info p { font-size: 13px; color: #8a8a8e; margin-bottom: 12px; }
+        .get-btn { background: #f0f0f8; color: var(--accent-blue); font-weight: 700; font-size: 14px; padding: 6px 20px; border-radius: 16px; display: inline-block; }
+        
+        .app-stats { display: flex; justify-content: space-between; padding: 20px; border-bottom: 0.5px solid #e5e5ea; margin-bottom: 20px; }
+        .stat-item { text-align: center; flex: 1; border-right: 0.5px solid #e5e5ea; }
+        .stat-item:last-child { border: none; }
+        .stat-val { font-size: 20px; font-weight: 700; color: #8a8a8e; }
+        .stat-label { font-size: 11px; color: #8a8a8e; margin-top: 2px; }
+
+        /* 键盘模拟 */
+        .ios-keyboard {
+            height: 210px; background: #d1d5db; position: absolute; bottom: 0; width: 100%;
+            display: grid; grid-template-rows: repeat(4, 1fr); padding: 6px; gap: 6px;
+        }
+        .kb-row { display: flex; justify-content: center; gap: 6px; }
+        .kb-key { background: #fff; border-radius: 5px; flex: 1; box-shadow: 0 1px 0 #888; color: #000; font-size: 20px; display: flex; align-items: center; justify-content: center; }
+
+        /* 验证码输入 */
+        .code-input-group { display: flex; justify-content: center; gap: 12px; margin: 30px 0; }
+        .code-dot { width: 14px; height: 14px; border-radius: 50%; background: #e5e5ea; }
+        .code-dot.filled { background: #000; }
+
+        /* 自动填充条 */
+        .autofill-bar {
+            position: absolute; bottom: 0; width: 100%; background: #d1d5db; padding: 10px;
+            display: flex; justify-content: center; border-top: 0.5px solid #aaa;
+        }
+        .autofill-pill {
+            background: #fff; padding: 8px 16px; border-radius: 8px; text-align: center; width: 100%;
+            font-size: 16px; color: #000; box-shadow: 0 1px 0 #888;
+        }
+
+        /* 步骤布局 */
+        .step-section { min-height: 85vh; display: flex; flex-direction: column; justify-content: center; padding: 60px 20px; }
+        .step-container { max-width: 980px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .step-section.even .step-container { direction: rtl; }
+        .step-section.even .step-text { direction: ltr; }
+
+        .step-text { opacity: 0; transform: translateY(20px); }
+        .step-num { font-size: 12px; font-weight: 600; color: var(--accent-blue); margin-bottom: 12px; display: block; }
+        .step-title { font-size: 44px; font-weight: 700; line-height: 1.05; margin-bottom: 20px; letter-spacing: -0.02em; }
+        .step-desc { font-size: 18px; color: var(--text-secondary); line-height: 1.5; font-weight: 400; max-width: 360px; }
+        .device-wrapper { opacity: 0; transform: scale(0.95); transition: transform 0.5s; }
+        
+        /* 底部 */
+        .footer-cta { text-align: center; padding: 120px 20px; background: #fff; }
+        .btn-primary { background: #1d1d1f; color: #fff; padding: 14px 36px; border-radius: 980px; font-size: 17px; font-weight: 500; transition: 0.2s; display: inline-block; }
+        .btn-primary:hover { background: #333; transform: scale(1.02); }
+
+        @media (max-width: 768px) {
+            .step-container { grid-template-columns: 1fr; gap: 40px; text-align: center; }
+            .step-section.even .step-container { direction: ltr; }
+            .step-desc { margin: 0 auto; }
+            .iphone-frame { width: 240px; height: 480px; }
+            .step-title { font-size: 32px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
+            
+            <div class="nav-content">
+                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
+                    <img src="Logo/lightBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;"> 
+                </a>
+                <div style="display:flex; gap:24px;"></div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8 navbar-links">
+                
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        产品
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 名片
+                            </a>
+                            <a href="Linkly_AI_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly AI
+                            </a>
+                            <a href="Enterprise_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 企业版
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="AI_Detailed_2.html">Linkly AI</a> 
+                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
+                
+                <div class="relative group h-full flex items-center">
+                    <span class="cursor-pointer py-4 text-[0.875rem] text-[#1d1d1f] group-hover:text-[#0071e3] group-hover:font-bold transition-all duration-300">
+                        定价
+                    </span>
+                    <div class="absolute left-1/2 -translate-x-1/2 top-[3rem] pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl overflow-hidden shadow-2xl w-32 flex flex-col p-1">
+                            <a href="VIP_Compare_2.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] rounded-lg hover:text-[#0071e3] transition-colors !font-normal">
+                                软件应用
+                            </a>
+                            <a href="Price_Card.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] rounded-lg hover:text-[#0071e3] transition-colors !font-normal">
+                                实体名片
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative group h-full flex items-center">
+                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        支持
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                应用下载
+                            </a>
+                            <a href="User_Guide.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                使用说明
+                            </a>
+                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                技术详情
+                            </a>
+                            <a href="QA.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                常见问题
+                            </a>
+                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                联系我们
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
+                <a href="#" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                    </svg>
+                </a>
+                
+                <a href="ShopBag.html" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                </a>
+
+                <a href="Shop_General.html" class="px-3 py-1 rounded-full font-medium transition-all duration-300 buy-btn">购买</a>
+                
+                <a href="#" class="hidden md:block text-[#1d1d1f] transition-all duration-300 login-btn">登录</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="pt-48 pb-20 px-6 text-center max-w-2xl mx-auto">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 tracking-tight text-[#1d1d1f]">
+            开箱，即用。
+        </h1>
+        <p class="text-xl text-[#86868b] leading-relaxed">
+            我们不仅重新设计了名片，更重新设计了开始的方式。<br>
+            无需繁琐配对，一切已在出厂时为您就绪。
+        </p>
+    </header>
+
+    <section class="step-section">
+        <div class="step-container">
+            <div class="device-wrapper flex justify-center">
+                <div class="iphone-frame">
+                    <div class="dynamic-island"></div>
+                    <div class="screen-content" style="background: #fff;">
+                        <div class="status-bar"><span>9:41</span><span>5G</span></div>
+                        
+                        <div class="app-store-header">
+                            <div class="app-icon">L</div>
+                            <div class="app-info flex-1">
+                                <h3>Linkly</h3>
+                                <p>Business & Social Identity</p>
+                                <div class="get-btn">GET</div>
+                            </div>
+                        </div>
+
+                        <div class="app-stats">
+                            <div class="stat-item">
+                                <div class="stat-val text-gray-500">4.9 ★</div>
+                                <div class="stat-label">12K Ratings</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-val text-gray-500">#1</div>
+                                <div class="stat-label">Business</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-val text-gray-500">4+</div>
+                                <div class="stat-label">Years Old</div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3 px-5 overflow-hidden">
+                            <div class="h-60 w-40 bg-gray-100 rounded-2xl flex-shrink-0 border border-gray-200"></div>
+                            <div class="h-60 w-40 bg-gray-100 rounded-2xl flex-shrink-0 border border-gray-200"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="step-text">
+                <span class="step-num">Step 01</span>
+                <h2 class="step-title">下载 App。</h2>
+                <p class="step-desc">前往 App Store 或 Google Play 下载 Linkly 客户端。这是您管理数字身份的控制中心。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-section even bg-[#fff]">
+        <div class="step-container">
+            <div class="device-wrapper flex justify-center">
+                <div class="iphone-frame">
+                    <div class="dynamic-island"></div>
+                    <div class="screen-content" style="background: #fff;">
+                        <div class="status-bar"><span>9:41</span><span>5G</span></div>
+                        
+                        <div class="px-8 mt-24 text-center">
+                            <h3 class="text-2xl font-bold mb-2">输入验证码</h3>
+                            <p class="text-sm text-gray-500 leading-relaxed">
+                                我们已向您下单时预留的手机号<br>
+                                <strong class="text-black">+86 139 **** 8888</strong> 发送了验证码。
+                            </p>
+                            
+                            <div class="code-input-group">
+                                <div class="code-dot filled"></div>
+                                <div class="code-dot filled"></div>
+                                <div class="code-dot filled"></div>
+                                <div class="code-dot"></div>
+                                <div class="code-dot"></div>
+                                <div class="code-dot"></div>
+                            </div>
+                            
+                            <p class="text-sm text-blue-500 font-medium">重新发送 (45s)</p>
+                        </div>
+
+                        <div class="autofill-bar">
+                            <div class="autofill-pill">
+                                来自“信息” <span class="font-bold">592 108</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-text">
+                <span class="step-num">Step 02</span>
+                <h2 class="step-title">验证身份。</h2>
+                <p class="step-desc">
+                    使用您<strong>下单时的手机号</strong>登录。系统会自动识别并关联归属于该号码的所有定制卡片，无需手动扫描配对。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-section">
+        <div class="step-container">
+            <div class="device-wrapper flex justify-center">
+                <div class="iphone-frame">
+                    <div class="dynamic-island"></div>
+                    <div class="screen-content">
+                        <div class="status-bar"><span>9:41</span><span>5G</span></div>
+                        
+                        <div class="px-4 pt-12 pb-2 flex justify-between items-center bg-[#f2f2f7]">
+                            <span class="text-blue-500 text-base">取消</span>
+                            <span class="font-semibold text-[17px]">编辑主页</span>
+                            <span class="text-blue-500 text-base font-semibold">完成</span>
+                        </div>
+
+                        <div class="flex justify-center my-6">
+                            <div class="w-24 h-24 rounded-full bg-gray-300 relative border border-gray-200">
+                                <div class="absolute bottom-0 right-0 text-xs bg-white px-2 py-1 rounded-full shadow-sm text-blue-500 font-medium">编辑</div>
+                            </div>
+                        </div>
+
+                        <div class="text-xs text-gray-500 uppercase ml-5 mb-1">基本信息</div>
+                        <div class="ios-list-group">
+                            <div class="ios-cell">
+                                <span class="ios-cell-label">姓名</span>
+                                <span class="ios-cell-value text-black">Alex Chen</span>
+                                <div class="w-4"></div> </div>
+                            <div class="ios-cell">
+                                <span class="ios-cell-label">职位</span>
+                                <span class="ios-cell-value">添加职位</span>
+                                <svg class="ios-chevron" viewBox="0 0 8 13" fill="none"><path d="M1.5 1.5L6.5 6.5L1.5 11.5" stroke="#C7C7CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                            <div class="ios-cell">
+                                <span class="ios-cell-label">公司</span>
+                                <span class="ios-cell-value">添加公司</span>
+                                <svg class="ios-chevron" viewBox="0 0 8 13" fill="none"><path d="M1.5 1.5L6.5 6.5L1.5 11.5" stroke="#C7C7CC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            </div>
+                        </div>
+
+                        <div class="text-xs text-gray-500 uppercase ml-5 mb-1 mt-4">社交账号</div>
+                        <div class="ios-list-group">
+                            <div class="ios-cell">
+                                <div class="w-6 h-6 bg-green-500 rounded-full mr-3 flex items-center justify-center text-white text-xs font-bold">+</div>
+                                <span class="ios-cell-label text-green-600">添加新链接</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="step-text">
+                <span class="step-num">Step 03</span>
+                <h2 class="step-title">完善信息。</h2>
+                <p class="step-desc">上传头像，填写您的职业信息。新增社交链接只需点击绿色加号，操作逻辑与原生通讯录完全一致。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="step-section even bg-[#fff]">
+        <div class="step-container">
+            <div class="device-wrapper flex justify-center relative">
+                <div class="iphone-frame z-10">
+                    <div class="dynamic-island"></div>
+                    <div class="screen-content">
+                        <div class="status-bar"><span>9:41</span><span>5G</span></div>
+                        
+                        <div class="px-5 pt-12 pb-4">
+                            <h2 class="text-3xl font-bold">我的卡片</h2>
+                        </div>
+
+                        <div class="ios-list-group mt-0">
+                            <div class="ios-cell bg-blue-50/50">
+                                <div class="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center mr-3 text-white">
+                                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-[17px] font-semibold">Linkly #001</div>
+                                    <div class="text-[13px] text-gray-500">Business Mode · 黑胡桃木</div>
+                                </div>
+                                <div class="text-[13px] text-blue-500 font-medium">就绪</div>
+                            </div>
+
+                            <div class="ios-cell">
+                                <div class="w-6 h-6 rounded-full border-2 border-gray-300 mr-3"></div>
+                                <div class="flex-1">
+                                    <div class="text-[17px] font-semibold text-gray-400">Linkly #002</div>
+                                    <div class="text-[13px] text-gray-400">Social Mode · 透明版</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="px-5 mt-2">
+                            <p class="text-[13px] text-gray-500">选中卡片将同步您刚刚编辑的主页信息。</p>
+                        </div>
+
+                        <div class="ios-btn-primary mt-auto mb-8 mx-5">立即同步</div>
+                    </div>
+                </div>
+            </div>
+            <div class="step-text">
+                <span class="step-num">Step 04</span>
+                <h2 class="step-title">一键同步。</h2>
+                <p class="step-desc">
+                    在“我的卡片”列表中，勾选您要激活的卡片编号。点击同步，您的个人主页即刻写入卡片芯片。
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer-cta">
+        <h2 class="text-4xl font-bold mb-8 text-[#1d1d1f]">准备就绪。</h2>
+        <!-- <a href="apps.html" class="btn-primary">前往网页版后台</a> -->
+        <p class="mt-8 text-sm text-gray-500">
+            遇到问题？<a href="Contact_Us.html" class="text-blue-600 hover:underline">联系支持团队</a>
+        </p>
+    </div>
+
+<footer style="background-color: #f5f5f7; color: #6e6e73; font-size: 12px; line-height: 1.33337; font-weight: 400; padding: 0 20px; border-top: 1px solid #d2d2d7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+    <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px;">
+        
+        <div style="border-bottom: 1px solid #d2d2d7; padding-bottom: 20px; margin-bottom: 20px;">
+            更多选购方式：<a href="Shop_General.html" style="color: #0071e3; text-decoration: none;">前往 Linkly 商店</a>，或发送邮件至 <a href="mailto:contact@linklyai.net" style="color: #0071e3; text-decoration: none;">contact@linklyai.net</a> 与我们取得联系。
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
+            
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div>
+                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">选购与了解</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px;"><a href="Shop_General.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 商店</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Price_Card.html#essentials" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 基础版</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Price_Card.html#studio" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 半定制版</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Price_Card.html#bespoke" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 全定制版</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div>
+                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">软件服务</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px;"><a href="AI_Detailed_2.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly AI</a></li>
+                        <li style="margin-bottom: 8px;"><a href="VIP_Compare_2.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">会员计划</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Download.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">应用下载</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">网页登录</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div>
+                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">商务应用</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px;"><a href="B_Detailed_2black_WordPolish.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 企业版</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">企业版采购咨询</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div>
+                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">客户支持</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px;"><a href="Tech_Spec.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">技术规格参数</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">联系支持团队</a></li>
+                        <li style="margin-bottom: 8px;"><a href="#" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">订单状态查询</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <div>
+                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">关于 Linkly</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px;"><a href="Brand_Story.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">品牌故事</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Environment.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">环境责任</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Privacy.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">隐私保护</a></li>
+                        <li style="margin-bottom: 8px;"><a href="mailto:contact@linklyai.net" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">联系我们</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #d2d2d7; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+            <div style="color: #6e6e73;">Copyright © 2025 Linkly Inc. 保留所有权利。</div>
+            <div style="display: flex; flex-wrap: wrap;">
+                <a href="#" style="color: #6e6e73; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #d2d2d7;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">隐私政策</a>
+                <a href="#" style="color: #6e6e73; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #d2d2d7;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">使用条款</a>
+                <a href="#" style="color: #6e6e73; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #d2d2d7;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">销售政策</a>
+                <a href="#" style="color: #6e6e73; text-decoration: none;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">法律信息</a>
+            </div>
+            <a href="#" style="color: #1d1d1f; text-decoration: none; margin-left: auto;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">中国大陆 (简体中文)</a>
+        </div>
+
+    </div>
+</footer>
+
+    <script>
+        window.addEventListener('load', () => {
+                const currentPage = window.location.pathname;  // 获取当前页面路径
+                const links = document.querySelectorAll('.navbar-links a');  // 获取导航栏中的所有链接
+                
+                links.forEach(link => {
+                    // 获取 href 属性
+                    const href = link.getAttribute('href');
+                    // 如果当前页面路径包含链接的 href，且 href 不为空或仅仅是 #
+                    if (href && href !== '#' && currentPage.includes(href)) {
+                        link.classList.add('active');  // 给当前链接添加 active 类
+                    } else {
+                        link.classList.remove('active');  // 否则移除 active 类
+                    }
+                });
+            });
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 步骤内容动效
+        gsap.utils.toArray('.step-section').forEach(section => {
+            const text = section.querySelector('.step-text');
+            const device = section.querySelector('.device-wrapper');
+
+            gsap.to(text, {
+                opacity: 1, y: 0, duration: 1, ease: "power3.out",
+                scrollTrigger: { trigger: section, start: "top 60%" }
+            });
+
+            gsap.to(device, {
+                opacity: 1, scale: 1, duration: 1, ease: "back.out(1.2)",
+                scrollTrigger: { trigger: section, start: "top 60%" }
+            });
+        });
+    </script>
+
+</body>
+</html>

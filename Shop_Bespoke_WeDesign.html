@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linkly Bespoke - 全包设计服务</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --panel-bg: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #86868b;
+            --accent-gold: #d4af37;
+            --border-color: #333333;
+            --input-bg: #1c1c1e;
+            --nav-height: 52px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
+        
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-primary); 
+            -webkit-font-smoothing: antialiased;
+            line-height: 1.5;
+        }
+
+        /* 导航栏 */
+        /* 玻璃导航效果 */
+        .glass-nav {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* 导航链接样式 */
+        .navbar-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.875rem;  /* 默认字体大小 */
+            transition: font-weight 0.3s ease;  /* 字体加粗时平滑过渡 */
+        }
+
+        /* 鼠标悬停时字体加粗 & 高亮 */
+        .navbar-links a:hover {
+            font-weight: bold;
+            color: #2997ff;
+        }
+
+        /* 选中状态（当前页面）样式 */
+        .navbar-links a.active {
+            font-weight: bold;
+            color: white; 
+        }
+
+        /* 按钮通用过渡 */
+        .navbar-btns a {
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        /* “购买”按钮悬停效果 */
+        .navbar-btns .buy-btn:hover {
+            background-color: #2997ff;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* “登录”按钮悬停效果 */
+        .navbar-btns .login-btn:hover {
+            color: #2997ff;
+            font-weight: bold;
+        }
+
+        /* 主布局 */
+        .main-container {
+            max-width: 1200px; margin: 0 auto; padding: calc(var(--nav-height) + 40px) 20px 80px;
+            min-height: 100vh;
+        }
+
+        .header-section { margin-bottom: 60px; text-align: center; }
+        .bespoke-tag { 
+            display: inline-block; padding: 4px 12px; border-radius: 20px; 
+            font-size: 11px; font-weight: 700; margin-bottom: 16px;
+            text-transform: uppercase; letter-spacing: 0.1em;
+            background: rgba(212, 175, 55, 0.15); color: var(--accent-gold); border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .page-title { font-size: 48px; font-weight: 700; line-height: 1.1; color: #fff; margin-bottom: 12px; letter-spacing: -0.02em; }
+        .page-sub { font-size: 20px; color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-weight: 400; }
+
+        /* --- 流程板块 (Process Flow - 上移至此) --- */
+        .process-banner {
+            background: #111; border: 1px solid var(--border-color); border-radius: 24px;
+            padding: 40px; margin-bottom: 60px;
+            position: relative; overflow: hidden;
+        }
+        /* 背景装饰 */
+        .process-banner::before {
+            content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.5), transparent);
+        }
+
+        .process-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+            position: relative; z-index: 10;
+        }
+        .step-item { position: relative; padding-right: 20px; }
+        /* 连接线 */
+        .step-item:not(:last-child)::after {
+            content: ""; position: absolute; right: 0; top: 20px; width: 1px; height: 40px;
+            background: linear-gradient(to bottom, #333, transparent);
+            display: none; /* 移动端隐藏 */
+        }
+        /* 桌面端显示右侧箭头或分割线 */
+        @media (min-width: 768px) {
+            .step-item:not(:last-child)::after {
+                display: block; right: -10px; height: auto; top: 10%; bottom: 10%;
+            }
+        }
+
+        .step-num { 
+            font-size: 48px; font-weight: 800; color: #1c1c1e; /* 深色背景下的暗纹数字 */
+            text-shadow: -1px -1px 0 rgba(255,255,255,0.1);
+            margin-bottom: -20px; position: relative; z-index: 0; pointer-events: none;
+        }
+        .step-content { position: relative; z-index: 1; padding-top: 10px; }
+        .step-title { font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+        .step-desc { font-size: 13px; color: #888; line-height: 1.5; }
+
+
+        /* --- 双栏布局 --- */
+        .bespoke-layout {
+            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start;
+        }
+
+        /* 左侧：资产收集区 */
+        .asset-stage {
+            position: sticky; top: 100px;
+            background: #0a0a0a; border-radius: 24px;
+            border: 1px dashed var(--border-color);
+            min-height: 700px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: all 0.3s ease;
+            position: relative; overflow: hidden;
+        }
+        .asset-stage.drag-over { border-color: var(--accent-gold); background: rgba(212, 175, 55, 0.05); }
+
+        .stage-content { text-align: center; z-index: 10; pointer-events: none; padding: 40px; }
+        .stage-icon { width: 64px; height: 64px; color: var(--text-secondary); margin-bottom: 24px; opacity: 0.8; }
+        .stage-title { font-size: 24px; font-weight: 600; margin-bottom: 10px; color: #fff; }
+        .stage-desc { font-size: 14px; color: var(--text-secondary); max-width: 320px; margin: 0 auto 30px; line-height: 1.6; }
+        
+        .upload-tips {
+            text-align: left; background: #1c1c1e; padding: 20px; border-radius: 12px; border: 1px solid var(--border-color);
+            max-width: 360px; margin: 0 auto; pointer-events: auto;
+        }
+        .tip-title { font-size: 11px; font-weight: 700; color: var(--accent-gold); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
+        .tip-list { list-style: none; padding: 0; }
+        .tip-list li { font-size: 12px; color: #aaa; margin-bottom: 6px; display: flex; gap: 8px; }
+        .tip-list li::before { content: "•"; color: #666; }
+
+        .file-list-container {
+            width: 100%; padding: 20px; display: none; flex-direction: column; gap: 10px;
+            max-height: 600px; overflow-y: auto; z-index: 20;
+        }
+        .file-list-container.active { display: flex; }
+        
+        .file-item {
+            background: #1c1c1e; border: 1px solid var(--border-color); border-radius: 10px;
+            padding: 12px 16px; display: flex; justify-content: space-between; align-items: center;
+            animation: slideUp 0.3s ease-out;
+        }
+        .file-info { display: flex; align-items: center; gap: 12px; }
+        .file-icon { width: 32px; height: 32px; background: #333; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: bold; color: #fff; }
+        .file-meta { display: flex; flex-direction: column; }
+        .fname { font-size: 13px; color: #fff; font-weight: 500; }
+        .fsize { font-size: 11px; color: #666; }
+        .remove-btn { color: #666; cursor: pointer; transition: 0.2s; padding: 4px; }
+        .remove-btn:hover { color: #ff3b30; }
+
+        #asset-upload { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 1; }
+
+        /* 右侧：配置面板 */
+        .config-panel { padding-top: 0; }
+        .config-section { margin-bottom: 48px; }
+        .config-label { font-size: 15px; font-weight: 600; margin-bottom: 16px; display: block; color: #e5e5e5; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .grid-2-col { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+        .grid-3-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+        .select-card {
+            border: 1px solid var(--border-color); border-radius: 12px; padding: 14px;
+            background: var(--input-bg); cursor: pointer; transition: all 0.2s; text-align: center;
+        }
+        .select-card:hover { border-color: #666; background: #252528; }
+        .select-card.active { border-color: var(--accent-gold); background: rgba(212, 175, 55, 0.1); box-shadow: 0 0 0 1px var(--accent-gold); }
+        .card-title { font-size: 13px; font-weight: 600; color: #fff; display: block; }
+        .card-sub { font-size: 11px; color: var(--text-secondary); display: block; margin-top: 2px; }
+
+        /* "其他"输入框 */
+        .other-input-container { margin-top: 12px; display: none; }
+        .other-input-container.active { display: block; animation: fadeIn 0.3s ease; }
+        .other-input { width: 100%; padding: 12px; background: #000; border: 1px solid var(--border-color); border-radius: 8px; color: #fff; font-size: 13px; }
+        .other-input:focus { border-color: var(--accent-gold); outline: none; }
+
+        /* 表单控件 */
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .detail-item { display: flex; flex-direction: column; gap: 8px; }
+        .detail-item.full-width { grid-column: 1 / -1; }
+        .detail-label { font-size: 12px; color: var(--text-secondary); font-weight: 500; }
+        .detail-input {
+            width: 100%; padding: 14px; border-radius: 10px; border: 1px solid var(--border-color);
+            background: var(--input-bg); color: #fff; font-size: 13px; outline: none; transition: border-color 0.2s;
+        }
+        .detail-input:focus { border-color: var(--accent-gold); }
+        .detail-textarea { min-height: 80px; resize: vertical; }
+
+        /* 用途切换 */
+        .usage-toggle {
+            background: #2c2c2e; padding: 4px; border-radius: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 16px;
+        }
+        .usage-btn {
+            padding: 10px; border-radius: 8px; text-align: center; font-size: 13px; font-weight: 500; cursor: pointer; color: #888; transition: all 0.2s;
+        }
+        .usage-btn.active { background: #555; color: #fff; font-weight: 600; }
+
+        .action-bar { margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+        .submit-btn {
+            width: 100%; padding: 18px; border-radius: 12px;
+            background: var(--accent-gold); color: #000;
+            font-size: 16px; font-weight: 600; border: none; cursor: pointer;
+            transition: transform 0.2s, filter 0.2s;
+        }
+        .submit-btn:hover { filter: brightness(1.1); transform: scale(1.01); }
+        .helper-text { text-align: center; margin-top: 12px; font-size: 12px; color: var(--text-secondary); }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) {
+            .bespoke-layout { grid-template-columns: 1fr; gap: 40px; }
+            .asset-stage { position: relative; top: 0; min-height: 400px; }
+            .process-grid { grid-template-columns: 1fr 1fr; gap: 30px; }
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
+            <!-- <a href="index.html" class="text-lg font-semibold text-white hover:text-gray-300 transition-colors">
+                Linkly
+            </a> -->
+            <div class="nav-content">
+                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
+                    <img src="Logo/darkBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;">
+                </a>
+                <div style="display:flex; gap:24px;">
+                    </div>
+            </div>
+            <div class="hidden md:flex items-center gap-8 navbar-links">
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        产品
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 名片
+                            </a>
+                            <a href="Linkly_AI_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly AI
+                            </a>
+                            <a href="Enterprise_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 企业版
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <a href="AI_Detailed_2.html">Linkly AI</a> 
+                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
+                <div class="relative group h-full flex items-center">
+                    <span class="cursor-pointer py-4 text-[0.875rem] text-white group-hover:text-[#2997ff] group-hover:font-bold transition-all duration-300">
+                        定价
+                    </span>
+                    <div class="absolute left-1/2 -translate-x-1/2 top-[3rem] pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-2xl w-32 flex flex-col p-1">
+                            <a href="VIP_Compare_2.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#e8e8ed] hover:bg-white/10 rounded-lg hover:text-white transition-colors !font-normal">
+                                软件应用
+                            </a>
+                            <a href="Price_Card.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#e8e8ed] hover:bg-white/10 rounded-lg hover:text-white transition-colors !font-normal">
+                                实体名片
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group h-full flex items-center">
+                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        支持
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                应用下载
+                            </a>
+                            <a href="User_Guide.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                使用说明
+                            </a>
+                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                技术详情
+                            </a>
+                            <a href="QA.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                常见问题
+                            </a>
+                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                联系我们
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center gap-4 text-[0.875rem]">
+                <a href="#" class="text-[#e8e8ed] hover:text-white transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                    </svg>
+                </a>
+                <a href="ShopBag.html" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                </a>
+                <a href="Shop_General.html" class="bg-white text-black px-3 py-1 rounded-full font-medium hover:bg-[#2997ff] hover:text-white hover:font-bold transition-all duration-300 buy-btn">购买</a>
+                <a href="#" class="hidden md:block text-[#e8e8ed] hover:text-[#2997ff] hover:font-bold transition-all duration-300 login-btn">登录</a>
+            </div>
+        </div>
+    </nav>
+
+<div class="main-container">
+    
+    <div class="header-section">
+        <span class="bespoke-tag">Design Service</span>
+        <h1 class="page-title">全包设计服务</h1>
+        <p class="page-sub">1v1 专属设计。从需求分析到最终生产，Linkly 设计团队全程托管。</p>
+    </div>
+
+    <div class="process-banner">
+        <div class="process-grid">
+            <div class="step-item">
+                <div class="step-num">01</div>
+                <div class="step-content">
+                    <h3 class="step-title">提交需求</h3>
+                    <p class="step-desc">填写右侧表单并上传您的品牌资产，明确设计目标。</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">02</div>
+                <div class="step-content">
+                    <h3 class="step-title">初步沟通</h3>
+                    <p class="step-desc">设计师联系您确认工艺细节，并提供精准报价。</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">03</div>
+                <div class="step-content">
+                    <h3 class="step-title">提案与修改</h3>
+                    <p class="step-desc">出具 2 版设计方案供您选择，支持多轮细节微调。</p>
+                </div>
+            </div>
+            <div class="step-item">
+                <div class="step-num">04</div>
+                <div class="step-content">
+                    <h3 class="step-title">定稿生产</h3>
+                    <p class="step-desc">确认终稿，进入工厂进行高精度生产与质检。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bespoke-layout">
+        
+        <div class="asset-stage" id="drop-zone">
+            <div class="stage-content" id="upload-prompt">
+                <svg class="stage-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                <h2 class="stage-title">品牌资产上传</h2>
+                <p class="stage-desc">请上传 Logo 源文件、VI 手册或灵感参考图。建议打包为 ZIP 格式。</p>
+                <div class="upload-tips">
+                    <div class="tip-title">推荐文件类型</div>
+                    <ul class="tip-list">
+                        <li><strong>矢量:</strong> AI, EPS, SVG (最佳效果)</li>
+                        <li><strong>文档:</strong> PDF, PPTX (品牌规范)</li>
+                        <li><strong>图片:</strong> JPG, PNG (参考图)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="file-list-container" id="file-list"></div>
+            <input type="file" id="asset-upload" multiple onchange="handleFiles(this)">
+        </div>
+
+        <div class="config-panel">
+            
+            <div class="config-section">
+                <span class="config-label">1. 材质意向 (可多选)</span>
+                <div class="grid-3-col">
+                    <div class="select-card" onclick="toggleMulti(this)">
+                        <span class="card-title">亮面 PVC</span>
+                        <span class="card-sub">色彩鲜艳</span>
+                    </div>
+                    <div class="select-card" onclick="toggleMulti(this)">
+                        <span class="card-title">磨砂 PVC</span>
+                        <span class="card-sub">质感内敛</span>
+                    </div>
+                    <div class="select-card" onclick="toggleMulti(this)">
+                        <span class="card-title">透明 PET</span>
+                        <span class="card-sub">科技极客</span>
+                    </div>
+                    <div class="select-card" onclick="toggleMulti(this)">
+                        <span class="card-title">楠竹</span>
+                        <span class="card-sub">环保自然</span>
+                    </div>
+                    <div class="select-card" onclick="toggleMulti(this)">
+                        <span class="card-title">胡桃木</span>
+                        <span class="card-sub">高端商务</span>
+                    </div>
+                    <div class="select-card" onclick="toggleOther('mat-other', this)">
+                        <span class="card-title">其他</span>
+                        <span class="card-sub">特殊需求</span>
+                    </div>
+                </div>
+                <div id="mat-other" class="other-input-container">
+                    <input type="text" class="other-input" placeholder="请输入您想要的特殊材质（如：金属、碳纤维等）">
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">2. 特殊工艺 (可多选)</span>
+                <div class="grid-2-col">
+                    <div class="select-card" onclick="toggleMulti(this)">
+                        <span class="card-title">局部 UV (Spot UV)</span>
+                        <span class="card-sub">亮面凸起纹理</span>
+                    </div>
+                    <div class="select-card" onclick="toggleMulti(this)">
+                        <span class="card-title">烫金/烫银 (Foil)</span>
+                        <span class="card-sub">金属光泽质感</span>
+                    </div>
+                    <div class="select-card" onclick="toggleMulti(this)">
+                        <span class="card-title">彩色封边 (Edges)</span>
+                        <span class="card-sub">侧边色彩点缀</span>
+                    </div>
+                    <div class="select-card" onclick="toggleOther('craft-other', this)">
+                        <span class="card-title">其他</span>
+                        <span class="card-sub">自定义工艺</span>
+                    </div>
+                </div>
+                <div id="craft-other" class="other-input-container">
+                    <input type="text" class="other-input" placeholder="请输入特殊工艺要求（如：击凸、镂空等）">
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">3. 设计需求细节 (选填)</span>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <label class="detail-label">设计风格</label>
+                        <input type="text" class="detail-input" placeholder="例：极简、赛博朋克、商务">
+                    </div>
+                    <div class="detail-item">
+                        <label class="detail-label">品牌色系</label>
+                        <input type="text" class="detail-input" placeholder="例：黑金、#0071E3">
+                    </div>
+                    <div class="detail-item full-width">
+                        <label class="detail-label">图案/纹理偏好</label>
+                        <input type="text" class="detail-input" placeholder="例：大理石纹、几何线条、无需底纹">
+                    </div>
+                    <div class="detail-item full-width">
+                        <label class="detail-label">卡面信息 (正面)</label>
+                        <textarea class="detail-input detail-textarea" placeholder="例：仅放 Logo，居中显示"></textarea>
+                    </div>
+                    <div class="detail-item full-width">
+                        <label class="detail-label">卡面信息 (背面)</label>
+                        <textarea class="detail-input detail-textarea" placeholder="例：姓名、职位、二维码、Slogan"></textarea>
+                    </div>
+                    <div class="detail-item full-width">
+                        <label class="detail-label">其他备注</label>
+                        <textarea class="detail-input detail-textarea" placeholder="任何其他补充说明..."></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-section">
+                <span class="config-label">4. 联系信息</span>
+                <div class="usage-toggle">
+                    <div class="usage-btn active" id="btn-personal" onclick="toggleUsage('personal')">个人定制</div>
+                    <div class="usage-btn" id="btn-enterprise" onclick="toggleUsage('enterprise')">企业采购</div>
+                </div>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <label class="detail-label">联系人姓名</label>
+                        <input type="text" class="detail-input" id="input-name" placeholder="您的姓名">
+                    </div>
+                    <div class="detail-item">
+                        <label class="detail-label">电子邮箱</label>
+                        <input type="email" class="detail-input" id="input-email" placeholder="用于接收设计稿与报价">
+                    </div>
+                    <div class="detail-item full-width" id="company-field" style="display:none;">
+                        <label class="detail-label">企业/团队名称</label>
+                        <input type="text" class="detail-input" id="input-company" placeholder="请输入企业名称">
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-bar">
+                <button class="submit-btn" onclick="submitRequest()">提交需求 & 获取报价</button>
+                <p class="helper-text">提交后，设计师将在 24 小时内通过邮件与您联系并确认排期。</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+    <footer style="background-color: #000000; color: #86868b; font-size: 12px; line-height: 1.33337; font-weight: 400; padding: 0 20px; border-top: 1px solid #333; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+        <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px;">
+            
+            <div style="border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px;">
+                更多选购方式：<a href="Shop_General.html" style="color: #2997ff; text-decoration: none;">前往 Linkly 商店</a>，或发送邮件至 <a href="mailto:contact@linklyai.net" style="color: #2997ff; text-decoration: none;">contact@linklyai.net</a> 与我们取得联系。
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
+                
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">选购与了解</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Shop_General.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 商店</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#essentials" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 基础版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#studio" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 半定制版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Price_Card.html#bespoke" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 全定制版</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">软件服务</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="AI_Detailed_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly AI</a></li>
+                            <li style="margin-bottom: 8px;"><a href="VIP_Compare_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">会员计划</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Download.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">应用下载</a></li>
+                            <li style="margin-bottom: 8px;"><a href="#" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">网页登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">商务应用</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="B_Detailed_2black_WordPolish.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 企业版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">企业版采购咨询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">客户支持</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Tech_Spec.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">技术规格参数</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">联系支持团队</a></li>
+                            <li style="margin-bottom: 8px;"><a href="#" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">订单状态查询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">关于 Linkly</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Brand_Story.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">品牌故事</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Environment.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">环境责任</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Privacy.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私保护</a></li>
+                            <li style="margin-bottom: 8px;"><a href="mailto:contact@linklyai.net" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                <div style="color: #86868b;">Copyright © 2025 Linkly Inc. 保留所有权利。</div>
+                <div style="display: flex; flex-wrap: wrap;">
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私政策</a>
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">使用条款</a>
+                    <a href="#" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">销售政策</a>
+                    <a href="#" style="color: #86868b; text-decoration: none;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">法律信息</a>
+                </div>
+                <a href="#" style="color: #f5f5f7; text-decoration: none; margin-left: auto;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">中国大陆 (简体中文)</a>
+            </div>
+
+        </div>
+    </footer>
+
+
+<script>
+        window.addEventListener('load', () => {
+            const currentPage = window.location.pathname;  // 获取当前页面路径
+            const links = document.querySelectorAll('.navbar-links a');  // 获取导航栏中的所有链接
+            
+            links.forEach(link => {
+                // 获取 href 属性
+                const href = link.getAttribute('href');
+                // 如果当前页面路径包含链接的 href，且 href 不为空或仅仅是 #
+                if (href && href !== '#' && currentPage.includes(href)) {
+                    link.classList.add('active');  // 给当前链接添加 active 类
+                } else {
+                    link.classList.remove('active');  // 否则移除 active 类
+                }
+            });
+        });
+
+    // 多选逻辑 (含其他)
+    function toggleMulti(el) {
+        el.classList.toggle('active');
+    }
+
+    // 切换"其他"输入框显示
+    function toggleOther(inputId, btnEl) {
+        const inputContainer = document.getElementById(inputId);
+        const isActive = btnEl.classList.contains('active');
+        
+        if (isActive) {
+            btnEl.classList.remove('active');
+            inputContainer.classList.remove('active');
+        } else {
+            btnEl.classList.add('active');
+            inputContainer.classList.add('active');
+            inputContainer.querySelector('input').focus();
+        }
+    }
+
+    // 用途切换逻辑
+    function toggleUsage(type) {
+        const btnPersonal = document.getElementById('btn-personal');
+        const btnEnterprise = document.getElementById('btn-enterprise');
+        const companyField = document.getElementById('company-field');
+
+        if (type === 'personal') {
+            btnPersonal.classList.add('active');
+            btnEnterprise.classList.remove('active');
+            
+            // 动画隐藏
+            gsap.to(companyField, {
+                opacity: 0, 
+                height: 0, 
+                duration: 0.2, 
+                onComplete: () => { companyField.style.display = 'none'; }
+            });
+        } else {
+            btnEnterprise.classList.add('active');
+            btnPersonal.classList.remove('active');
+            
+            // 动画显示
+            companyField.style.display = 'flex'; // detail-item 是 flex
+            gsap.fromTo(companyField, 
+                { opacity: 0, height: 0 }, 
+                { opacity: 1, height: 'auto', duration: 0.3 }
+            );
+        }
+    }
+
+    // 文件上传处理
+    function handleFiles(input) {
+        if (input.files && input.files.length > 0) {
+            const container = document.getElementById('file-list');
+            const prompt = document.getElementById('upload-prompt');
+            
+            prompt.style.display = 'none';
+            container.classList.add('active');
+
+            Array.from(input.files).forEach(file => {
+                const ext = file.name.split('.').pop().toUpperCase();
+                const size = (file.size / (1024*1024)).toFixed(2) + ' MB';
+                
+                const html = `
+                    <div class="file-item">
+                        <div class="file-info">
+                            <div class="file-icon">${ext}</div>
+                            <div class="file-meta">
+                                <span class="fname">${file.name}</span>
+                                <span class="fsize">${size}</span>
+                            </div>
+                        </div>
+                        <div class="remove-btn" onclick="this.parentElement.remove(); checkEmpty()">✕</div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+    }
+
+    function checkEmpty() {
+        const container = document.getElementById('file-list');
+        if (container.children.length === 0) {
+            document.getElementById('upload-prompt').style.display = 'block';
+            container.classList.remove('active');
+            document.getElementById('asset-upload').value = '';
+        }
+    }
+
+    function submitRequest() {
+        const name = document.getElementById('input-name').value;
+        const email = document.getElementById('input-email').value;
+
+        if (!name || !email) {
+            alert("请填写完整的联系信息，以便我们发送报价单。");
+            return;
+        }
+
+        const btn = document.querySelector('.submit-btn');
+        btn.innerText = "提交中...";
+        btn.style.opacity = "0.7";
+        btn.disabled = true;
+        
+        setTimeout(() => {
+            alert("需求已提交！\n设计师将尽快与您联系。");
+            btn.innerText = "提交成功";
+            btn.style.background = "#32d74b";
+            btn.style.color = "#000";
+            btn.disabled = false;
+        }, 1500);
+    }
+
+    // 拖拽效果
+    const dropZone = document.getElementById('drop-zone');
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.add('drag-over');
+        }, false);
+    });
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('drag-over');
+        }, false);
+    });
+</script>
+
+</body>
+</html>
