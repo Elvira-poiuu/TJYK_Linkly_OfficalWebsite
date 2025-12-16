@@ -119,7 +119,13 @@
         .layer-base, .layer-texture, .layer-pattern-overlay { position: absolute; inset: 0; pointer-events: none; transition: opacity 0.3s; z-index: 0; }
 
         /* 材质定义 */
-        .tex-bamboo { background: #e3cca8; background-image: linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px); background-size: 3px 100%; display: none; }
+        /* 金属材质模拟 */
+        .tex-metal { 
+            background: linear-gradient(135deg, #e0e0e0 0%, #f8f8f8 50%, #d0d0d0 100%); 
+            display: none; 
+            mix-blend-mode: hard-light;
+            opacity: 0.8;
+        }
         .tex-clear { 
             background: rgba(255,255,255,0.05); 
             backdrop-filter: blur(12px) saturate(150%);
@@ -177,7 +183,6 @@
         .c-social { font-size: 11px; font-family: monospace; font-weight: 600; }
         .c-mbti { font-size: 10px; font-weight: bold; border: 1px solid currentColor; padding: 2px 5px; border-radius: 4px; width: fit-content; height: fit-content; }
         
-        /* 品牌标识样式 */
         .c-brand { 
             position: absolute; font-size: 9px; opacity: 0.4; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; 
             z-index: 5; pointer-events: none;
@@ -201,21 +206,14 @@
         .layout-2 .c-custom { margin-bottom: 5px; }
         .layout-2 .c-brand { bottom: 15px; right: 15px; }
 
-        /* Layout 3: 2x2 网格 (修复版) */
+        /* Layout 3: 2x2 网格 */
         .layout-3 { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; align-items: center; }
         .layout-3 .c-avatar { width: 70px; height: 70px; border-radius: 12px; justify-self: start; align-self: start; }
         .layout-3 .c-mbti { justify-self: end; align-self: start; }
         .layout-3 .c-custom { grid-column: 1 / -1; justify-self: center; font-size: 10px; opacity: 0.6; border-top: 1px solid rgba(255,255,255,0.3); border-bottom: 1px solid rgba(255,255,255,0.3); padding: 5px 20px; width: 100%; text-align: center; }
         .layout-3 .c-name { justify-self: start; align-self: end; font-size: 20px; }
-        /* 修复：强制显示 Tag 并调整位置 */
         .layout-3 .c-tag { display: block !important; grid-column: 1 / 2; grid-row: 2 / 3; align-self: end; justify-self: start; margin-bottom: 28px; font-size: 10px; opacity: 0.8; }
-        /* .layout-3 .c-social { justify-self: end; align-self: end; } */
-        /* 找到这行代码并替换 */
-        .layout-3 .c-social { 
-            justify-self: end; 
-            align-self: end; 
-            transform: translateY(10px); /* 正数表示向下移动，10px 可以根据需要调整 */
-        }
+        .layout-3 .c-social { justify-self: end; align-self: end; transform: translateY(10px); }
         .layout-3 .c-brand { top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.2; }
 
         /* Layout 4: 大标题风格 */
@@ -239,7 +237,7 @@
         .layout-5 .c-brand { top: 10px; left: 10px; }
 
 
-        /* --- 背面样式 (新增) --- */
+        /* --- 背面样式 --- */
         .card-back-content {
             position: relative; width: 100%; height: 100%;
         }
@@ -274,7 +272,6 @@
         .config-section.disabled { opacity: 0.2; pointer-events: none; filter: grayscale(1); } 
         .config-section:last-child { border-bottom: none; }
 
-        /* 定制分组标题 (新增) */
         .config-group-header {
             font-size: 14px; color: #86868b; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;
             margin: 40px 0 20px 0; border-bottom: 1px solid #333; padding-bottom: 10px;
@@ -382,7 +379,6 @@
         .saas-name { font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px; color: #fff; }
         .saas-feat { font-size: 12px; color: #888; margin-top: 4px; }
         .s-price { font-size: 14px; font-weight: 500; color: #fff; display: block; text-align: right;}
-        .s-save { font-size: 11px; color: #0a84ff; font-weight: 600; display: block; margin-top: 2px; text-align: right;}
         .rec-tag { font-size: 10px; background: var(--accent-blue); color: #fff; padding: 2px 6px; border-radius: 4px; vertical-align: middle; }
 
         /* 底部 */
@@ -399,9 +395,6 @@
 
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
         <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
-            <!-- <a href="index.html" class="text-lg font-semibold text-white hover:text-gray-300 transition-colors">
-                Linkly
-            </a> -->
             <div class="nav-content">
                 <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
                     <img src="Logo/darkBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;">
@@ -434,21 +427,6 @@
                 <a href="Product.html">Linkly 名片</a> 
                 <a href="AI_Detailed_2.html">Linkly AI</a> 
                 <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
-                <!-- <div class="relative group h-full flex items-center">
-                    <span class="cursor-pointer py-4 text-[0.875rem] text-white group-hover:text-[#2997ff] group-hover:font-bold transition-all duration-300">
-                        定价
-                    </span>
-                    <div class="absolute left-1/2 -translate-x-1/2 top-[3rem] pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden shadow-2xl w-32 flex flex-col p-1">
-                            <a href="VIP_Compare_2.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#e8e8ed] hover:bg-white/10 rounded-lg hover:text-white transition-colors !font-normal">
-                                软件应用
-                            </a>
-                            <a href="Price_Card.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#e8e8ed] hover:bg-white/10 rounded-lg hover:text-white transition-colors !font-normal">
-                                实体名片
-                            </a>
-                        </div>
-                    </div>
-                </div> -->
                 <div class="relative group h-full flex items-center">
                     <a href="VIP_Compare_2.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
                         定价
@@ -480,11 +458,6 @@
                 </div>
             </div>
             <div class="flex items-center gap-4 text-[0.875rem]">
-                <!-- <a href="#" class="text-[#e8e8ed] hover:text-white transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                    </svg>
-                </a> -->
                 <a href="ShopBag.html" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -535,18 +508,19 @@
                     <div class="mode-badge">Social Mode</div>
                 </div>
                 <div class="top-price-box">
-                    <span class="unit-price" id="unit-price-display">$34.90</span>
+                    <span class="unit-price" id="unit-price-display">¥88.88</span>
                     <span class="unit-label">实体卡单价</span>
                 </div>
             </div>
 
             <div class="config-section">
-                <span class="config-label">材质 <span id="lbl-mat" class="selection-name">标准 PVC</span></span>
+                <span class="config-label">材质 <span id="lbl-mat" class="selection-name">亮面 PVC</span></span>
                 <div class="option-group" id="group-mat">
-                    <div class="option-btn active" data-type="pvc" data-name="标准 PVC">标准 PVC</div>
-                    <div class="option-btn" data-type="pvc-matte" data-name="哑光磨砂 PVC">哑光磨砂 PVC</div>
-                    <div class="option-btn" data-type="bamboo" data-name="楠竹 (环保)">楠竹 (环保)</div>
-                    <div class="option-btn" data-type="clear" data-name="透明 PET">透明 PET</div>
+                    <div class="option-btn active" data-type="pvc-glossy" data-name="亮面 PVC">亮面 PVC</div>
+                    <div class="option-btn" data-type="pvc-matte" data-name="哑光 PVC">哑光 PVC</div>
+                    <div class="option-btn" data-type="pvc-frosted" data-name="磨砂 PVC">磨砂 PVC</div>
+                    <div class="option-btn" data-type="metal" data-name="金属材质">金属</div>
+                    <div class="option-btn" data-type="walnut" data-name="胡桃木" style="grid-column: span 2;">透明 PET</div>
                 </div>
             </div>
 
@@ -651,41 +625,36 @@
                     <div class="tier-legend">
                         <div class="tier-item active" id="tier-1" onclick="selectTier(1)">
                             <span class="t-range">1-99</span>
-                            <span class="t-price" id="p-tier-1">$--</span>
+                            <span class="t-price" id="p-tier-1">¥--</span>
                         </div>
                         <div class="tier-item" id="tier-100" onclick="selectTier(100)">
                             <span class="t-range">100-999</span>
-                            <span class="t-price" id="p-tier-100">$--</span>
+                            <span class="t-price" id="p-tier-100">¥--</span>
                         </div>
                         <div class="tier-item" id="tier-1000" onclick="selectTier(1000)">
                             <span class="t-range">1k-9999</span>
-                            <span class="t-price" id="p-tier-1000">$--</span>
+                            <span class="t-price" id="p-tier-1000">¥--</span>
                         </div>
                         <div class="tier-item" id="tier-10000" onclick="selectTier(10000)">
                             <span class="t-range">10k+</span>
-                            <span class="t-price" id="p-tier-10000">$--</span>
+                            <span class="t-price" id="p-tier-10000">¥--</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="config-section">
-                <span class="config-label">赠送会员体验 <span class="selection-name" id="lbl-saas-gift">Ultra AI 6个月</span></span>
-                <div class="option-group grid-3-col" id="group-saas-gift">
-                    <div class="option-btn active" id="btn-gift-pvc" data-gift="ultra-6m">Ultra AI 6个月</div>
-                    <div class="option-btn disabled" id="btn-gift-nonpvc-1" data-gift="ultra-1y">Ultra AI 1年</div>
-                    <div class="option-btn disabled" id="btn-gift-nonpvc-2" data-gift="team-6m">Team 6个月</div>
+                <span class="config-label">赠送会员体验 <span class="selection-name" id="lbl-saas-gift">--</span></span>
+                <div class="option-group" id="group-saas-gift" style="grid-template-columns: 1fr 1fr;">
+                    <div class="option-btn disabled" id="btn-gift-pro" data-gift="pro-1y">Pro会员1年</div>
+                    <div class="option-btn disabled" id="btn-gift-ultra" data-gift="ultra-1y">Ultra会员1年</div>
                 </div>
-                 <p style="margin-top:10px; font-size:12px; color:#666;">* 随实体卡赠送，收货激活后立即生效。</p>
+                 <p style="margin-top:10px; font-size:12px; color:#666;">* 随实体卡赠送 (100+张送Pro一年, 1000+张送Ultra一年)。</p>
             </div>
 
             <div class="config-section">
                 <div class="config-label-row">
-                    <span class="config-label">Linkly Ultra 智能服务 <span class="selection-name">可选</span></span>
-                    <div class="billing-toggle">
-                        <div class="bill-opt active" id="btn-yearly" onclick="toggleBilling('yearly')">按年 (省20%)</div>
-                        <div class="bill-opt" id="btn-monthly" onclick="toggleBilling('monthly')">按月</div>
-                    </div>
+                    <span class="config-label">Linkly Ultra 智能服务 <span class="selection-name">可选 (按月付)</span></span>
                 </div>
 
                 <div class="saas-container">
@@ -703,8 +672,7 @@
                             <div class="saas-feat">多身份管理，高级数据统计。</div>
                         </div>
                         <div class="saas-price-box">
-                            <span class="s-price" id="price-pro">$49.00/年</span>
-                            <span class="s-save" id="save-pro">省 17%</span>
+                            <span class="s-price" id="price-pro">¥19.90/月</span>
                         </div>
                     </div>
                     <div class="saas-card" onclick="selectSaas('ultra', this)">
@@ -713,8 +681,7 @@
                             <div class="saas-feat">AI 全局助手，无限文件库。</div>
                         </div>
                         <div class="saas-price-box">
-                            <span class="s-price" id="price-ultra">$119.00/年</span>
-                            <span class="s-save" id="save-ultra">省 33%</span>
+                            <span class="s-price" id="price-ultra">¥39.90/月</span>
                         </div>
                     </div>
 
@@ -725,8 +692,7 @@
                             <div class="saas-feat">统一管理后台，员工权限控制。</div>
                         </div>
                         <div class="saas-price-box">
-                            <span class="s-price" id="price-team">$129.00/人/年</span>
-                            <span class="s-save" id="save-team">省 17%</span>
+                            <span class="s-price" id="price-team">¥49.90/人/月</span>
                         </div>
                     </div>
                     <div class="saas-card" onclick="selectSaas('enterprise', this)">
@@ -745,8 +711,8 @@
                     <span id="final-price">--</span>
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-primary">立即结账</button>
-                    <button class="btn btn-secondary">添加到购物袋</button>
+                    <button class="btn btn-primary" id="btn-buy-now">立即结账</button>
+                    <button class="btn btn-secondary" id="btn-add-bag">添加到购物袋</button>
                 </div>
             </div>
 
@@ -778,32 +744,34 @@
     document.addEventListener('DOMContentLoaded', () => {
         // --- 1. 核心状态定义 ---
         const state = {
-            matType: 'pvc', 
-            unitPrice: 34.90, // 默认单价
+            matType: 'pvc-glossy', 
+            unitPrice: 88.88, 
             colorClass: 'bg-aurora', colorName: '极光渐变',
             patClass: 'none', patName: '纯色',
             layout: 'layout-1',
             qty: 1, 
-            billing: 'yearly',
+            billing: 'monthly', // 仅支持月付
             saasTier: 'free', saasPrice: 0,
             showBranding: true,
             backLogoPos: 'pos-center',
-            gift: 'ultra-6m'
+            gift: null // 默认无赠品
         };
 
         const saasPricing = {
-            free: { m: 0, y: 0 },
-            pro: { m: 4.90, y: 49.00 },
-            ultra: { m: 14.90, y: 119.00 },
-            team: { m: 12.90, y: 129.00 },
-            enterprise: { m: 0, y: 0 }
+            free: { m: 0 },
+            pro: { m: 19.90 },
+            ultra: { m: 39.90 },
+            team: { m: 49.90 },
+            enterprise: { m: 0 }
         };
 
+        // RMB 定价
         const pricingDatabase = {
-            'pvc':       { 1: 34.90, 100: 29.90, 1000: 24.90, 10000: 19.90 },
-            'pvc-matte': { 1: 34.90, 100: 29.90, 1000: 24.90, 10000: 19.90 },
-            'bamboo':    { 1: 39.90, 100: 34.90, 1000: 29.90, 10000: 24.90 },
-            'clear':     { 1: 44.90, 100: 39.90, 1000: 34.90, 10000: 29.90 }
+            'pvc-glossy':  { 1: 88.88, 100: 18.88, 1000: 8.88, 10000: 3.65 },
+            'pvc-matte':   { 1: 88.88, 100: 18.88, 1000: 8.88, 10000: 3.65 },
+            'pvc-frosted': { 1: 88.88, 100: 18.88, 1000: 8.88, 10000: 3.65 },
+            'metal':       { 1: 880.88, 100: 180.88, 1000: 80.88, 10000: 30.65 },
+            'clear':       { 1: 880.88, 100: 180.88, 1000: 80.88, 10000: 30.65 }
         };
 
         // --- 2. DOM 引用 ---
@@ -845,7 +813,6 @@
             refreshMaterialPricing();
             handleQtyInput(state.qty);
             updateView();
-            updateGiftLogic(); 
         });
 
         // 颜色点击
@@ -899,19 +866,6 @@
             });
         }
 
-        // 赠送会员逻辑
-        const groupGift = document.getElementById('group-saas-gift');
-        if(groupGift) {
-            groupGift.addEventListener('click', (e) => {
-                const btn = e.target;
-                if(!btn.classList.contains('option-btn') || btn.classList.contains('disabled')) return;
-                document.querySelectorAll('#group-saas-gift .option-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                state.gift = btn.dataset.gift;
-                if(dom.lblGift) dom.lblGift.textContent = btn.innerText;
-            });
-        }
-
         // 数量梯度点击
         const tierLegend = document.querySelector('.tier-legend');
         if(tierLegend) {
@@ -925,14 +879,6 @@
         }
 
         // --- 4. 辅助函数 ---
-
-        window.toggleBilling = function(cycle) {
-            state.billing = cycle;
-            document.getElementById('btn-monthly').classList.toggle('active', cycle === 'monthly');
-            document.getElementById('btn-yearly').classList.toggle('active', cycle === 'yearly');
-            updateSaaSDisplay();
-            updateCurrentSaasPrice();
-        }
 
         window.selectSaas = function(tier, cardEl) {
             document.querySelectorAll('.saas-card').forEach(c => c.classList.remove('active'));
@@ -969,14 +915,14 @@
             const activeEl = document.getElementById(activeTierId);
             if(activeEl) activeEl.classList.add('active');
             
+            updateGiftLogic(); // 触发赠品逻辑
             updateTotalPrice();
         }
 
-        function updateTierLogic(num) { /* 已集成在 handleQtyInput */ }
-
         function updateView() {
-            const isSpecialMat = (state.matType === 'bamboo' || state.matType === 'clear');
-            const texClass = 'layer-texture ' + (isSpecialMat ? 'show-tex ' + (state.matType === 'bamboo' ? 'tex-bamboo' : 'tex-clear') : '');
+            // 金属和透明材质特殊处理
+            const isSpecialMat = (state.matType === 'metal' || state.matType === 'clear');
+            const texClass = 'layer-texture ' + (isSpecialMat ? 'show-tex ' + (state.matType === 'metal' ? 'tex-metal' : 'tex-clear') : '');
             const patClass = 'layer-pattern-overlay ' + (!isSpecialMat && state.patClass !== 'none' ? 'show-pat ' + state.patClass : '');
             
             if(dom.texLayer) dom.texLayer.className = texClass;
@@ -986,19 +932,17 @@
             if(dom.patLayerBack) dom.patLayerBack.className = patClass;
 
             if (isSpecialMat) {
+                // 特殊材质禁用颜色和图案
                 if(dom.secColor) dom.secColor.classList.add('disabled');
                 if(dom.secPat) dom.secPat.classList.add('disabled');
                 
                 if(dom.card) dom.card.className = `interactive-card ${state.layout}`;
                 if(dom.cardBack) dom.cardBack.className = `interactive-card`;
                 
-                if(state.matType === 'bamboo') { 
-                    if(dom.card) dom.card.classList.add('text-dark'); 
-                    if(dom.cardBack) dom.cardBack.classList.add('text-dark');
-                } else {
-                    if(dom.card) dom.card.classList.remove('text-dark');
-                    if(dom.cardBack) dom.cardBack.classList.remove('text-dark');
-                }
+                // 透明和金属通常需要深色文字对比，或者根据设计。这里简单处理为非深色模式，保持白色文字
+                if(dom.card) dom.card.classList.remove('text-dark');
+                if(dom.cardBack) dom.cardBack.classList.remove('text-dark');
+                
             } else {
                 if(dom.secColor) dom.secColor.classList.remove('disabled');
                 if(dom.secPat) dom.secPat.classList.remove('disabled');
@@ -1017,30 +961,31 @@
             updateTotalPrice();
         }
 
+        // 赠送逻辑 (完全基于数量)
         function updateGiftLogic() {
-            const isPVC = (state.matType === 'pvc' || state.matType === 'pvc-matte');
-            const btnPvc = document.getElementById('btn-gift-pvc');
-            const btnNonPvc1 = document.getElementById('btn-gift-nonpvc-1');
-            const btnNonPvc2 = document.getElementById('btn-gift-nonpvc-2');
+            const btnPro = document.getElementById('btn-gift-pro');
+            const btnUltra = document.getElementById('btn-gift-ultra');
 
-            if(!btnPvc || !btnNonPvc1 || !btnNonPvc2) return;
-
-            [btnPvc, btnNonPvc1, btnNonPvc2].forEach(b => {
+            // 重置
+            [btnPro, btnUltra].forEach(b => {
                 b.classList.remove('active');
                 b.classList.add('disabled');
             });
+            state.gift = null;
+            if(dom.lblGift) dom.lblGift.textContent = "无 (需购买100+张)";
 
-            if (isPVC) {
-                btnPvc.classList.remove('disabled');
-                btnPvc.classList.add('active');
-                state.gift = 'ultra-6m';
-                if(dom.lblGift) dom.lblGift.textContent = "Ultra AI 6个月";
-            } else {
-                btnNonPvc1.classList.remove('disabled');
-                btnNonPvc2.classList.remove('disabled');
-                btnNonPvc1.classList.add('active');
+            if (state.qty >= 1000) {
+                // 1000+ 送 Ultra 1y
+                btnUltra.classList.remove('disabled');
+                btnUltra.classList.add('active');
                 state.gift = 'ultra-1y';
-                if(dom.lblGift) dom.lblGift.textContent = "Ultra AI 1年";
+                if(dom.lblGift) dom.lblGift.textContent = "Ultra会员1年";
+            } else if (state.qty >= 100) {
+                // 100+ 送 Pro 1y
+                btnPro.classList.remove('disabled');
+                btnPro.classList.add('active');
+                state.gift = 'pro-1y';
+                if(dom.lblGift) dom.lblGift.textContent = "Pro会员1年";
             }
         }
 
@@ -1052,36 +997,22 @@
             const p1000 = document.getElementById('p-tier-1000');
             const p10000 = document.getElementById('p-tier-10000');
 
-            if(p1) p1.textContent = `$${table[1].toFixed(2)}`;
-            if(p100) p100.textContent = `$${table[100].toFixed(2)}`;
-            if(p1000) p1000.textContent = `$${table[1000].toFixed(2)}`;
-            if(p10000) p10000.textContent = `$${table[10000].toFixed(2)}`;
-        }
-
-        function updateSaaSDisplay() {
-            const isYear = state.billing === 'yearly';
-            const ids = ['price-pro', 'save-pro', 'price-ultra', 'save-ultra', 'price-team', 'save-team'];
-            if(document.getElementById(ids[0])) {
-                document.getElementById('price-pro').textContent = isYear ? '$49.00/年' : '$4.90/月';
-                document.getElementById('save-pro').style.display = isYear ? 'block' : 'none';
-                document.getElementById('price-ultra').textContent = isYear ? '$119.00/年' : '$14.90/月';
-                document.getElementById('save-ultra').style.display = isYear ? 'block' : 'none';
-                document.getElementById('price-team').textContent = isYear ? '$129.00/人/年' : '$12.90/人/月';
-                document.getElementById('save-team').style.display = isYear ? 'block' : 'none';
-            }
+            if(p1) p1.textContent = `¥${table[1].toFixed(2)}`;
+            if(p100) p100.textContent = `¥${table[100].toFixed(2)}`;
+            if(p1000) p1000.textContent = `¥${table[1000].toFixed(2)}`;
+            if(p10000) p10000.textContent = `¥${table[10000].toFixed(2)}`;
         }
 
         function updateCurrentSaasPrice() {
-            const cycleKey = state.billing === 'yearly' ? 'y' : 'm';
-            state.saasPrice = saasPricing[state.saasTier][cycleKey];
+            state.saasPrice = saasPricing[state.saasTier]['m'];
             updateTotalPrice();
         }
 
         function updateTotalPrice() {
-            if (!state.unitPrice || isNaN(state.unitPrice)) state.unitPrice = 34.90;
+            if (!state.unitPrice || isNaN(state.unitPrice)) state.unitPrice = 88.88;
             const total = (state.unitPrice * state.qty) + state.saasPrice;
-            if(dom.topPriceDisplay) dom.topPriceDisplay.textContent = `$${state.unitPrice.toFixed(2)}`;
-            if(dom.priceDisplay) dom.priceDisplay.textContent = `$${total.toFixed(2)}`;
+            if(dom.topPriceDisplay) dom.topPriceDisplay.textContent = `¥${state.unitPrice.toFixed(2)}`;
+            if(dom.priceDisplay) dom.priceDisplay.textContent = `¥${total.toFixed(2)}`;
         }
 
         function setActive(target) {
@@ -1126,7 +1057,6 @@
         // --- 5. 核心：构建商品数据 ---
         function createCurrentItem() {
             const inputs = document.querySelectorAll('.input-field');
-            // Happy 版输入框顺序: 0:昵称, 1:身份, 2:MBTI, 3:社交ID, 4:自定义
             const cName = inputs[0] ? inputs[0].value : '';
             const cTag = inputs[1] ? inputs[1].value : '';
             const cMbti = inputs[2] ? inputs[2].value : '';
@@ -1141,13 +1071,14 @@
                 if(activeSaas) {
                     rawTitle = activeSaas.querySelector('.saas-name').childNodes[0].textContent.trim();
                 }
-                const cycle = (state.billing === 'yearly') ? '(年付)' : '(月付)';
-                saasList.push({ name: state.saasTier, display: rawTitle + " " + cycle, price: state.saasPrice, type: 'paid' });
+                saasList.push({ name: state.saasTier, display: rawTitle + " (月付)", price: state.saasPrice, type: 'paid' });
             }
             // 2. 赠送 SaaS
-            const activeGift = document.querySelector('#group-saas-gift .option-btn.active');
-            if (activeGift && !activeGift.classList.contains('disabled')) {
-                saasList.push({ name: activeGift.dataset.gift, display: "赠送: " + activeGift.innerText, price: 0, type: 'gift' });
+            if (state.gift) {
+                const giftName = state.gift === 'ultra-1y' ? "Ultra会员1年" : (state.gift === 'pro-1y' ? "Pro会员1年" : "");
+                if (giftName) {
+                     saasList.push({ name: state.gift, display: "赠送: " + giftName, price: 0, type: 'gift' });
+                }
             }
 
             return {
@@ -1168,12 +1099,11 @@
                     backLogoPosition: state.backLogoPos
                 },
 
-                // 映射到 Checkout 通用结构
                 custom: {
                     name: cName,
-                    title: cTag,     // 映射为身份
-                    company: cSocial, // 映射为公司/ID (这里放社交ID)
-                    extra: `MBTI: ${cMbti} / ${cCustom}` // 额外信息
+                    title: cTag,
+                    company: cSocial, 
+                    extra: `MBTI: ${cMbti} / ${cCustom}`
                 },
 
                 saasList: saasList,
@@ -1183,7 +1113,6 @@
 
         // --- 6. 按钮事件 ---
 
-        // 添加到购物袋
         const btnAddBag = document.getElementById('btn-add-bag') || document.querySelector('.btn-secondary');
         if(btnAddBag) {
             btnAddBag.addEventListener('click', function() {
@@ -1208,13 +1137,11 @@
             });
         }
 
-        // 立即结账
         const btnBuyNow = document.getElementById('btn-buy-now') || document.querySelector('.btn-primary');
         if(btnBuyNow) {
             btnBuyNow.addEventListener('click', function() {
                 const newItem = createCurrentItem();
                 
-                // 计算单次结账总价
                 let hardwareTotal = state.unitPrice * state.qty;
                 if (hardwareTotal < 0) hardwareTotal = 0;
                 let saasTotal = 0;
@@ -1236,7 +1163,6 @@
             refreshMaterialPricing();
             handleQtyInput(1);
             updateView();
-            updateSaaSDisplay();
             updateGiftLogic();
         }, 50);
     });

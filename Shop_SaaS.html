@@ -297,7 +297,7 @@
             <div class="panel-header">
                 <span class="series-tag">Linkly Cloud Membership</span>
                 <div class="price-display">
-                    <span id="price-total">$6.90</span>
+                    <span id="price-total">¥19.90</span>
                     <span class="price-unit" id="price-cycle">/ 月</span>
                 </div>
             </div>
@@ -309,7 +309,7 @@
                     <div class="plan-card active" onclick="selectPlan('pro', this)">
                         <div class="plan-header">
                             <div class="plan-name">Pro 专业版 <span class="plan-tag tag-personal">个人</span></div>
-                            <div class="plan-price-mini">$6.90 / 月</div>
+                            <div class="plan-price-mini">¥19.90 / 月</div>
                         </div>
                         <div class="plan-desc">基础 AI 辅助，多身份管理，高级数据统计。</div>
                     </div>
@@ -317,7 +317,7 @@
                     <div class="plan-card" onclick="selectPlan('ultra', this)">
                         <div class="plan-header">
                             <div class="plan-name">Ultra 智享版 <span class="plan-tag tag-personal">个人</span></div>
-                            <div class="plan-price-mini">$14.90 / 月</div>
+                            <div class="plan-price-mini">¥39.90 / 月</div>
                         </div>
                         <div class="plan-desc">完全解锁 AI 助手，无限名片夹，深度访客洞察。</div>
                     </div>
@@ -325,7 +325,7 @@
                     <div class="plan-card" onclick="selectPlan('team', this)">
                         <div class="plan-header">
                             <div class="plan-name">Team 团队版 <span class="plan-tag tag-team">团队</span></div>
-                            <div class="plan-price-mini">$12.90 / 人 / 月</div>
+                            <div class="plan-price-mini">¥49.90 / 人 / 月</div>
                         </div>
                         <div class="plan-desc">5人起订。包含统一管理后台、品牌一致性控制与权限管理。</div>
                     </div>
@@ -346,7 +346,7 @@
             <div class="action-area">
                 <div class="total-row">
                     <span>首月应付</span>
-                    <span id="final-total">$6.90</span>
+                    <span id="final-total">¥19.90</span>
                 </div>
                 <div class="btn-group">
                     <button class="btn btn-primary" onclick="window.location.href='SaaS_Checkout.html'">立即支付</button>
@@ -461,7 +461,7 @@
     const PLANS = {
         pro: {
             name: 'Pro 专业版',
-            price: 6.90,
+            price: 19.90,
             unit: '/ 月',
             desc: '适合追求高效的个人创作者与自由职业者。',
             icon: '⚡️',
@@ -470,7 +470,7 @@
         },
         ultra: {
             name: 'Ultra 智享版',
-            price: 14.90,
+            price: 39.90,
             unit: '/ 月',
             desc: '为极客打造。完全解锁 AI 生产力与深度数据。',
             icon: '🧠',
@@ -479,7 +479,7 @@
         },
         team: {
             name: 'Team 团队版',
-            price: 12.90,
+            price: 49.90,
             unit: '/ 人 / 月',
             desc: '赋能团队协作。统一管理数字资产与品牌形象。',
             icon: '👥',
@@ -591,7 +591,7 @@
 
         // 价格计算
         const total = (plan.price * currentQty).toFixed(2);
-        const displayTotal = `$${total}`;
+        const displayTotal = `¥${total}`;
 
         document.getElementById('price-total').textContent = displayTotal;
         document.getElementById('price-cycle').textContent = plan.unit.replace('/ 人', ''); // 顶部只显示周期
