@@ -334,7 +334,7 @@
         <button onclick="location.reload()" style="margin-top: 30px; background: transparent; border: 1px solid #d2d2d7; padding: 10px 24px; border-radius: 980px; cursor: pointer; color: #1d1d1f; transition:0.2s; font-size:15px;">返回</button>
     </div>
 
-    <script>
+    <!-- <script>
         // 导航高亮逻辑
         window.addEventListener('load', () => {
             const currentPage = window.location.pathname;
@@ -423,8 +423,98 @@
             }
         });
     
+    </script> -->
+    <script>
+        // 1. 导航栏高亮逻辑
+        window.addEventListener('load', () => {
+            const currentPage = window.location.pathname;
+            const links = document.querySelectorAll('.navbar-links a');
+            links.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && href !== '#' && currentPage.includes(href)) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+
+        // 2. 获取页面元素
+        const form = document.getElementById('contactForm');
+        const mainContainer = document.getElementById('mainContainer');
+        const successView = document.getElementById('successView');
+        const btn = document.querySelector('.submit-btn');
+        const pillGroup = document.getElementById('pillGroup');
+        const topicError = document.getElementById('topicError');
+
+        // 3. 话题选择交互
+        document.querySelectorAll('input[name="topic"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                pillGroup.classList.remove('error');
+                topicError.style.display = 'none';
+                btn.classList.remove('shake');
+            });
+        });
+
+        // 4. 核心提交逻辑
+        form.addEventListener('submit', async (e) => {
+            // 【关键】阻止页面自动刷新
+            e.preventDefault();
+            
+            // 检查是否选择了话题
+            const selectedTopic = document.querySelector('input[name="topic"]:checked');
+            if (!selectedTopic) {
+                pillGroup.classList.add('error');
+                topicError.style.display = 'inline';
+                btn.classList.add('shake');
+                setTimeout(() => btn.classList.remove('shake'), 500);
+                return;
+            }
+
+            // 改变按钮状态
+            const originalText = btn.textContent;
+            btn.textContent = "正在发送...";
+            btn.style.opacity = "0.7";
+            btn.disabled = true;
+
+            // 收集数据
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                topic: selectedTopic.value,
+                message: document.getElementById('message').value
+            };
+
+            try {
+                // 发送请求
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    // 成功：显示绿色对勾
+                    mainContainer.style.display = 'none';
+                    successView.style.display = 'block';
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    // 失败：抛出错误
+                    throw new Error(result.error || '发送失败');
+                }
+
+            } catch (error) {
+                // 出错：恢复按钮
+                alert('发送失败：' + error.message);
+                btn.textContent = originalText;
+                btn.style.opacity = "1";
+                btn.disabled = false;
+            }
+        });
     </script>
-    <script src="mobile-adapter.js"></script>
+    
 
 </body>
 </html>
