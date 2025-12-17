@@ -1,58 +1,73 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Logo/webLOGOpart_icon_w_TRANSBG.png" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="Logo/webLOGOpart_icon_w_TRANSBG.png"
+      type="image/x-icon"
+    />
     <title>Linkly 定价与定制 - 定义你的数字身份</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'] },
-                    colors: {
-                        'bg-black': '#000000',
-                        'card-dark': '#161617',
-                        'text-grey': '#86868b',
-                        'accent-blue': '#2997ff'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [
+                "-apple-system",
+                "BlinkMacSystemFont",
+                '"Segoe UI"',
+                "Roboto",
+                "Helvetica",
+                "Arial",
+                "sans-serif",
+              ],
+            },
+            colors: {
+              "bg-black": "#000000",
+              "card-dark": "#161617",
+              "text-grey": "#86868b",
+              "accent-blue": "#2997ff",
+            },
+          },
+        },
+      };
     </script>
 
     <style>
-        :root {
-            --bg-color: #f5f5f7;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --accent-blue: #0071e3;
-            --card-bg: #ffffff;
-            --nav-height: 44px;
-        }
+      :root {
+        --bg-color: #f5f5f7;
+        --text-primary: #1d1d1f;
+        --text-secondary: #86868b;
+        --accent-blue: #0071e3;
+        --card-bg: #ffffff;
+        --nav-height: 44px;
+      }
 
-        /* 基础重置与字体 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-        }
+      /* 基础重置与字体 */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+      }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-primary);
-            line-height: 1.47059;
-            font-weight: 400;
-            letter-spacing: -0.022em;
-            overflow-x: hidden;
-        }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        line-height: 1.47059;
+        font-weight: 400;
+        letter-spacing: -0.022em;
+        overflow-x: hidden;
+      }
 
-        /* 导航栏
+      /* 导航栏
         nav {
             background: rgba(255, 255, 255, 0.8);
             backdrop-filter: saturate(180%) blur(20px);
@@ -86,1896 +101,3300 @@
         .nav-content a:hover {
             opacity: 1;
         } */
-/* ------------------ 1:1 复刻 index2.html 导航栏样式 ------------------ */
-        /* 适配浅色背景的玻璃导航效果 */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.75); /* 改为白色半透明 */
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 边框改为淡淡的黑色 */
+      /* ------------------ 1:1 复刻 index2.html 导航栏样式 ------------------ */
+      /* 适配浅色背景的玻璃导航效果 */
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.75); /* 改为白色半透明 */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* 边框改为淡淡的黑色 */
+      }
+
+      /* 导航链接样式 */
+      .navbar-links a {
+        color: #1d1d1f; /* 文字改为深灰色 */
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: font-weight 0.3s ease;
+      }
+
+      .navbar-links a:hover {
+        font-weight: bold;
+        color: #0071e3; /* 悬停保持蓝色 (Apple Blue) */
+      }
+
+      .navbar-links a.active {
+        font-weight: bold;
+        color: #000000; /* 激活状态为纯黑 */
+      }
+
+      .navbar-btns a {
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+      }
+
+      /* “购买”按钮：浅色背景下通常用黑底白字，或者蓝底白字 */
+      .navbar-btns .buy-btn {
+        background-color: #1d1d1f; /* 黑底 */
+        color: white; /* 白字 */
+      }
+
+      .navbar-btns .buy-btn:hover {
+        background-color: #0071e3; /* 悬停变蓝 */
+        color: white;
+        font-weight: bold;
+      }
+
+      /* “登录”按钮悬停效果 */
+      .navbar-btns .login-btn:hover {
+        color: #0071e3;
+        font-weight: bold;
+      }
+
+      /* 移动端隐藏中间链接 */
+      @media (max-width: 768px) {
+        .navbar-links,
+        .login-btn {
+          display: none;
+        }
+      }
+
+      /* 通用布局组件 */
+      .section {
+        padding: 100px 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .container {
+        width: 100%;
+        max-width: 980px;
+        padding: 0 20px;
+      }
+
+      h1,
+      h2,
+      h3 {
+        font-weight: 600;
+      }
+
+      /* --- 扑克牌扇形容器 --- */
+      .card-visual-container {
+        height: 220px;
+        width: 100%;
+        position: relative;
+        perspective: 600px; /* 较小的透视值，增强近大远小的扇形感 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        overflow: visible; /* 允许卡片划出一点边界 */
+      }
+
+      /* --- 单张卡片基础样式 --- */
+      .card-3d {
+        width: 140px;
+        height: 90px;
+        border-radius: 12px;
+        position: absolute;
+        /* 核心：所有卡片居中重叠，位置由动画控制 */
+        top: 50%;
+        left: 50%;
+        margin-left: -70px;
+        margin-top: -45px;
+
+        box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.1);
+        transform-style: preserve-3d;
+        background-color: #fff;
+
+        /* 字体排印 */
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding: 10px;
+        font-size: 9px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+
+        /* 动画核心设置 */
+        opacity: 0; /* 默认隐藏，进入轨道后显示 */
+        /* 10张卡片，每张展示2秒，总周期20秒 */
+        animation: fanFlow 20s infinite cubic-bezier(0.4, 0, 0.2, 1);
+        animation-play-state: paused; /* 默认暂停，保持扇形 */
+      }
+
+      /* 品牌Logo标记 */
+      .card-3d::after {
+        content: "Linkly";
+        position: absolute;
+        top: 10px;
+        right: 12px;
+        font-size: 10px;
+        opacity: 0.8;
+      }
+
+      /* --- 交互：悬停时继续发牌 --- */
+      .hero-card:hover .card-3d {
+        animation-play-state: running;
+        box-shadow: -5px 5px 20px rgba(0, 0, 0, 0.2); /* 悬停时阴影加深，增加悬浮感 */
+      }
+
+      /* --- 关键帧：扇形流动轨迹 --- */
+      /* 模拟手里拿着牌，从最后一张滑到第一张的过程 */
+      @keyframes fanFlow {
+        /* 0-10%: 牌堆深处（不可见） */
+        0% {
+          transform: translate3d(0, -20px, -100px) rotate(0deg);
+          opacity: 0;
+          z-index: 0;
+        }
+        /* 15%: 准备进入扇形左侧 */
+        10% {
+          opacity: 1;
         }
 
-        /* 导航链接样式 */
-        .navbar-links a {
-            color: #1d1d1f; /* 文字改为深灰色 */
-            text-decoration: none;
-            font-size: 0.875rem;
-            transition: font-weight 0.3s ease;
+        /* --- 关键点 A: 左侧卡位 (The Left Card) --- */
+        20%,
+        25% {
+          transform: translate3d(-50px, 10px, -40px) rotate(-15deg);
+          opacity: 1;
+          z-index: 1;
+          filter: brightness(0.9);
         }
 
-        .navbar-links a:hover {
-            font-weight: bold;
-            color: #0071e3; /* 悬停保持蓝色 (Apple Blue) */
+        /* --- 关键点 B: 中间C位 (The Center Card) --- */
+        45%,
+        50% {
+          transform: translate3d(0, 0, 0) rotate(0deg) scale(1.1);
+          opacity: 1;
+          z-index: 10;
+          filter: brightness(1);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
 
-        .navbar-links a.active {
-            font-weight: bold;
-            color: #000000; /* 激活状态为纯黑 */
+        /* --- 关键点 C: 右侧卡位 (The Right Card) --- */
+        70%,
+        75% {
+          transform: translate3d(50px, 10px, -40px) rotate(15deg);
+          opacity: 1;
+          z-index: 1;
+          filter: brightness(0.9);
         }
 
-        .navbar-btns a {
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
+        /* 90-100%: 消失，回到牌堆底部 */
+        90% {
+          opacity: 0;
         }
-
-        /* “购买”按钮：浅色背景下通常用黑底白字，或者蓝底白字 */
-        .navbar-btns .buy-btn {
-            background-color: #1d1d1f; /* 黑底 */
-            color: white; /* 白字 */
+        100% {
+          transform: translate3d(0, 20px, -100px) rotate(0deg);
+          opacity: 0;
+          z-index: 0;
         }
+      }
 
-        .navbar-btns .buy-btn:hover {
-            background-color: #0071e3; /* 悬停变蓝 */
-            color: white;
-            font-weight: bold;
-        }
-
-        /* “登录”按钮悬停效果 */
-        .navbar-btns .login-btn:hover {
-            color: #0071e3;
-            font-weight: bold;
-        }
-
-        /* 移动端隐藏中间链接 */
-        @media (max-width: 768px) {
-            .navbar-links, .login-btn { display: none; }
-        }
-
-        /* 通用布局组件 */
-        .section {
-            padding: 100px 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 1s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .container {
-            width: 100%;
-            max-width: 980px;
-            padding: 0 20px;
-        }
-
-        h1, h2, h3 {
-            font-weight: 600;
-        }
-
-/* --- 扑克牌扇形容器 --- */
-        .card-visual-container {
-            height: 220px;
-            width: 100%;
-            position: relative;
-            perspective: 600px; /* 较小的透视值，增强近大远小的扇形感 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            overflow: visible; /* 允许卡片划出一点边界 */
-        }
-
-        /* --- 单张卡片基础样式 --- */
-        .card-3d {
-            width: 140px;
-            height: 90px;
-            border-radius: 12px;
-            position: absolute;
-            /* 核心：所有卡片居中重叠，位置由动画控制 */
-            top: 50%;
-            left: 50%;
-            margin-left: -70px;
-            margin-top: -45px;
-            
-            box-shadow: -2px 2px 10px rgba(0,0,0,0.1);
-            transform-style: preserve-3d;
-            background-color: #fff;
-            
-            /* 字体排印 */
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 10px;
-            font-size: 9px;
-            font-weight: 600;
-            color: rgba(255,255,255,0.9);
-            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
-
-            /* 动画核心设置 */
-            opacity: 0; /* 默认隐藏，进入轨道后显示 */
-            /* 10张卡片，每张展示2秒，总周期20秒 */
-            animation: fanFlow 20s infinite cubic-bezier(0.4, 0.0, 0.2, 1);
-            animation-play-state: paused; /* 默认暂停，保持扇形 */
-        }
-        
-        /* 品牌Logo标记 */
-        .card-3d::after {
-            content: "Linkly";
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            font-size: 10px;
-            opacity: 0.8;
-        }
-
-        /* --- 交互：悬停时继续发牌 --- */
-        .hero-card:hover .card-3d {
-            animation-play-state: running;
-            box-shadow: -5px 5px 20px rgba(0,0,0,0.2); /* 悬停时阴影加深，增加悬浮感 */
-        }
-
-        /* --- 关键帧：扇形流动轨迹 --- */
-        /* 模拟手里拿着牌，从最后一张滑到第一张的过程 */
-        @keyframes fanFlow {
-            /* 0-10%: 牌堆深处（不可见） */
-            0% {
-                transform: translate3d(0, -20px, -100px) rotate(0deg);
-                opacity: 0;
-                z-index: 0;
-            }
-            /* 15%: 准备进入扇形左侧 */
-            10% {
-                opacity: 1;
-            }
-            
-            /* --- 关键点 A: 左侧卡位 (The Left Card) --- */
-            20%, 25% {
-                transform: translate3d(-50px, 10px, -40px) rotate(-15deg);
-                opacity: 1;
-                z-index: 1;
-                filter: brightness(0.9);
-            }
-
-            /* --- 关键点 B: 中间C位 (The Center Card) --- */
-            45%, 50% {
-                transform: translate3d(0, 0, 0) rotate(0deg) scale(1.1);
-                opacity: 1;
-                z-index: 10;
-                filter: brightness(1);
-                box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            }
-
-            /* --- 关键点 C: 右侧卡位 (The Right Card) --- */
-            70%, 75% {
-                transform: translate3d(50px, 10px, -40px) rotate(15deg);
-                opacity: 1;
-                z-index: 1;
-                filter: brightness(0.9);
-            }
-            
-            /* 90-100%: 消失，回到牌堆底部 */
-            90% {
-                opacity: 0;
-            }
-            100% {
-                transform: translate3d(0, 20px, -100px) rotate(0deg);
-                opacity: 0;
-                z-index: 0;
-            }
-        }
-
-        /* --- 自动计算延迟：构建初始扇形 --- */
-        /* 我们有10张牌，总时长20s，每张牌间隔 2s */
-        /* 我们要让:
+      /* --- 自动计算延迟：构建初始扇形 --- */
+      /* 我们有10张牌，总时长20s，每张牌间隔 2s */
+      /* 我们要让:
            Card 1 停在中间 (进度 ~47.5%) -> delay: -9.5s
            Card 2 停在左侧 (进度 ~22.5%) -> delay: -4.5s
            Card 3 停在右侧 (进度 ~72.5%) -> delay: -14.5s
            其他卡片藏在后面
         */
 
-        /* 定义每个子元素的延迟，使其错落有致 */
-        .card-3d:nth-child(1) { animation-delay: -9.5s; }  /* 正中 */
-        .card-3d:nth-child(2) { animation-delay: -4.5s; }  /* 左侧 */
-        .card-3d:nth-child(3) { animation-delay: -14.5s; } /* 右侧 */
-        
-        /* 后备卡片队列 */
-        .card-3d:nth-child(4) { animation-delay: -2s; }
-        .card-3d:nth-child(5) { animation-delay: 0s; }
-        .card-3d:nth-child(6) { animation-delay: 2s; }
-        .card-3d:nth-child(7) { animation-delay: 4s; }
-        .card-3d:nth-child(8) { animation-delay: 6s; }
-        .card-3d:nth-child(9) { animation-delay: 8s; }
-        .card-3d:nth-child(10) { animation-delay: 10s; }
+      /* 定义每个子元素的延迟，使其错落有致 */
+      .card-3d:nth-child(1) {
+        animation-delay: -9.5s;
+      } /* 正中 */
+      .card-3d:nth-child(2) {
+        animation-delay: -4.5s;
+      } /* 左侧 */
+      .card-3d:nth-child(3) {
+        animation-delay: -14.5s;
+      } /* 右侧 */
 
-        /* --- 材质库升级：30款样式 --- */
-        
-        /* Essentials Colors [cite: 1] */
-        .ess-black { background: #1d1d1f; }
-        .ess-white { background: #f5f5f7; color: #333; border: 1px solid #ddd; }
-        .ess-blue  { background: #0071e3; }
-        .ess-grey  { background: #8e8e93; }
-        .ess-green { background: #228b22; }
-        .ess-orange{ background: #ff9500; }
-        .ess-pink  { background: #ffb6c1; color: #333; }
-        .ess-purple{ background: #800080; }
-        .ess-grid  { background: #f0f0f0; background-image: linear-gradient(#ccc 1px, transparent 1px), linear-gradient(90deg, #ccc 1px, transparent 1px); background-size: 10px 10px; color: #000; }
-        .ess-glow  { background: radial-gradient(circle at top left, #fff, #e5e5e5); color: #333; }
+      /* 后备卡片队列 */
+      .card-3d:nth-child(4) {
+        animation-delay: -2s;
+      }
+      .card-3d:nth-child(5) {
+        animation-delay: 0s;
+      }
+      .card-3d:nth-child(6) {
+        animation-delay: 2s;
+      }
+      .card-3d:nth-child(7) {
+        animation-delay: 4s;
+      }
+      .card-3d:nth-child(8) {
+        animation-delay: 6s;
+      }
+      .card-3d:nth-child(9) {
+        animation-delay: 8s;
+      }
+      .card-3d:nth-child(10) {
+        animation-delay: 10s;
+      }
 
-        /* Studio Materials [cite: 2, 3] */
-        .stu-wood-w { background: #5c4033; background-image: repeating-linear-gradient(45deg, transparent, transparent 5px, rgba(0,0,0,0.1) 5px, rgba(0,0,0,0.1) 10px); } /* 胡桃木 */
-        .stu-wood-b { background: #d2b48c; color: #5c4033; } /* 楠竹 */
-        .stu-clear  { background: rgba(255,255,255,0.4); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.6); color: #000; } /* 透明PET */
-        .stu-aurora { background: linear-gradient(135deg, #00c6ff, #0072ff); }
-        .stu-sunset { background: linear-gradient(to right, #ff512f, #f09819); }
-        .stu-mint   { background: #98ff98; color: #006400; }
-        .stu-cyber  { background: #000; border: 1px solid #0ff; box-shadow: inset 0 0 10px #0ff; color: #0ff; }
-        .stu-marble { background: #fff; background-image: radial-gradient(circle at 50% 50%, #eee 10%, transparent 50%), radial-gradient(circle at 0% 100%, #333 1%, transparent 50%); color:#000; }
-        .stu-metal  { background: linear-gradient(135deg, #e0e0e0 0%, #ffffff 50%, #b0b0b0 100%); color: #333; }
-        .stu-pixel  { background: #333; background-image: conic-gradient(#444 90deg, transparent 90deg); background-size: 10px 10px; }
+      /* --- 材质库升级：30款样式 --- */
 
-        /* Bespoke Styles [cite: 4, 5] */
-        .bes-gold   { background: #222; border: 1px solid #d4af37; color: #d4af37; }
-        .bes-gold::before { content: "★"; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); font-size: 30px; opacity:0.2; }
-        .bes-wire   { background: #003366; background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 8px 8px; }
-        .bes-cmyk   { background: #fff; border-bottom: 4px solid; border-image: linear-gradient(to right, cyan, magenta, yellow, black) 1; color: #000; }
-        .bes-pan    { background: #ff6b6b; } /* Pantone Color */
-        .bes-uv     { background: #111; color: #333; text-shadow: 1px 1px 0 rgba(255,255,255,0.1); } /* 局部UV黑底黑字 */
-        .bes-vi     { background: #fff; border: 1px solid #eee; color: #0056b3; } /* 品牌色 */
-        .bes-trans  { background: transparent; border: 2px solid #000; color: #000; }
-        .bes-design { background: #eee; background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2MiLz4KPC9zdmc+'); color: #333; }
-        .bes-lux    { background: radial-gradient(circle, #444, #000); color: #gold; }
-        .bes-pro    { background: #002244; color: #fff; border-left: 10px solid #d4af37; }
+      /* Essentials Colors [cite: 1] */
+      .ess-black {
+        background: #1d1d1f;
+      }
+      .ess-white {
+        background: #f5f5f7;
+        color: #333;
+        border: 1px solid #ddd;
+      }
+      .ess-blue {
+        background: #0071e3;
+      }
+      .ess-grey {
+        background: #8e8e93;
+      }
+      .ess-green {
+        background: #228b22;
+      }
+      .ess-orange {
+        background: #ff9500;
+      }
+      .ess-pink {
+        background: #ffb6c1;
+        color: #333;
+      }
+      .ess-purple {
+        background: #800080;
+      }
+      .ess-grid {
+        background: #f0f0f0;
+        background-image: linear-gradient(#ccc 1px, transparent 1px),
+          linear-gradient(90deg, #ccc 1px, transparent 1px);
+        background-size: 10px 10px;
+        color: #000;
+      }
+      .ess-glow {
+        background: radial-gradient(circle at top left, #fff, #e5e5e5);
+        color: #333;
+      }
 
-        /* --- 修复文字样式 --- */
+      /* Studio Materials [cite: 2, 3] */
+      .stu-wood-w {
+        background: #5c4033;
+        background-image: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 5px,
+          rgba(0, 0, 0, 0.1) 5px,
+          rgba(0, 0, 0, 0.1) 10px
+        );
+      } /* 胡桃木 */
+      .stu-wood-b {
+        background: #d2b48c;
+        color: #5c4033;
+      } /* 楠竹 */
+      .stu-clear {
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.6);
+        color: #000;
+      } /* 透明PET */
+      .stu-aurora {
+        background: linear-gradient(135deg, #00c6ff, #0072ff);
+      }
+      .stu-sunset {
+        background: linear-gradient(to right, #ff512f, #f09819);
+      }
+      .stu-mint {
+        background: #98ff98;
+        color: #006400;
+      }
+      .stu-cyber {
+        background: #000;
+        border: 1px solid #0ff;
+        box-shadow: inset 0 0 10px #0ff;
+        color: #0ff;
+      }
+      .stu-marble {
+        background: #fff;
+        background-image: radial-gradient(
+            circle at 50% 50%,
+            #eee 10%,
+            transparent 50%
+          ),
+          radial-gradient(circle at 0% 100%, #333 1%, transparent 50%);
+        color: #000;
+      }
+      .stu-metal {
+        background: linear-gradient(
+          135deg,
+          #e0e0e0 0%,
+          #ffffff 50%,
+          #b0b0b0 100%
+        );
+        color: #333;
+      }
+      .stu-pixel {
+        background: #333;
+        background-image: conic-gradient(#444 90deg, transparent 90deg);
+        background-size: 10px 10px;
+      }
+
+      /* Bespoke Styles [cite: 4, 5] */
+      .bes-gold {
+        background: #222;
+        border: 1px solid #d4af37;
+        color: #d4af37;
+      }
+      .bes-gold::before {
+        content: "★";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 30px;
+        opacity: 0.2;
+      }
+      .bes-wire {
+        background: #003366;
+        background-image: linear-gradient(
+          rgba(255, 255, 255, 0.1) 1px,
+          transparent 1px
+        );
+        background-size: 8px 8px;
+      }
+      .bes-cmyk {
+        background: #fff;
+        border-bottom: 4px solid;
+        border-image: linear-gradient(to right, cyan, magenta, yellow, black) 1;
+        color: #000;
+      }
+      .bes-pan {
+        background: #ff6b6b;
+      } /* Pantone Color */
+      .bes-uv {
+        background: #111;
+        color: #333;
+        text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.1);
+      } /* 局部UV黑底黑字 */
+      .bes-vi {
+        background: #fff;
+        border: 1px solid #eee;
+        color: #0056b3;
+      } /* 品牌色 */
+      .bes-trans {
+        background: transparent;
+        border: 2px solid #000;
+        color: #000;
+      }
+      .bes-design {
+        background: #eee;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIi8+CjxyZWN0IHdpZHRoPSIxIiBoZWlnaHQ9IjEiIGZpbGw9IiNjY2MiLz4KPC9zdmc+");
+        color: #333;
+      }
+      .bes-lux {
+        background: radial-gradient(circle, #444, #000);
+        color: #gold;
+      }
+      .bes-pro {
+        background: #002244;
+        color: #fff;
+        border-left: 10px solid #d4af37;
+      }
+
+      /* --- 修复文字样式 --- */
+      .hero-text {
+        text-align: center; /* 核心修复：文字居中 */
+        font-size: 56px; /* 大标题尺寸 */
+        line-height: 1.07143;
+        font-weight: 600;
+        letter-spacing: -0.005em;
+        margin-bottom: 12px; /* 标题和副标题的间距 */
+        color: #1d1d1f;
+      }
+
+      .sub-text {
+        text-align: center; /* 核心修复：文字居中 */
+        font-size: 24px; /* 副标题尺寸 */
+        line-height: 1.41667;
+        font-weight: 400;
+        letter-spacing: 0.009em;
+        color: #86868b; /* 灰色文字 */
+        max-width: 700px; /* 限制宽度，防止文字太长 */
+        margin-left: auto; /* 块级元素水平居中 */
+        margin-right: auto;
+      }
+
+      /* 针对移动端的适配 */
+      @media (max-width: 768px) {
         .hero-text {
-            text-align: center;         /* 核心修复：文字居中 */
-            font-size: 56px;            /* 大标题尺寸 */
-            line-height: 1.07143;
-            font-weight: 600;
-            letter-spacing: -0.005em;
-            margin-bottom: 12px;        /* 标题和副标题的间距 */
-            color: #1d1d1f;
+          font-size: 32px;
         }
-
         .sub-text {
-            text-align: center;         /* 核心修复：文字居中 */
-            font-size: 24px;            /* 副标题尺寸 */
-            line-height: 1.41667;
-            font-weight: 400;
-            letter-spacing: 0.009em;
-            color: #86868b;             /* 灰色文字 */
-            max-width: 700px;           /* 限制宽度，防止文字太长 */
-            margin-left: auto;          /* 块级元素水平居中 */
-            margin-right: auto;
+          font-size: 19px;
         }
+      }
 
-        /* 针对移动端的适配 */
-        @media (max-width: 768px) {
-            .hero-text { font-size: 32px; }
-            .sub-text { font-size: 19px; }
-        }
+      /* Hero Section */
+      #hero {
+        height: 90vh;
+        justify-content: center;
+        background: white;
+        padding-top: 80px; /* ✅ 将原来的 var(--nav-height) 改为 80px */
+      }
 
-        /* Hero Section */
-        #hero {
-            height: 90vh;
-            justify-content: center;
-            background: white;
-            padding-top: 80px; /* ✅ 将原来的 var(--nav-height) 改为 80px */
-        }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 60px;
+        width: 100%;
+      }
 
-        .hero-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 60px;
-            width: 100%;
-        }
+      .hero-card {
+        background: #fbfbfd;
+        border-radius: 18px;
+        padding: 40px 20px;
+        text-align: center;
+        transition: transform 0.5s ease;
+        cursor: pointer;
+      }
 
-        .hero-card {
-            background: #fbfbfd;
-            border-radius: 18px;
-            padding: 40px 20px;
-            text-align: center;
-            transition: transform 0.5s ease;
-            cursor: pointer;
-        }
+      .hero-card:hover {
+        transform: scale(1.03);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
 
-        .hero-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
+      .hero-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        margin-bottom: 20px;
+      }
 
-        .hero-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: contain;
-            margin-bottom: 20px;
-        }
+      /* Essentials Section */
+      #essentials {
+        background-color: #fff;
+      }
+      /* -----------------------------------------基础班页面 以下-------------------------------------------- */
+      /* --- 布局样式 --- */
+      .product-configurator {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: start;
+      }
 
-        /* Essentials Section */
-        #essentials {
-            background-color: #fff;
-        }
-/* -----------------------------------------基础班页面 以下-------------------------------------------- */
-        /* --- 布局样式 --- */
+      .preview-stage {
+        position: sticky;
+        top: 100px;
+        background: #fbfbfd;
+        border-radius: 24px;
+        padding: 60px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .config-panel {
+        padding: 20px 0;
+      }
+
+      .panel-header {
+        margin-bottom: 40px;
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 20px;
+      }
+      .series-tag {
+        color: #bf4800;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .panel-title {
+        font-size: 32px;
+        margin: 10px 0;
+        font-weight: 600;
+      }
+      .price-display {
+        font-size: 24px;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+      .price-display .unit {
+        font-size: 14px;
+        color: #86868b;
+        font-weight: 400;
+      }
+
+      .config-section {
+        margin-bottom: 30px;
+      }
+      .config-label {
+        font-size: 14px;
+        color: #1d1d1f;
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+      .selection-value {
+        color: #86868b;
+        font-weight: 400;
+        margin-left: 5px;
+      }
+      .option-note {
+        font-size: 12px;
+        color: #86868b;
+        margin-top: 8px;
+      }
+
+      /* --- 交互控件 --- */
+      /* 颜色按钮 */
+      .color-grid {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .color-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s, box-shadow 0.2s;
+        position: relative;
+      }
+      .color-btn:hover {
+        transform: scale(1.1);
+      }
+      .color-btn.active {
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0071e3;
+      }
+
+      /* 选项按钮 (图案/材质) */
+      .option-group {
+        display: flex;
+        gap: 10px;
+      }
+      .option-btn {
+        flex: 1;
+        padding: 12px;
+        border: 1px solid #d2d2d7;
+        border-radius: 12px;
+        background: #fff;
+        color: #1d1d1f;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .option-btn:hover {
+        border-color: #86868b;
+      }
+      .option-btn.active {
+        border-color: #0071e3;
+        color: #0071e3;
+        box-shadow: 0 0 0 1px #0071e3;
+      }
+
+      /* 数量按钮 */
+      .quantity-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .qty-btn {
+        padding: 10px;
+        border: 1px solid #d2d2d7;
+        border-radius: 8px;
+        background: #fff;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.2s;
+      }
+      .qty-btn.active {
+        border-color: #1d1d1f;
+        background: #1d1d1f;
+        color: #fff;
+      }
+      .qty-num {
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+      }
+      .qty-desc {
+        display: block;
+        font-size: 10px;
+        margin-top: 2px;
+        opacity: 0.8;
+      }
+      .qty-btn.active .qty-desc {
+        color: #aaa;
+      }
+
+      .total-bar {
+        margin-top: 20px;
+        background: #f5f5f7;
+        padding: 15px;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      /* --- 动态卡片引擎 (CSS Magic) --- */
+      .preview-card-container {
+        perspective: 1000px;
+        margin-bottom: 20px;
+      }
+      .interactive-card {
+        width: 320px;
+        height: 200px;
+        border-radius: 16px;
+        position: relative;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        transition: background 0.4s ease, transform 0.5s ease;
+        transform-style: preserve-3d;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 24px;
+      }
+
+      /* 1. 颜色映射 [Source: 1] */
+      .color-jet-black {
+        background: #1d1d1f;
+        color: rgba(255, 255, 255, 0.9);
+      }
+      .color-mica-white {
+        background: #f5f5f7;
+        color: #1d1d1f;
+        border: 1px solid #e5e5e5;
+      }
+      .color-tech-blue {
+        background: #0071e3;
+        color: #fff;
+      }
+      .color-concrete-grey {
+        background: #8e8e93;
+        color: #fff;
+      }
+      .color-forest-green {
+        background: #228b22;
+        color: #fff;
+      }
+      .color-orange {
+        background: #ff9500;
+        color: #fff;
+      }
+      .color-pink {
+        background: #ffb6c1;
+        color: #1d1d1f;
+      }
+      .color-purple {
+        background: #800080;
+        color: #fff;
+      }
+
+      /* 2. 材质映射 [Source: 1] */
+      /* 亮面: 强反光 */
+      .material-glossy .layer-reflection {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          125deg,
+          rgba(255, 255, 255, 0) 30%,
+          rgba(255, 255, 255, 0.3) 50%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        pointer-events: none;
+        mix-blend-mode: overlay;
+      }
+      /* 磨砂: 噪点 + 哑光 */
+      .material-matte .layer-texture {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+        opacity: 0.3;
+        pointer-events: none;
+      }
+      .material-matte {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      } /* 磨砂阴影更柔和 */
+
+      /* 3. 图案映射 [Source: 1] */
+      /* 网格线 */
+      .pattern-grid .layer-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.15) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+        background-size: 20px 20px;
+        pointer-events: none;
+      }
+      .color-mica-white.pattern-grid .layer-pattern {
+        /* 白卡上的网格用深色 */
+        background-image: linear-gradient(
+            rgba(0, 0, 0, 0.05) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+      }
+      /* 微光渐变 */
+      .pattern-soft-glow .layer-pattern {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          circle at top left,
+          rgba(255, 255, 255, 0.4),
+          transparent 60%
+        );
+        mix-blend-mode: overlay;
+      }
+
+      .card-content {
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .card-slogan {
+        font-size: 14px;
+        font-weight: 500;
+        opacity: 0.9;
+      }
+      .card-logo-mark {
+        font-weight: 700;
+        font-size: 16px;
+        align-self: flex-end;
+        opacity: 0.8;
+      }
+      .preview-note {
+        margin-top: 15px;
+        font-size: 12px;
+        color: #86868b;
+      }
+
+      @media (max-width: 768px) {
         .product-configurator {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: start;
+          grid-template-columns: 1fr;
+          gap: 30px;
         }
-
         .preview-stage {
-            position: sticky;
-            top: 100px;
-            background: #fbfbfd;
-            border-radius: 24px;
-            padding: 60px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+          position: relative;
+          top: 0;
         }
+      }
+      /* -----------------------------------------基础班页面 以上-------------------------------------------- */
 
-        .config-panel {
-            padding: 20px 0;
-        }
+      .color-dots {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin: 30px 0;
+      }
 
-        .panel-header { margin-bottom: 40px; border-bottom: 1px solid #e5e5e5; padding-bottom: 20px; }
-        .series-tag { color: #bf4800; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
-        .panel-title { font-size: 32px; margin: 10px 0; font-weight: 600; }
-        .price-display { font-size: 24px; font-weight: 600; margin-top: 10px; }
-        .price-display .unit { font-size: 14px; color: #86868b; font-weight: 400; }
+      .dot {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .dot:hover {
+        transform: scale(1.2);
+      }
 
-        .config-section { margin-bottom: 30px; }
-        .config-label { font-size: 14px; color: #1d1d1f; margin-bottom: 12px; font-weight: 600; }
-        .selection-value { color: #86868b; font-weight: 400; margin-left: 5px; }
-        .option-note { font-size: 12px; color: #86868b; margin-top: 8px; }
+      .specs-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 40px;
+        margin-top: 40px;
+        text-align: left;
+      }
 
-        /* --- 交互控件 --- */
-        /* 颜色按钮 */
-        .color-grid { display: flex; gap: 12px; flex-wrap: wrap; }
-        .color-btn {
-            width: 32px; height: 32px; border-radius: 50%; border: none; cursor: pointer;
-            box-shadow: inset 0 0 1px rgba(0,0,0,0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-        }
-        .color-btn:hover { transform: scale(1.1); }
-        .color-btn.active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px #0071e3; }
+      .spec-item h4 {
+        font-size: 17px;
+        margin-bottom: 5px;
+      }
+      .spec-item p {
+        font-size: 14px;
+        color: var(--text-secondary);
+      }
 
-        /* 选项按钮 (图案/材质) */
-        .option-group { display: flex; gap: 10px; }
-        .option-btn {
-            flex: 1; padding: 12px; border: 1px solid #d2d2d7; border-radius: 12px;
-            background: #fff; color: #1d1d1f; font-size: 13px; cursor: pointer;
-            transition: all 0.2s;
-        }
-        .option-btn:hover { border-color: #86868b; }
-        .option-btn.active { border-color: #0071e3; color: #0071e3; box-shadow: 0 0 0 1px #0071e3; }
+      /* Studio Section - Complex Interactions */
+      #studio {
+        background-color: #000; /* Dark Mode for Premium Feel */
+        color: #fff;
+      }
 
-        /* 数量按钮 */
-        .quantity-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .qty-btn {
-            padding: 10px; border: 1px solid #d2d2d7; border-radius: 8px; background: #fff;
-            cursor: pointer; text-align: center; transition: all 0.2s;
-        }
-        .qty-btn.active { border-color: #1d1d1f; background: #1d1d1f; color: #fff; }
-        .qty-num { display: block; font-size: 16px; font-weight: 600; }
-        .qty-desc { display: block; font-size: 10px; margin-top: 2px; opacity: 0.8; }
-        .qty-btn.active .qty-desc { color: #aaa; }
+      #studio .sub-text {
+        color: #86868b;
+      }
 
-        .total-bar {
-            margin-top: 20px; background: #f5f5f7; padding: 15px; border-radius: 12px;
-            display: flex; justify-content: space-between; font-weight: 600; font-size: 14px;
-        }
+      .studio-controls {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 20px;
+        margin: 40px 0;
+        width: 100%;
+      }
 
-        /* --- 动态卡片引擎 (CSS Magic) --- */
-        .preview-card-container { perspective: 1000px; margin-bottom: 20px; }
-        .interactive-card {
-            width: 320px; height: 200px; border-radius: 16px; position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            transition: background 0.4s ease, transform 0.5s ease;
-            transform-style: preserve-3d;
-            overflow: hidden;
-            display: flex; flex-direction: column; justify-content: space-between; padding: 24px;
-        }
+      .mode-switch {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
 
-        /* 1. 颜色映射 [Source: 1] */
-        .color-jet-black { background: #1d1d1f; color: rgba(255,255,255,0.9); }
-        .color-mica-white { background: #f5f5f7; color: #1d1d1f; border: 1px solid #e5e5e5; }
-        .color-tech-blue { background: #0071e3; color: #fff; }
-        .color-concrete-grey { background: #8e8e93; color: #fff; }
-        .color-forest-green { background: #228b22; color: #fff; }
-        .color-orange { background: #ff9500; color: #fff; }
-        .color-pink { background: #ffb6c1; color: #1d1d1f; }
-        .color-purple { background: #800080; color: #fff; }
+      .mode-btn {
+        background: transparent;
+        border: 1px solid #424245;
+        color: #fff;
+        padding: 10px 30px;
+        border-radius: 20px;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
 
-        /* 2. 材质映射 [Source: 1] */
-        /* 亮面: 强反光 */
-        .material-glossy .layer-reflection {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(125deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 70%);
-            pointer-events: none;
-            mix-blend-mode: overlay;
-        }
-        /* 磨砂: 噪点 + 哑光 */
-        .material-matte .layer-texture {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
-            opacity: 0.3;
-            pointer-events: none;
-        }
-        .material-matte { box-shadow: 0 10px 30px rgba(0,0,0,0.1); } /* 磨砂阴影更柔和 */
+      .mode-btn.active {
+        background: #fff;
+        color: #000;
+        border-color: #fff;
+      }
 
-        /* 3. 图案映射 [Source: 1] */
-        /* 网格线 */
-        .pattern-grid .layer-pattern {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-image: linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px);
-            background-size: 20px 20px;
-            pointer-events: none;
-        }
-        .color-mica-white.pattern-grid .layer-pattern { /* 白卡上的网格用深色 */
-            background-image: linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-        }
-        /* 微光渐变 */
-        .pattern-soft-glow .layer-pattern {
-            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle at top left, rgba(255,255,255,0.4), transparent 60%);
-            mix-blend-mode: overlay;
-        }
+      .material-selector {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+      }
 
-        .card-content { z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
-        .card-slogan { font-size: 14px; font-weight: 500; opacity: 0.9; }
-        .card-logo-mark { font-weight: 700; font-size: 16px; align-self: flex-end; opacity: 0.8; }
-        .preview-note { margin-top: 15px; font-size: 12px; color: #86868b; }
+      .mat-option {
+        background: #1d1d1f;
+        border: 2px solid transparent;
+        padding: 15px;
+        border-radius: 10px;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s;
+      }
 
-        @media (max-width: 768px) {
-            .product-configurator { grid-template-columns: 1fr; gap: 30px; }
-            .preview-stage { position: relative; top: 0; }
-        }
-/* -----------------------------------------基础班页面 以上-------------------------------------------- */
+      .mat-option.selected {
+        border-color: var(--accent-blue);
+        background: #2c2c2e;
+      }
 
-        .color-dots {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            margin: 30px 0;
-        }
+      .mat-name {
+        font-weight: 600;
+        margin-bottom: 5px;
+        display: block;
+      }
+      .mat-price {
+        color: #86868b;
+        font-size: 12px;
+      }
 
-        .dot {
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            box-shadow: inset 0 0 2px rgba(0,0,0,0.3);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .dot:hover { transform: scale(1.2); }
+      .preview-area {
+        background: #1d1d1f;
+        height: 300px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 20px;
+        position: relative;
+        overflow: hidden;
+      }
 
-        .specs-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            margin-top: 40px;
-            text-align: left;
-        }
+      /* 模拟卡片 */
+      .card-mockup {
+        width: 300px;
+        height: 180px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #333, #000);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px;
+        position: relative;
+        transition: all 0.5s ease;
+      }
 
-        .spec-item h4 { font-size: 17px; margin-bottom: 5px; }
-        .spec-item p { font-size: 14px; color: var(--text-secondary); }
+      .card-text {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+      .card-logo {
+        width: 30px;
+        height: 30px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        align-self: flex-end;
+      }
 
-        /* Studio Section - Complex Interactions */
-        #studio {
-            background-color: #000; /* Dark Mode for Premium Feel */
-            color: #fff;
-        }
+      /* 动态卡片样式类 */
+      .card-mockup.bamboo {
+        background: #d2b48c;
+        color: #5c4033;
+      }
+      .card-mockup.walnut {
+        background: #5c4033;
+        color: #d2b48c;
+      }
+      .card-mockup.clear {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(5px);
+      }
 
-        #studio .sub-text { color: #86868b; }
+      /* Bespoke Section */
+      #bespoke {
+        background-color: #f5f5f7;
+      }
 
-        .studio-controls {
-            background: rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 40px 0;
-            width: 100%;
-        }
+      .bespoke-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        width: 100%;
+      }
 
-        .mode-switch {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
+      .bespoke-card {
+        background: #fff;
+        border-radius: 20px;
+        padding: 50px 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+      }
 
-        .mode-btn {
-            background: transparent;
-            border: 1px solid #424245;
-            color: #fff;
-            padding: 10px 30px;
-            border-radius: 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+      /* Pricing Table */
+      #pricing-table {
+        background: #fff;
+      }
 
-        .mode-btn.active {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
+      .price-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 40px;
+      }
 
-        .material-selector {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-        }
+      .price-table th,
+      .price-table td {
+        text-align: left;
+        padding: 20px;
+        border-bottom: 1px solid #e5e5e5;
+      }
 
-        .mat-option {
-            background: #1d1d1f;
-            border: 2px solid transparent;
-            padding: 15px;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s;
-        }
+      .price-table th {
+        font-size: 21px;
+        color: var(--text-primary);
+      }
+      .price-table td {
+        font-size: 17px;
+        color: var(--text-secondary);
+      }
+      .price-table .highlight {
+        color: var(--accent-blue);
+        font-weight: 600;
+      }
 
-        .mat-option.selected {
-            border-color: var(--accent-blue);
-            background: #2c2c2e;
-        }
+      .killer-deal {
+        background: linear-gradient(90deg, #f0f8ff, #fff);
+      }
 
-        .mat-name { font-weight: 600; margin-bottom: 5px; display: block;}
-        .mat-price { color: #86868b; font-size: 12px; }
+      footer {
+        background: #f5f5f7;
+        padding: 40px 0;
+        font-size: 12px;
+        color: var(--text-secondary);
+        text-align: center;
+        border-top: 1px solid #e5e5e5;
+      }
 
-        .preview-area {
-            background: #1d1d1f;
-            height: 300px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 20px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* 模拟卡片 */
-        .card-mockup {
-            width: 300px;
-            height: 180px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #333, #000);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 20px;
-            position: relative;
-            transition: all 0.5s ease;
-        }
-        
-        .card-text { font-size: 10px; color: rgba(255,255,255,0.7); }
-        .card-logo { width: 30px; height: 30px; background: rgba(255,255,255,0.2); border-radius: 50%; align-self: flex-end; }
-        
-        /* 动态卡片样式类 */
-        .card-mockup.bamboo { background: #d2b48c; color: #5c4033; }
-        .card-mockup.walnut { background: #5c4033; color: #d2b48c; }
-        .card-mockup.clear { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); backdrop-filter: blur(5px); }
-        
-        /* Bespoke Section */
-        #bespoke {
-            background-color: #f5f5f7;
-        }
+      /* 优化的按钮样式 */
+      .btn.primary-btn {
+        background-color: #0071e3; /* 清爽的蓝色背景 */
+        color: white;
+        padding: 16px 32px;
+        font-size: 16px;
+        border: none;
+        border-radius: 25px; /* 圆角效果 */
+        cursor: pointer;
+        text-align: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* 交互效果 */
+      }
 
+      /* 悬停效果 */
+      .btn.primary-btn:hover {
+        transform: scale(1.05); /* 悬停时轻微放大 */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* 增强阴影 */
+      }
+
+      /* 按下时效果 */
+      .btn.primary-btn:active {
+        transform: scale(0.98); /* 按下时轻微缩小 */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 还原阴影 */
+      }
+
+      /* -----------------------------------------Studio页面 以下-------------------------------------------- */
+      /* --- Linkly Studio 专属样式 --- */
+      .dark-theme {
+        background-color: #000;
+        color: #fff;
+      }
+      .studio-stage {
+        background: #111;
+        border: 1px solid #333;
+      }
+      .grid-2-col {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      /* 模式切换按钮 */
+      .mode-toggle-group {
+        display: flex;
+        background: #1d1d1f;
+        padding: 4px;
+        border-radius: 12px;
+      }
+      .mode-toggle-btn {
+        flex: 1;
+        padding: 12px;
+        border: none;
+        background: transparent;
+        color: #86868b;
+        font-weight: 600;
+        cursor: pointer;
+        border-radius: 8px;
+        transition: 0.3s;
+      }
+      .mode-toggle-btn.active {
+        background: #333;
+        color: #fff;
+      }
+
+      /* 选项按钮适配 */
+      .studio-panel .option-btn {
+        background: #1d1d1f;
+        border: 1px solid #333;
+        color: #fff;
+        font-size: 12px;
+      }
+      .studio-panel .option-btn:hover {
+        border-color: #666;
+      }
+      .studio-panel .option-btn.active {
+        border-color: #0a84ff;
+        color: #0a84ff;
+        background: #151515;
+      }
+      .studio-panel .qty-btn {
+        background: #1d1d1f;
+        border-color: #333;
+        color: #fff;
+      }
+      .studio-panel .qty-btn.active {
+        background: #fff;
+        color: #000;
+        border-color: #fff;
+      }
+
+      /* --- 核心预览卡片 --- */
+      #studio-card {
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+      .layer-base,
+      .layer-pattern,
+      .layer-finish {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: 16px;
+      }
+
+      /* 布局显示控制 */
+      .layout-business,
+      .layout-social {
+        display: none;
+        height: 100%;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 24px;
+        position: relative;
+        z-index: 2;
+      }
+      .mode-business .layout-business {
+        display: flex;
+      }
+      .mode-social .layout-social {
+        display: flex;
+      }
+
+      /* Business 布局样式 */
+      .biz-top {
+        opacity: 0.6;
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+      }
+      .biz-name {
+        font-family: "Georgia", serif;
+        font-size: 20px;
+        margin-bottom: 4px;
+      }
+      .biz-role {
+        font-size: 11px;
+        opacity: 0.8;
+      }
+      .biz-company {
+        font-size: 11px;
+        opacity: 0.6;
+        margin-top: 2px;
+      }
+      .biz-bottom {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+      }
+      .biz-contact {
+        font-size: 10px;
+        opacity: 0.5;
+        font-family: monospace;
+      }
+
+      /* Social 布局样式 */
+      .mode-social {
+        text-align: center;
+      }
+      .soc-top {
+        display: flex;
+        justify-content: space-between;
+        font-size: 10px;
+        opacity: 0.8;
+      }
+      .soc-mbti,
+      .soc-astro {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        padding: 2px 6px;
+        border-radius: 10px;
+      }
+      .soc-center {
+        margin-top: 20px;
+      }
+      .soc-name {
+        font-family: "Futura", sans-serif;
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+      }
+      .soc-tag {
+        font-size: 10px;
+        letter-spacing: 3px;
+        margin-top: 5px;
+        opacity: 0.7;
+      }
+      .soc-icons {
+        margin-top: 15px;
+        font-size: 14px;
+        opacity: 0.9;
+        letter-spacing: 10px;
+      }
+      .soc-id {
+        font-weight: bold;
+        font-size: 12px;
+      }
+
+      /* --- 材质渲染 (Material) --- */
+      /* PVC */
+      .material-pvc .layer-finish {
+        background: linear-gradient(
+          125deg,
+          transparent 30%,
+          rgba(255, 255, 255, 0.1) 40%,
+          transparent 50%
+        );
+      }
+      /* Bamboo */
+      .material-bamboo .layer-base {
+        background-color: #e3cca8 !important;
+      } /* 强制竹子底色 */
+      .material-bamboo .layer-pattern {
+        background-image: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.03) 1px,
+          transparent 1px
+        );
+        background-size: 3px 100%;
+        opacity: 0.5;
+      }
+      .material-bamboo {
+        color: #5c4033 !important;
+      } /* 竹子文字深色 */
+      .material-bamboo .soc-mbti,
+      .material-bamboo .soc-astro {
+        border-color: rgba(92, 64, 51, 0.3);
+      }
+      /* Walnut */
+      .material-walnut .layer-base {
+        background-color: #5c4033 !important;
+      }
+      .material-walnut .layer-pattern {
+        background-image: repeating-linear-gradient(
+          45deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 0, 0, 0.1) 3px
+        );
+        opacity: 0.6;
+      }
+      /* Transparent */
+      .material-clear {
+        background: transparent !important;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+      .material-clear .layer-base {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(10px);
+      }
+
+      /* --- 颜色渲染 (Color) --- */
+      .color-obsidian .layer-base {
+        background: #1a1a1a;
+      }
+      .color-prussian .layer-base {
+        background: #003153;
+      }
+      .color-burgundy .layer-base {
+        background: #800020;
+      }
+      .color-ivory .layer-base {
+        background: #fffff0;
+      }
+      .color-ivory {
+        color: #333;
+      }
+      .color-spacegrey .layer-base {
+        background: #4a4a4a;
+      }
+      .color-champagne .layer-base {
+        background: #f7e7ce;
+      }
+      .color-champagne {
+        color: #333;
+      }
+
+      .color-aurora .layer-base {
+        background: linear-gradient(135deg, #00c6ff, #0072ff);
+      }
+      .color-sunset .layer-base {
+        background: linear-gradient(to right, #ff512f, #f09819);
+      }
+      .color-mint .layer-base {
+        background: #98ff98;
+      }
+      .color-mint {
+        color: #005000;
+      }
+      .color-pink .layer-base {
+        background: #ffb6c1;
+      }
+      .color-pink {
+        color: #333;
+      }
+      .color-violet .layer-base {
+        background: #7f00ff;
+      }
+      .color-yellow .layer-base {
+        background: #fff700;
+      }
+      .color-yellow {
+        color: #333;
+      }
+
+      /* --- 图案渲染 (Pattern) --- */
+      /* Brushed Metal */
+      .pattern-brushed .layer-pattern {
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZmlsdGVyIGlkPSJnoiPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjAyIDAuNSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+");
+        opacity: 0.3;
+        mix-blend-mode: overlay;
+      }
+      /* Marble */
+      .pattern-marble .layer-pattern {
+        background: radial-gradient(
+            circle at 50% 50%,
+            rgba(255, 255, 255, 0.1),
+            transparent 60%
+          ),
+          radial-gradient(
+            circle at 10% 20%,
+            rgba(255, 255, 255, 0.05),
+            transparent 40%
+          );
+        filter: contrast(1.5);
+      }
+      /* Geometric */
+      .pattern-geo .biz-deco {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 60px;
+        height: 60px;
+        border-left: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid rgba(255, 255, 255, 0.3);
+      }
+      /* Side Color */
+      .pattern-side .layer-pattern {
+        background: linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.3) 25%,
+          transparent 25%
+        );
+      }
+
+      /* Cyberpunk */
+      .pattern-cyber .layer-base {
+        border: 1px solid #0ff;
+      }
+      .pattern-cyber {
+        color: #0ff;
+        text-shadow: 0 0 5px #0ff;
+      }
+      /* Vaporwave */
+      .pattern-vapor .layer-pattern {
+        background: linear-gradient(
+            0deg,
+            rgba(255, 0, 255, 0.2) 0%,
+            transparent 50%
+          ),
+          linear-gradient(90deg, rgba(0, 255, 255, 0.2) 0%, transparent 50%);
+        background-size: 20px 20px;
+      }
+      /* Pixel */
+      .pattern-pixel .layer-pattern {
+        background-image: conic-gradient(
+          rgba(255, 255, 255, 0.1) 90deg,
+          transparent 90deg
+        );
+        background-size: 8px 8px;
+      }
+      /* Liquid */
+      .pattern-liquid .layer-pattern {
+        background: linear-gradient(
+          45deg,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        filter: blur(20px);
+      }
+      /* -----------------------------------------Studio页面 以上-------------------------------------------- */
+
+      /* -----------------------------------------BeSpoken页面 以下-------------------------------------------- */
+      /* --- Bespoke Pro 风格样式 --- */
+      .light-theme {
+        background-color: #f5f5f7;
+        color: #1d1d1f;
+      }
+
+      /* 头部排版 */
+      .bespoke-header {
+        text-align: center;
+        margin-bottom: 60px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .section-headline {
+        font-size: 48px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+      }
+      .section-subhead {
+        font-size: 24px;
+        color: #86868b;
+        font-weight: 400;
+      }
+
+      /* 网格布局 */
+      .bespoke-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px; /* 增加卡片间距 */
+        max-width: 1080px;
+        margin: 0 auto;
+      }
+
+      /* 卡片容器 */
+      .bespoke-card {
+        background: #fff;
+        border-radius: 24px; /* 更圆润的角 */
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s;
+        display: flex;
+        flex-direction: column;
+      }
+      .bespoke-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      }
+
+      /* 视觉区域 (Visual Area) */
+      .card-visual {
+        height: 240px;
+        position: relative;
+        background: #fbfbfd;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* A. 蓝图视觉效果 */
+      .visual-blueprint {
+        background-color: #003366;
+      }
+      .blueprint-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+      .blueprint-ui {
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 10px 20px;
+        color: #fff;
+        font-family: monospace;
+        font-size: 12px;
+        border-radius: 4px;
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(5px);
+        z-index: 2;
+      }
+
+      /* B. 服务视觉效果 */
+      .visual-concierge {
+        background-color: #f2f2f2;
+      }
+      .concierge-badge {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #d4af37;
+        color: #fff;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .design-options {
+        display: flex;
+        gap: 10px;
+      }
+      .d-opt {
+        width: 80px;
+        height: 100px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        color: #aaa;
+        transition: transform 0.5s ease;
+      }
+      .bespoke-card:hover .opt-1 {
+        transform: rotate(-10deg) translateX(-10px);
+      }
+      .bespoke-card:hover .opt-2 {
+        transform: rotate(5deg) translateX(10px);
+      }
+
+      /* 内容区域 (Body) */
+      .bespoke-card .card-body {
+        padding: 40px; /* 增加内边距，解决“字贴边”问题 */
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .eye-brow {
+        font-size: 12px;
+        font-weight: 600;
+        color: #bf4800;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 8px;
+        display: block;
+      }
+      .card-title {
+        font-size: 28px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #1d1d1f;
+      }
+      .card-desc {
+        font-size: 15px;
+        line-height: 1.5;
+        color: #86868b;
+        margin-bottom: 30px;
+      }
+
+      /* 特性列表 */
+      .feature-list {
+        list-style: none;
+        margin-bottom: 40px;
+      }
+      .feature-list li {
+        margin-bottom: 12px;
+        font-size: 14px;
+        color: #424245;
+        display: flex;
+        align-items: center;
+      }
+      .check-icon {
+        color: #0071e3;
+        margin-right: 10px;
+        font-weight: bold;
+      }
+
+      /* 底部操作区 (Footer) */
+      .card-footer {
+        margin-top: auto;
+      }
+
+      /* Apple 风格链接 */
+      .apple-link {
+        color: #0071e3;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        transition: opacity 0.2s;
+      }
+      .apple-link:hover {
+        text-decoration: underline;
+      }
+      .apple-link .arrow {
+        transition: transform 0.2s;
+        margin-left: 4px;
+        font-size: 18px;
+        line-height: 1;
+      }
+      .apple-link:hover .arrow {
+        transform: translateX(3px);
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      /* Apple 风格按钮 */
+      .apple-btn {
+        background-color: #0071e3;
+        color: #fff;
+        padding: 10px 22px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: background-color 0.2s;
+        display: inline-block;
+      }
+      .apple-btn:hover {
+        background-color: #0077ed;
+      }
+
+      /* 材质补充说明 */
+      .bespoke-materials {
+        text-align: center;
+        margin-top: 60px;
+        border-top: 1px solid #e5e5e5;
+        padding-top: 40px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .material-note {
+        font-size: 12px;
+        color: #86868b;
+        letter-spacing: 0.02em;
+      }
+
+      /* 响应式调整 */
+      @media (max-width: 768px) {
         .bespoke-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            width: 100%;
+          grid-template-columns: 1fr;
         }
-
-        .bespoke-card {
-            background: #fff;
-            border-radius: 20px;
-            padding: 50px 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        .section-headline {
+          font-size: 36px;
         }
-
-        /* Pricing Table */
-        #pricing-table {
-            background: #fff;
-        }
-        
-        .price-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 40px;
-        }
-        
-        .price-table th, .price-table td {
-            text-align: left;
-            padding: 20px;
-            border-bottom: 1px solid #e5e5e5;
-        }
-        
-        .price-table th { font-size: 21px; color: var(--text-primary); }
-        .price-table td { font-size: 17px; color: var(--text-secondary); }
-        .price-table .highlight { color: var(--accent-blue); font-weight: 600; }
-        
-        .killer-deal {
-            background: linear-gradient(90deg, #f0f8ff, #fff);
-        }
-
-        footer {
-            background: #f5f5f7;
-            padding: 40px 0;
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-align: center;
-            border-top: 1px solid #e5e5e5;
-        }
-
-        /* 优化的按钮样式 */
-        .btn.primary-btn {
-            background-color: #0071e3; /* 清爽的蓝色背景 */
-            color: white;
-            padding: 16px 32px;
-            font-size: 16px;
-            border: none;
-            border-radius: 25px; /* 圆角效果 */
-            cursor: pointer;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* 交互效果 */
-        }
-
-        /* 悬停效果 */
-        .btn.primary-btn:hover {
-            transform: scale(1.05); /* 悬停时轻微放大 */
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* 增强阴影 */
-        }
-
-        /* 按下时效果 */
-        .btn.primary-btn:active {
-            transform: scale(0.98); /* 按下时轻微缩小 */
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 还原阴影 */
-        }
-
-/* -----------------------------------------Studio页面 以下-------------------------------------------- */
-/* --- Linkly Studio 专属样式 --- */
-        .dark-theme { background-color: #000; color: #fff; }
-        .studio-stage { background: #111; border: 1px solid #333; }
-        .grid-2-col { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-        /* 模式切换按钮 */
-        .mode-toggle-group { display: flex; background: #1d1d1f; padding: 4px; border-radius: 12px; }
-        .mode-toggle-btn { flex: 1; padding: 12px; border: none; background: transparent; color: #86868b; font-weight: 600; cursor: pointer; border-radius: 8px; transition: 0.3s; }
-        .mode-toggle-btn.active { background: #333; color: #fff; }
-
-        /* 选项按钮适配 */
-        .studio-panel .option-btn { background: #1d1d1f; border: 1px solid #333; color: #fff; font-size: 12px; }
-        .studio-panel .option-btn:hover { border-color: #666; }
-        .studio-panel .option-btn.active { border-color: #0a84ff; color: #0a84ff; background: #151515; }
-        .studio-panel .qty-btn { background: #1d1d1f; border-color: #333; color: #fff; }
-        .studio-panel .qty-btn.active { background: #fff; color: #000; border-color: #fff; }
-
-        /* --- 核心预览卡片 --- */
-        #studio-card { transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
-        .layer-base, .layer-pattern, .layer-finish { position: absolute; inset: 0; pointer-events: none; border-radius: 16px; }
-        
-        /* 布局显示控制 */
-        .layout-business, .layout-social { display: none; height: 100%; flex-direction: column; justify-content: space-between; padding: 24px; position: relative; z-index: 2; }
-        .mode-business .layout-business { display: flex; }
-        .mode-social .layout-social { display: flex; }
-
-        /* Business 布局样式 */
-        .biz-top { opacity: 0.6; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
-        .biz-name { font-family: "Georgia", serif; font-size: 20px; margin-bottom: 4px; }
-        .biz-role { font-size: 11px; opacity: 0.8; }
-        .biz-company { font-size: 11px; opacity: 0.6; margin-top: 2px; }
-        .biz-bottom { display: flex; align-items: flex-end; justify-content: space-between; }
-        .biz-contact { font-size: 10px; opacity: 0.5; font-family: monospace; }
-        
-        /* Social 布局样式 */
-        .mode-social { text-align: center; }
-        .soc-top { display: flex; justify-content: space-between; font-size: 10px; opacity: 0.8; }
-        .soc-mbti, .soc-astro { border: 1px solid rgba(255,255,255,0.3); padding: 2px 6px; border-radius: 10px; }
-        .soc-center { margin-top: 20px; }
-        .soc-name { font-family: "Futura", sans-serif; font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-        .soc-tag { font-size: 10px; letter-spacing: 3px; margin-top: 5px; opacity: 0.7; }
-        .soc-icons { margin-top: 15px; font-size: 14px; opacity: 0.9; letter-spacing: 10px; }
-        .soc-id { font-weight: bold; font-size: 12px; }
-
-        /* --- 材质渲染 (Material) --- */
-        /* PVC */
-        .material-pvc .layer-finish { background: linear-gradient(125deg, transparent 30%, rgba(255,255,255,0.1) 40%, transparent 50%); }
-        /* Bamboo */
-        .material-bamboo .layer-base { background-color: #e3cca8 !important; } /* 强制竹子底色 */
-        .material-bamboo .layer-pattern { background-image: linear-gradient(90deg, rgba(0,0,0,0.03) 1px, transparent 1px); background-size: 3px 100%; opacity: 0.5; }
-        .material-bamboo { color: #5c4033 !important; } /* 竹子文字深色 */
-        .material-bamboo .soc-mbti, .material-bamboo .soc-astro { border-color: rgba(92, 64, 51, 0.3); }
-        /* Walnut */
-        .material-walnut .layer-base { background-color: #5c4033 !important; }
-        .material-walnut .layer-pattern { background-image: repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 3px); opacity: 0.6; }
-        /* Transparent */
-        .material-clear { background: transparent !important; border: 1px solid rgba(255,255,255,0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .material-clear .layer-base { background: rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
-
-        /* --- 颜色渲染 (Color) --- */
-        .color-obsidian .layer-base { background: #1a1a1a; }
-        .color-prussian .layer-base { background: #003153; }
-        .color-burgundy .layer-base { background: #800020; }
-        .color-ivory .layer-base { background: #fffff0; } .color-ivory { color: #333; }
-        .color-spacegrey .layer-base { background: #4a4a4a; }
-        .color-champagne .layer-base { background: #F7E7CE; } .color-champagne { color: #333; }
-        
-        .color-aurora .layer-base { background: linear-gradient(135deg, #00c6ff, #0072ff); }
-        .color-sunset .layer-base { background: linear-gradient(to right, #ff512f, #f09819); }
-        .color-mint .layer-base { background: #98ff98; } .color-mint { color: #005000; }
-        .color-pink .layer-base { background: #ffb6c1; } .color-pink { color: #333; }
-        .color-violet .layer-base { background: #7F00FF; }
-        .color-yellow .layer-base { background: #fff700; } .color-yellow { color: #333; }
-
-        /* --- 图案渲染 (Pattern) --- */
-        /* Brushed Metal */
-        .pattern-brushed .layer-pattern { background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48ZmlsdGVyIGlkPSJnoiPjxmZVR1cmJ1bGVuY2UgdHlwZT0iZnJhY3RhbE5vaXNlIiBiYXNlRnJlcXVlbmN5PSIwLjAyIDAuNSIgbnVtT2N0YXZlcz0iMyIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNuKSIgb3BhY2l0eT0iMC4yIi8+PC9zdmc+'); opacity: 0.3; mix-blend-mode: overlay; }
-        /* Marble */
-        .pattern-marble .layer-pattern { background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.1), transparent 60%), radial-gradient(circle at 10% 20%, rgba(255,255,255,0.05), transparent 40%); filter: contrast(1.5); }
-        /* Geometric */
-        .pattern-geo .biz-deco { position: absolute; bottom: 0; right: 0; width: 60px; height: 60px; border-left: 2px solid rgba(255,255,255,0.3); border-top: 2px solid rgba(255,255,255,0.3); }
-        /* Side Color */
-        .pattern-side .layer-pattern { background: linear-gradient(90deg, rgba(0,0,0,0.3) 25%, transparent 25%); }
-        
-        /* Cyberpunk */
-        .pattern-cyber .layer-base { border: 1px solid #0ff; }
-        .pattern-cyber { color: #0ff; text-shadow: 0 0 5px #0ff; }
-        /* Vaporwave */
-        .pattern-vapor .layer-pattern { background: linear-gradient(0deg, rgba(255,0,255,0.2) 0%, transparent 50%), linear-gradient(90deg, rgba(0,255,255,0.2) 0%, transparent 50%); background-size: 20px 20px; }
-        /* Pixel */
-        .pattern-pixel .layer-pattern { background-image: conic-gradient(rgba(255,255,255,0.1) 90deg, transparent 90deg); background-size: 8px 8px; }
-        /* Liquid */
-        .pattern-liquid .layer-pattern { background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent); filter: blur(20px); }
-/* -----------------------------------------Studio页面 以上-------------------------------------------- */
-
-/* -----------------------------------------BeSpoken页面 以下-------------------------------------------- */
-/* --- Bespoke Pro 风格样式 --- */
-        .light-theme { background-color: #f5f5f7; color: #1d1d1f; }
-        
-        /* 头部排版 */
-        .bespoke-header { text-align: center; margin-bottom: 60px; max-width: 700px; margin-left: auto; margin-right: auto; }
-        .section-headline { font-size: 48px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; }
-        .section-subhead { font-size: 24px; color: #86868b; font-weight: 400; }
-
-        /* 网格布局 */
-        .bespoke-grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 30px; /* 增加卡片间距 */
-            max-width: 1080px;
-            margin: 0 auto;
-        }
-
-        /* 卡片容器 */
-        .bespoke-card {
-            background: #fff;
-            border-radius: 24px; /* 更圆润的角 */
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-            transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1), box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-        }
-        .bespoke-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        }
-
-        /* 视觉区域 (Visual Area) */
-        .card-visual {
-            height: 240px;
-            position: relative;
-            background: #fbfbfd;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        /* A. 蓝图视觉效果 */
-        .visual-blueprint { background-color: #003366; }
-        .blueprint-grid {
-            position: absolute; inset: 0;
-            background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-        .blueprint-ui {
-            border: 1px solid rgba(255,255,255,0.5);
-            padding: 10px 20px;
-            color: #fff; font-family: monospace; font-size: 12px;
-            border-radius: 4px;
-            background: rgba(0,0,0,0.2);
-            backdrop-filter: blur(5px);
-            z-index: 2;
-        }
-
-        /* B. 服务视觉效果 */
-        .visual-concierge { background-color: #f2f2f2; }
-        .concierge-badge {
-            position: absolute; top: 20px; right: 20px;
-            background: #d4af37; color: #fff;
-            padding: 4px 10px; border-radius: 20px;
-            font-size: 10px; font-weight: 700; text-transform: uppercase;
-        }
-        .design-options { display: flex; gap: 10px; }
-        .d-opt { 
-            width: 80px; height: 100px; background: #fff; 
-            border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 10px; color: #aaa;
-            transition: transform 0.5s ease;
-        }
-        .bespoke-card:hover .opt-1 { transform: rotate(-10deg) translateX(-10px); }
-        .bespoke-card:hover .opt-2 { transform: rotate(5deg) translateX(10px); }
-
-        /* 内容区域 (Body) */
-        .bespoke-card .card-body {
-            padding: 40px; /* 增加内边距，解决“字贴边”问题 */
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .eye-brow { font-size: 12px; font-weight: 600; color: #bf4800; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: block;}
-        .card-title { font-size: 28px; font-weight: 600; margin-bottom: 15px; color: #1d1d1f; }
-        .card-desc { font-size: 15px; line-height: 1.5; color: #86868b; margin-bottom: 30px; }
-
-        /* 特性列表 */
-        .feature-list { list-style: none; margin-bottom: 40px; }
-        .feature-list li { margin-bottom: 12px; font-size: 14px; color: #424245; display: flex; align-items: center; }
-        .check-icon { color: #0071e3; margin-right: 10px; font-weight: bold; }
-
-        /* 底部操作区 (Footer) */
-        .card-footer { margin-top: auto; }
-
-        /* Apple 风格链接 */
-        .apple-link {
-            color: #0071e3;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            transition: opacity 0.2s;
-        }
-        .apple-link:hover { text-decoration: underline; }
-        .apple-link .arrow { transition: transform 0.2s; margin-left: 4px; font-size: 18px; line-height: 1; }
-        .apple-link:hover .arrow { transform: translateX(3px); text-decoration: none; display: inline-block; }
-
-        /* Apple 风格按钮 */
-        .apple-btn {
-            background-color: #0071e3;
-            color: #fff;
-            padding: 10px 22px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            transition: background-color 0.2s;
-            display: inline-block;
-        }
-        .apple-btn:hover { background-color: #0077ed; }
-
-        /* 材质补充说明 */
-        .bespoke-materials { text-align: center; margin-top: 60px; border-top: 1px solid #e5e5e5; padding-top: 40px; max-width: 600px; margin-left: auto; margin-right: auto; }
-        .material-note { font-size: 12px; color: #86868b; letter-spacing: 0.02em; }
-
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .bespoke-grid { grid-template-columns: 1fr; }
-            .section-headline { font-size: 36px; }
-        }
-/* -----------------------------------------BeSpoken页面 以上-------------------------------------------- */
-
-
+      }
+      /* -----------------------------------------BeSpoken页面 以上-------------------------------------------- */
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <!-- 顶部导航栏 -->
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
-        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
-            
-            <div class="nav-content">
-                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
-                    <img src="Logo/lightBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;"> 
-                </a>
-                <div style="display:flex; gap:24px;"></div>
-            </div>
-
-            <div class="hidden md:flex items-center gap-8 navbar-links">
-                
-                <div class="relative group h-full flex items-center">
-                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        产品
-                    </a>
-                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
-                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly 名片
-                            </a>
-                            <a href="Linkly_AI_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly AI
-                            </a>
-                            <a href="Enterprise_Intro.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly 企业版
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <a href="AI_Detailed_2.html">Linkly AI</a> 
-                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
-                
-                <div class="relative group h-full flex items-center">
-                    <span class="cursor-pointer py-4 text-[0.875rem] text-[#1d1d1f] group-hover:text-[#0071e3] group-hover:font-bold transition-all duration-300">
-                        定价
-                    </span>
-                    <div class="absolute left-1/2 -translate-x-1/2 top-[3rem] pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl overflow-hidden shadow-2xl w-32 flex flex-col p-1">
-                            <a href="VIP_Compare_2.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] rounded-lg hover:text-[#0071e3] transition-colors !font-normal">
-                                软件应用
-                            </a>
-                            <a href="Price_Card.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] rounded-lg hover:text-[#0071e3] transition-colors !font-normal">
-                                实体名片
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="relative group h-full flex items-center">
-                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        支持
-                    </a>
-                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
-                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                应用下载
-                            </a>
-                            <a href="User_Guide.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                使用说明
-                            </a>
-                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                技术详情
-                            </a>
-                            <a href="QA.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                常见问题
-                            </a>
-                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                联系我们
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
-                <a href="#" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                    </svg>
-                </a>
-                
-                <a href="ShopBag.html" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                </a>
-
-                <a href="Shop_General.html" class="px-3 py-1 rounded-full font-medium transition-all duration-300 buy-btn">购买</a>
-                
-                <a href="#" class="hidden md:block text-[#1d1d1f] transition-all duration-300 login-btn">登录</a>
-            </div>
+      <div
+        class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between"
+      >
+        <div class="nav-content">
+          <a
+            href="index.html"
+            class="nav-link"
+            style="display: flex; align-items: center"
+          >
+            <img
+              src="Logo/lightBGver.png"
+              alt="Linkly Logo"
+              style="max-height: 28px; width: auto"
+            />
+          </a>
+          <div style="display: flex; gap: 24px"></div>
         </div>
+
+        <div class="hidden md:flex items-center gap-8 navbar-links">
+          <div class="relative group h-full flex items-center">
+            <a
+              href="Product.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+            >
+              产品
+            </a>
+            <div
+              class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50"
+            >
+              <div
+                class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden"
+              >
+                <a
+                  href="Product.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  Linkly 名片
+                </a>
+                <a
+                  href="Linkly_AI_Intro.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  Linkly AI
+                </a>
+                <a
+                  href="Enterprise_Intro.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  Linkly 企业版
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a href="AI_Detailed_2.html">Linkly AI</a>
+          <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a>
+
+          <div class="relative group h-full flex items-center">
+            <span
+              class="cursor-pointer py-4 text-[0.875rem] text-[#1d1d1f] group-hover:text-[#0071e3] group-hover:font-bold transition-all duration-300"
+            >
+              定价
+            </span>
+            <div
+              class="absolute left-1/2 -translate-x-1/2 top-[3rem] pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0"
+            >
+              <div
+                class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl overflow-hidden shadow-2xl w-32 flex flex-col p-1"
+              >
+                <a
+                  href="VIP_Compare_2.html"
+                  class="block w-full px-4 py-2.5 text-center text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] rounded-lg hover:text-[#0071e3] transition-colors !font-normal"
+                >
+                  软件应用
+                </a>
+                <a
+                  href="Price_Card.html"
+                  class="block w-full px-4 py-2.5 text-center text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] rounded-lg hover:text-[#0071e3] transition-colors !font-normal"
+                >
+                  实体名片
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="relative group h-full flex items-center">
+            <a
+              href="Download.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+            >
+              支持
+            </a>
+            <div
+              class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50"
+            >
+              <div
+                class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden"
+              >
+                <a
+                  href="Download.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  应用下载
+                </a>
+                <a
+                  href="User_Guide.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  使用说明
+                </a>
+                <a
+                  href="Tech_Spec.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  技术详情
+                </a>
+                <a
+                  href="QA.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  常见问题
+                </a>
+                <a
+                  href="Contact_Us.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  联系我们
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
+          <a
+            href="#"
+            class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="ShopBag.html"
+            class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="Shop_General.html"
+            class="px-3 py-1 rounded-full font-medium transition-all duration-300 buy-btn"
+            >购买</a
+          >
+
+          <a
+            href="#"
+            class="hidden md:block text-[#1d1d1f] transition-all duration-300 login-btn"
+            >登录</a
+          >
+        </div>
+      </div>
     </nav>
 
-
-
     <div id="hero" class="section visible">
-        <div class="container">
-            <h1 class="hero-text">一触，即合。</h1>
-            <p class="sub-text">从即买即用的入门之选，到独一无二的品牌定制。<br>Linkly 让每一处细节都精准定义身份。</p>
-            
-            <div class="hero-grid">
-                
-                <div class="hero-card" onclick="document.getElementById('essentials').scrollIntoView({behavior: 'smooth'})">
-                    <div class="card-visual-container">
-                        <div class="card-3d ess-black">Jet Black</div>
-                        <div class="card-3d ess-blue">Tech Blue</div>
-                        <div class="card-3d ess-grid">Grid Tech</div>
-                        <div class="card-3d ess-white">Mica White</div>
-                        <div class="card-3d ess-green">Forest Green</div>
-                        <div class="card-3d ess-orange">Vitality</div>
-                        <div class="card-3d ess-pink">Sakura Pink</div>
-                        <div class="card-3d ess-purple">Electric</div>
-                        <div class="card-3d ess-grey">Concrete</div>
-                        <div class="card-3d ess-glow">Soft Glow</div>
-                    </div>
-                    <h3>基础款</h3>
-                    <p style="color:var(--text-secondary); margin-top:5px; font-size: 14px;">即买即发 · 入门首选</p>
-                    <p style="margin-top:10px; font-weight:600;">$19.90</p>
-                </div>
+      <div class="container">
+        <h1 class="hero-text">一触，即合。</h1>
+        <p class="sub-text">
+          从即买即用的入门之选，到独一无二的品牌定制。<br />Linkly
+          让每一处细节都精准定义身份。
+        </p>
 
-                <div class="hero-card" onclick="document.getElementById('studio').scrollIntoView({behavior: 'smooth'})">
-                    <div class="card-visual-container">
-                        <div class="card-3d stu-wood-w">Walnut</div>
-                        <div class="card-3d stu-aurora">Aurora</div>
-                        <div class="card-3d stu-clear">Clear PET</div>
-                        <div class="card-3d stu-wood-b">Bamboo</div>
-                        <div class="card-3d stu-cyber">Cyberpunk</div>
-                        <div class="card-3d stu-sunset">Sunset</div>
-                        <div class="card-3d stu-metal">Brushed</div>
-                        <div class="card-3d stu-marble">Marble</div>
-                        <div class="card-3d stu-mint">Mint Green</div>
-                        <div class="card-3d stu-pixel">Pixel Art</div>
-                    </div>
-                    <h3>模块化定制</h3>
-                    <p style="color:var(--text-secondary); margin-top:5px; font-size: 14px;">材质甄选 · 自由重组</p>
-                    <p style="margin-top:10px; font-weight:600;">$34.90 起</p>
-                </div>
-
-                <div class="hero-card" onclick="document.getElementById('bespoke').scrollIntoView({behavior: 'smooth'})">
-                    <div class="card-visual-container">
-                        <div class="card-3d bes-gold">Gold Foil</div>
-                        <div class="card-3d bes-wire">Blueprint</div>
-                        <div class="card-3d bes-vi">Brand VI</div>
-                        <div class="card-3d bes-cmyk">CMYK Print</div>
-                        <div class="card-3d bes-pan">Pantone</div>
-                        <div class="card-3d bes-uv">Spot UV</div>
-                        <div class="card-3d bes-trans">Transparent</div>
-                        <div class="card-3d bes-design">Custom</div>
-                        <div class="card-3d bes-lux">Luxury</div>
-                        <div class="card-3d bes-pro">Pro Biz</div>
-                    </div>
-                    <h3>全定制</h3>
-                    <p style="color:var(--text-secondary); margin-top:5px; font-size: 14px;">像素级自由 · 专人服务</p>
-                    <p style="margin-top:10px; font-weight:600;">50 张起订</p>
-                </div>
-
+        <div class="hero-grid">
+          <div
+            class="hero-card"
+            onclick="document.getElementById('essentials').scrollIntoView({behavior: 'smooth'})"
+          >
+            <div class="card-visual-container">
+              <div class="card-3d ess-black">Jet Black</div>
+              <div class="card-3d ess-blue">Tech Blue</div>
+              <div class="card-3d ess-grid">Grid Tech</div>
+              <div class="card-3d ess-white">Mica White</div>
+              <div class="card-3d ess-green">Forest Green</div>
+              <div class="card-3d ess-orange">Vitality</div>
+              <div class="card-3d ess-pink">Sakura Pink</div>
+              <div class="card-3d ess-purple">Electric</div>
+              <div class="card-3d ess-grey">Concrete</div>
+              <div class="card-3d ess-glow">Soft Glow</div>
             </div>
+            <h3>基础款</h3>
+            <p
+              style="
+                color: var(--text-secondary);
+                margin-top: 5px;
+                font-size: 14px;
+              "
+            >
+              即买即发 · 入门首选
+            </p>
+            <p style="margin-top: 10px; font-weight: 600">$19.90</p>
+          </div>
+
+          <div
+            class="hero-card"
+            onclick="document.getElementById('studio').scrollIntoView({behavior: 'smooth'})"
+          >
+            <div class="card-visual-container">
+              <div class="card-3d stu-wood-w">Walnut</div>
+              <div class="card-3d stu-aurora">Aurora</div>
+              <div class="card-3d stu-clear">Clear PET</div>
+              <div class="card-3d stu-wood-b">Bamboo</div>
+              <div class="card-3d stu-cyber">Cyberpunk</div>
+              <div class="card-3d stu-sunset">Sunset</div>
+              <div class="card-3d stu-metal">Brushed</div>
+              <div class="card-3d stu-marble">Marble</div>
+              <div class="card-3d stu-mint">Mint Green</div>
+              <div class="card-3d stu-pixel">Pixel Art</div>
+            </div>
+            <h3>模块化定制</h3>
+            <p
+              style="
+                color: var(--text-secondary);
+                margin-top: 5px;
+                font-size: 14px;
+              "
+            >
+              材质甄选 · 自由重组
+            </p>
+            <p style="margin-top: 10px; font-weight: 600">$34.90 起</p>
+          </div>
+
+          <div
+            class="hero-card"
+            onclick="document.getElementById('bespoke').scrollIntoView({behavior: 'smooth'})"
+          >
+            <div class="card-visual-container">
+              <div class="card-3d bes-gold">Gold Foil</div>
+              <div class="card-3d bes-wire">Blueprint</div>
+              <div class="card-3d bes-vi">Brand VI</div>
+              <div class="card-3d bes-cmyk">CMYK Print</div>
+              <div class="card-3d bes-pan">Pantone</div>
+              <div class="card-3d bes-uv">Spot UV</div>
+              <div class="card-3d bes-trans">Transparent</div>
+              <div class="card-3d bes-design">Custom</div>
+              <div class="card-3d bes-lux">Luxury</div>
+              <div class="card-3d bes-pro">Pro Biz</div>
+            </div>
+            <h3>全定制</h3>
+            <p
+              style="
+                color: var(--text-secondary);
+                margin-top: 5px;
+                font-size: 14px;
+              "
+            >
+              像素级自由 · 专人服务
+            </p>
+            <p style="margin-top: 10px; font-weight: 600">50 张起订</p>
+          </div>
         </div>
+      </div>
     </div>
 
     <div id="essentials" class="section">
-        <div class="container">
-            <div class="product-configurator">
-                
-                <div class="preview-stage">
-                    <div class="preview-card-container">
-                        <div id="dynamic-card" class="interactive-card color-jet-black pattern-solid material-glossy">
-                            <div class="layer-texture"></div> <div class="layer-pattern"></div> <div class="layer-reflection"></div> <div class="card-content">
-                                <span class="card-slogan">Connect instantly.</span>
-                                <div class="card-logo-mark">Linkly</div>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="preview-note">正面展示 · 实际效果可能随光线变化</p>
+      <div class="container">
+        <div class="product-configurator">
+          <div class="preview-stage">
+            <div class="preview-card-container">
+              <div
+                id="dynamic-card"
+                class="interactive-card color-jet-black pattern-solid material-glossy"
+              >
+                <div class="layer-texture"></div>
+                <div class="layer-pattern"></div>
+                <div class="layer-reflection"></div>
+                <div class="card-content">
+                  <span class="card-slogan">Connect instantly.</span>
+                  <div class="card-logo-mark">Linkly</div>
                 </div>
-
-                <div class="config-panel">
-                    <div class="panel-header">
-                        <span class="series-tag">Linkly Essentials</span>
-                        <h2 class="panel-title">即刻出发的通用数字密钥。</h2>
-                        <div class="price-display">
-                            <span class="currency">$</span><span id="unit-price" class="amount">19.90</span>
-                            <span class="unit">/ 张</span>
-                        </div>
-                    </div>
-
-                    <div class="config-section">
-                        <h3 class="config-label">颜色 <span id="selected-color-name" class="selection-value">极夜黑</span></h3>
-                        <div class="color-grid">
-                            <button class="color-btn active" data-color="jet-black" data-name="极夜黑 (Jet Black)" style="background-color: #1d1d1f;"></button>
-                            <button class="color-btn" data-color="mica-white" data-name="云母白 (Mica White)" style="background-color: #f5f5f7; border: 1px solid #e5e5e5;"></button>
-                            <button class="color-btn" data-color="tech-blue" data-name="科技蓝 (Tech Blue)" style="background-color: #0071e3;"></button>
-                            <button class="color-btn" data-color="concrete-grey" data-name="水泥灰 (Concrete Grey)" style="background-color: #8e8e93;"></button>
-                            <button class="color-btn" data-color="forest-green" data-name="森林绿 (Forest Green)" style="background-color: #228b22;"></button>
-                            <button class="color-btn" data-color="orange" data-name="活力橙" style="background-color: #ff9500;"></button>
-                            <button class="color-btn" data-color="pink" data-name="樱花粉" style="background-color: #ffb6c1;"></button>
-                            <button class="color-btn" data-color="purple" data-name="灵动紫" style="background-color: #800080;"></button>
-                        </div>
-                    </div>
-
-                    <div class="config-section">
-                        <h3 class="config-label">图案 <span id="selected-pattern-name" class="selection-value">纯色</span></h3>
-                        <div class="option-group">
-                            <button class="option-btn active" data-type="pattern" data-value="solid" data-name="纯色 (Solid)">
-                                纯色
-                            </button>
-                            <button class="option-btn" data-type="pattern" data-value="soft-glow" data-name="微光渐变 (Soft Glow)">
-                                微光渐变
-                            </button>
-                            <button class="option-btn" data-type="pattern" data-value="grid" data-name="网格线 (Grid)">
-                                网格线
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="config-section">
-                        <h3 class="config-label">材质 <span id="selected-material-name" class="selection-value">标准亮面 PVC</span></h3>
-                        <div class="option-group">
-                            <button class="option-btn active" data-type="material" data-value="glossy" data-name="标准亮面 PVC">
-                                标准亮面
-                            </button>
-                            <button class="option-btn" data-type="material" data-value="matte" data-name="哑光磨砂 PVC">
-                                哑光磨砂
-                            </button>
-                        </div>
-                        <p class="option-note">* 均含防指纹处理工艺</p>
-                    </div>
-
-                    <div class="config-section">
-                        <h3 class="config-label">数量 <span class="selection-value">阶梯定价</span></h3>
-                        <div class="quantity-grid">
-                            <button class="qty-btn active" data-qty="1" data-price="19.90">
-                                <span class="qty-num">1</span>
-                                <span class="qty-desc">零售</span>
-                            </button>
-                            <button class="qty-btn" data-qty="20" data-price="15.90">
-                                <span class="qty-num">20+</span>
-                                <span class="qty-desc">团队</span>
-                            </button>
-                            <button class="qty-btn" data-qty="50" data-price="12.90">
-                                <span class="qty-num">50+</span>
-                                <span class="qty-desc">企业</span>
-                            </button>
-                            <button class="qty-btn" data-qty="100" data-price="12.90"> <span class="qty-num">100+</span>
-                                <span class="qty-desc">大客户</span>
-                            </button>
-                        </div>
-                        <div class="total-bar">
-                            <span>当前单价</span> <span id="total-price">$19.90</span>
-                        </div>
-                    </div>
-
-                    <div class="action-bar">
-                        <a href="#" class="apple-btn">添加到购物袋</a>
-                    </div>
-                </div>
+              </div>
             </div>
+            <p class="preview-note">正面展示 · 实际效果可能随光线变化</p>
+          </div>
+
+          <div class="config-panel">
+            <div class="panel-header">
+              <span class="series-tag">Linkly Essentials</span>
+              <h2 class="panel-title">即刻出发的通用数字密钥。</h2>
+              <div class="price-display">
+                <span class="currency">$</span
+                ><span id="unit-price" class="amount">19.90</span>
+                <span class="unit">/ 张</span>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3 class="config-label">
+                颜色
+                <span id="selected-color-name" class="selection-value"
+                  >极夜黑</span
+                >
+              </h3>
+              <div class="color-grid">
+                <button
+                  class="color-btn active"
+                  data-color="jet-black"
+                  data-name="极夜黑 (Jet Black)"
+                  style="background-color: #1d1d1f"
+                ></button>
+                <button
+                  class="color-btn"
+                  data-color="mica-white"
+                  data-name="云母白 (Mica White)"
+                  style="background-color: #f5f5f7; border: 1px solid #e5e5e5"
+                ></button>
+                <button
+                  class="color-btn"
+                  data-color="tech-blue"
+                  data-name="科技蓝 (Tech Blue)"
+                  style="background-color: #0071e3"
+                ></button>
+                <button
+                  class="color-btn"
+                  data-color="concrete-grey"
+                  data-name="水泥灰 (Concrete Grey)"
+                  style="background-color: #8e8e93"
+                ></button>
+                <button
+                  class="color-btn"
+                  data-color="forest-green"
+                  data-name="森林绿 (Forest Green)"
+                  style="background-color: #228b22"
+                ></button>
+                <button
+                  class="color-btn"
+                  data-color="orange"
+                  data-name="活力橙"
+                  style="background-color: #ff9500"
+                ></button>
+                <button
+                  class="color-btn"
+                  data-color="pink"
+                  data-name="樱花粉"
+                  style="background-color: #ffb6c1"
+                ></button>
+                <button
+                  class="color-btn"
+                  data-color="purple"
+                  data-name="灵动紫"
+                  style="background-color: #800080"
+                ></button>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3 class="config-label">
+                图案
+                <span id="selected-pattern-name" class="selection-value"
+                  >纯色</span
+                >
+              </h3>
+              <div class="option-group">
+                <button
+                  class="option-btn active"
+                  data-type="pattern"
+                  data-value="solid"
+                  data-name="纯色 (Solid)"
+                >
+                  纯色
+                </button>
+                <button
+                  class="option-btn"
+                  data-type="pattern"
+                  data-value="soft-glow"
+                  data-name="微光渐变 (Soft Glow)"
+                >
+                  微光渐变
+                </button>
+                <button
+                  class="option-btn"
+                  data-type="pattern"
+                  data-value="grid"
+                  data-name="网格线 (Grid)"
+                >
+                  网格线
+                </button>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3 class="config-label">
+                材质
+                <span id="selected-material-name" class="selection-value"
+                  >标准亮面 PVC</span
+                >
+              </h3>
+              <div class="option-group">
+                <button
+                  class="option-btn active"
+                  data-type="material"
+                  data-value="glossy"
+                  data-name="标准亮面 PVC"
+                >
+                  标准亮面
+                </button>
+                <button
+                  class="option-btn"
+                  data-type="material"
+                  data-value="matte"
+                  data-name="哑光磨砂 PVC"
+                >
+                  哑光磨砂
+                </button>
+              </div>
+              <p class="option-note">* 均含防指纹处理工艺</p>
+            </div>
+
+            <div class="config-section">
+              <h3 class="config-label">
+                数量 <span class="selection-value">阶梯定价</span>
+              </h3>
+              <div class="quantity-grid">
+                <button class="qty-btn active" data-qty="1" data-price="19.90">
+                  <span class="qty-num">1</span>
+                  <span class="qty-desc">零售</span>
+                </button>
+                <button class="qty-btn" data-qty="20" data-price="15.90">
+                  <span class="qty-num">20+</span>
+                  <span class="qty-desc">团队</span>
+                </button>
+                <button class="qty-btn" data-qty="50" data-price="12.90">
+                  <span class="qty-num">50+</span>
+                  <span class="qty-desc">企业</span>
+                </button>
+                <button class="qty-btn" data-qty="100" data-price="12.90">
+                  <span class="qty-num">100+</span>
+                  <span class="qty-desc">大客户</span>
+                </button>
+              </div>
+              <div class="total-bar">
+                <span>当前单价</span> <span id="total-price">$19.90</span>
+              </div>
+            </div>
+
+            <div class="action-bar">
+              <a href="#" class="apple-btn">添加到购物袋</a>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <div id="studio" class="section dark-theme">
-        <div class="container">
-            <div class="product-configurator">
-                
-                <div class="preview-stage studio-stage">
-                    <div class="preview-card-container">
-                        <div id="studio-card" class="interactive-card mode-business material-pvc style-obsidian pattern-solid">
-                            
-                            <div class="layer-base"></div>     <div class="layer-pattern"></div>  <div class="layer-finish"></div>   <div class="card-content">
-                                <div class="layout-business">
-                                    <div class="biz-top">
-                                        <span class="biz-logo">Linkly</span>
-                                    </div>
-                                    <div class="biz-center">
-                                        <h3 class="biz-name">Alexander Wang</h3>
-                                        <p class="biz-role">Senior Product Manager</p>
-                                        <p class="biz-company">Global Solutions Inc.</p>
-                                    </div>
-                                    <div class="biz-bottom">
-                                        <div class="biz-deco"></div> <span class="biz-contact">+1 234 567 8900</span>
-                                    </div>
-                                </div>
-
-                                <div class="layout-social">
-                                    <div class="soc-top">
-                                        <span class="soc-mbti">ENFP</span>
-                                        <span class="soc-astro">♌ Leo</span>
-                                    </div>
-                                    <div class="soc-center">
-                                        <h3 class="soc-name">Alex.W</h3>
-                                        <p class="soc-tag">DIGITAL CREATOR</p>
-                                        <div class="soc-icons">
-                                            <span>📷</span><span>🎵</span><span>🐦</span>
-                                        </div>
-                                    </div>
-                                    <div class="soc-bottom">
-                                        <span class="soc-id">@alex_creative</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+      <div class="container">
+        <div class="product-configurator">
+          <div class="preview-stage studio-stage">
+            <div class="preview-card-container">
+              <div
+                id="studio-card"
+                class="interactive-card mode-business material-pvc style-obsidian pattern-solid"
+              >
+                <div class="layer-base"></div>
+                <div class="layer-pattern"></div>
+                <div class="layer-finish"></div>
+                <div class="card-content">
+                  <div class="layout-business">
+                    <div class="biz-top">
+                      <span class="biz-logo">Linkly</span>
                     </div>
-                    <p id="preview-caption" class="preview-note" style="color: rgba(255,255,255,0.5);">* 商务正装模式：只有商务字段，无娱乐干扰</p>
+                    <div class="biz-center">
+                      <h3 class="biz-name">Alexander Wang</h3>
+                      <p class="biz-role">Senior Product Manager</p>
+                      <p class="biz-company">Global Solutions Inc.</p>
+                    </div>
+                    <div class="biz-bottom">
+                      <div class="biz-deco"></div>
+                      <span class="biz-contact">+1 234 567 8900</span>
+                    </div>
+                  </div>
+
+                  <div class="layout-social">
+                    <div class="soc-top">
+                      <span class="soc-mbti">ENFP</span>
+                      <span class="soc-astro">♌ Leo</span>
+                    </div>
+                    <div class="soc-center">
+                      <h3 class="soc-name">Alex.W</h3>
+                      <p class="soc-tag">DIGITAL CREATOR</p>
+                      <div class="soc-icons">
+                        <span>📷</span><span>🎵</span><span>🐦</span>
+                      </div>
+                    </div>
+                    <div class="soc-bottom">
+                      <span class="soc-id">@alex_creative</span>
+                    </div>
+                  </div>
                 </div>
-
-                <div class="config-panel studio-panel">
-                    <div class="panel-header">
-                        <span class="series-tag" style="color: #0a84ff;">Linkly Studio</span>
-                        <h2 class="panel-title" style="color: #fff;">以非凡质感定义双面身份。</h2>
-                        <div class="price-display" style="color: #fff;">
-                            <span class="currency">$</span><span id="st-current-price" class="amount">34.90</span>
-                            <span class="unit">/ 张</span>
-                        </div>
-                    </div>
-
-                    <div class="config-section">
-                        <div class="mode-toggle-group">
-                            <button class="mode-toggle-btn active" data-mode="business">
-                                <span class="icon">💼</span> 商务正装
-                            </button>
-                            <button class="mode-toggle-btn" data-mode="social">
-                                <span class="icon">⚡️</span> 轻松个性
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="config-section">
-                        <h3 class="config-label" style="color: #ccc;">材质 <span id="lbl-material" class="selection-value">标准 PVC</span></h3>
-                        <div class="option-group" id="opt-material">
-                            </div>
-                    </div>
-
-                    <div class="config-section">
-                        <h3 class="config-label" style="color: #ccc;">底色 <span id="lbl-color" class="selection-value">曜石黑</span></h3>
-                        <div class="color-grid" id="opt-color">
-                            </div>
-                    </div>
-
-                    <div class="config-section">
-                        <h3 class="config-label" style="color: #ccc;">图案 <span id="lbl-pattern" class="selection-value">纯色</span></h3>
-                        <div class="option-group grid-2-col" id="opt-pattern">
-                            </div>
-                    </div>
-
-                    <div class="config-section">
-                        <h3 class="config-label" style="color: #ccc;">订量 <span class="selection-value">量大从优</span></h3>
-                        <div class="quantity-grid">
-                            <button class="qty-btn st-qty active" data-qty="1" data-discount="0">
-                                <span class="qty-num">1</span><span class="qty-desc">零售</span>
-                            </button>
-                            <button class="qty-btn st-qty" data-qty="20" data-discount="5">
-                                <span class="qty-num">20+</span><span class="qty-desc">团队</span>
-                            </button>
-                            <button class="qty-btn st-qty" data-qty="50" data-discount="10">
-                                <span class="qty-num">50+</span><span class="qty-desc">企业</span>
-                            </button>
-                            <button class="qty-btn st-qty" data-qty="100" data-discount="15">
-                                <span class="qty-num">100+</span><span class="qty-desc">批发</span>
-                            </button>
-                        </div>
-                        <div class="total-bar" style="background: rgba(255,255,255,0.1); color: #fff; margin-top: 15px;">
-                            <span>单价</span>
-                            <span id="st-final-price">$34.90</span>
-                        </div>
-                    </div>
-
-                    <div class="action-bar">
-                        <a href="#" class="apple-btn" style="width: 100%; text-align: center; background: #fff; color: #000;">去定制更多</a>
-                    </div>
-                </div>
+              </div>
             </div>
+            <p
+              id="preview-caption"
+              class="preview-note"
+              style="color: rgba(255, 255, 255, 0.5)"
+            >
+              * 商务正装模式：只有商务字段，无娱乐干扰
+            </p>
+          </div>
+
+          <div class="config-panel studio-panel">
+            <div class="panel-header">
+              <span class="series-tag" style="color: #0a84ff"
+                >Linkly Studio</span
+              >
+              <h2 class="panel-title" style="color: #fff">
+                以非凡质感定义双面身份。
+              </h2>
+              <div class="price-display" style="color: #fff">
+                <span class="currency">$</span
+                ><span id="st-current-price" class="amount">34.90</span>
+                <span class="unit">/ 张</span>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <div class="mode-toggle-group">
+                <button class="mode-toggle-btn active" data-mode="business">
+                  <span class="icon">💼</span> 商务正装
+                </button>
+                <button class="mode-toggle-btn" data-mode="social">
+                  <span class="icon">⚡️</span> 轻松个性
+                </button>
+              </div>
+            </div>
+
+            <div class="config-section">
+              <h3 class="config-label" style="color: #ccc">
+                材质
+                <span id="lbl-material" class="selection-value">标准 PVC</span>
+              </h3>
+              <div class="option-group" id="opt-material"></div>
+            </div>
+
+            <div class="config-section">
+              <h3 class="config-label" style="color: #ccc">
+                底色 <span id="lbl-color" class="selection-value">曜石黑</span>
+              </h3>
+              <div class="color-grid" id="opt-color"></div>
+            </div>
+
+            <div class="config-section">
+              <h3 class="config-label" style="color: #ccc">
+                图案 <span id="lbl-pattern" class="selection-value">纯色</span>
+              </h3>
+              <div class="option-group grid-2-col" id="opt-pattern"></div>
+            </div>
+
+            <div class="config-section">
+              <h3 class="config-label" style="color: #ccc">
+                订量 <span class="selection-value">量大从优</span>
+              </h3>
+              <div class="quantity-grid">
+                <button
+                  class="qty-btn st-qty active"
+                  data-qty="1"
+                  data-discount="0"
+                >
+                  <span class="qty-num">1</span
+                  ><span class="qty-desc">零售</span>
+                </button>
+                <button class="qty-btn st-qty" data-qty="20" data-discount="5">
+                  <span class="qty-num">20+</span
+                  ><span class="qty-desc">团队</span>
+                </button>
+                <button class="qty-btn st-qty" data-qty="50" data-discount="10">
+                  <span class="qty-num">50+</span
+                  ><span class="qty-desc">企业</span>
+                </button>
+                <button
+                  class="qty-btn st-qty"
+                  data-qty="100"
+                  data-discount="15"
+                >
+                  <span class="qty-num">100+</span
+                  ><span class="qty-desc">批发</span>
+                </button>
+              </div>
+              <div
+                class="total-bar"
+                style="
+                  background: rgba(255, 255, 255, 0.1);
+                  color: #fff;
+                  margin-top: 15px;
+                "
+              >
+                <span>单价</span>
+                <span id="st-final-price">$34.90</span>
+              </div>
+            </div>
+
+            <div class="action-bar">
+              <a
+                href="#"
+                class="apple-btn"
+                style="
+                  width: 100%;
+                  text-align: center;
+                  background: #fff;
+                  color: #000;
+                "
+                >去定制更多</a
+              >
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 
     <div id="bespoke" class="section light-theme">
-        <div class="container">
-            <div class="bespoke-header">
-                        <span class="series-tag">Linkly Bespoke</span>
-                        <h2 class="panel-title">像素级掌控的品牌宣言。</h2>
-            </div>
-
-            <div class="bespoke-grid">
-                <div class="bespoke-card card-upload">
-                    <div class="card-visual visual-blueprint">
-                        <div class="blueprint-grid"></div>
-                        <div class="blueprint-ui">
-                            <span class="ui-label">CMYK Color</span>
-                            <span class="ui-value">100% Match</span>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <span class="eye-brow">Option A</span>
-                        <h3 class="card-title">自主设计模式</h3>
-                        <p class="card-desc">像素级自由。还原您的每一处设计细节。</p>
-                        
-                        <ul class="feature-list">
-                            <li><span class="check-icon">✓</span> 50 张起订</li>
-                            <li><span class="check-icon">✓</span> 用户 100% 把控设计细节</li>
-                            <li><span class="check-icon">✓</span> 可选局部烫金 / UV 工艺</li>
-                            <li><span class="check-icon">✓</span> 支持 CMYK 全色域和 Pantone 专色</li>
-                        </ul>
-
-                        <div class="card-footer">
-                            <a href="/download-template" class="apple-btn">下载设计模板</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bespoke-card card-service">
-                    <div class="card-visual visual-concierge">
-                        <div class="concierge-badge">
-                            <span class="star">★</span> 1v1 Service
-                        </div>
-                        <div class="design-options">
-                            <div class="d-opt opt-1">Draft A</div>
-                            <div class="d-opt opt-2">Draft B</div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <span class="eye-brow">Option B</span>
-                        <h3 class="card-title">全包设计服务</h3>
-                        <p class="card-desc">避免审美灾难。打造独一无二的专属形象。</p>
-                        
-                        <ul class="feature-list">
-                            <li><span class="check-icon">✓</span> 100 张起订</li>
-                            <li><span class="check-icon">✓</span> 1v1 设计师专人对接</li>
-                            <li><span class="check-icon">✓</span> 基于需求表单提供2版方案</li>
-                            <li><span class="check-icon">✓</span> 专员紧跟售后服务</li>
-                        </ul>
-
-                        <div class="card-footer">
-                            <a href="/consult" class="apple-btn">咨询企业顾问</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
+      <div class="container">
+        <div class="bespoke-header">
+          <span class="series-tag">Linkly Bespoke</span>
+          <h2 class="panel-title">像素级掌控的品牌宣言。</h2>
         </div>
-    </div>
 
+        <div class="bespoke-grid">
+          <div class="bespoke-card card-upload">
+            <div class="card-visual visual-blueprint">
+              <div class="blueprint-grid"></div>
+              <div class="blueprint-ui">
+                <span class="ui-label">CMYK Color</span>
+                <span class="ui-value">100% Match</span>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="eye-brow">Option A</span>
+              <h3 class="card-title">自主设计模式</h3>
+              <p class="card-desc">像素级自由。还原您的每一处设计细节。</p>
+
+              <ul class="feature-list">
+                <li><span class="check-icon">✓</span> 50 张起订</li>
+                <li>
+                  <span class="check-icon">✓</span> 用户 100% 把控设计细节
+                </li>
+                <li>
+                  <span class="check-icon">✓</span> 可选局部烫金 / UV 工艺
+                </li>
+                <li>
+                  <span class="check-icon">✓</span> 支持 CMYK 全色域和 Pantone
+                  专色
+                </li>
+              </ul>
+
+              <div class="card-footer">
+                <a href="/download-template" class="apple-btn">下载设计模板</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="bespoke-card card-service">
+            <div class="card-visual visual-concierge">
+              <div class="concierge-badge">
+                <span class="star">★</span> 1v1 Service
+              </div>
+              <div class="design-options">
+                <div class="d-opt opt-1">Draft A</div>
+                <div class="d-opt opt-2">Draft B</div>
+              </div>
+            </div>
+            <div class="card-body">
+              <span class="eye-brow">Option B</span>
+              <h3 class="card-title">全包设计服务</h3>
+              <p class="card-desc">避免审美灾难。打造独一无二的专属形象。</p>
+
+              <ul class="feature-list">
+                <li><span class="check-icon">✓</span> 100 张起订</li>
+                <li><span class="check-icon">✓</span> 1v1 设计师专人对接</li>
+                <li>
+                  <span class="check-icon">✓</span> 基于需求表单提供2版方案
+                </li>
+                <li><span class="check-icon">✓</span> 专员紧跟售后服务</li>
+              </ul>
+
+              <div class="card-footer">
+                <a href="/consult" class="apple-btn">咨询企业顾问</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <div id="pricing-table" class="section">
-        <div class="container">
-            <h2 class="hero-text" style="font-size: 32px;">规模化部署，成本更优。</h2>
-            <p class="sub-text">大客户杀手锏：批发价即可享受定制服务。</p>
+      <div class="container">
+        <h2 class="hero-text" style="font-size: 32px">
+          规模化部署，成本更优。
+        </h2>
+        <p class="sub-text">大客户杀手锏：批发价即可享受定制服务。</p>
 
-            <table class="price-table">
-                <thead>
-                    <tr>
-                        <th style="width: 25%;">采购规模</th>
-                        <th style="width: 25%;">基础款 (PVC)</th>
-                        <th style="width: 25%;">定制款 (PVC)</th>
-                        <th style="width: 25%;">折扣力度</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>零售 (1-19张)</td>
-                        <td>$19.90</td>
-                        <td>$34.90</td>
-                        <td>-</td>
-                    </tr>
-                    <tr>
-                        <td>团队 (20-49张)</td>
-                        <td>$15.90</td>
-                        <td>$29.90</td>
-                        <td>~8折</td>
-                    </tr>
-                    <tr>
-                        <td>企业 (50-99张)</td>
-                        <td>$12.90</td>
-                        <td>$24.90</td>
-                        <td>~65折</td>
-                    </tr>
-                    <tr class="killer-deal">
-                        <td><strong style="color: #000;">大客户 (100张+)</strong></td>
-                        <td>联系我们</td>
-                        <td class="highlight">$19.90</td>
-                        <td class="highlight">57折 (杀手锏)<br><span style="font-size:12px; font-weight:400; color:#666;">以基础款价格享受定制服务</span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="/contact-sales" class="apple-btn">联系我们</a>
-            </div>
+        <table class="price-table">
+          <thead>
+            <tr>
+              <th style="width: 25%">采购规模</th>
+              <th style="width: 25%">基础款 (PVC)</th>
+              <th style="width: 25%">定制款 (PVC)</th>
+              <th style="width: 25%">折扣力度</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>零售 (1-19张)</td>
+              <td>$19.90</td>
+              <td>$34.90</td>
+              <td>-</td>
+            </tr>
+            <tr>
+              <td>团队 (20-49张)</td>
+              <td>$15.90</td>
+              <td>$29.90</td>
+              <td>~8折</td>
+            </tr>
+            <tr>
+              <td>企业 (50-99张)</td>
+              <td>$12.90</td>
+              <td>$24.90</td>
+              <td>~65折</td>
+            </tr>
+            <tr class="killer-deal">
+              <td><strong style="color: #000">大客户 (100张+)</strong></td>
+              <td>联系我们</td>
+              <td class="highlight">$19.90</td>
+              <td class="highlight">
+                57折 (杀手锏)<br /><span
+                  style="font-size: 12px; font-weight: 400; color: #666"
+                  >以基础款价格享受定制服务</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="text-align: center; margin-top: 40px">
+          <a href="/contact-sales" class="apple-btn">联系我们</a>
         </div>
+      </div>
     </div>
 
-<footer style="background-color: #f5f5f7; color: #6e6e73; font-size: 12px; line-height: 1.33337; font-weight: 400; padding: 0 20px; border-top: 1px solid #d2d2d7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-    <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px;">
-        
-        <div style="border-bottom: 1px solid #d2d2d7; padding-bottom: 20px; margin-bottom: 20px;">
-            更多选购方式：<a href="Shop_General.html" style="color: #0071e3; text-decoration: none;">前往 Linkly 商店</a>，或发送邮件至 <a href="mailto:contact@linklyai.net" style="color: #0071e3; text-decoration: none;">contact@linklyai.net</a> 与我们取得联系。
+    <footer
+      style="
+        background-color: #f5f5f7;
+        color: #6e6e73;
+        font-size: 12px;
+        line-height: 1.33337;
+        font-weight: 400;
+        padding: 0 20px;
+        border-top: 1px solid #d2d2d7;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+      "
+    >
+      <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px">
+        <div
+          style="
+            border-bottom: 1px solid #d2d2d7;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+          "
+        >
+          更多选购方式：<a
+            href="Shop_General.html"
+            style="color: #0071e3; text-decoration: none"
+            >前往 Linkly 商店</a
+          >，或发送邮件至
+          <a
+            href="mailto:contact@linklyai.net"
+            style="color: #0071e3; text-decoration: none"
+            >contact@linklyai.net</a
+          >
+          与我们取得联系。
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
-            
-            <div style="display: flex; flex-direction: column; gap: 24px;">
-                <div>
-                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">选购与了解</h3>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 8px;"><a href="Shop_General.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 商店</a></li>
-                        <li style="margin-bottom: 8px;"><a href="Price_Card.html#essentials" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 基础版</a></li>
-                        <li style="margin-bottom: 8px;"><a href="Price_Card.html#studio" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 半定制版</a></li>
-                        <li style="margin-bottom: 8px;"><a href="Price_Card.html#bespoke" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 全定制版</a></li>
-                    </ul>
-                </div>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+          "
+        >
+          <div style="display: flex; flex-direction: column; gap: 24px">
+            <div>
+              <h3
+                style="
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #1d1d1f;
+                  margin-bottom: 10px;
+                "
+              >
+                选购与了解
+              </h3>
+              <ul style="list-style: none; padding: 0; margin: 0">
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Shop_General.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >Linkly 商店</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Price_Card.html#essentials"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >Linkly 基础版</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Price_Card.html#studio"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >Linkly 半定制版</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Price_Card.html#bespoke"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >Linkly 全定制版</a
+                  >
+                </li>
+              </ul>
             </div>
+          </div>
 
-            <div style="display: flex; flex-direction: column; gap: 24px;">
-                <div>
-                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">软件服务</h3>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 8px;"><a href="AI_Detailed_2.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly AI</a></li>
-                        <li style="margin-bottom: 8px;"><a href="VIP_Compare_2.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">会员计划</a></li>
-                        <li style="margin-bottom: 8px;"><a href="Download.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">应用下载</a></li>
-                        <li style="margin-bottom: 8px;"><a href="#" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">网页登录</a></li>
-                    </ul>
-                </div>
+          <div style="display: flex; flex-direction: column; gap: 24px">
+            <div>
+              <h3
+                style="
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #1d1d1f;
+                  margin-bottom: 10px;
+                "
+              >
+                软件服务
+              </h3>
+              <ul style="list-style: none; padding: 0; margin: 0">
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="AI_Detailed_2.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >Linkly AI</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="VIP_Compare_2.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >会员计划</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Download.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >应用下载</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="#"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >网页登录</a
+                  >
+                </li>
+              </ul>
             </div>
+          </div>
 
-            <div style="display: flex; flex-direction: column; gap: 24px;">
-                <div>
-                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">商务应用</h3>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 8px;"><a href="B_Detailed_2black_WordPolish.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 企业版</a></li>
-                        <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">企业版采购咨询</a></li>
-                    </ul>
-                </div>
+          <div style="display: flex; flex-direction: column; gap: 24px">
+            <div>
+              <h3
+                style="
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #1d1d1f;
+                  margin-bottom: 10px;
+                "
+              >
+                商务应用
+              </h3>
+              <ul style="list-style: none; padding: 0; margin: 0">
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="B_Detailed_2black_WordPolish.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >Linkly 企业版</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Contact_Us.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >企业版采购咨询</a
+                  >
+                </li>
+              </ul>
             </div>
+          </div>
 
-            <div style="display: flex; flex-direction: column; gap: 24px;">
-                <div>
-                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">客户支持</h3>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 8px;"><a href="Tech_Spec.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">技术规格参数</a></li>
-                        <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">联系支持团队</a></li>
-                        <li style="margin-bottom: 8px;"><a href="#" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">订单状态查询</a></li>
-                    </ul>
-                </div>
+          <div style="display: flex; flex-direction: column; gap: 24px">
+            <div>
+              <h3
+                style="
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #1d1d1f;
+                  margin-bottom: 10px;
+                "
+              >
+                客户支持
+              </h3>
+              <ul style="list-style: none; padding: 0; margin: 0">
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Tech_Spec.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >技术规格参数</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Contact_Us.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >联系支持团队</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="#"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >订单状态查询</a
+                  >
+                </li>
+              </ul>
             </div>
+          </div>
 
-            <div style="display: flex; flex-direction: column; gap: 24px;">
-                <div>
-                    <h3 style="font-size: 12px; font-weight: 600; color: #1d1d1f; margin-bottom: 10px;">关于 Linkly</h3>
-                    <ul style="list-style: none; padding: 0; margin: 0;">
-                        <li style="margin-bottom: 8px;"><a href="Brand_Story.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">品牌故事</a></li>
-                        <li style="margin-bottom: 8px;"><a href="Environment.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">环境责任</a></li>
-                        <li style="margin-bottom: 8px;"><a href="Privacy.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">隐私保护</a></li>
-                        <li style="margin-bottom: 8px;"><a href="mailto:contact@linklyai.net" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">联系我们</a></li>
-                    </ul>
-                </div>
+          <div style="display: flex; flex-direction: column; gap: 24px">
+            <div>
+              <h3
+                style="
+                  font-size: 12px;
+                  font-weight: 600;
+                  color: #1d1d1f;
+                  margin-bottom: 10px;
+                "
+              >
+                关于 Linkly
+              </h3>
+              <ul style="list-style: none; padding: 0; margin: 0">
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Brand_Story.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >品牌故事</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Environment.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >环境责任</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="Privacy.html"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >隐私保护</a
+                  >
+                </li>
+                <li style="margin-bottom: 8px">
+                  <a
+                    href="mailto:contact@linklyai.net"
+                    style="
+                      color: #6e6e73;
+                      text-decoration: none;
+                      transition: color 0.2s;
+                    "
+                    onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+                    onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+                    >联系我们</a
+                  >
+                </li>
+              </ul>
             </div>
-
+          </div>
         </div>
 
-        <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #d2d2d7; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
-            <div style="color: #6e6e73;">Copyright © 2025 Linkly Inc. 保留所有权利。</div>
-            <div style="display: flex; flex-wrap: wrap;">
-                <a href="#" style="color: #6e6e73; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #d2d2d7;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">隐私政策</a>
-                <a href="#" style="color: #6e6e73; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #d2d2d7;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">使用条款</a>
-                <a href="#" style="color: #6e6e73; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #d2d2d7;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">销售政策</a>
-                <a href="#" style="color: #6e6e73; text-decoration: none;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">法律信息</a>
-            </div>
-            <a href="#" style="color: #1d1d1f; text-decoration: none; margin-left: auto;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">中国大陆 (简体中文)</a>
+        <div
+          style="
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #d2d2d7;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+          "
+        >
+          <div style="color: #6e6e73">
+            Copyright © 2025 Linkly Inc. 保留所有权利。
+          </div>
+          <div style="display: flex; flex-wrap: wrap">
+            <a
+              href="#"
+              style="
+                color: #6e6e73;
+                text-decoration: none;
+                margin-right: 10px;
+                padding-right: 10px;
+                border-right: 1px solid #d2d2d7;
+              "
+              onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+              onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+              >隐私政策</a
+            >
+            <a
+              href="#"
+              style="
+                color: #6e6e73;
+                text-decoration: none;
+                margin-right: 10px;
+                padding-right: 10px;
+                border-right: 1px solid #d2d2d7;
+              "
+              onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+              onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+              >使用条款</a
+            >
+            <a
+              href="#"
+              style="
+                color: #6e6e73;
+                text-decoration: none;
+                margin-right: 10px;
+                padding-right: 10px;
+                border-right: 1px solid #d2d2d7;
+              "
+              onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+              onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+              >销售政策</a
+            >
+            <a
+              href="#"
+              style="color: #6e6e73; text-decoration: none"
+              onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'"
+              onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'"
+              >法律信息</a
+            >
+          </div>
+          <a
+            href="#"
+            style="color: #1d1d1f; text-decoration: none; margin-left: auto"
+            onmouseover="this.style.textDecoration='underline'"
+            onmouseout="this.style.textDecoration='none'"
+            >中国大陆 (简体中文)</a
+          >
         </div>
-
-    </div>
-</footer>
+      </div>
+    </footer>
 
     <script>
+      window.addEventListener("load", () => {
+        const currentPage = window.location.pathname; // 获取当前页面路径
+        const links = document.querySelectorAll(".navbar-links a"); // 获取导航栏中的所有链接
 
-        window.addEventListener('load', () => {
-            const currentPage = window.location.pathname;  // 获取当前页面路径
-            const links = document.querySelectorAll('.navbar-links a');  // 获取导航栏中的所有链接
-            
-            links.forEach(link => {
-                // 获取 href 属性
-                const href = link.getAttribute('href');
-                // 如果当前页面路径包含链接的 href，且 href 不为空或仅仅是 #
-                if (href && href !== '#' && currentPage.includes(href)) {
-                    link.classList.add('active');  // 给当前链接添加 active 类
-                } else {
-                    link.classList.remove('active');  // 否则移除 active 类
-                }
-            });
+        links.forEach((link) => {
+          // 获取 href 属性
+          const href = link.getAttribute("href");
+          // 如果当前页面路径包含链接的 href，且 href 不为空或仅仅是 #
+          if (href && href !== "#" && currentPage.includes(href)) {
+            link.classList.add("active"); // 给当前链接添加 active 类
+          } else {
+            link.classList.remove("active"); // 否则移除 active 类
+          }
         });
+      });
 
-        // 滚动动画逻辑
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
+      // 滚动动画逻辑
+      const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
+      };
+
+      const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll(".section").forEach((section) => {
+        observer.observe(section);
+      });
+
+      // Studio 交互逻辑
+      function switchMode(mode) {
+        // 更新按钮状态
+        document
+          .querySelectorAll(".mode-btn")
+          .forEach((btn) => btn.classList.remove("active"));
+        event.target.classList.add("active");
+
+        // 更新描述文案和预览文字
+        const desc = document.getElementById("mode-desc");
+        const cardText = document.getElementById("card-mode-text");
+
+        if (mode === "business") {
+          desc.textContent =
+            "只有商务字段，无娱乐干扰。支持：纯色、拉丝金属、大理石纹、几何折线。";
+          cardText.innerHTML = "John Doe<br>CEO at Linkly<br>+1 234 567 890";
+        } else {
+          desc.textContent =
+            "视觉冲击力强。支持：渐变、涂鸦、赛博朋克风格。支持 MBTI 与社交 ID。";
+          cardText.innerHTML = "John Doe<br>Creative Designer<br>MBTI: ENFP";
+        }
+      }
+
+      function selectMaterial(type, price, element) {
+        // 更新选中状态
+        document
+          .querySelectorAll(".mat-option")
+          .forEach((opt) => opt.classList.remove("selected"));
+        element.classList.add("selected");
+
+        // 更新价格
+        document.getElementById("dynamic-price").textContent =
+          "$" + price.toFixed(2);
+
+        // 更新卡片材质样式
+        const card = document.getElementById("card-preview");
+        card.className = "card-mockup"; // 重置
+        if (type === "bamboo") card.classList.add("bamboo");
+        if (type === "walnut") card.classList.add("walnut");
+        if (type === "clear") card.classList.add("clear");
+      }
+      document.addEventListener("DOMContentLoaded", () => {
+        // 状态管理
+        const state = {
+          color: "jet-black",
+          pattern: "solid",
+          material: "glossy",
+          quantity: 1,
+          unitPrice: 19.9,
         };
 
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+        const card = document.getElementById("dynamic-card");
 
-        document.querySelectorAll('.section').forEach(section => {
-            observer.observe(section);
+        // 1. 颜色切换逻辑
+        document.querySelectorAll(".color-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            // 更新 UI
+            document
+              .querySelectorAll(".color-btn")
+              .forEach((b) => b.classList.remove("active"));
+            e.target.classList.add("active");
+            document.getElementById("selected-color-name").textContent =
+              e.target.dataset.name;
+
+            // 更新 CSS Class (移除旧颜色，添加新颜色)
+            const oldColorClass = `color-${state.color}`;
+            state.color = e.target.dataset.color;
+            card.classList.remove(oldColorClass);
+            card.classList.add(`color-${state.color}`);
+          });
         });
 
-        // Studio 交互逻辑
-        function switchMode(mode) {
-            // 更新按钮状态
-            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+        // 2. 选项切换逻辑 (图案 & 材质)
+        document.querySelectorAll(".option-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            const type = e.currentTarget.dataset.type; // pattern or material
+            const value = e.currentTarget.dataset.value;
+            const name = e.currentTarget.dataset.name;
 
-            // 更新描述文案和预览文字
-            const desc = document.getElementById('mode-desc');
-            const cardText = document.getElementById('card-mode-text');
-            
-            if (mode === 'business') {
-                desc.textContent = "只有商务字段，无娱乐干扰。支持：纯色、拉丝金属、大理石纹、几何折线。";
-                cardText.innerHTML = "John Doe<br>CEO at Linkly<br>+1 234 567 890";
+            // 更新 UI
+            e.currentTarget.parentElement
+              .querySelectorAll(".option-btn")
+              .forEach((b) => b.classList.remove("active"));
+            e.currentTarget.classList.add("active");
+            document.getElementById(`selected-${type}-name`).textContent = name;
+
+            // 更新 CSS Class
+            const oldClass = `${type}-${state[type]}`;
+            state[type] = value;
+            card.classList.remove(oldClass);
+            card.classList.add(`${type}-${value}`);
+          });
+        });
+
+        document.querySelectorAll(".qty-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            // 更新 UI
+            document
+              .querySelectorAll(".qty-btn")
+              .forEach((b) => b.classList.remove("active"));
+            e.currentTarget.classList.add("active");
+
+            // 更新价格数据
+            state.quantity = parseInt(e.currentTarget.dataset.qty);
+            state.unitPrice = parseFloat(e.currentTarget.dataset.price);
+
+            // 动画更新价格显示
+            animateValue("unit-price", state.unitPrice);
+
+            // 更新底部显示为单价 (不再计算总价)
+            document.getElementById(
+              "total-price"
+            ).textContent = `$${state.unitPrice.toFixed(2)}`;
+
+            // 如果是大客户 (100+)，更新上方和下方的显示文案
+            if (state.quantity >= 100) {
+              document.getElementById("total-price").textContent = "$12.90"; // 底部显示折扣文案
+              document.getElementById("unit-price").textContent = "$12.90"; // 上方显示折扣文案
             } else {
-                desc.textContent = "视觉冲击力强。支持：渐变、涂鸦、赛博朋克风格。支持 MBTI 与社交 ID。";
-                cardText.innerHTML = "John Doe<br>Creative Designer<br>MBTI: ENFP";
+              // 恢复原始价格
+              document.getElementById(
+                "unit-price"
+              ).textContent = `$${state.unitPrice.toFixed(2)}`;
             }
-        }
+          });
+        });
 
-        function selectMaterial(type, price, element) {
-            // 更新选中状态
-            document.querySelectorAll('.mat-option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
+        // ==========================================
+        //       在此处粘贴 Linkly Studio 的逻辑
+        // ==========================================
+        // ==========================================
+        // ================= Linkly Studio 完整逻辑 =================
 
-            // 更新价格
-            document.getElementById('dynamic-price').textContent = '$' + price.toFixed(2);
-
-            // 更新卡片材质样式
-            const card = document.getElementById('card-preview');
-            card.className = 'card-mockup'; // 重置
-            if (type === 'bamboo') card.classList.add('bamboo');
-            if (type === 'walnut') card.classList.add('walnut');
-            if (type === 'clear') card.classList.add('clear');
-        }
-        document.addEventListener('DOMContentLoaded', () => {
-            // 状态管理
-            const state = {
-                color: 'jet-black',
-                pattern: 'solid',
-                material: 'glossy',
-                quantity: 1,
-                unitPrice: 19.90
-            };
-
-            const card = document.getElementById('dynamic-card');
-            
-            // 1. 颜色切换逻辑
-            document.querySelectorAll('.color-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    // 更新 UI
-                    document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-                    e.target.classList.add('active');
-                    document.getElementById('selected-color-name').textContent = e.target.dataset.name;
-                    
-                    // 更新 CSS Class (移除旧颜色，添加新颜色)
-                    const oldColorClass = `color-${state.color}`;
-                    state.color = e.target.dataset.color;
-                    card.classList.remove(oldColorClass);
-                    card.classList.add(`color-${state.color}`);
-                });
-            });
-
-            // 2. 选项切换逻辑 (图案 & 材质)
-            document.querySelectorAll('.option-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const type = e.currentTarget.dataset.type; // pattern or material
-                    const value = e.currentTarget.dataset.value;
-                    const name = e.currentTarget.dataset.name;
-
-                    // 更新 UI
-                    e.currentTarget.parentElement.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
-                    e.currentTarget.classList.add('active');
-                    document.getElementById(`selected-${type}-name`).textContent = name;
-
-                    // 更新 CSS Class
-                    const oldClass = `${type}-${state[type]}`;
-                    state[type] = value;
-                    card.classList.remove(oldClass);
-                    card.classList.add(`${type}-${value}`);
-                });
-            });
-
-                document.querySelectorAll('.qty-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        // 更新 UI
-                        document.querySelectorAll('.qty-btn').forEach(b => b.classList.remove('active'));
-                        e.currentTarget.classList.add('active');
-
-                        // 更新价格数据
-                        state.quantity = parseInt(e.currentTarget.dataset.qty);
-                        state.unitPrice = parseFloat(e.currentTarget.dataset.price);
-
-                        // 动画更新价格显示
-                        animateValue("unit-price", state.unitPrice);
-                        
-                        // 更新底部显示为单价 (不再计算总价)
-                        document.getElementById('total-price').textContent = `$${state.unitPrice.toFixed(2)}`;
-
-                        // 如果是大客户 (100+)，更新上方和下方的显示文案
-                        if (state.quantity >= 100) {
-                            document.getElementById('total-price').textContent = "$12.90";  // 底部显示折扣文案
-                            document.getElementById('unit-price').textContent = "$12.90";  // 上方显示折扣文案
-                        } else {
-                            // 恢复原始价格
-                            document.getElementById('unit-price').textContent = `$${state.unitPrice.toFixed(2)}`;
-                        }
-                    });
-                });
-
-// ==========================================
-            //       在此处粘贴 Linkly Studio 的逻辑
-            // ==========================================
-// ==========================================
-// ================= Linkly Studio 完整逻辑 =================
-        
         // 1. 数据定义 (严格对照表格 [Source: 2] & [Source: 3])
         const studioDB = {
-            // 商务正装模式 [Source: 2]
-            business: {
-                desc: "* 商务正装模式：秩序感排版，追求稳重与专业。适合咨询/管理层。",
-                materials: [
-                    { id: 'pvc', name: '标准 PVC', price: 34.90 },
-                    { id: 'bamboo', name: '楠竹 (环保)', price: 39.90 },
-                    { id: 'walnut', name: '胡桃木 (高端)', price: 49.90 } // Business 独有
-                ],
-                colors: [
-                    { id: 'obsidian', name: '曜石黑', hex: '#1a1a1a' },
-                    { id: 'prussian', name: '普鲁士蓝', hex: '#003153' },
-                    { id: 'burgundy', name: '勃艮第红', hex: '#800020' },
-                    { id: 'ivory', name: '象牙白', hex: '#fffff0' },
-                    { id: 'spacegrey', name: '太空灰', hex: '#4a4a4a' },
-                    { id: 'champagne', name: '香槟金', hex: '#F7E7CE' }
-                ],
-                patterns: [
-                    { id: 'solid', name: '纯色 (Solid)' },
-                    { id: 'metal', name: '拉丝金属' },
-                    { id: 'marble', name: '大理石纹' },
-                    { id: 'geo', name: '几何折线' },
-                    { id: 'side', name: '侧边色块' }
-                ]
-            },
-            // 轻松个性模式 [Source: 3]
-            social: {
-                desc: "* 轻松个性模式：视觉冲击力强，支持社交 ID 展示。适合 Gen Z / 创作者。",
-                materials: [
-                    { id: 'pvc', name: '标准 PVC', price: 34.90 },
-                    { id: 'bamboo', name: '楠竹 (环保)', price: 39.90 },
-                    { id: 'clear', name: '透明 PET', price: 44.90 } // Social 独有
-                ],
-                colors: [
-                    { id: 'aurora', name: '极光渐变', hex: 'linear-gradient(135deg, #00c6ff, #0072ff)' },
-                    { id: 'sunset', name: '落日橙', hex: 'linear-gradient(to right, #ff512f, #f09819)' },
-                    { id: 'mint', name: '薄荷绿', hex: '#98ff98' },
-                    { id: 'pink', name: '千禧粉', hex: '#ffb6c1' },
-                    { id: 'violet', name: '电光紫', hex: '#7F00FF' },
-                    { id: 'yellow', name: '柠檬黄', hex: '#fff700' }
-                ],
-                patterns: [
-                    { id: 'liquid', name: '液态渐变' },
-                    { id: 'cyber', name: '赛博朋克' },
-                    { id: 'vapor', name: '蒸汽波' },
-                    { id: 'pixel', name: '像素风' },
-                    { id: 'pop', name: '波普风格' },
-                    { id: 'stick', name: '贴纸拼贴' }
-                ]
-            }
+          // 商务正装模式 [Source: 2]
+          business: {
+            desc: "* 商务正装模式：秩序感排版，追求稳重与专业。适合咨询/管理层。",
+            materials: [
+              { id: "pvc", name: "标准 PVC", price: 34.9 },
+              { id: "bamboo", name: "楠竹 (环保)", price: 39.9 },
+              { id: "walnut", name: "胡桃木 (高端)", price: 49.9 }, // Business 独有
+            ],
+            colors: [
+              { id: "obsidian", name: "曜石黑", hex: "#1a1a1a" },
+              { id: "prussian", name: "普鲁士蓝", hex: "#003153" },
+              { id: "burgundy", name: "勃艮第红", hex: "#800020" },
+              { id: "ivory", name: "象牙白", hex: "#fffff0" },
+              { id: "spacegrey", name: "太空灰", hex: "#4a4a4a" },
+              { id: "champagne", name: "香槟金", hex: "#F7E7CE" },
+            ],
+            patterns: [
+              { id: "solid", name: "纯色 (Solid)" },
+              { id: "metal", name: "拉丝金属" },
+              { id: "marble", name: "大理石纹" },
+              { id: "geo", name: "几何折线" },
+              { id: "side", name: "侧边色块" },
+            ],
+          },
+          // 轻松个性模式 [Source: 3]
+          social: {
+            desc: "* 轻松个性模式：视觉冲击力强，支持社交 ID 展示。适合 Gen Z / 创作者。",
+            materials: [
+              { id: "pvc", name: "标准 PVC", price: 34.9 },
+              { id: "bamboo", name: "楠竹 (环保)", price: 39.9 },
+              { id: "clear", name: "透明 PET", price: 44.9 }, // Social 独有
+            ],
+            colors: [
+              {
+                id: "aurora",
+                name: "极光渐变",
+                hex: "linear-gradient(135deg, #00c6ff, #0072ff)",
+              },
+              {
+                id: "sunset",
+                name: "落日橙",
+                hex: "linear-gradient(to right, #ff512f, #f09819)",
+              },
+              { id: "mint", name: "薄荷绿", hex: "#98ff98" },
+              { id: "pink", name: "千禧粉", hex: "#ffb6c1" },
+              { id: "violet", name: "电光紫", hex: "#7F00FF" },
+              { id: "yellow", name: "柠檬黄", hex: "#fff700" },
+            ],
+            patterns: [
+              { id: "liquid", name: "液态渐变" },
+              { id: "cyber", name: "赛博朋克" },
+              { id: "vapor", name: "蒸汽波" },
+              { id: "pixel", name: "像素风" },
+              { id: "pop", name: "波普风格" },
+              { id: "stick", name: "贴纸拼贴" },
+            ],
+          },
         };
 
         // 2. 状态管理
         const stState = {
-            mode: 'business',
-            material: null, // 对象 {id, price}
-            color: null,    // 对象 {id, hex}
-            pattern: null,  // 对象 {id}
-            qty: 1,
-            discount: 0
+          mode: "business",
+          material: null, // 对象 {id, price}
+          color: null, // 对象 {id, hex}
+          pattern: null, // 对象 {id}
+          qty: 1,
+          discount: 0,
         };
 
         // 3. DOM 元素
         const dom = {
-            card: document.getElementById('studio-card'),
-            caption: document.getElementById('preview-caption'),
-            matList: document.getElementById('opt-material'),
-            colList: document.getElementById('opt-color'),
-            patList: document.getElementById('opt-pattern'),
-            priceDisplay: document.getElementById('st-current-price'),
-            finalDisplay: document.getElementById('st-final-price'),
-            lblMat: document.getElementById('lbl-material'),
-            lblCol: document.getElementById('lbl-color'),
-            lblPat: document.getElementById('lbl-pattern')
+          card: document.getElementById("studio-card"),
+          caption: document.getElementById("preview-caption"),
+          matList: document.getElementById("opt-material"),
+          colList: document.getElementById("opt-color"),
+          patList: document.getElementById("opt-pattern"),
+          priceDisplay: document.getElementById("st-current-price"),
+          finalDisplay: document.getElementById("st-final-price"),
+          lblMat: document.getElementById("lbl-material"),
+          lblCol: document.getElementById("lbl-color"),
+          lblPat: document.getElementById("lbl-pattern"),
         };
 
         // 仅当元素存在时初始化
         if (dom.card) {
-            initStudio('business');
+          initStudio("business");
         }
 
         function initStudio(mode) {
-            // 绑定模式切换
-            document.querySelectorAll('.mode-toggle-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.mode-toggle-btn').forEach(b => b.classList.remove('active'));
-                    e.currentTarget.classList.add('active');
-                    switchMode(e.currentTarget.dataset.mode);
-                });
+          // 绑定模式切换
+          document.querySelectorAll(".mode-toggle-btn").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              document
+                .querySelectorAll(".mode-toggle-btn")
+                .forEach((b) => b.classList.remove("active"));
+              e.currentTarget.classList.add("active");
+              switchMode(e.currentTarget.dataset.mode);
             });
+          });
 
-            // 绑定订量切换
-            document.querySelectorAll('.st-qty').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    document.querySelectorAll('.st-qty').forEach(b => b.classList.remove('active'));
-                    e.currentTarget.classList.add('active');
-                    stState.qty = parseInt(e.currentTarget.dataset.qty);
-                    stState.discount = parseFloat(e.currentTarget.dataset.discount);
-                    updatePrice();
-                });
+          // 绑定订量切换
+          document.querySelectorAll(".st-qty").forEach((btn) => {
+            btn.addEventListener("click", (e) => {
+              document
+                .querySelectorAll(".st-qty")
+                .forEach((b) => b.classList.remove("active"));
+              e.currentTarget.classList.add("active");
+              stState.qty = parseInt(e.currentTarget.dataset.qty);
+              stState.discount = parseFloat(e.currentTarget.dataset.discount);
+              updatePrice();
             });
+          });
 
-            switchMode(mode);
+          switchMode(mode);
         }
 
         function switchMode(mode) {
-            stState.mode = mode;
-            const data = studioDB[mode];
-            
-            // 更新描述
-            dom.caption.textContent = data.desc;
+          stState.mode = mode;
+          const data = studioDB[mode];
 
-            // 更新卡片 Mode Class
-            dom.card.classList.remove('mode-business', 'mode-social');
-            dom.card.classList.add(`mode-${mode}`);
+          // 更新描述
+          dom.caption.textContent = data.desc;
 
-            // 1. 渲染材质
-            dom.matList.innerHTML = '';
-            data.materials.forEach((m, idx) => {
-                const btn = createBtn(m.name, () => selectMaterial(m));
-                if(idx === 0) btn.click(); // 默认选中第一个
-                dom.matList.appendChild(btn);
-            });
+          // 更新卡片 Mode Class
+          dom.card.classList.remove("mode-business", "mode-social");
+          dom.card.classList.add(`mode-${mode}`);
 
-            // 2. 渲染颜色
-            dom.colList.innerHTML = '';
-            data.colors.forEach((c, idx) => {
-                const btn = document.createElement('button');
-                btn.className = 'color-btn';
-                btn.style.background = c.hex;
-                btn.title = c.name;
-                btn.addEventListener('click', () => selectColor(c, btn));
-                if(idx === 0) btn.click();
-                dom.colList.appendChild(btn);
-            });
+          // 1. 渲染材质
+          dom.matList.innerHTML = "";
+          data.materials.forEach((m, idx) => {
+            const btn = createBtn(m.name, () => selectMaterial(m));
+            if (idx === 0) btn.click(); // 默认选中第一个
+            dom.matList.appendChild(btn);
+          });
 
-            // 3. 渲染图案
-            dom.patList.innerHTML = '';
-            data.patterns.forEach((p, idx) => {
-                const btn = createBtn(p.name, () => selectPattern(p));
-                if(idx === 0) btn.click();
-                dom.patList.appendChild(btn);
-            });
+          // 2. 渲染颜色
+          dom.colList.innerHTML = "";
+          data.colors.forEach((c, idx) => {
+            const btn = document.createElement("button");
+            btn.className = "color-btn";
+            btn.style.background = c.hex;
+            btn.title = c.name;
+            btn.addEventListener("click", () => selectColor(c, btn));
+            if (idx === 0) btn.click();
+            dom.colList.appendChild(btn);
+          });
+
+          // 3. 渲染图案
+          dom.patList.innerHTML = "";
+          data.patterns.forEach((p, idx) => {
+            const btn = createBtn(p.name, () => selectPattern(p));
+            if (idx === 0) btn.click();
+            dom.patList.appendChild(btn);
+          });
         }
 
         // 辅助：创建选项按钮
         function createBtn(text, onClick) {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.textContent = text;
-            btn.addEventListener('click', (e) => {
-                // UI 选中态处理 (查找同级按钮移除active)
-                const siblings = e.target.parentElement.children;
-                for(let el of siblings) el.classList.remove('active');
-                e.target.classList.add('active');
-                onClick();
-            });
-            return btn;
+          const btn = document.createElement("button");
+          btn.className = "option-btn";
+          btn.textContent = text;
+          btn.addEventListener("click", (e) => {
+            // UI 选中态处理 (查找同级按钮移除active)
+            const siblings = e.target.parentElement.children;
+            for (let el of siblings) el.classList.remove("active");
+            e.target.classList.add("active");
+            onClick();
+          });
+          return btn;
         }
 
         // 选择逻辑
         function selectMaterial(m) {
-            stState.material = m;
-            dom.lblMat.textContent = m.name;
-            
-            // 更新卡片材质类
-            dom.card.className.split(' ').forEach(c => {
-                if(c.startsWith('material-')) dom.card.classList.remove(c);
-            });
-            dom.card.classList.add(`material-${m.id}`);
-            
-            updatePrice();
+          stState.material = m;
+          dom.lblMat.textContent = m.name;
+
+          // 更新卡片材质类
+          dom.card.className.split(" ").forEach((c) => {
+            if (c.startsWith("material-")) dom.card.classList.remove(c);
+          });
+          dom.card.classList.add(`material-${m.id}`);
+
+          updatePrice();
         }
 
         function selectColor(c, btnEl) {
-            stState.color = c;
-            dom.lblCol.textContent = c.name;
-            
-            // UI 选中态
-            dom.colList.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-            btnEl.classList.add('active');
+          stState.color = c;
+          dom.lblCol.textContent = c.name;
 
-            // 更新卡片颜色类
-            dom.card.className.split(' ').forEach(cls => {
-                if(cls.startsWith('color-')) dom.card.classList.remove(cls);
-            });
-            dom.card.classList.add(`color-${c.id}`);
+          // UI 选中态
+          dom.colList
+            .querySelectorAll(".color-btn")
+            .forEach((b) => b.classList.remove("active"));
+          btnEl.classList.add("active");
+
+          // 更新卡片颜色类
+          dom.card.className.split(" ").forEach((cls) => {
+            if (cls.startsWith("color-")) dom.card.classList.remove(cls);
+          });
+          dom.card.classList.add(`color-${c.id}`);
         }
 
         function selectPattern(p) {
-            stState.pattern = p;
-            dom.lblPat.textContent = p.name;
+          stState.pattern = p;
+          dom.lblPat.textContent = p.name;
 
-            // 更新卡片图案类
-            dom.card.className.split(' ').forEach(c => {
-                if(c.startsWith('pattern-')) dom.card.classList.remove(c);
-            });
-            dom.card.classList.add(`pattern-${p.id}`);
+          // 更新卡片图案类
+          dom.card.className.split(" ").forEach((c) => {
+            if (c.startsWith("pattern-")) dom.card.classList.remove(c);
+          });
+          dom.card.classList.add(`pattern-${p.id}`);
         }
 
         // 价格计算
         function updatePrice() {
-            if(!stState.material) return;
-            
-            // 基础单价 (基于材质)
-            const base = stState.material.price;
-            // 折扣 (基于订量)
-            const discount = stState.discount;
-            
-            let final = base - discount;
-            if (final < 0) final = 0;
+          if (!stState.material) return;
 
-            // 实时更新显示
-            // ▼▼▼ 修改了这一行 ▼▼▼
-            dom.priceDisplay.textContent = final.toFixed(2); // 现在显示折后价 (与下方一致)
-            // ▲▲▲ 修改了这一行 ▲▲▲
-            dom.finalDisplay.textContent = `$${final.toFixed(2)}`; // 显示折后单价
+          // 基础单价 (基于材质)
+          const base = stState.material.price;
+          // 折扣 (基于订量)
+          const discount = stState.discount;
+
+          let final = base - discount;
+          if (final < 0) final = 0;
+
+          // 实时更新显示
+          // ▼▼▼ 修改了这一行 ▼▼▼
+          dom.priceDisplay.textContent = final.toFixed(2); // 现在显示折后价 (与下方一致)
+          // ▲▲▲ 修改了这一行 ▲▲▲
+          dom.finalDisplay.textContent = `$${final.toFixed(2)}`; // 显示折后单价
         }
-// ==========================================
-            //       以上粘贴 Linkly Studio 的逻辑
-            // ==========================================
+        // ==========================================
+        //       以上粘贴 Linkly Studio 的逻辑
+        // ==========================================
 
+        // 价格滚动动画工具函数
+        function animateValue(id, end) {
+          const obj = document.getElementById(id);
+          const start = parseFloat(obj.innerHTML);
+          if (start === end) return;
 
-            // 价格滚动动画工具函数
-            function animateValue(id, end) {
-                const obj = document.getElementById(id);
-                const start = parseFloat(obj.innerHTML);
-                if (start === end) return;
-                
-                const duration = 300;
-                const startTime = performance.now();
+          const duration = 300;
+          const startTime = performance.now();
 
-                function update(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    // 简单的缓动
-                    const current = start + (end - start) * progress;
-                    
-                    obj.innerHTML = current.toFixed(2);
+          function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // 简单的缓动
+            const current = start + (end - start) * progress;
 
-                    if (progress < 1) {
-                        requestAnimationFrame(update);
-                    }
-                }
-                requestAnimationFrame(update);
+            obj.innerHTML = current.toFixed(2);
+
+            if (progress < 1) {
+              requestAnimationFrame(update);
             }
-        });
-
+          }
+          requestAnimationFrame(update);
+        }
+      });
     </script>
-</body>
+  </body>
 </html>

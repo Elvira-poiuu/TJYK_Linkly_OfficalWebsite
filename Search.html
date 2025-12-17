@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="Logo/webLOGOpart_icon_w_TRANSBG.png"
+      type="image/x-icon"
+    />
+    <title>AI 智能找人 - Linkly</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [
+                "-apple-system",
+                "BlinkMacSystemFont",
+                '"Segoe UI"',
+                "Roboto",
+                "Helvetica",
+                "Arial",
+                "sans-serif",
+              ],
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display",
+          "SF Pro Text", "Helvetica Neue", sans-serif;
+      }
+
+      body {
+        background-color: #000;
+        color: #f5f5f7;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .glass-nav {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .search-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 120px 20px 40px;
+      }
+
+      .search-box {
+        position: relative;
+        margin-bottom: 40px;
+      }
+
+      .search-input {
+        width: 100%;
+        padding: 20px 60px 20px 24px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        color: #f5f5f7;
+        font-size: 17px;
+        transition: all 0.3s;
+      }
+
+      .search-input:focus {
+        outline: none;
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(41, 151, 255, 0.5);
+        box-shadow: 0 0 0 4px rgba(41, 151, 255, 0.1);
+      }
+
+      .search-input::placeholder {
+        color: #86868b;
+      }
+
+      .search-btn {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: linear-gradient(135deg, #2997ff 0%, #0071e3 100%);
+        border: none;
+        border-radius: 50%;
+        width: 44px;
+        height: 44px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+      }
+
+      .search-btn:hover {
+        transform: translateY(-50%) scale(1.05);
+        box-shadow: 0 4px 20px rgba(41, 151, 255, 0.4);
+      }
+
+      .search-btn svg {
+        width: 20px;
+        height: 20px;
+        stroke: white;
+      }
+
+      .suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 60px;
+      }
+
+      .suggestion-chip {
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        color: #e8e8ed;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .suggestion-chip:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(41, 151, 255, 0.5);
+        color: #2997ff;
+      }
+
+      .results-container {
+        display: grid;
+        gap: 20px;
+      }
+
+      .user-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 24px;
+        display: flex;
+        gap: 20px;
+        transition: all 0.3s;
+        cursor: pointer;
+      }
+
+      .user-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+      }
+
+      .user-avatar {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 28px;
+        font-weight: 700;
+        color: white;
+        flex-shrink: 0;
+      }
+
+      .user-info {
+        flex: 1;
+      }
+
+      .user-name {
+        font-size: 20px;
+        font-weight: 600;
+        color: #f5f5f7;
+        margin-bottom: 6px;
+      }
+
+      .user-title {
+        font-size: 15px;
+        color: #86868b;
+        margin-bottom: 12px;
+      }
+
+      .user-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .user-tag {
+        padding: 4px 12px;
+        background: rgba(41, 151, 255, 0.1);
+        border: 1px solid rgba(41, 151, 255, 0.2);
+        border-radius: 12px;
+        color: #2997ff;
+        font-size: 13px;
+      }
+
+      .user-actions {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .btn-primary {
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #2997ff 0%, #0071e3 100%);
+        border: none;
+        border-radius: 20px;
+        color: white;
+        font-size: 15px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-primary:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 20px rgba(41, 151, 255, 0.4);
+      }
+
+      .btn-secondary {
+        padding: 10px 20px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        color: #e8e8ed;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .btn-secondary:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: rgba(255, 255, 255, 0.3);
+      }
+
+      .loading {
+        text-align: center;
+        padding: 60px 20px;
+      }
+
+      .loading-spinner {
+        width: 48px;
+        height: 48px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-top-color: #2997ff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+      }
+
+      .empty-icon {
+        font-size: 64px;
+        margin-bottom: 20px;
+        opacity: 0.3;
+      }
+
+      .empty-text {
+        font-size: 18px;
+        color: #86868b;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 导航栏 -->
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+      <div
+        class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between"
+      >
+        <a href="index.html" style="display: flex; align-items: center">
+          <img
+            src="Logo/darkBGver.png"
+            alt="Linkly Logo"
+            style="max-height: 28px; width: auto"
+          />
+        </a>
+        <div class="flex items-center gap-4 text-[0.875rem]">
+          <a
+            href="index.html"
+            class="text-[#e8e8ed] hover:text-blue-400 transition-colors"
+          >
+            ← 返回首页
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="search-container">
+      <!-- 标题 -->
+      <div style="text-align: center; margin-bottom: 40px">
+        <h1
+          style="
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 16px;
+          "
+        >
+          用 AI 找到<br />合适的人
+        </h1>
+        <p style="font-size: 21px; color: #86868b; line-height: 1.4">
+          自然语言描述你的需求，AI 帮你找到最匹配的专业人士
+        </p>
+      </div>
+
+      <!-- 搜索框 -->
+      <div class="search-box">
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder='试试: "帮我找北京的产品经理" 或 "有创业经验的投资人"'
+        />
+        <button class="search-btn" id="searchBtn">
+          <svg
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <!-- 建议搜索 -->
+      <div class="suggestions">
+        <span style="color: #86868b; font-size: 15px; padding: 10px 0"
+          >💡 热门搜索：</span
+        >
+        <div class="suggestion-chip" data-query="产品经理">产品经理</div>
+        <div class="suggestion-chip" data-query="投资人">投资人</div>
+        <div class="suggestion-chip" data-query="UI设计师">UI 设计师</div>
+        <div class="suggestion-chip" data-query="前端工程师">前端工程师</div>
+        <div class="suggestion-chip" data-query="创业者">创业者</div>
+      </div>
+
+      <!-- 结果容器 -->
+      <div id="resultsContainer"></div>
+    </div>
+
+    <script>
+      // ==================== Real API Integration ====================
+
+      async function searchUsers(query) {
+        const token = localStorage.getItem("token");
+        /*
+        if (!token) {
+             // Optional: Handle unauthorized case if token is strictly required
+             // window.location.href = '/login';
+             // For now we might try searching without token or let backend fail
+        }
+        */
+
+        const response = await fetch(
+          `/user/search?keyword=${encodeURIComponent(query)}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: token ? `Bearer ${token}` : "",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`API Error: ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // Ensure we return the array. The backend says res.json({ success: true, data })
+        // So we want result.data
+        return result;
+      }
+
+      // ==================== UI 渲染 ====================
+      const searchInput = document.getElementById("searchInput");
+      const searchBtn = document.getElementById("searchBtn");
+      const resultsContainer = document.getElementById("resultsContainer");
+
+      // 渲染加载状态
+      function renderLoading() {
+        resultsContainer.innerHTML = `
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p style="color: #86868b; font-size: 17px;">API 正在搜索...</p>
+                </div>
+            `;
+      }
+
+      // 渲染空状态
+      function renderEmpty() {
+        resultsContainer.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">🔍</div>
+                    <p class="empty-text">没有找到匹配的结果，试试换个关键词？</p>
+                </div>
+            `;
+      }
+
+      // 渲染用户卡片
+      function renderResults(users) {
+        if (!users || users.length === 0) {
+          renderEmpty();
+          return;
+        }
+
+        resultsContainer.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <p style="color: #86868b; font-size: 15px;">找到 <strong style="color: #f5f5f7;">${
+                      users.length
+                    }</strong> 位匹配的用户</p>
+                </div>
+                <div class="results-container">
+                    ${users
+                      .map((user) => {
+                        // Map real API fields to UI fields
+                        // backend: uid, name, email, shareLink
+                        // UI wants: avatar, name, title, company, location, experience, tags
+                        // We will supply defaults for missing fields
+                        const displayName =
+                          user.name || user.uid || "Unknown User";
+                        const displayAvatar = (user.name ||
+                          user.uid ||
+                          "U")[0].toUpperCase();
+                        const displayTitle = user.email || "用户"; // using email as subtext temporarily
+                        const displayCompany = "Linkly User";
+                        const displayLocation = "未知";
+                        const displayExp = "-";
+                        const displayTags = user.shareLink ? ["ShareLink"] : [];
+
+                        return `
+                        <div class="user-card" onclick="viewProfile('${
+                          user.uid
+                        }')">
+                            <div class="user-avatar">${displayAvatar}</div>
+                            <div class="user-info">
+                                <div class="user-name">${displayName}</div>
+                                <div class="user-title">${displayTitle}</div>
+                                <div style="font-size: 14px; color: #6e6e73; margin-bottom: 12px;">
+                                     UID: ${user.uid}
+                                </div>
+                                <div class="user-tags">
+                                    ${displayTags
+                                      .map(
+                                        (tag) =>
+                                          `<span class="user-tag">${tag}</span>`
+                                      )
+                                      .join("")}
+                                </div>
+                            </div>
+                            <div class="user-actions">
+                                <button class="btn-primary" onclick="event.stopPropagation(); connectUser('${
+                                  user.uid
+                                }')">
+                                    发起连接
+                                </button>
+                                <button class="btn-secondary" onclick="event.stopPropagation(); viewCard('${
+                                  user.uid
+                                }')">
+                                    查看名片
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                      })
+                      .join("")}
+                </div>
+            `;
+      }
+
+      // 执行搜索
+      async function performSearch() {
+        const query = searchInput.value.trim();
+        if (!query) return;
+
+        renderLoading();
+
+        try {
+          const result = await searchUsers(query);
+          if (result.success && Array.isArray(result.data)) {
+            renderResults(result.data);
+          } else {
+            // Fallback if structure is different
+            console.warn("Unexpected data structure", result);
+            renderResults([]);
+          }
+        } catch (error) {
+          console.error("Search error:", error);
+          resultsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <p class="empty-text">搜索出错了: ${error.message}</p>
+                    </div>
+                `;
+        }
+      }
+
+      // ==================== 事件绑定 ====================
+      searchBtn.addEventListener("click", performSearch);
+
+      searchInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+          performSearch();
+        }
+      });
+
+      // 建议标签点击
+      document.querySelectorAll(".suggestion-chip").forEach((chip) => {
+        chip.addEventListener("click", () => {
+          searchInput.value = chip.dataset.query;
+          performSearch();
+        });
+      });
+
+      // ==================== 用户操作 ====================
+      function viewProfile(userId) {
+        console.log("View profile:", userId);
+        // alert(`查看用户 ${userId} 的完整资料`);
+        // Maybe navigate to profile page handling?
+        window.location.href = `/profile/${userId}`;
+      }
+
+      function connectUser(userId) {
+        console.log("Connect with user:", userId);
+        alert(`已向用户 ${userId} 发送连接请求（API未连接）`);
+      }
+
+      function viewCard(userId) {
+        console.log("View card:", userId);
+        // alert(`查看用户 ${userId} 的名片`);
+        window.location.href = `/card/${userId}`;
+      }
+    </script>
+  </body>
+</html>

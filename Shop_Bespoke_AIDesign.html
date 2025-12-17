@@ -1,238 +1,530 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Logo/webLOGOpart_icon_w_TRANSBG.png" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="Logo/webLOGOpart_icon_w_TRANSBG.png"
+      type="image/x-icon"
+    />
     <title>Linkly Bespoke - AI 辅助设计</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
-        :root {
-            --bg-color: #000000;
-            --panel-bg: #111111;
-            --text-primary: #ffffff;
-            --text-secondary: #86868b;
-            --accent-ai: #a855f7; /* AI 专属紫色 */
-            --accent-gold: #d4af37;
-            --border-color: #333333;
-            --input-bg: #1c1c1e;
-            --nav-height: 52px;
-        }
+      :root {
+        --bg-color: #000000;
+        --panel-bg: #111111;
+        --text-primary: #ffffff;
+        --text-secondary: #86868b;
+        --accent-ai: #a855f7; /* AI 专属紫色 */
+        --accent-gold: #d4af37;
+        --border-color: #333333;
+        --input-bg: #1c1c1e;
+        --nav-height: 52px;
+      }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
-        
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-primary); 
-            -webkit-font-smoothing: antialiased;
-            line-height: 1.5;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Helvetica Neue", sans-serif;
+      }
 
-        /* 导航栏 */
-        .glass-nav {
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .navbar-links a { color: white; text-decoration: none; font-size: 0.875rem; transition: font-weight 0.3s ease; }
-        .navbar-links a:hover { font-weight: bold; color: #2997ff; }
-        .navbar-links a.active { font-weight: bold; color: white; }
-        .navbar-btns .buy-btn:hover { background-color: #2997ff; color: white; font-weight: bold; }
-        .navbar-btns .login-btn:hover { color: #2997ff; font-weight: bold; }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+      }
 
-        /* 主布局 */
-        .main-container {
-            max-width: 1200px; margin: 0 auto; padding: calc(var(--nav-height) + 40px) 20px 80px;
-            min-height: 100vh;
-        }
+      /* 导航栏 */
+      .glass-nav {
+        background: rgba(0, 0, 0, 0.7);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .navbar-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: font-weight 0.3s ease;
+      }
+      .navbar-links a:hover {
+        font-weight: bold;
+        color: #2997ff;
+      }
+      .navbar-links a.active {
+        font-weight: bold;
+        color: white;
+      }
+      .navbar-btns .buy-btn:hover {
+        background-color: #2997ff;
+        color: white;
+        font-weight: bold;
+      }
+      .navbar-btns .login-btn:hover {
+        color: #2997ff;
+        font-weight: bold;
+      }
 
-        .header-section { margin-bottom: 60px; text-align: center; }
-        .bespoke-tag { 
-            display: inline-block; padding: 4px 12px; border-radius: 20px; 
-            font-size: 11px; font-weight: 700; margin-bottom: 16px;
-            text-transform: uppercase; letter-spacing: 0.1em;
-            background: rgba(168, 85, 247, 0.15); color: var(--accent-ai); border: 1px solid rgba(168, 85, 247, 0.3);
-        }
-        .page-title { font-size: 48px; font-weight: 700; line-height: 1.1; color: #fff; margin-bottom: 12px; letter-spacing: -0.02em; }
-        .page-sub { font-size: 20px; color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-weight: 400; }
+      /* 主布局 */
+      .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: calc(var(--nav-height) + 40px) 20px 80px;
+        min-height: 100vh;
+      }
 
+      .header-section {
+        margin-bottom: 60px;
+        text-align: center;
+      }
+      .bespoke-tag {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        margin-bottom: 16px;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        background: rgba(168, 85, 247, 0.15);
+        color: var(--accent-ai);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+      }
+      .page-title {
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 1.1;
+        color: #fff;
+        margin-bottom: 12px;
+        letter-spacing: -0.02em;
+      }
+      .page-sub {
+        font-size: 20px;
+        color: var(--text-secondary);
+        max-width: 600px;
+        margin: 0 auto;
+        font-weight: 400;
+      }
+
+      .bespoke-layout {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 60px;
+        align-items: start;
+      }
+
+      /* --- 左侧：AI 渲染画布 --- */
+      .ai-stage {
+        position: sticky;
+        top: 100px;
+        background: #0a0a0a;
+        border-radius: 32px;
+        border: 1px solid var(--border-color);
+        min-height: 700px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow: hidden;
+        padding: 40px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      }
+
+      /* 渲染卡片容器 */
+      .render-container {
+        position: relative;
+        width: 340px;
+        height: 540px; /* 竖版比例，或者根据需要改为横版 */
+        perspective: 1500px;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .generated-card {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border-radius: 20px;
+        box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8);
+      }
+
+      .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        backface-visibility: hidden;
+        border-radius: 20px;
+        overflow: hidden;
+        background: #1c1c1e;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .card-back {
+        transform: rotateY(180deg);
+      }
+
+      .placeholder-content {
+        text-align: center;
+        color: var(--text-secondary);
+        padding: 20px;
+      }
+      .placeholder-icon {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 16px;
+        opacity: 0.3;
+      }
+
+      /* 渲染图片 */
+      .render-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+      .render-img.show {
+        display: block;
+        opacity: 1;
+      }
+
+      /* AI 生成按钮 */
+      .ai-action-area {
+        width: 100%;
+        max-width: 340px;
+        z-index: 10;
+      }
+
+      .generate-btn {
+        width: 100%;
+        padding: 18px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #7c3aed, #2563eb);
+        color: #fff;
+        font-size: 16px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+      }
+      .generate-btn:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+      }
+      .generate-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      .btn-shimmer {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transform: skewX(-20deg);
+        animation: shimmer 3s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          left: -100%;
+        }
+        20% {
+          left: 200%;
+        }
+        100% {
+          left: 200%;
+        }
+      }
+
+      /* 视图切换器 */
+      .view-toggle {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .toggle-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #333;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .toggle-dot.active {
+        background: var(--text-primary);
+        transform: scale(1.2);
+      }
+
+      /* Loading 效果 */
+      .ai-loader {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 20;
+        border-radius: 20px;
+      }
+      .loader-ring {
+        width: 50px;
+        height: 50px;
+        border: 3px solid rgba(255, 255, 255, 0.1);
+        border-top-color: var(--accent-ai);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin-bottom: 16px;
+      }
+      .loader-text {
+        font-size: 13px;
+        color: var(--accent-ai);
+        font-weight: 500;
+        letter-spacing: 1px;
+        animation: pulse 1.5s infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      /* --- 右侧：Prompt 配置 --- */
+      .config-panel {
+        padding-top: 0;
+      }
+      .config-section {
+        margin-bottom: 40px;
+      }
+      .config-label {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        display: block;
+        color: #e5e5e5;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .prompt-textarea {
+        width: 100%;
+        min-height: 120px;
+        padding: 16px;
+        background: #1c1c1e;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        color: #fff;
+        font-size: 14px;
+        line-height: 1.6;
+        resize: vertical;
+        transition: 0.2s;
+      }
+      .prompt-textarea:focus {
+        border-color: var(--accent-ai);
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2);
+      }
+
+      .tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .ai-tag {
+        padding: 6px 14px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        font-size: 12px;
+        color: #ccc;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .ai-tag:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #fff;
+      }
+      .ai-tag.selected {
+        background: rgba(168, 85, 247, 0.2);
+        border-color: var(--accent-ai);
+        color: var(--accent-ai);
+      }
+
+      .input-group {
+        display: grid;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .input-field {
+        width: 100%;
+        padding: 14px 16px;
+        border-radius: 10px;
+        border: 1px solid var(--border-color);
+        background: var(--input-bg);
+        color: #fff;
+        font-size: 14px;
+        outline: none;
+        transition: 0.2s;
+      }
+      .input-field:focus {
+        border-color: var(--accent-ai);
+      }
+
+      /* 底部操作 */
+      .action-bar {
+        margin-top: 60px;
+        padding-top: 30px;
+        border-top: 1px solid var(--border-color);
+      }
+      .final-btn {
+        width: 100%;
+        padding: 18px;
+        border-radius: 14px;
+        background: #fff;
+        color: #000;
+        font-size: 17px;
+        font-weight: 600;
+        border: none;
+        cursor: pointer;
+        transition: 0.2s;
+        text-align: center;
+        display: block;
+        text-decoration: none;
+      }
+      .final-btn:hover {
+        background: #e5e5e5;
+      }
+      .final-desc {
+        text-align: center;
+        margin-top: 16px;
+        font-size: 13px;
+        color: #666;
+      }
+
+      @media (max-width: 900px) {
         .bespoke-layout {
-            display: grid; grid-template-columns: 1.2fr 1fr; gap: 60px; align-items: start;
+          grid-template-columns: 1fr;
+          gap: 40px;
         }
-
-        /* --- 左侧：AI 渲染画布 --- */
         .ai-stage {
-            position: sticky; top: 100px;
-            background: #0a0a0a; border-radius: 32px;
-            border: 1px solid var(--border-color);
-            min-height: 700px;
-            display: flex; flex-direction: column; align-items: center;
-            overflow: hidden; padding: 40px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+          position: relative;
+          top: 0;
+          min-height: 500px;
+          padding: 20px;
         }
-
-        /* 渲染卡片容器 */
         .render-container {
-            position: relative; width: 340px; height: 540px; /* 竖版比例，或者根据需要改为横版 */
-            perspective: 1500px; margin-bottom: 40px;
-            display: flex; align-items: center; justify-content: center;
+          width: 100%;
+          max-width: 300px;
+          height: 480px;
         }
-
-        .generated-card {
-            width: 100%; height: 100%; position: relative;
-            transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border-radius: 20px;
-            box-shadow: 0 30px 60px -15px rgba(0,0,0,0.8);
-        }
-        
-        .card-face {
-            position: absolute; width: 100%; height: 100%;
-            backface-visibility: hidden; border-radius: 20px; overflow: hidden;
-            background: #1c1c1e; border: 1px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; justify-content: center;
-        }
-        .card-back { transform: rotateY(180deg); }
-
-        .placeholder-content { text-align: center; color: var(--text-secondary); padding: 20px; }
-        .placeholder-icon { width: 48px; height: 48px; margin-bottom: 16px; opacity: 0.3; }
-
-        /* 渲染图片 */
-        .render-img { width: 100%; height: 100%; object-fit: cover; display: none; opacity: 0; transition: opacity 0.5s; }
-        .render-img.show { display: block; opacity: 1; }
-
-        /* AI 生成按钮 */
-        .ai-action-area { width: 100%; max-width: 340px; z-index: 10; }
-        
-        .generate-btn {
-            width: 100%; padding: 18px; border-radius: 16px;
-            background: linear-gradient(135deg, #7c3aed, #2563eb);
-            color: #fff; font-size: 16px; font-weight: 600; border: none; cursor: pointer;
-            transition: all 0.3s; position: relative; overflow: hidden;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
-        }
-        .generate-btn:hover { transform: scale(1.02); box-shadow: 0 0 30px rgba(124, 58, 237, 0.5); }
-        .generate-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
-        
-        .btn-shimmer {
-            position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform: skewX(-20deg); animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
-
-        /* 视图切换器 */
-        .view-toggle {
-            display: flex; gap: 10px; margin-bottom: 20px;
-        }
-        .toggle-dot {
-            width: 8px; height: 8px; border-radius: 50%; background: #333; cursor: pointer; transition: 0.3s;
-        }
-        .toggle-dot.active { background: var(--text-primary); transform: scale(1.2); }
-
-        /* Loading 效果 */
-        .ai-loader {
-            position: absolute; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-            z-index: 20; border-radius: 20px;
-        }
-        .loader-ring {
-            width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.1);
-            border-top-color: var(--accent-ai); border-radius: 50%;
-            animation: spin 1s linear infinite; margin-bottom: 16px;
-        }
-        .loader-text { font-size: 13px; color: var(--accent-ai); font-weight: 500; letter-spacing: 1px; animation: pulse 1.5s infinite; }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-
-        /* --- 右侧：Prompt 配置 --- */
-        .config-panel { padding-top: 0; }
-        .config-section { margin-bottom: 40px; }
-        .config-label { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: block; color: #e5e5e5; text-transform: uppercase; letter-spacing: 0.05em; }
-        
-        .prompt-textarea {
-            width: 100%; min-height: 120px; padding: 16px;
-            background: #1c1c1e; border: 1px solid var(--border-color); border-radius: 12px;
-            color: #fff; font-size: 14px; line-height: 1.6; resize: vertical;
-            transition: 0.2s;
-        }
-        .prompt-textarea:focus { border-color: var(--accent-ai); outline: none; box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2); }
-
-        .tag-cloud { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-        .ai-tag {
-            padding: 6px 14px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px; font-size: 12px; color: #ccc; cursor: pointer; transition: 0.2s;
-        }
-        .ai-tag:hover { background: rgba(255,255,255,0.1); color: #fff; }
-        .ai-tag.selected { background: rgba(168, 85, 247, 0.2); border-color: var(--accent-ai); color: var(--accent-ai); }
-
-        .input-group { display: grid; gap: 16px; margin-bottom: 20px; }
-        .input-field {
-            width: 100%; padding: 14px 16px; border-radius: 10px; border: 1px solid var(--border-color);
-            background: var(--input-bg); color: #fff; font-size: 14px; outline: none; transition: 0.2s;
-        }
-        .input-field:focus { border-color: var(--accent-ai); }
-
-        /* 底部操作 */
-        .action-bar { margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--border-color); }
-        .final-btn {
-            width: 100%; padding: 18px; border-radius: 14px;
-            background: #fff; color: #000; font-size: 17px; font-weight: 600; border: none; cursor: pointer;
-            transition: 0.2s; text-align: center; display: block; text-decoration: none;
-        }
-        .final-btn:hover { background: #e5e5e5; }
-        .final-desc { text-align: center; margin-top: 16px; font-size: 13px; color: #666; }
-
-        @media (max-width: 900px) {
-            .bespoke-layout { grid-template-columns: 1fr; gap: 40px; }
-            .ai-stage { position: relative; top: 0; min-height: 500px; padding: 20px; }
-            .render-container { width: 100%; max-width: 300px; height: 480px; }
-        }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
-        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
-            <!-- <a href="index.html" class="text-lg font-semibold text-white hover:text-gray-300 transition-colors">
+      <div
+        class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between"
+      >
+        <!-- <a href="index.html" class="text-lg font-semibold text-white hover:text-gray-300 transition-colors">
                 Linkly
             </a> -->
-            <div class="nav-content">
-                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
-                    <img src="Logo/darkBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;">
+        <div class="nav-content">
+          <a
+            href="index.html"
+            class="nav-link"
+            style="display: flex; align-items: center"
+          >
+            <img
+              src="Logo/darkBGver.png"
+              alt="Linkly Logo"
+              style="max-height: 28px; width: auto"
+            />
+          </a>
+          <div style="display: flex; gap: 24px"></div>
+        </div>
+        <div class="hidden md:flex items-center gap-8 navbar-links">
+          <div class="relative group h-full flex items-center">
+            <a
+              href="Product.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+            >
+              产品
+            </a>
+            <div
+              class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50"
+            >
+              <div
+                class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden"
+              >
+                <a
+                  href="Shop_General.html#essential"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  智能名片·基础版
                 </a>
-                <div style="display:flex; gap:24px;">
-                    </div>
+                <a
+                  href="Shop_General.html#studio"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  智能名片·半定制版
+                </a>
+                <a
+                  href="Shop_General.html#bespoke"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  智能名片·全定制版
+                </a>
+                <a
+                  href="Shop_General.html#saas"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  软件会员
+                </a>
+              </div>
             </div>
-            <div class="hidden md:flex items-center gap-8 navbar-links">
-                <div class="relative group h-full flex items-center">
-                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        产品
-                    </a>
-                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
-                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Shop_General.html#essential" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                智能名片·基础版
-                            </a>
-                            <a href="Shop_General.html#studio" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                智能名片·半定制版
-                            </a>
-                            <a href="Shop_General.html#bespoke" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                智能名片·全定制版
-                            </a>
-                            <a href="Shop_General.html#saas" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                软件会员
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <a href="Product.html">Linkly 名片</a> 
-                <a href="AI_Detailed_2.html">Linkly AI</a> 
-                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
-                <!-- <div class="relative group h-full flex items-center">
+          </div>
+          <a href="Product.html">Linkly 名片</a>
+          <a href="AI_Detailed_2.html">Linkly AI</a>
+          <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a>
+          <!-- <div class="relative group h-full flex items-center">
                     <span class="cursor-pointer py-4 text-[0.875rem] text-white group-hover:text-[#2997ff] group-hover:font-bold transition-all duration-300">
                         定价
                     </span>
@@ -247,235 +539,389 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="relative group h-full flex items-center">
-                    <a href="VIP_Compare_2.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        定价
-                    </a>
-                </div>
-                <div class="relative group h-full flex items-center">
-                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        支持
-                    </a>
-                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
-                        <div class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                应用下载
-                            </a>
-                            <a href="User_Guide.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                使用说明
-                            </a>
-                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                技术详情
-                            </a>
-                            <a href="QA.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                常见问题
-                            </a>
-                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                联系我们
-                            </a>
-                        </div>
-                    </div>
-                </div>
+          <div class="relative group h-full flex items-center">
+            <a
+              href="VIP_Compare_2.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+            >
+              定价
+            </a>
+          </div>
+          <div class="relative group h-full flex items-center">
+            <a
+              href="Download.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+            >
+              支持
+            </a>
+            <div
+              class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50"
+            >
+              <div
+                class="bg-[#161617]/90 backdrop-blur-xl border border-black/5 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden"
+              >
+                <a
+                  href="Download.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  应用下载
+                </a>
+                <a
+                  href="User_Guide.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  使用说明
+                </a>
+                <a
+                  href="Tech_Spec.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  技术详情
+                </a>
+                <a
+                  href="QA.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  常见问题
+                </a>
+                <a
+                  href="Contact_Us.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  联系我们
+                </a>
+              </div>
             </div>
-            <div class="flex items-center gap-4 text-[0.875rem]">
-                <!-- <a href="#" class="text-[#e8e8ed] hover:text-white transition-colors">
+          </div>
+        </div>
+        <div class="flex items-center gap-4 text-[0.875rem]">
+          <!-- <a href="#" class="text-[#e8e8ed] hover:text-white transition-colors">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
                     </svg>
                 </a> -->
-                <a href="ShopBag.html" class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                </a>
-                <a href="Shop_General.html" class="bg-white text-black px-3 py-1 rounded-full font-medium hover:bg-[#2997ff] hover:text-white hover:font-bold transition-all duration-300 buy-btn">购买</a>
-                <a href="#" class="hidden md:block text-[#e8e8ed] hover:text-[#2997ff] hover:font-bold transition-all duration-300 login-btn">登录</a>
-            </div>
+          <a
+            href="Search.html"
+            class="text-[#e8e8ed] hover:text-blue-400 transition-colors"
+            title="AI 找人"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </a>
+          <a
+            href="ShopBag.html"
+            class="text-[#e8e8ed] hover:text-blue-400 transition-colors relative group"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
+            </svg>
+          </a>
+          <a
+            href="Shop_General.html"
+            class="bg-white text-black px-3 py-1 rounded-full font-medium hover:bg-[#2997ff] hover:text-white hover:font-bold transition-all duration-300 buy-btn"
+            >购买</a
+          >
+          <a
+            href="#"
+            class="hidden md:block text-[#e8e8ed] hover:text-[#2997ff] hover:font-bold transition-all duration-300 login-btn"
+            >登录</a
+          >
         </div>
+      </div>
     </nav>
 
-<div class="main-container">
-    
-    <div class="header-section">
+    <div class="main-container">
+      <div class="header-section">
         <span class="bespoke-tag">AI Generative Design</span>
         <h1 class="page-title">AI 灵感生成器</h1>
-        <p class="page-sub">描述您的品牌愿景，Linkly AI 将为您生成独一无二的卡片设计方案。<br>支持多次迭代，直至满意。</p>
-    </div>
+        <p class="page-sub">
+          描述您的品牌愿景，Linkly AI 将为您生成独一无二的卡片设计方案。<br />支持多次迭代，直至满意。
+        </p>
+      </div>
 
-    <div class="bespoke-layout">
-        
+      <div class="bespoke-layout">
         <div class="ai-stage">
-            <div class="view-toggle">
-                <div class="toggle-dot active" onclick="flipCard('front')" title="查看正面"></div>
-                <div class="toggle-dot" onclick="flipCard('back')" title="查看背面"></div>
+          <div class="view-toggle">
+            <div
+              class="toggle-dot active"
+              onclick="flipCard('front')"
+              title="查看正面"
+            ></div>
+            <div
+              class="toggle-dot"
+              onclick="flipCard('back')"
+              title="查看背面"
+            ></div>
+          </div>
+
+          <div class="render-container" id="card-3d">
+            <div class="card-face card-front">
+              <div class="ai-loader" id="loader-front">
+                <div class="loader-ring"></div>
+                <div class="loader-text">AI RENDERING...</div>
+              </div>
+              <div class="placeholder-content" id="ph-front">
+                <svg
+                  class="placeholder-icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <p class="text-sm font-medium">设计预览 (正面)</p>
+                <p class="text-xs mt-2 opacity-50">等待生成...</p>
+              </div>
+              <img
+                id="img-result-front"
+                class="render-img"
+                src=""
+                alt="AI Generated Front"
+              />
             </div>
 
-            <div class="render-container" id="card-3d">
-                <div class="card-face card-front">
-                    <div class="ai-loader" id="loader-front">
-                        <div class="loader-ring"></div>
-                        <div class="loader-text">AI RENDERING...</div>
-                    </div>
-                    <div class="placeholder-content" id="ph-front">
-                        <svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <p class="text-sm font-medium">设计预览 (正面)</p>
-                        <p class="text-xs mt-2 opacity-50">等待生成...</p>
-                    </div>
-                    <img id="img-result-front" class="render-img" src="" alt="AI Generated Front">
-                </div>
-                
-                <div class="card-face card-back">
-                    <div class="ai-loader" id="loader-back">
-                        <div class="loader-ring"></div>
-                        <div class="loader-text">GENERATING QR...</div>
-                    </div>
-                    <div class="placeholder-content" id="ph-back">
-                        <svg class="placeholder-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v1m6 11h2m-6 0h-2v4h2v-4zM5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                        <p class="text-sm font-medium">设计预览 (背面)</p>
-                        <p class="text-xs mt-2 opacity-50">等待生成...</p>
-                    </div>
-                    <img id="img-result-back" class="render-img" src="" alt="AI Generated Back">
-                </div>
+            <div class="card-face card-back">
+              <div class="ai-loader" id="loader-back">
+                <div class="loader-ring"></div>
+                <div class="loader-text">GENERATING QR...</div>
+              </div>
+              <div class="placeholder-content" id="ph-back">
+                <svg
+                  class="placeholder-icon"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M12 4v1m6 11h2m-6 0h-2v4h2v-4zM5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <p class="text-sm font-medium">设计预览 (背面)</p>
+                <p class="text-xs mt-2 opacity-50">等待生成...</p>
+              </div>
+              <img
+                id="img-result-back"
+                class="render-img"
+                src=""
+                alt="AI Generated Back"
+              />
             </div>
+          </div>
 
-            <div class="ai-action-area">
-                <button class="generate-btn" id="btn-generate" onclick="generateDesign()">
-                    <div class="btn-shimmer"></div>
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                    <span>开始 AI 渲染</span>
-                </button>
-                <!-- <p class="text-[10px] text-gray-500 text-center mt-3">消耗 10 Linkly Credits / 次</p> -->
-            </div>
+          <div class="ai-action-area">
+            <button
+              class="generate-btn"
+              id="btn-generate"
+              onclick="generateDesign()"
+            >
+              <div class="btn-shimmer"></div>
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+              <span>开始 AI 渲染</span>
+            </button>
+            <!-- <p class="text-[10px] text-gray-500 text-center mt-3">消耗 10 Linkly Credits / 次</p> -->
+          </div>
         </div>
 
         <div class="config-panel">
-            
-            <div class="config-section">
-                <span class="config-label">1. 核心信息 (Prompt)</span>
-                <div class="input-group">
-                    <input type="text" class="input-field" id="p-name" placeholder="姓名 / 品牌名称 (例: Alex Chen)">
-                    <input type="text" class="input-field" id="p-title" placeholder="职位 / Slogan (例: Product Designer)">
-                </div>
+          <div class="config-section">
+            <span class="config-label">1. 核心信息 (Prompt)</span>
+            <div class="input-group">
+              <input
+                type="text"
+                class="input-field"
+                id="p-name"
+                placeholder="姓名 / 品牌名称 (例: Alex Chen)"
+              />
+              <input
+                type="text"
+                class="input-field"
+                id="p-title"
+                placeholder="职位 / Slogan (例: Product Designer)"
+              />
             </div>
+          </div>
 
-            <div class="config-section">
-                <span class="config-label">2. 设计风格描述</span>
-                <textarea class="prompt-textarea" id="p-desc" placeholder="描述您想要的风格。例如：极简主义，深邃的黑色背景，带有金色的几何线条，赛博朋克霓虹光效，或者是温暖的木质纹理..."></textarea>
-                
-                <div class="tag-cloud">
-                    <span class="ai-tag" onclick="addTag('极简黑金')">✨ 极简黑金</span>
-                    <span class="ai-tag" onclick="addTag('赛博朋克')">🤖 赛博朋克</span>
-                    <span class="ai-tag" onclick="addTag('磨砂玻璃质感')">🌫 磨砂玻璃</span>
-                    <span class="ai-tag" onclick="addTag('瑞士平面设计')">🇨🇭 瑞士风格</span>
-                    <span class="ai-tag" onclick="addTag('全息渐变')">🌈 全息渐变</span>
-                    <span class="ai-tag" onclick="addTag('3D 立体浮雕')">🧊 3D 浮雕</span>
-                </div>
+          <div class="config-section">
+            <span class="config-label">2. 设计风格描述</span>
+            <textarea
+              class="prompt-textarea"
+              id="p-desc"
+              placeholder="描述您想要的风格。例如：极简主义，深邃的黑色背景，带有金色的几何线条，赛博朋克霓虹光效，或者是温暖的木质纹理..."
+            ></textarea>
+
+            <div class="tag-cloud">
+              <span class="ai-tag" onclick="addTag('极简黑金')"
+                >✨ 极简黑金</span
+              >
+              <span class="ai-tag" onclick="addTag('赛博朋克')"
+                >🤖 赛博朋克</span
+              >
+              <span class="ai-tag" onclick="addTag('磨砂玻璃质感')"
+                >🌫 磨砂玻璃</span
+              >
+              <span class="ai-tag" onclick="addTag('瑞士平面设计')"
+                >🇨🇭 瑞士风格</span
+              >
+              <span class="ai-tag" onclick="addTag('全息渐变')"
+                >🌈 全息渐变</span
+              >
+              <span class="ai-tag" onclick="addTag('3D 立体浮雕')"
+                >🧊 3D 浮雕</span
+              >
             </div>
+          </div>
 
-            <div class="config-section">
-                <span class="config-label">3. 品牌色系</span>
-                <div class="input-group">
-                     <input type="text" class="input-field" id="p-color" placeholder="例: #0071E3, 潘通蓝, 或“深邃的海洋蓝”">
-                </div>
+          <div class="config-section">
+            <span class="config-label">3. 品牌色系</span>
+            <div class="input-group">
+              <input
+                type="text"
+                class="input-field"
+                id="p-color"
+                placeholder="例: #0071E3, 潘通蓝, 或“深邃的海洋蓝”"
+              />
             </div>
+          </div>
 
-            <div class="action-bar">
-                <button class="final-btn" onclick="confirmDesign()">确认此设计并下单</button>
-                <p class="final-desc">确认后，我们将进行人工微调以确保印刷标准。</p>
-            </div>
-
+          <div class="action-bar">
+            <button class="final-btn" onclick="confirmDesign()">
+              确认此设计并下单
+            </button>
+            <p class="final-desc">确认后，我们将进行人工微调以确保印刷标准。</p>
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<script>
-    // 翻转控制
-    let isFlipped = false;
-    function flipCard(side) {
-        const card = document.querySelector('.generated-card');
-        const dots = document.querySelectorAll('.toggle-dot');
-        
-        if (side === 'back' || (side === 'toggle' && !isFlipped)) {
-            card.style.transform = 'rotateY(180deg)';
-            isFlipped = true;
-            dots[0].classList.remove('active');
-            dots[1].classList.add('active');
+    <script>
+      // 翻转控制
+      let isFlipped = false;
+      function flipCard(side) {
+        const card = document.querySelector(".generated-card");
+        const dots = document.querySelectorAll(".toggle-dot");
+
+        if (side === "back" || (side === "toggle" && !isFlipped)) {
+          card.style.transform = "rotateY(180deg)";
+          isFlipped = true;
+          dots[0].classList.remove("active");
+          dots[1].classList.add("active");
         } else {
-            card.style.transform = 'rotateY(0deg)';
-            isFlipped = false;
-            dots[1].classList.remove('active');
-            dots[0].classList.add('active');
+          card.style.transform = "rotateY(0deg)";
+          isFlipped = false;
+          dots[1].classList.remove("active");
+          dots[0].classList.add("active");
         }
-    }
+      }
 
-    // 快捷标签添加
-    function addTag(text) {
-        const textarea = document.getElementById('p-desc');
+      // 快捷标签添加
+      function addTag(text) {
+        const textarea = document.getElementById("p-desc");
         const current = textarea.value;
         if (current) {
-            textarea.value = current + ', ' + text;
+          textarea.value = current + ", " + text;
         } else {
-            textarea.value = text;
+          textarea.value = text;
         }
         // 高亮一下
         textarea.focus();
-    }
+      }
 
-    // --- 核心：AI 生成逻辑 ---
-    async function generateDesign() {
-        const btn = document.getElementById('btn-generate');
-        const loaderFront = document.getElementById('loader-front');
-        const loaderBack = document.getElementById('loader-back');
-        const phFront = document.getElementById('ph-front');
-        const phBack = document.getElementById('ph-back');
-        const imgFront = document.getElementById('img-result-front');
-        const imgBack = document.getElementById('img-result-back');
+      // --- 核心：AI 生成逻辑 ---
+      async function generateDesign() {
+        const btn = document.getElementById("btn-generate");
+        const loaderFront = document.getElementById("loader-front");
+        const loaderBack = document.getElementById("loader-back");
+        const phFront = document.getElementById("ph-front");
+        const phBack = document.getElementById("ph-back");
+        const imgFront = document.getElementById("img-result-front");
+        const imgBack = document.getElementById("img-result-back");
 
         // 1. 获取用户输入
         const promptData = {
-            name: document.getElementById('p-name').value,
-            title: document.getElementById('p-title').value,
-            desc: document.getElementById('p-desc').value,
-            color: document.getElementById('p-color').value
+          name: document.getElementById("p-name").value,
+          title: document.getElementById("p-title").value,
+          desc: document.getElementById("p-desc").value,
+          color: document.getElementById("p-color").value,
         };
 
-        if(!promptData.desc) {
-            alert("请至少输入一些设计风格描述，以便 AI 发挥。");
-            return;
+        if (!promptData.desc) {
+          alert("请至少输入一些设计风格描述，以便 AI 发挥。");
+          return;
         }
 
         // 2. 进入 Loading 状态
         btn.disabled = true;
         btn.innerHTML = `<span class="animate-spin">✨</span> 正在构思设计...`;
-        
+
         // 自动翻回正面
-        flipCard('front');
-        
+        flipCard("front");
+
         // 显示加载遮罩
-        loaderFront.style.display = 'flex';
+        loaderFront.style.display = "flex";
         // 延迟显示背面的加载 (模拟生成顺序)
-        setTimeout(() => loaderBack.style.display = 'flex', 1500);
+        setTimeout(() => (loaderBack.style.display = "flex"), 1500);
 
         // 3. 调用 AI 接口 (此处为模拟逻辑)
         // ============================================================
         // 真实开发时，在此处 fetch 后端 API
-        // const res = await fetch('/api/generate-card', { 
-        //    method: 'POST', 
-        //    body: JSON.stringify(promptData) 
+        // const res = await fetch('/api/generate-card', {
+        //    method: 'POST',
+        //    body: JSON.stringify(promptData)
         // });
         // const data = await res.json();
         // const imageUrl = data.url;
         // ============================================================
 
         // --- 模拟生成过程 (3秒) ---
-        await new Promise(r => setTimeout(r, 3000));
+        await new Promise((r) => setTimeout(r, 3000));
 
         // 4. 获取结果 (模拟图片源)
         // 这里使用 Unsplash 随机图模拟 "生成结果"，实际应替换为 API 返回的 Base64 或 URL
         const randomSeed = Date.now();
-        const mockFrontUrl = `https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1000&auto=format&fit=crop&seed=${randomSeed}`; 
+        const mockFrontUrl = `https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?q=80&w=1000&auto=format&fit=crop&seed=${randomSeed}`;
         // (抽象渐变图代表正面)
-        const mockBackUrl = `https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop&seed=${randomSeed}`; 
+        const mockBackUrl = `https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop&seed=${randomSeed}`;
         // (深色纹理代表背面)
 
         // 5. 渲染结果
@@ -483,40 +929,43 @@
         imgBack.src = mockBackUrl;
 
         imgFront.onload = () => {
-            loaderFront.style.display = 'none';
-            phFront.style.display = 'none';
-            imgFront.classList.add('show');
+          loaderFront.style.display = "none";
+          phFront.style.display = "none";
+          imgFront.classList.add("show");
         };
-        
+
         imgBack.onload = () => {
-            loaderBack.style.display = 'none';
-            phBack.style.display = 'none';
-            imgBack.classList.add('show');
+          loaderBack.style.display = "none";
+          phBack.style.display = "none";
+          imgBack.classList.add("show");
         };
 
         // 6. 恢复按钮
         btn.innerHTML = `<span>✨ 重新生成</span>`;
         btn.disabled = false;
-    }
+      }
 
-    function confirmDesign() {
-        const imgFront = document.getElementById('img-result-front');
-        if (!imgFront.classList.contains('show')) {
-            alert("请先生成设计方案。");
-            return;
+      function confirmDesign() {
+        const imgFront = document.getElementById("img-result-front");
+        if (!imgFront.classList.contains("show")) {
+          alert("请先生成设计方案。");
+          return;
         }
-        
-        const btn = document.querySelector('.final-btn');
+
+        const btn = document.querySelector(".final-btn");
         btn.innerText = "正在创建订单...";
         btn.disabled = true;
-        
-        setTimeout(() => {
-            alert("设计已保存！已加入您的购物车。\n(Design ID: AI-" + Date.now().toString().slice(-6) + ")");
-            // 此处可跳转到 ShopBag 或 Checkout
-            window.location.href = 'ShopBag.html';
-        }, 1500);
-    }
-</script>
 
-</body>
+        setTimeout(() => {
+          alert(
+            "设计已保存！已加入您的购物车。\n(Design ID: AI-" +
+              Date.now().toString().slice(-6) +
+              ")"
+          );
+          // 此处可跳转到 ShopBag 或 Checkout
+          window.location.href = "ShopBag.html";
+        }, 1500);
+      }
+    </script>
+  </body>
 </html>

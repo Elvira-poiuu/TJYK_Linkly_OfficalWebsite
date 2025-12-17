@@ -1,199 +1,420 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Logo/webLOGOpart_icon_w_TRANSBG.png" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="Logo/webLOGOpart_icon_w_TRANSBG.png"
+      type="image/x-icon"
+    />
     <title>Linkly - 联系我们</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --accent-blue: #0071e3;
-            --border-color: #d2d2d7;
-            --input-bg: #fff;
-            --error-color: #ff3b30;
-            --nav-height: 48px;
-        }
+      :root {
+        --bg-color: #ffffff;
+        --text-primary: #1d1d1f;
+        --text-secondary: #86868b;
+        --accent-blue: #0071e3;
+        --border-color: #d2d2d7;
+        --input-bg: #fff;
+        --error-color: #ff3b30;
+        --nav-height: 48px;
+      }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
-        
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-primary); 
-            min-height: 100vh;
-            display: flex; 
-            flex-direction: column;
-            align-items: center;
-            -webkit-font-smoothing: antialiased;
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Helvetica Neue", sans-serif;
+      }
 
-        /* 导航栏 */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        .navbar-links a { color: #1d1d1f; text-decoration: none; font-size: 0.875rem; transition: font-weight 0.3s ease; }
-        .navbar-links a:hover { font-weight: bold; color: #0071e3; }
-        .navbar-links a.active { font-weight: bold; color: #000000; }
-        
-        .navbar-btns .buy-btn { background-color: #1d1d1f; color: white; }
-        .navbar-btns .buy-btn:hover { background-color: #0071e3; font-weight: bold; }
-        .navbar-btns .login-btn:hover { color: #0071e3; font-weight: bold; }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        -webkit-font-smoothing: antialiased;
+      }
 
-        /* --- 页面容器 --- */
-        .page-wrapper {
-            width: 100%; max-width: 640px;
-            padding: 120px 24px 80px;
-            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            opacity: 0; transform: translateY(20px);
-        }
+      /* 导航栏 */
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+      .navbar-links a {
+        color: #1d1d1f;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: font-weight 0.3s ease;
+      }
+      .navbar-links a:hover {
+        font-weight: bold;
+        color: #0071e3;
+      }
+      .navbar-links a.active {
+        font-weight: bold;
+        color: #000000;
+      }
 
-        /* 头部区域优化 */
-        .header { text-align: center; margin-bottom: 48px; }
-        .title { font-size: 40px; font-weight: 700; line-height: 1.1; letter-spacing: -0.01em; margin-bottom: 16px; color: #1d1d1f; }
-        .sub-text { font-size: 17px; line-height: 1.5; color: var(--text-secondary); margin-bottom: 24px; }
-        
-        /* --- 优化后的邮箱卡片 --- */
-        .email-capsule {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: rgba(0, 113, 227, 0.05); /* 极淡的蓝色背景 */
-            border: 1px solid rgba(0, 113, 227, 0.1);
-            padding: 10px 20px; border-radius: 980px; /* 胶囊形状 */
-            text-decoration: none; color: var(--accent-blue);
-            transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1); cursor: pointer;
-            margin-bottom: 32px;
-        }
-        .email-capsule:hover {
-            background: rgba(0, 113, 227, 0.1);
-            transform: scale(1.02);
-            box-shadow: 0 2px 8px rgba(0, 113, 227, 0.08);
-        }
-        .email-capsule:active { transform: scale(0.98); background: rgba(0, 113, 227, 0.15); }
-        
-        .email-icon { width: 18px; height: 18px; }
-        .email-text { font-size: 17px; font-weight: 500; letter-spacing: -0.01em; }
+      .navbar-btns .buy-btn {
+        background-color: #1d1d1f;
+        color: white;
+      }
+      .navbar-btns .buy-btn:hover {
+        background-color: #0071e3;
+        font-weight: bold;
+      }
+      .navbar-btns .login-btn:hover {
+        color: #0071e3;
+        font-weight: bold;
+      }
 
-        /* 承诺文案 */
-        .promise-text { font-size: 14px; color: var(--text-secondary); opacity: 0.8; }
+      /* --- 页面容器 --- */
+      .page-wrapper {
+        width: 100%;
+        max-width: 640px;
+        padding: 120px 24px 80px;
+        animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        opacity: 0;
+        transform: translateY(20px);
+      }
 
-        /* 表单样式 */
-        .form-group { margin-bottom: 20px; position: relative; }
-        
-        .input-wrapper {
-            position: relative; height: 52px;
-            border: 1px solid var(--border-color); border-radius: 12px;
-            background: var(--input-bg); transition: all 0.2s ease;
-        }
-        .input-wrapper:focus-within { border-color: var(--accent-blue); box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12); }
+      /* 头部区域优化 */
+      .header {
+        text-align: center;
+        margin-bottom: 48px;
+      }
+      .title {
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+        margin-bottom: 16px;
+        color: #1d1d1f;
+      }
+      .sub-text {
+        font-size: 17px;
+        line-height: 1.5;
+        color: var(--text-secondary);
+        margin-bottom: 24px;
+      }
 
-        .form-input {
-            width: 100%; height: 100%; border: none; background: transparent;
-            padding: 18px 16px 6px; font-size: 17px; color: var(--text-primary); outline: none; border-radius: 12px;
-        }
-        .floating-label {
-            position: absolute; left: 16px; top: 16px; font-size: 17px; color: var(--text-secondary);
-            pointer-events: none; transition: all 0.2s ease; transform-origin: left top;
-        }
-        .form-input:focus ~ .floating-label, .form-input:not(:placeholder-shown) ~ .floating-label {
-            transform: translateY(-10px) scale(0.75); color: var(--text-secondary);
-        }
+      /* --- 优化后的邮箱卡片 --- */
+      .email-capsule {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(0, 113, 227, 0.05); /* 极淡的蓝色背景 */
+        border: 1px solid rgba(0, 113, 227, 0.1);
+        padding: 10px 20px;
+        border-radius: 980px; /* 胶囊形状 */
+        text-decoration: none;
+        color: var(--accent-blue);
+        transition: all 0.2s cubic-bezier(0.25, 0.1, 0.25, 1);
+        cursor: pointer;
+        margin-bottom: 32px;
+      }
+      .email-capsule:hover {
+        background: rgba(0, 113, 227, 0.1);
+        transform: scale(1.02);
+        box-shadow: 0 2px 8px rgba(0, 113, 227, 0.08);
+      }
+      .email-capsule:active {
+        transform: scale(0.98);
+        background: rgba(0, 113, 227, 0.15);
+      }
 
-        /* 胶囊选择器 */
-        .topic-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px; display: block; text-transform: uppercase; letter-spacing: 0.05em; margin-left: 4px; }
-        .pill-group { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
-        .pill-option { display: none; }
+      .email-icon {
+        width: 18px;
+        height: 18px;
+      }
+      .email-text {
+        font-size: 17px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+
+      /* 承诺文案 */
+      .promise-text {
+        font-size: 14px;
+        color: var(--text-secondary);
+        opacity: 0.8;
+      }
+
+      /* 表单样式 */
+      .form-group {
+        margin-bottom: 20px;
+        position: relative;
+      }
+
+      .input-wrapper {
+        position: relative;
+        height: 52px;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        background: var(--input-bg);
+        transition: all 0.2s ease;
+      }
+      .input-wrapper:focus-within {
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.12);
+      }
+
+      .form-input {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: transparent;
+        padding: 18px 16px 6px;
+        font-size: 17px;
+        color: var(--text-primary);
+        outline: none;
+        border-radius: 12px;
+      }
+      .floating-label {
+        position: absolute;
+        left: 16px;
+        top: 16px;
+        font-size: 17px;
+        color: var(--text-secondary);
+        pointer-events: none;
+        transition: all 0.2s ease;
+        transform-origin: left top;
+      }
+      .form-input:focus ~ .floating-label,
+      .form-input:not(:placeholder-shown) ~ .floating-label {
+        transform: translateY(-10px) scale(0.75);
+        color: var(--text-secondary);
+      }
+
+      /* 胶囊选择器 */
+      .topic-label {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+        display: block;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-left: 4px;
+      }
+      .pill-group {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 24px;
+      }
+      .pill-option {
+        display: none;
+      }
+      .pill-btn {
+        padding: 10px 18px;
+        border: 1px solid var(--border-color);
+        border-radius: 980px;
+        font-size: 14px;
+        color: var(--text-primary);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: #fff;
+      }
+      .pill-btn:hover {
+        border-color: #888;
+        background: #fafafa;
+      }
+      .pill-option:checked + .pill-btn {
+        background-color: var(--text-primary);
+        color: #fff;
+        border-color: var(--text-primary);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+      .pill-group.error .pill-btn {
+        border-color: var(--error-color);
+        background: rgba(255, 59, 48, 0.05);
+      }
+
+      .textarea-wrapper {
+        height: auto;
+        min-height: 120px;
+      }
+      .form-textarea {
+        width: 100%;
+        height: 100%;
+        border: none;
+        background: transparent;
+        outline: none;
+        padding: 14px 16px;
+        font-size: 17px;
+        resize: none;
+        min-height: 120px;
+        font-family: inherit;
+        color: var(--text-primary);
+      }
+      .form-textarea::placeholder {
+        color: #a1a1a6;
+        font-size: 15px;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 16px;
+        background-color: var(--accent-blue);
+        color: #fff;
+        font-size: 17px;
+        font-weight: 600;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: transform 0.1s, background-color 0.2s;
+        margin-top: 12px;
+      }
+      .submit-btn:hover {
+        background-color: #0077ed;
+      }
+      .submit-btn:active {
+        transform: scale(0.98);
+      }
+      .submit-btn.shake {
+        animation: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+        background-color: var(--text-secondary);
+      }
+
+      .privacy-note {
+        text-align: center;
+        margin-top: 24px;
+        font-size: 12px;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .success-message {
+        display: none;
+        text-align: center;
+        padding: 100px 0;
+        animation: fadeUp 0.6s forwards;
+      }
+      .success-icon {
+        width: 64px;
+        height: 64px;
+        color: #34c759;
+        margin-bottom: 24px;
+      }
+
+      @keyframes fadeUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes shake {
+        10%,
+        90% {
+          transform: translate3d(-1px, 0, 0);
+        }
+        20%,
+        80% {
+          transform: translate3d(2px, 0, 0);
+        }
+        30%,
+        50%,
+        70% {
+          transform: translate3d(-4px, 0, 0);
+        }
+        40%,
+        60% {
+          transform: translate3d(4px, 0, 0);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .title {
+          font-size: 34px;
+        }
         .pill-btn {
-            padding: 10px 18px; border: 1px solid var(--border-color); border-radius: 980px;
-            font-size: 14px; color: var(--text-primary); cursor: pointer; transition: all 0.2s ease; background: #fff;
+          width: 100%;
+          text-align: center;
         }
-        .pill-btn:hover { border-color: #888; background: #fafafa; }
-        .pill-option:checked + .pill-btn { background-color: var(--text-primary); color: #fff; border-color: var(--text-primary); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .pill-group.error .pill-btn { border-color: var(--error-color); background: rgba(255,59,48,0.05); }
-
-        .textarea-wrapper { height: auto; min-height: 120px; }
-        .form-textarea {
-            width: 100%; height: 100%; border: none; background: transparent; outline: none;
-            padding: 14px 16px; font-size: 17px; resize: none; min-height: 120px; font-family: inherit; color: var(--text-primary);
+        .email-capsule {
+          width: 100%;
+          justify-content: center;
         }
-        .form-textarea::placeholder { color: #a1a1a6; font-size: 15px; }
-
-        .submit-btn {
-            width: 100%; padding: 16px; background-color: var(--accent-blue); color: #fff;
-            font-size: 17px; font-weight: 600; border: none; border-radius: 12px; cursor: pointer;
-            transition: transform 0.1s, background-color 0.2s; margin-top: 12px;
-        }
-        .submit-btn:hover { background-color: #0077ed; }
-        .submit-btn:active { transform: scale(0.98); }
-        .submit-btn.shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; background-color: var(--text-secondary); }
-
-        .privacy-note {
-            text-align: center; margin-top: 24px; font-size: 12px; color: var(--text-secondary);
-            display: flex; align-items: center; justify-content: center; gap: 6px;
-        }
-
-        .success-message { display: none; text-align: center; padding: 100px 0; animation: fadeUp 0.6s forwards; }
-        .success-icon { width: 64px; height: 64px; color: #34c759; margin-bottom: 24px; }
-
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-        @keyframes shake {
-            10%, 90% { transform: translate3d(-1px, 0, 0); }
-            20%, 80% { transform: translate3d(2px, 0, 0); }
-            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-            40%, 60% { transform: translate3d(4px, 0, 0); }
-        }
-
-        @media (max-width: 600px) {
-            .title { font-size: 34px; }
-            .pill-btn { width: 100%; text-align: center; }
-            .email-capsule { width: 100%; justify-content: center; }
-        }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
-        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
-            
-            <div class="nav-content">
-                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
-                    <img src="Logo/lightBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;"> 
-                </a>
-                <div style="display:flex; gap:24px;"></div>
-            </div>
+      <div
+        class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between"
+      >
+        <div class="nav-content">
+          <a
+            href="index.html"
+            class="nav-link"
+            style="display: flex; align-items: center"
+          >
+            <img
+              src="Logo/lightBGver.png"
+              alt="Linkly Logo"
+              style="max-height: 28px; width: auto"
+            />
+          </a>
+          <div style="display: flex; gap: 24px"></div>
+        </div>
 
-            <div class="hidden md:flex items-center gap-8 navbar-links">
-                
-                <div class="relative group h-full flex items-center">
-                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        产品
-                    </a>
-                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
-                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Shop_General.html#essential" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                智能名片·基础版
-                            </a>
-                            <a href="Shop_General.html#studio" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                智能名片·半定制版
-                            </a>
-                            <a href="Shop_General.html#bespoke" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                智能名片·全定制版
-                            </a>
-                            <a href="Shop_General.html#saas" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                软件会员
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <a href="Product.html">Linkly 名片</a> 
-                <a href="AI_Detailed_2.html">Linkly AI</a> 
-                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
-                
-                <!-- <div class="relative group h-full flex items-center">
+        <div class="hidden md:flex items-center gap-8 navbar-links">
+          <div class="relative group h-full flex items-center">
+            <a
+              href="Product.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+            >
+              产品
+            </a>
+            <div
+              class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50"
+            >
+              <div
+                class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden"
+              >
+                <a
+                  href="Shop_General.html#essential"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  智能名片·基础版
+                </a>
+                <a
+                  href="Shop_General.html#studio"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  智能名片·半定制版
+                </a>
+                <a
+                  href="Shop_General.html#bespoke"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  智能名片·全定制版
+                </a>
+                <a
+                  href="Shop_General.html#saas"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  软件会员
+                </a>
+              </div>
+            </div>
+          </div>
+          <a href="Product.html">Linkly 名片</a>
+          <a href="AI_Detailed_2.html">Linkly AI</a>
+          <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a>
+
+          <!-- <div class="relative group h-full flex items-center">
                     <span class="cursor-pointer py-4 text-[0.875rem] text-[#1d1d1f] group-hover:text-[#0071e3] group-hover:font-bold transition-all duration-300">
                         定价
                     </span>
@@ -208,246 +429,393 @@
                         </div>
                     </div>
                 </div> -->
-                <div class="relative group h-full flex items-center">
-                    <a href="VIP_Compare_2.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        定价
-                    </a>
-                </div>
+          <div class="relative group h-full flex items-center">
+            <a
+              href="VIP_Compare_2.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+            >
+              定价
+            </a>
+          </div>
 
-                <div class="relative group h-full flex items-center">
-                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        支持
-                    </a>
-                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
-                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                应用下载
-                            </a>
-                            <a href="User_Guide.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                使用说明
-                            </a>
-                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                技术详情
-                            </a>
-                            <a href="QA.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                常见问题
-                            </a>
-                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                联系我们
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
-                <!-- <a href="#" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                    </svg>
-                </a> -->
-                
-                <a href="ShopBag.html" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
+          <div class="relative group h-full flex items-center">
+            <a
+              href="Download.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+            >
+              支持
+            </a>
+            <div
+              class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50"
+            >
+              <div
+                class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden"
+              >
+                <a
+                  href="Download.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  应用下载
                 </a>
-
-                <a href="Shop_General.html" class="px-3 py-1 rounded-full font-medium transition-all duration-300 buy-btn">购买</a>
-                
-                <a href="#" class="hidden md:block text-[#1d1d1f] transition-all duration-300 login-btn">登录</a>
+                <a
+                  href="User_Guide.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  使用说明
+                </a>
+                <a
+                  href="Tech_Spec.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  技术详情
+                </a>
+                <a
+                  href="QA.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  常见问题
+                </a>
+                <a
+                  href="Contact_Us.html"
+                  class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap"
+                >
+                  联系我们
+                </a>
+              </div>
             </div>
+          </div>
         </div>
+
+        <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
+          <a
+            href="Search.html"
+            class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors"
+            title="AI 找人"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="ShopBag.html"
+            class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="Shop_General.html"
+            class="px-3 py-1 rounded-full font-medium transition-all duration-300 buy-btn"
+            >购买</a
+          >
+
+          <a
+            href="#"
+            class="hidden md:block text-[#1d1d1f] transition-all duration-300 login-btn"
+            >登录</a
+          >
+        </div>
+      </div>
     </nav>
 
     <div class="page-wrapper" id="mainContainer">
-        
-        <div class="header">
-            <h1 class="title">联系我们</h1>
-            <p class="sub-text">您可以直接发送邮件，或填写下方表单。</p>
+      <div class="header">
+        <h1 class="title">联系我们</h1>
+        <p class="sub-text">您可以直接发送邮件，或填写下方表单。</p>
 
-            <a href="mailto:contact@linklyai.net" class="email-capsule" title="点击发送邮件">
-                <svg class="email-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-                <span class="email-text">contact@linklyai.net</span>
-            </a>
-            
-            <p class="promise-text">
-                我们将于 24 小时内主动与您联系。
-            </p>
+        <a
+          href="mailto:contact@linklyai.net"
+          class="email-capsule"
+          title="点击发送邮件"
+        >
+          <svg class="email-icon" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
+            />
+          </svg>
+          <span class="email-text">contact@linklyai.net</span>
+        </a>
+
+        <p class="promise-text">我们将于 24 小时内主动与您联系。</p>
+      </div>
+
+      <form id="contactForm">
+        <div class="form-group">
+          <div class="input-wrapper">
+            <input
+              type="text"
+              id="name"
+              class="form-input"
+              placeholder=" "
+              required
+            />
+            <label for="name" class="floating-label">您的称呼</label>
+          </div>
         </div>
 
-        <form id="contactForm">
-            <div class="form-group">
-                <div class="input-wrapper">
-                    <input type="text" id="name" class="form-input" placeholder=" " required>
-                    <label for="name" class="floating-label">您的称呼</label>
-                </div>
-            </div>
+        <div class="form-group">
+          <div class="input-wrapper">
+            <input
+              type="email"
+              id="email"
+              class="form-input"
+              placeholder=" "
+              required
+            />
+            <label for="email" class="floating-label">工作邮箱</label>
+          </div>
+        </div>
 
-            <div class="form-group">
-                <div class="input-wrapper">
-                    <input type="email" id="email" class="form-input" placeholder=" " required>
-                    <label for="email" class="floating-label">工作邮箱</label>
-                </div>
-            </div>
+        <div class="form-group">
+          <label class="topic-label"
+            >您对什么感兴趣？
+            <span
+              id="topicError"
+              style="color: #ff3b30; display: none; margin-left: 5px"
+              >(请选择一项)</span
+            ></label
+          >
+          <div class="pill-group" id="pillGroup">
+            <label>
+              <input
+                type="radio"
+                name="topic"
+                value="bespoke"
+                class="pill-option"
+              />
+              <div class="pill-btn">全定制设计 (Bespoke)</div>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="topic"
+                value="enterprise"
+                class="pill-option"
+              />
+              <div class="pill-btn">企业批量采购</div>
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="topic"
+                value="other"
+                class="pill-option"
+              />
+              <div class="pill-btn">其他商务合作</div>
+            </label>
+          </div>
+        </div>
 
-            <div class="form-group">
-                <label class="topic-label">您对什么感兴趣？ <span id="topicError" style="color:#ff3b30; display:none; margin-left:5px;">(请选择一项)</span></label>
-                <div class="pill-group" id="pillGroup">
-                    <label>
-                        <input type="radio" name="topic" value="bespoke" class="pill-option">
-                        <div class="pill-btn">全定制设计 (Bespoke)</div>
-                    </label>
-                    <label>
-                        <input type="radio" name="topic" value="enterprise" class="pill-option">
-                        <div class="pill-btn">企业批量采购</div>
-                    </label>
-                    <label>
-                        <input type="radio" name="topic" value="other" class="pill-option">
-                        <div class="pill-btn">其他商务合作</div>
-                    </label>
-                </div>
-            </div>
+        <div class="form-group">
+          <div class="input-wrapper textarea-wrapper">
+            <textarea
+              id="message"
+              class="form-textarea"
+              placeholder="任何您想提前告诉我们的细节（选填）..."
+            ></textarea>
+          </div>
+        </div>
 
-            <div class="form-group">
-                <div class="input-wrapper textarea-wrapper">
-                    <textarea id="message" class="form-textarea" placeholder="任何您想提前告诉我们的细节（选填）..."></textarea>
-                </div>
-            </div>
+        <button type="submit" class="submit-btn">提交信息</button>
 
-            <button type="submit" class="submit-btn">
-                提交信息
-            </button>
-
-            <div class="privacy-note">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                您的信息仅用于本次沟通，严格保密。
-            </div>
-        </form>
+        <div class="privacy-note">
+          <svg
+            width="12"
+            height="12"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          您的信息仅用于本次沟通，严格保密。
+        </div>
+      </form>
     </div>
 
     <div class="success-message" id="successView">
-        <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-        <h2 style="font-size: 32px; font-weight: 700; margin-bottom: 10px; color:#1d1d1f;">已提交</h2>
-        <p style="color: #86868b; font-size: 19px;">感谢您的联络。<br>我们会尽快通过邮件与您沟通。</p>
-        <button onclick="location.reload()" style="margin-top: 30px; background: transparent; border: 1px solid #d2d2d7; padding: 10px 24px; border-radius: 980px; cursor: pointer; color: #1d1d1f; transition:0.2s; font-size:15px;">返回</button>
+      <svg
+        class="success-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+      </svg>
+      <h2
+        style="
+          font-size: 32px;
+          font-weight: 700;
+          margin-bottom: 10px;
+          color: #1d1d1f;
+        "
+      >
+        已提交
+      </h2>
+      <p style="color: #86868b; font-size: 19px">
+        感谢您的联络。<br />我们会尽快通过邮件与您沟通。
+      </p>
+      <button
+        onclick="location.reload()"
+        style="
+          margin-top: 30px;
+          background: transparent;
+          border: 1px solid #d2d2d7;
+          padding: 10px 24px;
+          border-radius: 980px;
+          cursor: pointer;
+          color: #1d1d1f;
+          transition: 0.2s;
+          font-size: 15px;
+        "
+      >
+        返回
+      </button>
     </div>
 
     <script>
-        // 导航高亮逻辑
-        window.addEventListener('load', () => {
-            const currentPage = window.location.pathname;
-            const links = document.querySelectorAll('.navbar-links a');
-            
-            links.forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && href !== '#' && currentPage.includes(href)) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        });
+      // 导航高亮逻辑
+      window.addEventListener('load', () => {
+          const currentPage = window.location.pathname;
+          const links = document.querySelectorAll('.navbar-links a');
 
-        const form = document.getElementById('contactForm');
-        const mainContainer = document.getElementById('mainContainer');
-        const successView = document.getElementById('successView');
-        const btn = document.querySelector('.submit-btn');
-        const pillGroup = document.getElementById('pillGroup');
-        const topicError = document.getElementById('topicError');
+          links.forEach(link => {
+              const href = link.getAttribute('href');
+              if (href && href !== '#' && currentPage.includes(href)) {
+                  link.classList.add('active');
+              } else {
+                  link.classList.remove('active');
+              }
+          });
+      });
 
-        document.querySelectorAll('input[name="topic"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                pillGroup.classList.remove('error');
-                topicError.style.display = 'none';
-                btn.classList.remove('shake');
-            });
-        });
+      const form = document.getElementById('contactForm');
+      const mainContainer = document.getElementById('mainContainer');
+      const successView = document.getElementById('successView');
+      const btn = document.querySelector('.submit-btn');
+      const pillGroup = document.getElementById('pillGroup');
+      const topicError = document.getElementById('topicError');
 
-        // form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const selectedTopic = document.querySelector('input[name="topic"]:checked');
-            if (!selectedTopic) {
-                pillGroup.classList.add('error');
-                topicError.style.display = 'inline';
-                btn.classList.add('shake');
-                setTimeout(() => btn.classList.remove('shake'), 500);
-                return;
-            }
+      document.querySelectorAll('input[name="topic"]').forEach(radio => {
+          radio.addEventListener('change', () => {
+              pillGroup.classList.remove('error');
+              topicError.style.display = 'none';
+              btn.classList.remove('shake');
+          });
+      });
 
-            const originalText = btn.textContent;
-            btn.textContent = "正在发送...";
-            btn.style.opacity = "0.7";
-            btn.disabled = true;
-            
-            setTimeout(() => {
-                mainContainer.style.display = 'none';
-                successView.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 1000);
-        });
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // 1. 检查是否选择了话题 (这也是你原本的逻辑)
-            const selectedTopic = document.querySelector('input[name="topic"]:checked');
-            if (!selectedTopic) {
-                pillGroup.classList.add('error');
-                topicError.style.display = 'inline';
-                btn.classList.add('shake');
-                setTimeout(() => btn.classList.remove('shake'), 500);
-                return;
-            }
+      // form.addEventListener('submit', (e) => {
+          e.preventDefault();
 
-            // 2. 改变按钮状态，让用户知道正在处理
-            const originalText = btn.textContent;
-            btn.textContent = "正在发送...";
-            btn.style.opacity = "0.7";
-            btn.disabled = true;
+          const selectedTopic = document.querySelector('input[name="topic"]:checked');
+          if (!selectedTopic) {
+              pillGroup.classList.add('error');
+              topicError.style.display = 'inline';
+              btn.classList.add('shake');
+              setTimeout(() => btn.classList.remove('shake'), 500);
+              return;
+          }
 
-            // 3. 收集表单数据
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                topic: selectedTopic.value,
-                message: document.getElementById('message').value
-            };
+          const originalText = btn.textContent;
+          btn.textContent = "正在发送...";
+          btn.style.opacity = "0.7";
+          btn.disabled = true;
 
-            try {
-                // 4. 发送数据给我们的后端 (API)
-                const response = await fetch('/api/send-email', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
+          setTimeout(() => {
+              mainContainer.style.display = 'none';
+              successView.style.display = 'block';
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+          }, 1000);
+      });
+      form.addEventListener('submit', async (e) => {
+          e.preventDefault();
 
-                const result = await response.json();
+          // 1. 检查是否选择了话题 (这也是你原本的逻辑)
+          const selectedTopic = document.querySelector('input[name="topic"]:checked');
+          if (!selectedTopic) {
+              pillGroup.classList.add('error');
+              topicError.style.display = 'inline';
+              btn.classList.add('shake');
+              setTimeout(() => btn.classList.remove('shake'), 500);
+              return;
+          }
 
-                if (response.ok) {
-                    // --- 成功的情况 ---
-                    mainContainer.style.display = 'none';
-                    successView.style.display = 'block';
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    // --- 失败的情况 ---
-                    throw new Error(result.error || '发送失败');
-                }
+          // 2. 改变按钮状态，让用户知道正在处理
+          const originalText = btn.textContent;
+          btn.textContent = "正在发送...";
+          btn.style.opacity = "0.7";
+          btn.disabled = true;
 
-            } catch (error) {
-                // --- 出错处理 ---
-                alert('抱歉，发送失败：' + error.message);
-                btn.textContent = originalText; // 恢复按钮文字
-                btn.style.opacity = "1";
-                btn.disabled = false;
-            }
-        });
-    
+          // 3. 收集表单数据
+          const formData = {
+              name: document.getElementById('name').value,
+              email: document.getElementById('email').value,
+              topic: selectedTopic.value,
+              message: document.getElementById('message').value
+          };
+
+          try {
+              // 4. 发送数据给我们的后端 (API)
+              const response = await fetch('/api/send-email', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify(formData),
+              });
+
+              const result = await response.json();
+
+              if (response.ok) {
+                  // --- 成功的情况 ---
+                  mainContainer.style.display = 'none';
+                  successView.style.display = 'block';
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+              } else {
+                  // --- 失败的情况 ---
+                  throw new Error(result.error || '发送失败');
+              }
+
+          } catch (error) {
+              // --- 出错处理 ---
+              alert('抱歉，发送失败：' + error.message);
+              btn.textContent = originalText; // 恢复按钮文字
+              btn.style.opacity = "1";
+              btn.disabled = false;
+          }
+      });
     </script>
     <script src="mobile-adapter.js"></script>
-
-</body>
+  </body>
 </html>

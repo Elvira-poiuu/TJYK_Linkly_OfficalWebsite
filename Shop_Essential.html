@@ -1,738 +1,1444 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="Logo/webLOGOpart_icon_w_TRANSBG.png" type="image/x-icon">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="Logo/webLOGOpart_icon_w_TRANSBG.png"
+      type="image/x-icon"
+    />
     <title>Linkly-BuyCard-Essential</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'] },
-                    colors: {
-                        'bg-black': '#000000',
-                        'card-dark': '#161617',
-                        'text-grey': '#86868b',
-                        'accent-blue': '#2997ff'
-                    }
-                }
-            }
-        }
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: [
+                "-apple-system",
+                "BlinkMacSystemFont",
+                '"Segoe UI"',
+                "Roboto",
+                "Helvetica",
+                "Arial",
+                "sans-serif",
+              ],
+            },
+            colors: {
+              "bg-black": "#000000",
+              "card-dark": "#161617",
+              "text-grey": "#86868b",
+              "accent-blue": "#2997ff",
+            },
+          },
+        },
+      };
     </script>
 
     <style>
-        :root {
-            --bg-color: #f5f5f7;
-            --text-primary: #1d1d1f;
-            --text-secondary: #86868b;
-            --accent-blue: #0071e3;
-            --border-color: #d2d2d7;
-            --nav-height: 52px;
-        }
+      :root {
+        --bg-color: #f5f5f7;
+        --text-primary: #1d1d1f;
+        --text-secondary: #86868b;
+        --accent-blue: #0071e3;
+        --border-color: #d2d2d7;
+        --nav-height: 52px;
+      }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif; }
-        
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-primary); 
-            -webkit-font-smoothing: antialiased; 
-            line-height: 1.5; 
-        }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+          "Helvetica Neue", sans-serif;
+      }
 
-        /* 导航栏 */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.75);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
+      body {
+        background-color: var(--bg-color);
+        color: var(--text-primary);
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.5;
+      }
 
-        .navbar-links a {
-            color: #1d1d1f;
-            text-decoration: none;
-            font-size: 0.875rem;
-            transition: font-weight 0.3s ease;
-        }
+      /* 导航栏 */
+      .glass-nav {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
 
-        .navbar-links a:hover { font-weight: bold; color: #0071e3; }
-        .navbar-links a.active { font-weight: bold; color: #000000; }
-        .navbar-btns a { font-size: 0.875rem; transition: all 0.3s ease; }
+      .navbar-links a {
+        color: #1d1d1f;
+        text-decoration: none;
+        font-size: 0.875rem;
+        transition: font-weight 0.3s ease;
+      }
 
-        .navbar-btns .buy-btn { background-color: #1d1d1f; color: white; }
-        .navbar-btns .buy-btn:hover { background-color: #0071e3; color: white; font-weight: bold; }
-        .navbar-btns .login-btn:hover { color: #0071e3; font-weight: bold; }
-    
-        /* 主容器 */
-        .main-container {
-            max-width: 1080px; margin: 0 auto; 
-            padding: calc(var(--nav-height) + 60px) 24px 120px;
-            min-height: 100vh;
-        }
+      .navbar-links a:hover {
+        font-weight: bold;
+        color: #0071e3;
+      }
+      .navbar-links a.active {
+        font-weight: bold;
+        color: #000000;
+      }
+      .navbar-btns a {
+        font-size: 0.875rem;
+        transition: all 0.3s ease;
+      }
 
+      .navbar-btns .buy-btn {
+        background-color: #1d1d1f;
+        color: white;
+      }
+      .navbar-btns .buy-btn:hover {
+        background-color: #0071e3;
+        color: white;
+        font-weight: bold;
+      }
+      .navbar-btns .login-btn:hover {
+        color: #0071e3;
+        font-weight: bold;
+      }
+
+      /* 主容器 */
+      .main-container {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: calc(var(--nav-height) + 60px) 24px 120px;
+        min-height: 100vh;
+      }
+
+      .product-configurator {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 80px;
+        align-items: start;
+      }
+
+      /* --- 左侧：预览 --- */
+      .preview-stage {
+        position: sticky;
+        top: 120px;
+        background: #fff;
+        border-radius: 24px;
+        padding: 80px 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .preview-card-container {
+        perspective: 1000px;
+        margin-bottom: 30px;
+      }
+
+      .interactive-card {
+        width: 340px;
+        height: 214px;
+        border-radius: 16px;
+        position: relative;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+        transform-style: preserve-3d;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 28px;
+      }
+
+      .card-content {
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+      }
+      .card-slogan {
+        font-size: 15px;
+        font-weight: 500;
+        opacity: 0.9;
+        letter-spacing: -0.01em;
+      }
+      .card-logo-mark {
+        font-weight: 700;
+        font-size: 18px;
+        align-self: flex-end;
+        opacity: 0.8;
+      }
+      .preview-note {
+        font-size: 12px;
+        color: var(--text-secondary);
+        text-align: center;
+        margin-top: 24px;
+      }
+
+      /* 材质渲染 */
+      .color-jet-black {
+        background: #1d1d1f;
+        color: rgba(255, 255, 255, 0.95);
+      }
+      .color-mica-white {
+        background: #f5f5f7;
+        color: #1d1d1f;
+        border: 1px solid #d2d2d7;
+      }
+      .color-tech-blue {
+        background: #0071e3;
+        color: #fff;
+      }
+      .color-concrete-grey {
+        background: #8e8e93;
+        color: #fff;
+      }
+      .color-forest-green {
+        background: #228b22;
+        color: #fff;
+      }
+      .color-orange {
+        background: #ff9500;
+        color: #fff;
+      }
+      .color-pink {
+        background: #ffb6c1;
+        color: #1d1d1f;
+      }
+      .color-purple {
+        background: #800080;
+        color: #fff;
+      }
+
+      .layer-reflection,
+      .layer-texture,
+      .layer-pattern {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: 16px;
+      }
+
+      /* 亮面 */
+      .material-glossy .layer-reflection {
+        background: linear-gradient(
+          125deg,
+          rgba(255, 255, 255, 0) 30%,
+          rgba(255, 255, 255, 0.25) 50%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        mix-blend-mode: overlay;
+      }
+
+      /* 哑光 - 噪点纹理 */
+      .material-matte .layer-texture {
+        opacity: 0.6;
+        filter: contrast(1.2);
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+      }
+
+      /* 磨砂 - 强模糊感 */
+      .material-frosted .layer-texture {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(4px);
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+      }
+
+      .pattern-grid .layer-pattern {
+        background-image: linear-gradient(
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 1px
+          ),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+        background-size: 20px 20px;
+      }
+      .pattern-soft-glow .layer-pattern {
+        background: radial-gradient(
+          circle at top left,
+          rgba(255, 255, 255, 0.3),
+          transparent 70%
+        );
+        mix-blend-mode: overlay;
+      }
+
+      /* --- 右侧：配置面板 --- */
+      .config-panel {
+        padding-top: 10px;
+      }
+      .panel-header {
+        margin-bottom: 40px;
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 24px;
+      }
+      .series-tag {
+        color: #bf4800;
+        font-size: 13px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      .price-display {
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1.1;
+      }
+      .price-display .unit {
+        font-size: 15px;
+        color: var(--text-secondary);
+        margin-left: 4px;
+        font-weight: 400;
+      }
+
+      .config-section {
+        margin-bottom: 48px;
+      }
+      .config-label-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+      .config-label {
+        font-size: 17px;
+        font-weight: 600;
+        display: block;
+        margin-bottom: 16px;
+      }
+      .config-label-row .config-label {
+        margin-bottom: 0;
+      }
+
+      .selection-name {
+        color: var(--text-secondary);
+        font-weight: 400;
+        margin-left: 8px;
+        font-size: 17px;
+      }
+      .option-desc {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 10px;
+        line-height: 1.4;
+      }
+
+      /* 颜色与选项按钮 */
+      .color-grid {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+      .color-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        border: none;
+        cursor: pointer;
+        box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s;
+      }
+      .color-btn:hover {
+        transform: scale(1.1);
+      }
+      .color-btn.active {
+        box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent-blue);
+        transform: scale(1.1);
+      }
+
+      .option-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .option-group.three-col {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+      .option-btn {
+        padding: 16px 10px;
+        border: 1px solid #d2d2d7;
+        border-radius: 12px;
+        background: #fff;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-align: center;
+      }
+      .option-btn:hover {
+        border-color: #86868b;
+      }
+      .option-btn.active {
+        border-color: var(--accent-blue);
+        color: var(--accent-blue);
+        box-shadow: 0 0 0 1px var(--accent-blue);
+        background: rgba(0, 113, 227, 0.05);
+      }
+      /* 新增禁用状态 (适配浅色主题) */
+      .option-btn.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        background: #f5f5f7;
+        color: #aaa;
+        border-color: #e5e5e5;
+        box-shadow: none;
+      }
+
+      /* --- 数量输入与梯度显示模块 --- */
+      .qty-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .qty-control-box {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fff;
+        border: 1px solid #d2d2d7;
+        border-radius: 12px;
+        padding: 4px;
+        transition: border-color 0.2s;
+      }
+      .qty-control-box:focus-within {
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 0 1px var(--accent-blue);
+      }
+      .qty-btn-adjust {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: var(--accent-blue);
+        font-size: 24px;
+        font-weight: 300;
+        border-radius: 8px;
+        transition: background 0.2s;
+        user-select: none;
+      }
+      .qty-btn-adjust:hover {
+        background: #f5f5f7;
+      }
+      #custom-qty-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 600;
+        color: #1d1d1f;
+        -moz-appearance: textfield;
+        background: transparent;
+      }
+      #custom-qty-input::-webkit-inner-spin-button,
+      #custom-qty-input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* 梯度展示条 */
+      .tier-legend {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+      }
+      .tier-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 10px 0;
+        border-radius: 8px;
+        background: #f5f5f7;
+        border: 1px solid transparent;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        opacity: 0.6;
+        cursor: pointer;
+      }
+      .tier-item:hover {
+        opacity: 0.8;
+        background: #ededf0;
+      }
+      .tier-item.active {
+        background: #fff;
+        border-color: var(--accent-blue);
+        box-shadow: 0 4px 12px rgba(0, 113, 227, 0.15);
+        opacity: 1;
+        transform: scale(1.02);
+        z-index: 1;
+      }
+      .t-range {
+        font-size: 11px;
+        color: var(--text-secondary);
+        margin-bottom: 2px;
+      }
+      .t-price {
+        font-size: 14px;
+        font-weight: 600;
+        color: #1d1d1f;
+      }
+      .tier-item.active .t-price {
+        color: var(--accent-blue);
+      }
+
+      /* SaaS 会员选择 */
+      .saas-container {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .saas-group-title {
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        margin-top: 24px;
+        margin-bottom: 8px;
+        padding-left: 4px;
+      }
+      .saas-group-title:first-child {
+        margin-top: 0;
+      }
+
+      .saas-card {
+        border: 1px solid #d2d2d7;
+        border-radius: 12px;
+        padding: 18px 20px;
+        background: #fff;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.2s;
+      }
+      .saas-card:hover {
+        border-color: #86868b;
+      }
+      .saas-card.active {
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 0 1px var(--accent-blue);
+        background: rgba(0, 113, 227, 0.03);
+      }
+
+      .saas-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .saas-name {
+        font-weight: 600;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .saas-feat {
+        font-size: 13px;
+        color: var(--text-secondary);
+        line-height: 1.4;
+      }
+
+      .saas-price-box {
+        text-align: right;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      .s-price {
+        font-size: 15px;
+        font-weight: 500;
+        display: block;
+      }
+
+      .rec-tag {
+        font-size: 10px;
+        background: var(--accent-blue);
+        color: #fff;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      /* 底部操作区 */
+      .action-area {
+        background: #fbfbfd;
+        border-radius: 20px;
+        padding: 32px;
+        margin-top: 60px;
+      }
+      .total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
+        font-weight: 600;
+        font-size: 17px;
+      }
+      .total-price {
+        font-size: 32px;
+        letter-spacing: -0.5px;
+      }
+
+      .btn-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+      .btn {
+        width: 100%;
+        padding: 18px;
+        border-radius: 14px;
+        font-size: 17px;
+        font-weight: 600;
+        text-align: center;
+        cursor: pointer;
+        border: none;
+        transition: 0.2s;
+      }
+      .btn-primary {
+        background: var(--accent-blue);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: #0077ed;
+      }
+      .btn-secondary {
+        background: #e8e8ed;
+        color: #1d1d1f;
+      }
+      .btn-secondary:hover {
+        background: #d2d2d7;
+      }
+
+      @media (max-width: 900px) {
         .product-configurator {
-            display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: start;
+          grid-template-columns: 1fr;
+          gap: 40px;
         }
-
-        /* --- 左侧：预览 --- */
         .preview-stage {
-            position: sticky; top: 120px;
-            background: #fff; border-radius: 24px;
-            padding: 80px 40px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02);
-            border: 1px solid rgba(0,0,0,0.05);
+          position: relative;
+          top: 0;
+          padding: 60px 20px;
         }
-
-        .preview-card-container { perspective: 1000px; margin-bottom: 30px; }
-        
-        .interactive-card {
-            width: 340px; height: 214px;
-            border-radius: 16px; position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-            transform-style: preserve-3d; overflow: hidden;
-            display: flex; flex-direction: column; justify-content: space-between; padding: 28px;
-        }
-
-        .card-content { z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
-        .card-slogan { font-size: 15px; font-weight: 500; opacity: 0.9; letter-spacing: -0.01em; }
-        .card-logo-mark { font-weight: 700; font-size: 18px; align-self: flex-end; opacity: 0.8; }
-        .preview-note { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 24px; }
-
-        /* 材质渲染 */
-        .color-jet-black { background: #1d1d1f; color: rgba(255,255,255,0.95); }
-        .color-mica-white { background: #f5f5f7; color: #1d1d1f; border: 1px solid #d2d2d7; }
-        .color-tech-blue { background: #0071e3; color: #fff; }
-        .color-concrete-grey { background: #8e8e93; color: #fff; }
-        .color-forest-green { background: #228b22; color: #fff; }
-        .color-orange { background: #ff9500; color: #fff; }
-        .color-pink { background: #ffb6c1; color: #1d1d1f; }
-        .color-purple { background: #800080; color: #fff; }
-
-        .layer-reflection, .layer-texture, .layer-pattern { position: absolute; inset: 0; pointer-events: none; border-radius: 16px; }
-        
-        /* 亮面 */
-        .material-glossy .layer-reflection { background: linear-gradient(125deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 70%); mix-blend-mode: overlay; }
-        
-        /* 哑光 - 噪点纹理 */
-        .material-matte .layer-texture { opacity: 0.6; filter: contrast(1.2); background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E"); }
-        
-        /* 磨砂 - 强模糊感 */
-        .material-frosted .layer-texture { 
-            background: rgba(255,255,255,0.15); 
-            backdrop-filter: blur(4px);
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
-        }
-
-        .pattern-grid .layer-pattern { background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px; }
-        .pattern-soft-glow .layer-pattern { background: radial-gradient(circle at top left, rgba(255,255,255,0.3), transparent 70%); mix-blend-mode: overlay; }
-
-        /* --- 右侧：配置面板 --- */
-        .config-panel { padding-top: 10px; }
-        .panel-header { margin-bottom: 40px; border-bottom: 1px solid #e5e5e5; padding-bottom: 24px; }
-        .series-tag { color: #bf4800; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: block; margin-bottom: 8px; }
-        
-        .price-display { font-size: 28px; font-weight: 600; line-height: 1.1; }
-        .price-display .unit { font-size: 15px; color: var(--text-secondary); margin-left: 4px; font-weight: 400; }
-
-        .config-section { margin-bottom: 48px; }
-        .config-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
-        .config-label { font-size: 17px; font-weight: 600; display: block; margin-bottom: 16px; }
-        .config-label-row .config-label { margin-bottom: 0; }
-        
-        .selection-name { color: var(--text-secondary); font-weight: 400; margin-left: 8px; font-size: 17px; }
-        .option-desc { font-size: 13px; color: var(--text-secondary); margin-top: 10px; line-height: 1.4; }
-
-        /* 颜色与选项按钮 */
-        .color-grid { display: flex; gap: 14px; flex-wrap: wrap; }
-        .color-btn { width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer; box-shadow: inset 0 0 2px rgba(0,0,0,0.2); transition: transform 0.2s; }
-        .color-btn:hover { transform: scale(1.1); }
-        .color-btn.active { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--accent-blue); transform: scale(1.1); }
-
-        .option-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .option-group.three-col { grid-template-columns: 1fr 1fr 1fr; }
-        .option-btn { padding: 16px 10px; border: 1px solid #d2d2d7; border-radius: 12px; background: #fff; font-size: 15px; cursor: pointer; transition: all 0.2s; text-align: center; }
-        .option-btn:hover { border-color: #86868b; }
-        .option-btn.active { border-color: var(--accent-blue); color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); background: rgba(0,113,227,0.05); }
-        /* 新增禁用状态 (适配浅色主题) */
-        .option-btn.disabled { opacity: 0.5; pointer-events: none; background: #f5f5f7; color: #aaa; border-color: #e5e5e5; box-shadow: none; }
-
-        /* --- 数量输入与梯度显示模块 --- */
-        .qty-wrapper { display: flex; flex-direction: column; gap: 16px; }
-        .qty-control-box {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #fff; border: 1px solid #d2d2d7; border-radius: 12px;
-            padding: 4px; transition: border-color 0.2s;
-        }
-        .qty-control-box:focus-within { border-color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); }
-        .qty-btn-adjust {
-            width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-            border: none; background: transparent; cursor: pointer; color: var(--accent-blue);
-            font-size: 24px; font-weight: 300; border-radius: 8px; transition: background 0.2s;
-            user-select: none;
-        }
-        .qty-btn-adjust:hover { background: #f5f5f7; }
-        #custom-qty-input {
-            flex: 1; border: none; outline: none; text-align: center;
-            font-size: 20px; font-weight: 600; color: #1d1d1f;
-            -moz-appearance: textfield; background: transparent;
-        }
-        #custom-qty-input::-webkit-inner-spin-button, #custom-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-
-        /* 梯度展示条 */
-        .tier-legend { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-        .tier-item {
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            padding: 10px 0; border-radius: 8px; background: #f5f5f7;
-            border: 1px solid transparent; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-            opacity: 0.6; cursor: pointer;
-        }
-        .tier-item:hover { opacity: 0.8; background: #ededf0; }
-        .tier-item.active {
-            background: #fff; border-color: var(--accent-blue);
-            box-shadow: 0 4px 12px rgba(0, 113, 227, 0.15);
-            opacity: 1; transform: scale(1.02); z-index: 1;
-        }
-        .t-range { font-size: 11px; color: var(--text-secondary); margin-bottom: 2px; }
-        .t-price { font-size: 14px; font-weight: 600; color: #1d1d1f; }
-        .tier-item.active .t-price { color: var(--accent-blue); }
-
-        /* SaaS 会员选择 */
-        .saas-container { display: flex; flex-direction: column; gap: 12px; }
-        .saas-group-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-secondary); margin-top: 24px; margin-bottom: 8px; padding-left: 4px; }
-        .saas-group-title:first-child { margin-top: 0; }
-
-        .saas-card { border: 1px solid #d2d2d7; border-radius: 12px; padding: 18px 20px; background: #fff; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
-        .saas-card:hover { border-color: #86868b; }
-        .saas-card.active { border-color: var(--accent-blue); box-shadow: 0 0 0 1px var(--accent-blue); background: rgba(0, 113, 227, 0.03); }
-
-        .saas-info { display: flex; flex-direction: column; gap: 4px; }
-        .saas-name { font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px; }
-        .saas-feat { font-size: 13px; color: var(--text-secondary); line-height: 1.4; }
-        
-        .saas-price-box { text-align: right; display: flex; flex-direction: column; justify-content: center; }
-        .s-price { font-size: 15px; font-weight: 500; display: block;}
-
-        .rec-tag { font-size: 10px; background: var(--accent-blue); color: #fff; padding: 2px 6px; border-radius: 4px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-
-        /* 底部操作区 */
-        .action-area { background: #fbfbfd; border-radius: 20px; padding: 32px; margin-top: 60px; }
-        .total-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; font-weight: 600; font-size: 17px; }
-        .total-price { font-size: 32px; letter-spacing: -0.5px; }
-        
-        .btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .btn { width: 100%; padding: 18px; border-radius: 14px; font-size: 17px; font-weight: 600; text-align: center; cursor: pointer; border: none; transition: 0.2s; }
-        .btn-primary { background: var(--accent-blue); color: #fff; } .btn-primary:hover { background: #0077ed; }
-        .btn-secondary { background: #e8e8ed; color: #1d1d1f; } .btn-secondary:hover { background: #d2d2d7; }
-
-        @media (max-width: 900px) {
-            .product-configurator { grid-template-columns: 1fr; gap: 40px; }
-            .preview-stage { position: relative; top: 0; padding: 60px 20px; }
-        }
+      }
     </style>
-</head>
-<body>
-
+  </head>
+  <body>
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
-        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
-            <div class="nav-content">
-                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
-                    <img src="Logo/lightBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;"> 
-                </a>
-            </div>
-            <div class="hidden md:flex items-center gap-8 navbar-links">
-                <div class="relative group h-full flex items-center">
-                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">产品</a>
-                </div>
-                <a href="Product.html">Linkly 名片</a> 
-                <a href="AI_Detailed_2.html">Linkly AI</a> 
-                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
-                <div class="relative group h-full flex items-center">
-                    <a href="VIP_Compare_2.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">定价</a>
-                </div>
-                <div class="relative group h-full flex items-center">
-                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">支持</a>
-                </div>
-            </div>
-            <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
-                <a href="ShopBag.html" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                </a>
-                <a href="Shop_General.html" class="px-3 py-1 rounded-full font-medium transition-all duration-300 buy-btn">购买</a>
-                <a href="#" class="hidden md:block text-[#1d1d1f] transition-all duration-300 login-btn">登录</a>
-            </div>
+      <div
+        class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between"
+      >
+        <div class="nav-content">
+          <a
+            href="index.html"
+            class="nav-link"
+            style="display: flex; align-items: center"
+          >
+            <img
+              src="Logo/lightBGver.png"
+              alt="Linkly Logo"
+              style="max-height: 28px; width: auto"
+            />
+          </a>
         </div>
+        <div class="hidden md:flex items-center gap-8 navbar-links">
+          <div class="relative group h-full flex items-center">
+            <a
+              href="Product.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+              >产品</a
+            >
+          </div>
+          <a href="Product.html">Linkly 名片</a>
+          <a href="AI_Detailed_2.html">Linkly AI</a>
+          <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a>
+          <div class="relative group h-full flex items-center">
+            <a
+              href="VIP_Compare_2.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+              >定价</a
+            >
+          </div>
+          <div class="relative group h-full flex items-center">
+            <a
+              href="Download.html"
+              class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4"
+              >支持</a
+            >
+          </div>
+        </div>
+        <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
+          <a
+            href="Search.html"
+            class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors"
+            title="AI 找人"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2.5"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
+          </a>
+          <a
+            href="ShopBag.html"
+            class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group"
+          >
+            <svg
+              class="w-4 h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+              />
+            </svg>
+          </a>
+          <a
+            href="Shop_General.html"
+            class="px-3 py-1 rounded-full font-medium transition-all duration-300 buy-btn"
+            >购买</a
+          >
+          <a
+            href="#"
+            class="hidden md:block text-[#1d1d1f] transition-all duration-300 login-btn"
+            >登录</a
+          >
+        </div>
+      </div>
     </nav>
 
-<div class="main-container">
-    <div class="product-configurator">
-        
+    <div class="main-container">
+      <div class="product-configurator">
         <div class="preview-stage">
-            <div class="preview-card-container">
-                <div id="dynamic-card" class="interactive-card color-jet-black material-glossy pattern-solid">
-                    <div class="layer-texture"></div>
-                    <div class="layer-pattern"></div>
-                    <div class="layer-reflection"></div>
-                    <div class="card-content">
-                        <span class="card-slogan">Connect instantly.</span>
-                        <div class="card-logo-mark">Linkly</div>
-                    </div>
-                </div>
+          <div class="preview-card-container">
+            <div
+              id="dynamic-card"
+              class="interactive-card color-jet-black material-glossy pattern-solid"
+            >
+              <div class="layer-texture"></div>
+              <div class="layer-pattern"></div>
+              <div class="layer-reflection"></div>
+              <div class="card-content">
+                <span class="card-slogan">Connect instantly.</span>
+                <div class="card-logo-mark">Linkly</div>
+              </div>
             </div>
-            <p class="preview-note">正面预览 · 实际效果可能随光线变化</p>
+          </div>
+          <p class="preview-note">正面预览 · 实际效果可能随光线变化</p>
         </div>
 
         <div class="config-panel">
-            <div class="panel-header">
-                <span class="series-tag">Essentials</span>
-                <div class="price-display">
-                    <span class="currency">¥</span><span id="unit-price-display" class="amount">24.90</span><span class="unit">/ 张</span>
+          <div class="panel-header">
+            <span class="series-tag">Essentials</span>
+            <div class="price-display">
+              <span class="currency">¥</span
+              ><span id="unit-price-display" class="amount">24.90</span
+              ><span class="unit">/ 张</span>
+            </div>
+          </div>
+
+          <div class="config-section">
+            <span class="config-label"
+              >材质
+              <span id="lbl-material" class="selection-name"
+                >亮面 PVC</span
+              ></span
+            >
+            <div class="option-group three-col">
+              <div
+                class="option-btn active"
+                data-type="material"
+                data-value="glossy"
+                data-name="标准亮面 PVC"
+              >
+                亮面 PVC
+              </div>
+              <div
+                class="option-btn"
+                data-type="material"
+                data-value="matte"
+                data-name="哑光 PVC"
+              >
+                哑光 PVC
+              </div>
+              <div
+                class="option-btn"
+                data-type="material"
+                data-value="frosted"
+                data-name="磨砂 PVC"
+              >
+                磨砂 PVC
+              </div>
+            </div>
+            <p class="option-desc">* 均含防指纹处理工艺</p>
+          </div>
+
+          <div class="config-section">
+            <span class="config-label"
+              >颜色
+              <span id="lbl-color" class="selection-name">极夜黑</span></span
+            >
+            <div class="color-grid">
+              <button
+                class="color-btn active"
+                data-color="jet-black"
+                data-name="极夜黑"
+                style="background-color: #1d1d1f"
+              ></button>
+              <button
+                class="color-btn"
+                data-color="mica-white"
+                data-name="云母白"
+                style="background-color: #f5f5f7; border: 1px solid #e5e5e5"
+              ></button>
+              <button
+                class="color-btn"
+                data-color="tech-blue"
+                data-name="科技蓝"
+                style="background-color: #0071e3"
+              ></button>
+              <button
+                class="color-btn"
+                data-color="concrete-grey"
+                data-name="水泥灰"
+                style="background-color: #8e8e93"
+              ></button>
+              <button
+                class="color-btn"
+                data-color="forest-green"
+                data-name="森林绿"
+                style="background-color: #228b22"
+              ></button>
+              <button
+                class="color-btn"
+                data-color="orange"
+                data-name="活力橙"
+                style="background-color: #ff9500"
+              ></button>
+              <button
+                class="color-btn"
+                data-color="pink"
+                data-name="樱花粉"
+                style="background-color: #ffb6c1"
+              ></button>
+              <button
+                class="color-btn"
+                data-color="purple"
+                data-name="灵动紫"
+                style="background-color: #800080"
+              ></button>
+            </div>
+          </div>
+
+          <div class="config-section">
+            <span class="config-label"
+              >图案
+              <span id="lbl-pattern" class="selection-name">纯色</span></span
+            >
+            <div class="option-group three-col">
+              <div
+                class="option-btn active"
+                data-type="pattern"
+                data-value="solid"
+                data-name="纯色"
+              >
+                纯色
+              </div>
+              <div
+                class="option-btn"
+                data-type="pattern"
+                data-value="soft-glow"
+                data-name="微光渐变"
+              >
+                微光渐变
+              </div>
+              <div
+                class="option-btn"
+                data-type="pattern"
+                data-value="grid"
+                data-name="网格线"
+              >
+                网格线
+              </div>
+            </div>
+          </div>
+
+          <div class="config-section">
+            <span class="config-label"
+              >数量
+              <span id="lbl-qty" class="selection-name"
+                >输入具体数量</span
+              ></span
+            >
+
+            <div class="qty-wrapper">
+              <div class="qty-control-box">
+                <button class="qty-btn-adjust" onclick="adjustQty(-1)">
+                  −
+                </button>
+                <input
+                  type="number"
+                  id="custom-qty-input"
+                  value="1"
+                  min="1"
+                  max="50000"
+                  oninput="handleQtyInput(this.value)"
+                />
+                <button class="qty-btn-adjust" onclick="adjustQty(1)">+</button>
+              </div>
+
+              <div class="tier-legend">
+                <div
+                  class="tier-item active"
+                  id="tier-1"
+                  onclick="selectTier(1)"
+                >
+                  <span class="t-range">1-99</span>
+                  <span class="t-price">¥24.90</span>
                 </div>
+                <div class="tier-item" id="tier-100" onclick="selectTier(100)">
+                  <span class="t-range">100-999</span>
+                  <span class="t-price">¥12.90</span>
+                </div>
+                <div
+                  class="tier-item"
+                  id="tier-1000"
+                  onclick="selectTier(1000)"
+                >
+                  <span class="t-range">1k-9999</span>
+                  <span class="t-price">¥6.90</span>
+                </div>
+                <div
+                  class="tier-item"
+                  id="tier-10000"
+                  onclick="selectTier(10000)"
+                >
+                  <span class="t-range">10k+</span>
+                  <span class="t-price">¥3.90</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="config-section">
+            <span class="config-label"
+              >赠送会员体验
+              <span class="selection-name" id="lbl-saas-gift">--</span></span
+            >
+            <div
+              class="option-group"
+              id="group-saas-gift"
+              style="grid-template-columns: 1fr 1fr"
+            >
+              <div
+                class="option-btn disabled"
+                id="btn-gift-pro-1y"
+                data-gift="pro-1y"
+              >
+                Pro会员1年
+              </div>
+              <div
+                class="option-btn disabled"
+                id="btn-gift-ultra-1y"
+                data-gift="ultra-1y"
+              >
+                Ultra会员1年
+              </div>
+            </div>
+            <p
+              style="
+                margin-top: 10px;
+                font-size: 12px;
+                color: var(--text-secondary);
+              "
+            >
+              * 随实体卡赠送 (100+张送Pro一年, 1000+张送Ultra一年)。
+            </p>
+          </div>
+
+          <div class="config-section">
+            <div class="config-label-row">
+              <span class="config-label"
+                >会员计划 <span class="selection-name">月付 (可选)</span></span
+              >
             </div>
 
-            <div class="config-section">
-                <span class="config-label">材质 <span id="lbl-material" class="selection-name">亮面 PVC</span></span>
-                <div class="option-group three-col">
-                    <div class="option-btn active" data-type="material" data-value="glossy" data-name="标准亮面 PVC">亮面 PVC</div>
-                    <div class="option-btn" data-type="material" data-value="matte" data-name="哑光 PVC">哑光 PVC</div>
-                    <div class="option-btn" data-type="material" data-value="frosted" data-name="磨砂 PVC">磨砂 PVC</div>
+            <div class="saas-container">
+              <div class="saas-group-title">个人版</div>
+
+              <div
+                class="saas-card active"
+                id="card-free"
+                onclick="selectSaas('free', this)"
+              >
+                <div class="saas-info">
+                  <div class="saas-name">Free 免费版</div>
+                  <div class="saas-feat">基础功能，无广告。</div>
                 </div>
-                <p class="option-desc">* 均含防指纹处理工艺</p>
+                <div class="saas-price-box">
+                  <span class="s-price">免费</span>
+                </div>
+              </div>
+
+              <div
+                class="saas-card"
+                id="card-pro"
+                onclick="selectSaas('pro', this)"
+              >
+                <div class="saas-info">
+                  <div class="saas-name">Pro 专业版</div>
+                  <div class="saas-feat">多身份管理，高级数据统计。</div>
+                </div>
+                <div class="saas-price-box">
+                  <span class="s-price" id="price-pro">¥19.90/月</span>
+                </div>
+              </div>
+
+              <div
+                class="saas-card"
+                id="card-ultra"
+                onclick="selectSaas('ultra', this)"
+              >
+                <div class="saas-info">
+                  <div class="saas-name">
+                    Ultra 终极版 <span class="rec-tag">推荐</span>
+                  </div>
+                  <div class="saas-feat">解锁个人版全部AI功能。</div>
+                </div>
+                <div class="saas-price-box">
+                  <span class="s-price" id="price-ultra">¥39.90/月</span>
+                </div>
+              </div>
+
+              <div class="saas-group-title">团队与企业</div>
+
+              <div
+                class="saas-card"
+                id="card-team"
+                onclick="selectSaas('team', this)"
+              >
+                <div class="saas-info">
+                  <div class="saas-name">Team 团队版</div>
+                  <div class="saas-feat">统一管理后台，员工权限控制。</div>
+                </div>
+                <div class="saas-price-box">
+                  <span class="s-price" id="price-team">¥49.90/人/月</span>
+                </div>
+              </div>
+
+              <div class="saas-card" onclick="selectSaas('enterprise', this)">
+                <div class="saas-info">
+                  <div class="saas-name">Enterprise 企业定制</div>
+                  <div class="saas-feat">API 对接，私有化部署，专属客服。</div>
+                </div>
+                <div class="saas-price-box">
+                  <span class="s-price">联系销售</span>
+                </div>
+              </div>
             </div>
+          </div>
 
-            <div class="config-section">
-                <span class="config-label">颜色 <span id="lbl-color" class="selection-name">极夜黑</span></span>
-                <div class="color-grid">
-                    <button class="color-btn active" data-color="jet-black" data-name="极夜黑" style="background-color: #1d1d1f;"></button>
-                    <button class="color-btn" data-color="mica-white" data-name="云母白" style="background-color: #f5f5f7; border: 1px solid #e5e5e5;"></button>
-                    <button class="color-btn" data-color="tech-blue" data-name="科技蓝" style="background-color: #0071e3;"></button>
-                    <button class="color-btn" data-color="concrete-grey" data-name="水泥灰" style="background-color: #8e8e93;"></button>
-                    <button class="color-btn" data-color="forest-green" data-name="森林绿" style="background-color: #228b22;"></button>
-                    <button class="color-btn" data-color="orange" data-name="活力橙" style="background-color: #ff9500;"></button>
-                    <button class="color-btn" data-color="pink" data-name="樱花粉" style="background-color: #ffb6c1;"></button>
-                    <button class="color-btn" data-color="purple" data-name="灵动紫" style="background-color: #800080;"></button>
-                </div>
+          <div class="action-area">
+            <div class="total-row">
+              <span>总计金额</span>
+              <span id="final-price-display" class="total-price">¥24.90</span>
             </div>
-
-            <div class="config-section">
-                <span class="config-label">图案 <span id="lbl-pattern" class="selection-name">纯色</span></span>
-                <div class="option-group three-col">
-                    <div class="option-btn active" data-type="pattern" data-value="solid" data-name="纯色">纯色</div>
-                    <div class="option-btn" data-type="pattern" data-value="soft-glow" data-name="微光渐变">微光渐变</div>
-                    <div class="option-btn" data-type="pattern" data-value="grid" data-name="网格线">网格线</div>
-                </div>
+            <div class="btn-group">
+              <button class="btn btn-primary">立即结账</button>
+              <button class="btn btn-secondary">添加到购物袋</button>
             </div>
-
-            <div class="config-section">
-                <span class="config-label">数量 <span id="lbl-qty" class="selection-name">输入具体数量</span></span>
-                
-                <div class="qty-wrapper">
-                    <div class="qty-control-box">
-                        <button class="qty-btn-adjust" onclick="adjustQty(-1)">−</button>
-                        <input type="number" id="custom-qty-input" value="1" min="1" max="50000" oninput="handleQtyInput(this.value)">
-                        <button class="qty-btn-adjust" onclick="adjustQty(1)">+</button>
-                    </div>
-
-                    <div class="tier-legend">
-                        <div class="tier-item active" id="tier-1" onclick="selectTier(1)">
-                            <span class="t-range">1-99</span>
-                            <span class="t-price">¥24.90</span>
-                        </div>
-                        <div class="tier-item" id="tier-100" onclick="selectTier(100)">
-                            <span class="t-range">100-999</span>
-                            <span class="t-price">¥12.90</span>
-                        </div>
-                        <div class="tier-item" id="tier-1000" onclick="selectTier(1000)">
-                            <span class="t-range">1k-9999</span>
-                            <span class="t-price">¥6.90</span>
-                        </div>
-                        <div class="tier-item" id="tier-10000" onclick="selectTier(10000)">
-                            <span class="t-range">10k+</span>
-                            <span class="t-price">¥3.90</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="config-section">
-                <span class="config-label">赠送会员体验 <span class="selection-name" id="lbl-saas-gift">--</span></span>
-                <div class="option-group" id="group-saas-gift" style="grid-template-columns: 1fr 1fr;">
-                    <div class="option-btn disabled" id="btn-gift-pro-1y" data-gift="pro-1y">Pro会员1年</div>
-                    <div class="option-btn disabled" id="btn-gift-ultra-1y" data-gift="ultra-1y">Ultra会员1年</div>
-                </div>
-                 <p style="margin-top:10px; font-size:12px; color:var(--text-secondary);">* 随实体卡赠送 (100+张送Pro一年, 1000+张送Ultra一年)。</p>
-            </div>
-
-            <div class="config-section">
-                <div class="config-label-row">
-                    <span class="config-label">会员计划 <span class="selection-name">月付 (可选)</span></span>
-                </div>
-
-                <div class="saas-container">
-                    
-                    <div class="saas-group-title">个人版</div>
-                    
-                    <div class="saas-card active" id="card-free" onclick="selectSaas('free', this)">
-                        <div class="saas-info">
-                            <div class="saas-name">Free 免费版</div>
-                            <div class="saas-feat">基础功能，无广告。</div>
-                        </div>
-                        <div class="saas-price-box">
-                            <span class="s-price">免费</span>
-                        </div>
-                    </div>
-
-                    <div class="saas-card" id="card-pro" onclick="selectSaas('pro', this)">
-                        <div class="saas-info">
-                            <div class="saas-name">Pro 专业版 </div>
-                            <div class="saas-feat">多身份管理，高级数据统计。</div>
-                        </div>
-                        <div class="saas-price-box">
-                            <span class="s-price" id="price-pro">¥19.90/月</span>
-                        </div>
-                    </div>
-
-                    <div class="saas-card" id="card-ultra" onclick="selectSaas('ultra', this)">
-                        <div class="saas-info">
-                            <div class="saas-name">Ultra 终极版 <span class="rec-tag">推荐</span></div>
-                            <div class="saas-feat">解锁个人版全部AI功能。</div>
-                        </div>
-                        <div class="saas-price-box">
-                            <span class="s-price" id="price-ultra">¥39.90/月</span>
-                        </div>
-                    </div>
-
-                    <div class="saas-group-title">团队与企业</div>
-
-                    <div class="saas-card" id="card-team" onclick="selectSaas('team', this)">
-                        <div class="saas-info">
-                            <div class="saas-name">Team 团队版</div>
-                            <div class="saas-feat">统一管理后台，员工权限控制。</div>
-                        </div>
-                        <div class="saas-price-box">
-                            <span class="s-price" id="price-team">¥49.90/人/月</span>
-                        </div>
-                    </div>
-
-                    <div class="saas-card" onclick="selectSaas('enterprise', this)">
-                        <div class="saas-info">
-                            <div class="saas-name">Enterprise 企业定制</div>
-                            <div class="saas-feat">API 对接，私有化部署，专属客服。</div>
-                        </div>
-                        <div class="saas-price-box">
-                            <span class="s-price">联系销售</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-
-            <div class="action-area">
-                <div class="total-row">
-                    <span>总计金额</span>
-                    <span id="final-price-display" class="total-price">¥24.90</span>
-                </div>
-                <div class="btn-group">
-                    <button class="btn btn-primary">立即结账</button>
-                    <button class="btn btn-secondary">添加到购物袋</button>
-                </div>
-            </div>
-
+          </div>
         </div>
+      </div>
     </div>
-</div>
 
-<footer style="background-color: #f5f5f7; color: #6e6e73; font-size: 12px; line-height: 1.33337; font-weight: 400; padding: 0 20px; border-top: 1px solid #d2d2d7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
-    <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px;">
-        <div style="border-bottom: 1px solid #d2d2d7; padding-bottom: 20px; margin-bottom: 20px;">
-            更多选购方式：<a href="Shop_General.html" style="color: #0071e3; text-decoration: none;">前往 Linkly 商店</a>，或发送邮件至 <a href="mailto:contact@linklyai.net" style="color: #0071e3; text-decoration: none;">contact@linklyai.net</a> 与我们取得联系。
+    <footer
+      style="
+        background-color: #f5f5f7;
+        color: #6e6e73;
+        font-size: 12px;
+        line-height: 1.33337;
+        font-weight: 400;
+        padding: 0 20px;
+        border-top: 1px solid #d2d2d7;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+      "
+    >
+      <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px">
+        <div
+          style="
+            border-bottom: 1px solid #d2d2d7;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+          "
+        >
+          更多选购方式：<a
+            href="Shop_General.html"
+            style="color: #0071e3; text-decoration: none"
+            >前往 Linkly 商店</a
+          >，或发送邮件至
+          <a
+            href="mailto:contact@linklyai.net"
+            style="color: #0071e3; text-decoration: none"
+            >contact@linklyai.net</a
+          >
+          与我们取得联系。
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
-            <div style="color: #6e6e73;">Copyright © 2025 Linkly Inc. 保留所有权利。</div>
-            <a href="#" style="color: #1d1d1f; text-decoration: none; margin-left: auto;">中国大陆 (简体中文)</a>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 10px;
+          "
+        >
+          <div style="color: #6e6e73">
+            Copyright © 2025 Linkly Inc. 保留所有权利。
+          </div>
+          <a
+            href="#"
+            style="color: #1d1d1f; text-decoration: none; margin-left: auto"
+            >中国大陆 (简体中文)</a
+          >
         </div>
-    </div>
-</footer>
+      </div>
+    </footer>
 
-<script>
-
-    window.addEventListener('load', () => {
+    <script>
+      window.addEventListener("load", () => {
         const currentPage = window.location.pathname;
-        const links = document.querySelectorAll('.navbar-links a');
-        links.forEach(link => {
-            const href = link.getAttribute('href');
-            if (href && href !== '#' && currentPage.includes(href)) {
-                link.classList.add('active');
-            } else {
-                link.classList.remove('active');
-            }
+        const links = document.querySelectorAll(".navbar-links a");
+        links.forEach((link) => {
+          const href = link.getAttribute("href");
+          if (href && href !== "#" && currentPage.includes(href)) {
+            link.classList.add("active");
+          } else {
+            link.classList.remove("active");
+          }
         });
-    });
+      });
 
-    document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener("DOMContentLoaded", () => {
         const params = new URLSearchParams(window.location.search);
-        
+
         // 核心状态
         const state = {
-            material: params.get('material') || 'glossy',
-            color: params.get('color') || 'jet-black',
-            pattern: params.get('pattern') || 'solid',
-            qty: 1, 
-            unitPrice: 24.90,
-            billing: 'monthly',
-            saasTier: 'free',
-            saasPrice: 0,
-            gift: null // 记录赠送状态
+          material: params.get("material") || "glossy",
+          color: params.get("color") || "jet-black",
+          pattern: params.get("pattern") || "solid",
+          qty: 1,
+          unitPrice: 24.9,
+          billing: "monthly",
+          saasTier: "free",
+          saasPrice: 0,
+          gift: null, // 记录赠送状态
         };
 
         const saasPricing = {
-            free: 0,
-            pro: 19.90,
-            ultra: 39.90,
-            team: 49.90,
-            enterprise: 0
+          free: 0,
+          pro: 19.9,
+          ultra: 39.9,
+          team: 49.9,
+          enterprise: 0,
         };
 
         // DOM 引用
-        const card = document.getElementById('dynamic-card');
+        const card = document.getElementById("dynamic-card");
         const labels = {
-            material: document.getElementById('lbl-material'),
-            color: document.getElementById('lbl-color'),
-            pattern: document.getElementById('lbl-pattern'),
-            gift: document.getElementById('lbl-saas-gift')
+          material: document.getElementById("lbl-material"),
+          color: document.getElementById("lbl-color"),
+          pattern: document.getElementById("lbl-pattern"),
+          gift: document.getElementById("lbl-saas-gift"),
         };
         const prices = {
-            top: document.getElementById('unit-price-display'),
-            bottom: document.getElementById('final-price-display')
+          top: document.getElementById("unit-price-display"),
+          bottom: document.getElementById("final-price-display"),
         };
-        const qtyInput = document.getElementById('custom-qty-input');
+        const qtyInput = document.getElementById("custom-qty-input");
 
         // --- 初始化 UI ---
         function initUI() {
-            activateBtn(`[data-type="material"][data-value="${state.material}"]`);
-            activateBtn(`[data-color="${state.color}"]`);
-            activateBtn(`[data-type="pattern"][data-value="${state.pattern}"]`);
-            
-            updateCardPreview();
-            handleQtyInput(state.qty); 
+          activateBtn(`[data-type="material"][data-value="${state.material}"]`);
+          activateBtn(`[data-color="${state.color}"]`);
+          activateBtn(`[data-type="pattern"][data-value="${state.pattern}"]`);
+
+          updateCardPreview();
+          handleQtyInput(state.qty);
         }
 
         function activateBtn(selector) {
-            const btn = document.querySelector(selector);
-            if (btn) {
-                const group = btn.parentElement;
-                Array.from(group.children).forEach(c => c.classList.remove('active'));
-                btn.classList.add('active');
-                if (btn.dataset.name) {
-                    if (btn.dataset.type === 'material') labels.material.textContent = btn.dataset.name;
-                    if (btn.dataset.color) labels.color.textContent = btn.dataset.name;
-                    if (btn.dataset.type === 'pattern') labels.pattern.textContent = btn.dataset.name;
-                }
+          const btn = document.querySelector(selector);
+          if (btn) {
+            const group = btn.parentElement;
+            Array.from(group.children).forEach((c) =>
+              c.classList.remove("active")
+            );
+            btn.classList.add("active");
+            if (btn.dataset.name) {
+              if (btn.dataset.type === "material")
+                labels.material.textContent = btn.dataset.name;
+              if (btn.dataset.color)
+                labels.color.textContent = btn.dataset.name;
+              if (btn.dataset.type === "pattern")
+                labels.pattern.textContent = btn.dataset.name;
             }
+          }
         }
 
         // --- 数量与逻辑控制 ---
-        
-        window.selectTier = function(minQty) {
-            handleQtyInput(minQty);
-        }
 
-        window.adjustQty = function(delta) {
-            let newVal = parseInt(qtyInput.value) + delta;
-            handleQtyInput(newVal);
-        }
+        window.selectTier = function (minQty) {
+          handleQtyInput(minQty);
+        };
 
-        window.handleQtyInput = function(val) {
-            let num = parseInt(val);
-            if (isNaN(num) || num < 1) num = 1;
-            if (num > 50000) num = 50000;
-            
-            qtyInput.value = num;
-            state.qty = num;
+        window.adjustQty = function (delta) {
+          let newVal = parseInt(qtyInput.value) + delta;
+          handleQtyInput(newVal);
+        };
 
-            updateTierLogic(num);
-            updateGiftLogic(); // 调用赠送逻辑更新
-            updatePriceDisplay();
-        }
+        window.handleQtyInput = function (val) {
+          let num = parseInt(val);
+          if (isNaN(num) || num < 1) num = 1;
+          if (num > 50000) num = 50000;
+
+          qtyInput.value = num;
+          state.qty = num;
+
+          updateTierLogic(num);
+          updateGiftLogic(); // 调用赠送逻辑更新
+          updatePriceDisplay();
+        };
 
         function updateTierLogic(num) {
-            let tierPrice = 24.90;
-            let activeTierId = 'tier-1';
+          let tierPrice = 24.9;
+          let activeTierId = "tier-1";
 
-            if (num >= 10000) {
-                tierPrice = 3.90;
-                activeTierId = 'tier-10000';
-            } else if (num >= 1000) {
-                tierPrice = 6.90;
-                activeTierId = 'tier-1000';
-            } else if (num >= 100) {
-                tierPrice = 12.90;
-                activeTierId = 'tier-100';
-            }
+          if (num >= 10000) {
+            tierPrice = 3.9;
+            activeTierId = "tier-10000";
+          } else if (num >= 1000) {
+            tierPrice = 6.9;
+            activeTierId = "tier-1000";
+          } else if (num >= 100) {
+            tierPrice = 12.9;
+            activeTierId = "tier-100";
+          }
 
-            state.unitPrice = tierPrice;
+          state.unitPrice = tierPrice;
 
-            document.querySelectorAll('.tier-item').forEach(el => el.classList.remove('active'));
-            document.getElementById(activeTierId).classList.add('active');
+          document
+            .querySelectorAll(".tier-item")
+            .forEach((el) => el.classList.remove("active"));
+          document.getElementById(activeTierId).classList.add("active");
         }
 
         // 核心更新：独立的赠送逻辑 (仿 Studio Business)
         function updateGiftLogic() {
-            const btnPro = document.getElementById('btn-gift-pro-1y');
-            const btnUltra = document.getElementById('btn-gift-ultra-1y');
+          const btnPro = document.getElementById("btn-gift-pro-1y");
+          const btnUltra = document.getElementById("btn-gift-ultra-1y");
 
-            // 重置
-            [btnPro, btnUltra].forEach(b => {
-                b.classList.remove('active');
-                b.classList.add('disabled');
-            });
-            state.gift = null;
-            if(labels.gift) labels.gift.textContent = "无 (需购买100+张)";
+          // 重置
+          [btnPro, btnUltra].forEach((b) => {
+            b.classList.remove("active");
+            b.classList.add("disabled");
+          });
+          state.gift = null;
+          if (labels.gift) labels.gift.textContent = "无 (需购买100+张)";
 
-            // 逻辑
-            if (state.qty >= 1000) {
-                btnUltra.classList.remove('disabled');
-                btnUltra.classList.add('active');
-                state.gift = 'ultra-1y';
-                if(labels.gift) labels.gift.textContent = "Ultra会员1年";
-            } else if (state.qty >= 100) {
-                btnPro.classList.remove('disabled');
-                btnPro.classList.add('active');
-                state.gift = 'pro-1y';
-                if(labels.gift) labels.gift.textContent = "Pro会员1年";
-            }
+          // 逻辑
+          if (state.qty >= 1000) {
+            btnUltra.classList.remove("disabled");
+            btnUltra.classList.add("active");
+            state.gift = "ultra-1y";
+            if (labels.gift) labels.gift.textContent = "Ultra会员1年";
+          } else if (state.qty >= 100) {
+            btnPro.classList.remove("disabled");
+            btnPro.classList.add("active");
+            state.gift = "pro-1y";
+            if (labels.gift) labels.gift.textContent = "Pro会员1年";
+          }
         }
 
-        window.selectSaas = function(tier, cardEl) {
-            document.querySelectorAll('.saas-card').forEach(c => c.classList.remove('active'));
-            cardEl.classList.add('active');
-            state.saasTier = tier;
-            state.saasPrice = saasPricing[tier]; 
-            updatePriceDisplay();
-        }
+        window.selectSaas = function (tier, cardEl) {
+          document
+            .querySelectorAll(".saas-card")
+            .forEach((c) => c.classList.remove("active"));
+          cardEl.classList.add("active");
+          state.saasTier = tier;
+          state.saasPrice = saasPricing[tier];
+          updatePriceDisplay();
+        };
 
         function updatePriceDisplay() {
-            const hardwareTotal = state.unitPrice * state.qty;
-            const total = hardwareTotal + state.saasPrice;
+          const hardwareTotal = state.unitPrice * state.qty;
+          const total = hardwareTotal + state.saasPrice;
 
-            prices.top.textContent = state.unitPrice.toFixed(2);
-            prices.bottom.textContent = `¥${total.toFixed(2)}`;
+          prices.top.textContent = state.unitPrice.toFixed(2);
+          prices.bottom.textContent = `¥${total.toFixed(2)}`;
         }
 
         // 绑定材质/颜色/图案点击事件
-        document.querySelectorAll('.option-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                // 忽略被禁用的按钮
-                if(e.currentTarget.classList.contains('disabled')) return;
+        document.querySelectorAll(".option-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            // 忽略被禁用的按钮
+            if (e.currentTarget.classList.contains("disabled")) return;
 
-                const type = e.currentTarget.dataset.type;
-                if(type) { // 只处理有data-type的，避免影响赠送按钮
-                    updateGroupUI(e.currentTarget);
-                    labels[type].textContent = e.currentTarget.dataset.name;
-                    state[type] = e.currentTarget.dataset.value;
-                    updateCardPreview();
-                }
-            });
+            const type = e.currentTarget.dataset.type;
+            if (type) {
+              // 只处理有data-type的，避免影响赠送按钮
+              updateGroupUI(e.currentTarget);
+              labels[type].textContent = e.currentTarget.dataset.name;
+              state[type] = e.currentTarget.dataset.value;
+              updateCardPreview();
+            }
+          });
         });
 
-        document.querySelectorAll('.color-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                updateGroupUI(e.currentTarget);
-                labels.color.textContent = e.currentTarget.dataset.name;
-                state.color = e.currentTarget.dataset.color;
-                updateCardPreview();
-            });
+        document.querySelectorAll(".color-btn").forEach((btn) => {
+          btn.addEventListener("click", (e) => {
+            updateGroupUI(e.currentTarget);
+            labels.color.textContent = e.currentTarget.dataset.name;
+            state.color = e.currentTarget.dataset.color;
+            updateCardPreview();
+          });
         });
 
         function updateGroupUI(activeBtn) {
-            const group = activeBtn.parentElement;
-            Array.from(group.children).forEach(child => child.classList.remove('active'));
-            activeBtn.classList.add('active');
+          const group = activeBtn.parentElement;
+          Array.from(group.children).forEach((child) =>
+            child.classList.remove("active")
+          );
+          activeBtn.classList.add("active");
         }
 
         function updateCardPreview() {
-            card.className = `interactive-card color-${state.color} material-${state.material} pattern-${state.pattern}`;
+          card.className = `interactive-card color-${state.color} material-${state.material} pattern-${state.pattern}`;
         }
 
         initUI();
 
         /* --- 购物车逻辑 --- */
-        document.querySelector('.btn-secondary').addEventListener('click', function() {
-            
+        document
+          .querySelector(".btn-secondary")
+          .addEventListener("click", function () {
             // 构建 saasList (分开付费与赠送)
             let saasList = [];
 
             // 1. 付费 SaaS
-            if (state.saasTier !== 'free') {
-                const activeSaas = document.querySelector('.saas-card.active');
-                let rawTitle = state.saasTier;
-                if (activeSaas) {
-                    const nameEl = activeSaas.querySelector('.saas-name');
-                    if (nameEl) rawTitle = nameEl.innerText.split('\n')[0].trim();
-                }
-                saasList.push({ name: state.saasTier, display: rawTitle + " (月付)", price: state.saasPrice, type: 'paid' });
+            if (state.saasTier !== "free") {
+              const activeSaas = document.querySelector(".saas-card.active");
+              let rawTitle = state.saasTier;
+              if (activeSaas) {
+                const nameEl = activeSaas.querySelector(".saas-name");
+                if (nameEl) rawTitle = nameEl.innerText.split("\n")[0].trim();
+              }
+              saasList.push({
+                name: state.saasTier,
+                display: rawTitle + " (月付)",
+                price: state.saasPrice,
+                type: "paid",
+              });
             }
 
             // 2. 赠送 SaaS
             if (state.gift) {
-                const giftNameMap = { 'pro-1y': 'Pro会员1年', 'ultra-1y': 'Ultra会员1年' };
-                saasList.push({ name: state.gift, display: "赠送: " + giftNameMap[state.gift], price: 0, type: 'gift' });
+              const giftNameMap = {
+                "pro-1y": "Pro会员1年",
+                "ultra-1y": "Ultra会员1年",
+              };
+              saasList.push({
+                name: state.gift,
+                display: "赠送: " + giftNameMap[state.gift],
+                price: 0,
+                type: "gift",
+              });
             }
 
             const newItem = {
-                id: 'ess_' + Date.now(),
-                timestamp: Date.now(),
-                sourcePage: 'Essential',
-                productName: 'Linkly Essential 基础版',
-                qty: state.qty,
-                
-                config: {
-                    material: state.material,
-                    materialName: document.querySelector(`[data-type="material"][data-value="${state.material}"]`).innerText,
-                    color: state.color,
-                    colorName: document.querySelector(`[data-color="${state.color}"]`).dataset.name,
-                    pattern: state.pattern,
-                    patternName: document.querySelector(`[data-type="pattern"][data-value="${state.pattern}"]`).innerText
-                },
-                
-                custom: { name: '', title: '', company: '' },
+              id: "ess_" + Date.now(),
+              timestamp: Date.now(),
+              sourcePage: "Essential",
+              productName: "Linkly Essential 基础版",
+              qty: state.qty,
 
-                saasList: saasList, // 新结构
-                saas: saasList.length > 0 ? saasList[0] : { name: 'free', display: 'Free', price: 0 } // 兼容旧结构
+              config: {
+                material: state.material,
+                materialName: document.querySelector(
+                  `[data-type="material"][data-value="${state.material}"]`
+                ).innerText,
+                color: state.color,
+                colorName: document.querySelector(
+                  `[data-color="${state.color}"]`
+                ).dataset.name,
+                pattern: state.pattern,
+                patternName: document.querySelector(
+                  `[data-type="pattern"][data-value="${state.pattern}"]`
+                ).innerText,
+              },
+
+              custom: { name: "", title: "", company: "" },
+
+              saasList: saasList, // 新结构
+              saas:
+                saasList.length > 0
+                  ? saasList[0]
+                  : { name: "free", display: "Free", price: 0 }, // 兼容旧结构
             };
 
             addToLocalStorage(newItem);
-        });
+          });
 
         function addToLocalStorage(item) {
-            let cart = [];
-            try {
-                cart = JSON.parse(localStorage.getItem('linkly_cart') || '[]');
-            } catch(e) { cart = []; }
-            
-            cart.push(item);
-            localStorage.setItem('linkly_cart', JSON.stringify(cart));
-            
-            const btn = document.querySelector('.btn-secondary');
-            const oldText = btn.innerText;
-            btn.innerText = '已加入购物袋 ✔';
-            btn.style.backgroundColor = '#4cd964';
-            btn.style.color = '#fff';
-            setTimeout(() => {
-                btn.innerText = oldText;
-                btn.style.backgroundColor = '';
-                btn.style.color = '';
-            }, 2000);
+          let cart = [];
+          try {
+            cart = JSON.parse(localStorage.getItem("linkly_cart") || "[]");
+          } catch (e) {
+            cart = [];
+          }
+
+          cart.push(item);
+          localStorage.setItem("linkly_cart", JSON.stringify(cart));
+
+          const btn = document.querySelector(".btn-secondary");
+          const oldText = btn.innerText;
+          btn.innerText = "已加入购物袋 ✔";
+          btn.style.backgroundColor = "#4cd964";
+          btn.style.color = "#fff";
+          setTimeout(() => {
+            btn.innerText = oldText;
+            btn.style.backgroundColor = "";
+            btn.style.color = "";
+          }, 2000);
         }
-
-    });
-</script>
-
-</body>
+      });
+    </script>
+  </body>
 </html>
