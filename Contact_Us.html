@@ -365,29 +365,6 @@
             });
         });
 
-        // form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const selectedTopic = document.querySelector('input[name="topic"]:checked');
-            if (!selectedTopic) {
-                pillGroup.classList.add('error');
-                topicError.style.display = 'inline';
-                btn.classList.add('shake');
-                setTimeout(() => btn.classList.remove('shake'), 500);
-                return;
-            }
-
-            const originalText = btn.textContent;
-            btn.textContent = "正在发送...";
-            btn.style.opacity = "0.7";
-            btn.disabled = true;
-            
-            setTimeout(() => {
-                mainContainer.style.display = 'none';
-                successView.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-            }, 1000);
-        });
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
