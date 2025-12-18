@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     // 3. 使用 Resend 发送邮件
     const data = await resend.emails.send({
       from: 'Linkly Website <contact@linklyai.net>', 
-      to: ['contact@linklyai.net'], 
+      to: ['hkwaiic@gmail.com'], 
 
       reply_to: email, // 这样你直接点回复，就是回复给填表的用户
       subject: `新咨询: ${name} - ${topic}`, // 邮件标题
