@@ -18,9 +18,6 @@ export default async function handler(req, res) {
       from: 'Linkly Website <contact@linklyai.net>', 
       to: ['contact@linklyai.net'], 
 
-      // from: 'Linkly Website <contact@linklyai.net>',
-      // to: ['Elvira_zhangoi@163.com'], 
-
       reply_to: email, // 这样你直接点回复，就是回复给填表的用户
       subject: `新咨询: ${name} - ${topic}`, // 邮件标题
       html: `
