@@ -226,36 +226,38 @@
                     </div>
                 </div>
 
-                <div class="section-title">支付方式</div>
-                <p class="section-desc">所有交易均经过加密保护。</p>
-                
-                <div class="payment-grid" id="payment-methods">
-                    <div class="pay-card active" onclick="selectPayment(this, 'alipay')">
-                        <svg class="pay-icon" viewBox="0 0 1024 1024" fill="#1677FF"><path d="M867.7 266.6H668.9c9.4-23.7 17.5-50.6 23.6-79.6h175.2c16.5 0 29.9-13.4 29.9-29.9s-13.4-29.9-29.9-29.9H619.6V88.9c0-16.5-13.4-29.9-29.9-29.9s-29.9 13.4-29.9 29.9v38.3H297.9c-16.5 0-29.9 13.4-29.9 29.9s13.4 29.9 29.9 29.9h300.7c-6.8 30.6-16.5 58.7-28.7 83.3-33.8-31.9-66.7-56-97.1-73.6-14.4-8.3-32.9-3.4-41.2 11-8.3 14.4-3.4 32.9 11 41.2 26 15 54.8 36.2 84.8 63.8H156.3c-16.5 0-29.9 13.4-29.9 29.9s13.4 29.9 29.9 29.9h360.2c-54.8 77.2-132.5 137.9-224.2 174.6-15.3 6.1-22.9 23.6-16.8 38.9 4.7 11.8 15.9 18.7 27.8 18.7 3.7 0 7.4-0.7 11.1-2.2 105.5-42.2 194.5-112.5 256.3-202.4 35.1 48.6 63.4 101.4 84.1 157-128.8 34.6-224.6 122.9-224.6 229.4 0 131.5 146 238.4 326.1 238.4 167.3 0 305.1-92.3 323.5-211.2h28.3c16.5 0 29.9-13.4 29.9-29.9s-13.4-29.9-29.9-29.9h-51.5c-4-81.8-51.4-156-128-203.8 28.3-84.1 48.1-174.4 58.6-267.5h77.7c16.5 0 29.9-13.4 29.9-29.9s-13.3-29.9-29.8-29.9z m-412 559.4c0-67.4 67.4-124.2 156.4-143.1 19.3 54.2 30.2 112.9 30.2 174.1-0.2 0-186.6-31-186.6-31z m383-29.8c-20.9 94.6-136.2 161.4-270.2 161.4-121.3 0-227.8-54.8-262.1-134.4 75.6-35.3 158.4-55.8 245.8-57.8-1.5-35.1-7.2-69.1-16.6-101.9 66.8 45.4 107.5 113.6 103.1 132.7z"/></svg>
-                        <span class="pay-name">支付宝</span>
-                    </div>
+                <div class="checkout-section">
+                    <div class="section-title">预计支付方式</div>
+                    <p class="section-desc" style="color: #86868b; font-size: 14px; margin-bottom: 15px;">订单提交后，我们将通过邮件与您确认支付详情。</p>
 
-                    <div class="pay-card" onclick="selectPayment(this, 'wechat')">
-                        <svg class="pay-icon" viewBox="0 0 1024 1024" fill="#09BB07"><path d="M404.6 601.7c-5.8 0-10.9-2.5-14.7-6.5-3.6-3.8-5.9-9-5.9-14.7 0-11.4 9.3-20.8 20.8-20.8s20.8 9.3 20.8 20.8c-0.1 11.4-9.4 20.7-21 21.2z m208.6-20.9c0-11.4 9.3-20.8 20.8-20.8s20.8 9.3 20.8 20.8c0 11.4-9.3 20.8-20.8 20.8s-20.8-9.4-20.8-20.8z m-286-62.1c0-11.4 9.3-20.8 20.8-20.8s20.8 9.3 20.8 20.8c0 11.4-9.3 20.8-20.8 20.8s-20.8-9.3-20.8-20.8z m208.6-20.8c0 11.4-9.3 20.8-20.8 20.8s-20.8-9.3-20.8-20.8c0-11.4 9.3-20.8 20.8-20.8s20.8 9.4 20.8 20.8z m277.5 102.7c-17.6 15.2-39.7 25.1-64.4 27.5-6.6 0.6-13 1.1-19.4 1.1h-0.8l-54.8 29.9 11-53.1c-62.4-23.3-107.1-80.1-107.1-146.4 0-87.3 77.2-158.1 172.5-158.1S793.6 372.4 793.6 459.7c0 53.6-28.9 101-72.9 129.7zM368 535.4c126.3 0 228.7-88.4 228.7-197.3S494.3 140.8 368 140.8 139.3 229.2 139.3 338.1c0 62.1 33.3 118 85.3 154.5l-21.7 65.5 78.5-40.4c26.7 11.8 56.6 18.2 88.2 17.8h-1.6z"/></svg>
-                        <span class="pay-name">微信支付</span>
-                    </div>
-
-                    <div class="pay-card" onclick="selectPayment(this, 'unionpay')">
-                        <div style="font-weight:700; color:#333; font-style:italic; font-size:18px;">UnionPay</div>
-                        <span class="pay-name">银联卡</span>
-                    </div>
-
-                    <div class="pay-card" onclick="selectPayment(this, 'visa')">
-                        <div style="font-weight:800; color:#1a1f71; font-size:20px; letter-spacing:-1px;">VISA</div>
-                        <span class="pay-name">Visa</span>
-                    </div>
-
-                    <div class="pay-card" onclick="selectPayment(this, 'master')">
-                        <div style="display:flex;">
-                            <div style="width:20px;height:20px;background:#eb001b;border-radius:50%;opacity:0.9;"></div>
-                            <div style="width:20px;height:20px;background:#f79e1b;border-radius:50%;margin-left:-12px;opacity:0.9;"></div>
+                    <div class="payment-grid" id="payment-methods">
+                        <div class="pay-card active" onclick="selectPayment(this, 'alipay')">
+                            <img src="Checkout/AliPay.png" alt="支付宝" class="pay-icon" style="width: 24px; height: auto;">
+                            <span class="pay-name">支付宝</span>
                         </div>
-                        <span class="pay-name">MasterCard</span>
+
+                        <div class="pay-card" onclick="selectPayment(this, 'wechat')">
+                            <img src="Checkout/WeChat.png" alt="微信支付" class="pay-icon" style="width: 24px; height: auto;">
+                            <span class="pay-name">微信支付</span>
+                        </div>
+
+                        <div class="pay-card" onclick="selectPayment(this, 'unionpay')">
+                            <div style="font-weight:700; color:#333; font-style:italic; font-size:18px;">UnionPay</div>
+                            <span class="pay-name">银联卡</span>
+                        </div>
+
+                        <div class="pay-card" onclick="selectPayment(this, 'visa')">
+                            <div style="font-weight:800; color:#1a1f71; font-size:20px; letter-spacing:-1px;">VISA</div>
+                            <span class="pay-name">Visa</span>
+                        </div>
+
+                        <div class="pay-card" onclick="selectPayment(this, 'master')">
+                            <div style="display:flex;">
+                                <div style="width:20px;height:20px;background:#eb001b;border-radius:50%;opacity:0.9;"></div>
+                                <div style="width:20px;height:20px;background:#f79e1b;border-radius:50%;margin-left:-12px;opacity:0.9;"></div>
+                            </div>
+                            <span class="pay-name">MasterCard</span>
+                        </div>
                     </div>
                 </div>
 
@@ -455,7 +457,7 @@
         const total = checkoutData.total || 0;
         document.getElementById('summary-subtotal').textContent = `CN¥ ${total.toFixed(2)}`;
         document.getElementById('summary-total').textContent = `CN¥ ${total.toFixed(2)}`;
-        document.getElementById('pay-button').textContent = `支付 CN¥ ${total.toFixed(2)}`;
+        document.getElementById('pay-button').textContent = `提交订单 CN¥ ${total.toFixed(2)}`;
     }
 
     // ----------------------------------------
@@ -517,26 +519,61 @@
         document.getElementById('selected-payment').value = method;
     };
 
-    window.handlePlaceOrder = function(e) {
+    window.handlePlaceOrder = async function(e) {
         e.preventDefault();
         
-        // 最终检查：如果是同步模式，确保收货手机号有值
-        const toggle = document.getElementById('phone-sync-toggle');
-        if (toggle.checked) {
-            syncPhoneIfEnabled();
-        }
-
         const btn = document.getElementById('pay-button');
+        const originalText = btn.textContent;
+        
+        // 1. 禁用按钮
         btn.disabled = true;
-        btn.textContent = '正在安全处理...';
+        btn.textContent = '正在提交订单...';
         btn.style.opacity = '0.7';
 
-        setTimeout(() => {
-            alert('支付成功！感谢您的购买。\n订单确认邮件已发送至您的邮箱。');
-            localStorage.removeItem('linkly_cart');
-            localStorage.removeItem('linkly_checkout_pending');
-            window.location.href = 'index.html';
-        }, 2000);
+        // 2. 收集数据
+        const formData = {
+            // 联系与地址
+            contactEmail: document.getElementById('contact-email').value,
+            contactPhone: document.getElementById('contact-phone').value,
+            lastName: document.querySelector('input[placeholder="姓氏"]').value,
+            firstName: document.querySelector('input[placeholder="名字"]').value,
+            address: {
+                province: document.querySelector('input[placeholder="省份"]').value,
+                city: document.querySelector('input[placeholder="城市"]').value,
+                district: document.querySelector('input[placeholder="区/县"]').value,
+                detail: document.querySelector('input[placeholder="街道地址、小区、门牌号"]').value,
+                shippingPhone: document.getElementById('shipping-phone').value
+            },
+            // 支付与商品
+            paymentMethod: document.getElementById('selected-payment').value,
+            items: checkoutData.items, // 这里是从 renderOrder 使用的全局变量获取
+            totalPrice: checkoutData.total
+        };
+
+        try {
+            // 3. 发送给后端 API (注意：这里我们用一个新的 API 路径)
+            const response = await fetch('/api/send-checkout-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                alert('订单提交成功！我们将通过邮件联系您完成支付。');
+                localStorage.removeItem('linkly_cart');
+                localStorage.removeItem('linkly_checkout_pending');
+                window.location.href = 'index.html';
+            } else {
+                const result = await response.json();
+                throw new Error(result.error || '提交失败');
+            }
+
+        } catch (error) {
+            alert('提交出错：' + error.message);
+            btn.disabled = false;
+            btn.textContent = originalText;
+            btn.style.opacity = '1';
+        }
     };
 </script>
 
