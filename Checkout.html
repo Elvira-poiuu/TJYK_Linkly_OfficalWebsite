@@ -562,7 +562,7 @@
                 alert('订单提交成功！我们将通过邮件联系您完成支付。');
                 localStorage.removeItem('linkly_cart');
                 localStorage.removeItem('linkly_checkout_pending');
-                window.location.href = 'index.html';
+                window.location.href = 'Shop_General.html';
             } else {
                 const result = await response.json();
                 throw new Error(result.error || '提交失败');
