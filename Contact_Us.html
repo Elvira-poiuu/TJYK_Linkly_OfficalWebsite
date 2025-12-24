@@ -189,31 +189,34 @@
                         </div>
                     </div>
                 </div>
-                <a href="Product.html">Linkly 名片</a> 
-                <a href="AI_Detailed_2.html">Linkly AI</a> 
-                <a href="B_Detailed_2black_WordPolish.html">Linkly 企业版</a> 
-                
-                <!-- <div class="relative group h-full flex items-center">
-                    <span class="cursor-pointer py-4 text-[0.875rem] text-[#1d1d1f] group-hover:text-[#0071e3] group-hover:font-bold transition-all duration-300">
-                        定价
-                    </span>
-                    <div class="absolute left-1/2 -translate-x-1/2 top-[3rem] pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
-                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl overflow-hidden shadow-2xl w-32 flex flex-col p-1">
-                            <a href="VIP_Compare_2.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] rounded-lg hover:text-[#0071e3] transition-colors !font-normal">
-                                软件应用
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        功能
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                功能概览
                             </a>
-                            <a href="Price_Card.html" class="block w-full px-4 py-2.5 text-center text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] rounded-lg hover:text-[#0071e3] transition-colors !font-normal">
-                                实体名片
+                            <a href="AI_Detailed_2.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly AI
+                            </a>
+                            <a href="B_Detailed_2black_WordPolish.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 企业版
                             </a>
                         </div>
                     </div>
-                </div> -->
+                </div>
+                <div class="relative group h-full flex items-center">
+                    <a href="Scene.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        使用场景
+                    </a>
+                </div>
                 <div class="relative group h-full flex items-center">
                     <a href="VIP_Compare_2.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
                         定价
                     </a>
                 </div>
-
                 <div class="relative group h-full flex items-center">
                     <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
                         支持
@@ -334,96 +337,7 @@
         <button onclick="location.reload()" style="margin-top: 30px; background: transparent; border: 1px solid #d2d2d7; padding: 10px 24px; border-radius: 980px; cursor: pointer; color: #1d1d1f; transition:0.2s; font-size:15px;">返回</button>
     </div>
 
-    <!-- <script>
-        // 导航高亮逻辑
-        window.addEventListener('load', () => {
-            const currentPage = window.location.pathname;
-            const links = document.querySelectorAll('.navbar-links a');
-            
-            links.forEach(link => {
-                const href = link.getAttribute('href');
-                if (href && href !== '#' && currentPage.includes(href)) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
-            });
-        });
-
-        const form = document.getElementById('contactForm');
-        const mainContainer = document.getElementById('mainContainer');
-        const successView = document.getElementById('successView');
-        const btn = document.querySelector('.submit-btn');
-        const pillGroup = document.getElementById('pillGroup');
-        const topicError = document.getElementById('topicError');
-
-        document.querySelectorAll('input[name="topic"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                pillGroup.classList.remove('error');
-                topicError.style.display = 'none';
-                btn.classList.remove('shake');
-            });
-        });
-
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            // 1. 检查是否选择了话题 (这也是你原本的逻辑)
-            const selectedTopic = document.querySelector('input[name="topic"]:checked');
-            if (!selectedTopic) {
-                pillGroup.classList.add('error');
-                topicError.style.display = 'inline';
-                btn.classList.add('shake');
-                setTimeout(() => btn.classList.remove('shake'), 500);
-                return;
-            }
-
-            // 2. 改变按钮状态，让用户知道正在处理
-            const originalText = btn.textContent;
-            btn.textContent = "正在发送...";
-            btn.style.opacity = "0.7";
-            btn.disabled = true;
-
-            // 3. 收集表单数据
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                topic: selectedTopic.value,
-                message: document.getElementById('message').value
-            };
-
-            try {
-                // 4. 发送数据给我们的后端 (API)
-                const response = await fetch('/api/send-email', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formData),
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    // --- 成功的情况 ---
-                    mainContainer.style.display = 'none';
-                    successView.style.display = 'block';
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    // --- 失败的情况 ---
-                    throw new Error(result.error || '发送失败');
-                }
-
-            } catch (error) {
-                // --- 出错处理 ---
-                alert('抱歉，发送失败：' + error.message);
-                btn.textContent = originalText; // 恢复按钮文字
-                btn.style.opacity = "1";
-                btn.disabled = false;
-            }
-        });
     
-    </script> -->
     <script>
         // 1. 导航栏高亮逻辑
         window.addEventListener('load', () => {

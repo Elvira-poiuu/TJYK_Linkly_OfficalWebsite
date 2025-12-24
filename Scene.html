@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Logo/webLOGOpart_icon_w_TRANSBG.png" type="image/x-icon">
+    <title>Linkly-Scene</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --apple-bg: #f5f5f7;
+            --apple-text: #1d1d1f;
+            --apple-secondary: #86868b;
+            --linkly-blue: #0071e3; 
+            --card-white: #ffffff;
+            --pain-text: rgba(29, 29, 31, 0.45); 
+            --benefit-text: #1d1d1f;
+            --apple-green: #34c759;
+        }
+
+        /* 强制覆盖 Tailwind 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--apple-bg);
+            color: var(--apple-text);
+            line-height: 1.5;
+        }
+
+        /* 导航栏 */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .navbar-links a { color: #1d1d1f; text-decoration: none; font-size: 0.875rem; transition: font-weight 0.3s ease; }
+        .navbar-links a:hover { font-weight: bold; color: #0071e3; }
+        .navbar-links a.active { font-weight: bold; color: #000000; }
+        
+        .navbar-btns .buy-btn { background-color: #1d1d1f; color: white; }
+        .navbar-btns .buy-btn:hover { background-color: #0071e3; font-weight: bold; }
+        .navbar-btns .login-btn:hover { color: #0071e3; font-weight: bold; }
+
+        /* 增加页面整体宽度 */
+        .main-content {
+            max-width: 1250px !important; 
+            margin: 0 auto;
+            padding: 120px 22px;
+        }
+
+        .scenario-section {
+            margin-bottom: 80px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 1s cubic-bezier(0.15, 0, 0.15, 1);
+        }
+
+        .scenario-section.reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 调整比例：图片占 45%，文字占 55%，让文案区更宽 */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: 0.9fr 1.1fr; 
+            background: var(--card-white);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            min-height: 600px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.02);
+        }
+
+        .image-side { background-color: #fbfbfd; overflow: hidden; }
+        .image-side img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease; }
+        .scenario-section:hover img { transform: scale(1.04); }
+
+        .text-side {
+            padding: 60px 70px; /* 增加内边距更显高级 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .scenario-tag {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--apple-secondary);
+            margin-bottom: 16px;
+        }
+
+        /* 强制修复标题字号 */
+        .text-side h2 {
+            font-size: 42px !important; 
+            font-weight: 600 !important;
+            margin-bottom: 35px !important;
+            line-height: 1.15 !important;
+            color: var(--apple-text) !important;
+            display: block !important;
+        }
+
+        .comparison-list { list-style: none; margin-bottom: 35px; }
+
+        /* 修复图标和文字在同一行 */
+        .list-item {
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: flex-start !important;
+            margin-bottom: 18px;
+            font-size: 17px;
+            text-align: left;
+        }
+
+        .list-item.pain { color: var(--pain-text); font-weight: 400; }
+        .list-item.benefit { color: var(--benefit-text); font-weight: 400; }
+
+        /* 图标强制大小及不收缩 */
+        .icon-svg {
+            width: 20px !important;
+            height: 20px !important;
+            margin-right: 14px !important;
+            margin-top: 3px !important;
+            flex-shrink: 0 !important; 
+            display: inline-block !important;
+        }
+
+        .benefit .icon-svg { color: var(--apple-green) !important; }
+
+        /* 收益文字改为蓝色 */
+        .revenue-label {
+            color: var(--linkly-blue) !important;
+            font-weight: 600;
+            font-size: 20px;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .divider { height: 1px; background-color: rgba(0,0,0,0.08); margin-bottom: 24px; }
+        .footer-features { font-size: 13px; font-weight: 500; color: var(--apple-secondary); }
+
+        @media (max-width: 900px) {
+            .bento-grid { grid-template-columns: 1fr; }
+            .image-side { height: 320px; }
+            .text-side { padding: 40px 25px; }
+            .text-side h2 { font-size: 30px !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
+            
+            <div class="nav-content">
+                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
+                    <img src="Logo/lightBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;"> 
+                </a>
+                <div style="display:flex; gap:24px;"></div>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8 navbar-links">
+                
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        产品
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Shop_General.html#essential" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                智能名片·基础版
+                            </a>
+                            <a href="Shop_General.html#studio" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                智能名片·半定制版
+                            </a>
+                            <a href="Shop_General.html#bespoke" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                智能名片·全定制版
+                            </a>
+                            <a href="Shop_General.html#saas" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                软件会员
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group h-full flex items-center">
+                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        功能
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                功能概览
+                            </a>
+                            <a href="AI_Detailed_2.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly AI
+                            </a>
+                            <a href="B_Detailed_2black_WordPolish.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                Linkly 企业版
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative group h-full flex items-center">
+                    <a href="Scene.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        使用场景
+                    </a>
+                </div>
+                <div class="relative group h-full flex items-center">
+                    <a href="VIP_Compare_2.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        定价
+                    </a>
+                </div>
+                <div class="relative group h-full flex items-center">
+                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
+                        支持
+                    </a>
+                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
+                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
+                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                应用下载
+                            </a>
+                            <a href="User_Guide.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                使用说明
+                            </a>
+                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                技术详情
+                            </a>
+                            <a href="QA.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                常见问题
+                            </a>
+                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
+                                联系我们
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
+                <!-- <a href="#" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
+                    </svg>
+                </a> -->
+                
+                <a href="ShopBag.html" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                </a>
+
+                <a href="Shop_General.html" class="px-3 py-1 rounded-full font-medium transition-all duration-300 buy-btn">购买</a>
+                
+                <a href="https://linkly.solutions" class="hidden md:block text-[#1d1d1f] transition-all duration-300 login-btn">登录</a>
+            </div>
+        </div>
+    </nav>
+
+<div class="main-content">
+    
+    <section class="scenario-section">
+        <div class="bento-grid">
+            <div class="image-side"><img src="Scene/01.png"></div>
+            <div class="text-side">
+                <p class="scenario-tag">场景 01 | 外贸档口</p>
+                <h2>打破微信壁垒<br>秒速锁死外贸订单</h2>
+                <ul class="comparison-list">
+                    <li class="list-item pain">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        外国客商注册社交账号门槛高，询价意向流失
+                    </li>
+                    <li class="list-item pain">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        英语沟通效率低，表达不准导致错失商机
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        碰一下直达多语个人主页，沟通零距离、看货无障碍
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        AI 实时翻译让谈判更专业，显著增强商业推力
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        7x24h 自动化锁死询盘，成交效率大幅跃升
+                    </li>
+                </ul>
+                <span class="revenue-label">收益：抢回流失客源，成交转化率倍增</span>
+                <div class="divider"></div>
+                <p class="footer-features">运用功能：NFC 极速直联 | AI 实时翻译 | 离线代理分身</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="scenario-section">
+        <div class="bento-grid">
+            <div class="image-side"><img src="Scene/02.png"></div>
+            <div class="text-side">
+                <p class="scenario-tag">场景 02 | 行业展会</p>
+                <h2>1秒极速连接<br>商务人脉即刻变现</h2>
+                <ul class="comparison-list">
+                    <li class="list-item pain">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        名片发完即丢，后续难以追踪真实采购意向
+                    </li>
+                    <li class="list-item pain">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        展会现场沟通浅薄，核心客户极易被竞对截流
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        秒速 Connect 建立数字化连接，人脉资源即刻沉淀
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        深度洞察访客画像，身份实力与业务需求一眼便知
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        AI 意向雷达分级，优先转化高意向买家，获客效能翻倍
+                    </li>
+                </ul>
+                <span class="revenue-label">收益：人脉数字化资产化，显著降低获客成本</span>
+                <div class="divider"></div>
+                <p class="footer-features">运用功能：极速 Connect | 访客意向洞察 | 企业级 CRM</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="scenario-section">
+        <div class="bento-grid">
+            <div class="image-side"><img src="Scene/03.png"></div>
+            <div class="text-side">
+                <p class="scenario-tag">场景 03 | 投标现场</p>
+                <h2>专业感拉满<br>用实力拿下千万大单</h2>
+                <ul class="comparison-list">
+                    <li class="list-item pain">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        纸质资料展示力有限，品牌形象难以在竞争中突围
+                    </li>
+                    <li class="list-item pain">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        面对专业质询反应迟缓，查阅资料费时、影响信任
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        AI 官网全方位立体展示企业实力，建立顶级门面感
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        私有知识库毫秒级回应，决策层沟通效能大幅提升
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        权威背调支持，极大缩短信任建立周期与决策流程
+                    </li>
+                </ul>
+                <span class="revenue-label">收益：重塑商业竞争力，项目签单周期显著缩短</span>
+                <div class="divider"></div>
+                <p class="footer-features">运用功能：AI 官网生成 | 专属知识库 | 身份认证背调</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="scenario-section">
+        <div class="bento-grid">
+            <div class="image-side"><img src="Scene/04.png"></div>
+            <div class="text-side">
+                <p class="scenario-tag">场景 04 | 校园招聘</p>
+                <h2>智能校园载体<br>一碰敲开高薪之门</h2>
+                <ul class="comparison-list">
+                    <li class="list-item pain">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        传统简历难以展现个人多维才华，极易在收件箱中沉没
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        个人主页展示动态作品集，让个人才华立体、直观呈现
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        AI 辅助建立高度职业化人设，助力职场起点实现质的飞跃
+                    </li>
+                </ul>
+                <span class="revenue-label">收益：个人价值数字化呈现，职场沟通快速连接</span>
+                <div class="divider"></div>
+                <p class="footer-features">运用功能：多模态个人主页 | 全局 AI 助手</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="scenario-section">
+        <div class="bento-grid">
+            <div class="image-side"><img src="Scene/05.png"></div>
+            <div class="text-side">
+                <p class="scenario-tag">场景 05 | 潮流聚会</p>
+                <h2>百变磁吸配件<br>定义你的数字社交人格</h2>
+                <ul class="comparison-list">
+                    <li class="list-item pain">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        手机配件风格单一，难以彰显每天不同的心情与独特人设
+                    </li>
+                    <li class="list-item pain">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                        数字化名片缺乏温度，社交破冰环节往往显得生硬尴尬
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        磁吸造型随心 DIY，正月初一至十五每天换新，节日氛围拉满
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        星座与 MBTI 主题自由搭配，让手机壳后盖成为你的性格名片
+                    </li>
+                    <li class="list-item benefit">
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        极具趣味的形态切换，显著提升社交互动的参与感与话题性
+                    </li>
+                </ul>
+                <span class="revenue-label">收益：彰显独特品味，让每一次触碰都成为有趣的灵魂共鸣</span>
+                <div class="divider"></div>
+                <p class="footer-features">运用功能：磁吸配件 DIY | 多态形象切换 | 趣味社交破冰</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('reveal');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.scenario-section').forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
