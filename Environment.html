@@ -72,6 +72,22 @@
         .stat-number { font-size: 64px; font-weight: 700; line-height: 1; margin-bottom: 16px; background: linear-gradient(to bottom, #fff, #aaa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
         .stat-desc { font-size: 19px; font-weight: 600; margin-bottom: 8px; color: #fff; }
         .stat-sub { font-size: 14px; color: var(--text-secondary); max-width: 240px; margin: 0 auto; }
+
+        /* 统一页脚移动端适配 */
+        @media (max-width: 768px) {
+            footer div[style*="grid-template-columns: repeat(5, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important; /* 改为两列 */
+                gap: 30px !important;
+            }
+            footer div[style*="justify-content: space-between"] {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            footer div[style*="margin-left: auto"] {
+                margin-left: 0 !important;
+            }
+        }
+
     </style>
 </head>
 <body>

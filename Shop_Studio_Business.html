@@ -395,10 +395,92 @@
         .btn-primary { background: #fff; color: #000; } .btn-primary:hover { background: #e5e5e5; }
         .btn-secondary { background: #333; color: #fff; } .btn-secondary:hover { background: #444; }
 
-        @media (max-width: 900px) {
-            .product-configurator { grid-template-columns: 1fr; gap: 40px; }
-            .preview-stage { position: relative; top: 0; padding: 40px 20px; }
+/* --- 移动端深度适配 (Shop_Studio_Business) --- */
+@media (max-width: 768px) {
+    /* 1. 容器调整 */
+    .main-container {
+        padding: 70px 12px 60px !important;
+    }
+
+    .product-configurator {
+        grid-template-columns: 1fr !important; /* 强制单列排列 */
+        gap: 24px !important;
+    }
+
+    /* 2. 预览区域适配 */
+    .preview-stage {
+        position: relative !important;
+        top: 0 !important;
+        padding: 30px 10px !important;
+        width: 100% !important;
+        overflow: hidden; /* 防止缩放溢出屏幕 */
+    }
+
+    /* 3. 卡片缩放逻辑 (核心：解决固定 340px 溢出) */
+    .preview-card-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        transform: scale(0.85); /* 整体缩放至 85% 以适应窄屏 */
+        margin: -40px 0; /* 负边距抵消缩放产生的空白 */
+    }
+
+    /* 4. 配置面板调整 */
+    .panel-header {
+        flex-direction: column !important;
+        gap: 15px;
+    }
+
+    .top-price-box {
+        text-align: left !important;
+    }
+
+    .option-group {
+        grid-template-columns: 1fr 1fr !important; /* 按钮改为两列 */
+    }
+
+    .grid-3-col {
+        grid-template-columns: 1fr 1fr !important;
+    }
+
+    /* 5. 价格梯度改为 2x2 */
+    .tier-legend {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px;
+    }
+
+    /* 6. 底部操作栏 */
+    .btn-group {
+        grid-template-columns: 1fr !important; /* 按钮上下并排 */
+        gap: 12px;
+    }
+
+    /* 7. 页脚适配 (用户反馈有用，保留并优化) */
+    footer div[style*="grid-template-columns: repeat(5, 1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 30px !important;
+    }
+    footer div[style*="justify-content: space-between"] {
+        flex-direction: column !important;
+        gap: 20px !important;
+    }
+}
+        /* 统一页脚移动端适配 */
+        @media (max-width: 768px) {
+            footer div[style*="grid-template-columns: repeat(5, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important; /* 改为两列 */
+                gap: 30px !important;
+            }
+            footer div[style*="justify-content: space-between"] {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            footer div[style*="margin-left: auto"] {
+                margin-left: 0 !important;
+            }
         }
+
     </style>
 </head>
 <body>

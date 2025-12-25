@@ -389,6 +389,124 @@
         .btn-primary { background: #fff; color: #000; } .btn-primary:hover { background: #e5e5e5; }
         .btn-secondary { background: #333; color: #fff; } .btn-secondary:hover { background: #444; }
 
+/* 1. 全局导航栏固定修复 */
+.glass-nav {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+}
+
+@media (max-width: 768px) {
+    /* 2. 主容器间距适配 */
+    .main-container {
+        padding: calc(var(--nav-height) + 30px) 12px 60px !important;
+        display: block !important;
+    }
+
+    /* 3. 布局从横向改为纵向堆叠 */
+    .product-configurator {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 24px !important;
+    }
+
+    /* 4. 预览区域适配：固定高度并取消 sticky */
+    .preview-stage {
+        position: relative !important;
+        top: 0 !important;
+        padding: 30px 10px !important;
+        width: 100% !important;
+        height: auto !important;
+        min-height: 480px; /* 留出正反两张卡片的展示空间 */
+        overflow: hidden;
+        border-radius: 20px;
+    }
+
+    /* 5. 卡片容器缩放：解决 340px 宽度在小屏溢出的核心逻辑 */
+    .preview-card-container {
+        width: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 20px !important; /* 正反面卡片间距 */
+        transform: scale(0.85); /* 整体缩放至 85% */
+        transform-origin: center top;
+        margin-bottom: -120px; /* 抵消缩放产生的底部巨大空白区域 */
+    }
+
+    .interactive-card {
+        margin: 0 auto !important;
+        flex-shrink: 0;
+    }
+
+    /* 6. 配置面板细节适配 */
+    .panel-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px;
+    }
+
+    .top-price-box {
+        text-align: left !important;
+        width: 100%;
+    }
+
+    /* 7. 选项组与梯度表：改为 2 列排列，防止文字挤压 */
+    .option-group, .grid-3-col, .tier-legend {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 8px !important;
+    }
+
+    /* 材质选项中的“透明 PET”占据整行 */
+    #group-mat .option-btn[style*="grid-column: span 2"] {
+        grid-column: span 2 !important;
+    }
+
+    /* 8. 按钮与操作区 */
+    .action-area {
+        padding: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    .btn-group {
+        grid-template-columns: 1fr !important; /* 按钮上下堆叠 */
+        gap: 12px !important;
+    }
+
+    .btn {
+        padding: 16px !important;
+    }
+
+    /* 9. 页脚 5 列改 2 列 */
+    footer div[style*="grid-template-columns: repeat(5, 1fr)"] {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 24px !important;
+    }
+
+    footer div[style*="justify-content: space-between"] {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 20px !important;
+    }
+}
+        
+        /* 统一页脚移动端适配 */
+        @media (max-width: 768px) {
+            footer div[style*="grid-template-columns: repeat(5, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important; /* 改为两列 */
+                gap: 30px !important;
+            }
+            footer div[style*="justify-content: space-between"] {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            footer div[style*="margin-left: auto"] {
+                margin-left: 0 !important;
+            }
+        }
+
     </style>
 </head>
 <body>

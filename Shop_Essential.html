@@ -229,10 +229,51 @@
         .btn-primary { background: var(--accent-blue); color: #fff; } .btn-primary:hover { background: #0077ed; }
         .btn-secondary { background: #e8e8ed; color: #1d1d1f; } .btn-secondary:hover { background: #d2d2d7; }
 
-        @media (max-width: 900px) {
-            .product-configurator { grid-template-columns: 1fr; gap: 40px; }
-            .preview-stage { position: relative; top: 0; padding: 60px 20px; }
+        @media (max-width: 768px) {
+            .main-container { padding-top: 80px; padding-bottom: 60px; }
+            
+            .product-configurator { 
+                grid-template-columns: 1fr; 
+                gap: 32px; 
+            }
+
+            .preview-stage { 
+                position: relative; 
+                top: 0; 
+                padding: 40px 20px;
+                overflow: hidden; /* 防止缩放溢出 */
+            }
+
+            /* 核心：缩放卡片以适应小屏幕 */
+            .interactive-card {
+                transform: scale(0.85);
+                margin: -20px 0; /* 抵消缩放产生的空白 */
+            }
+
+            .option-group.three-col {
+                grid-template-columns: 1fr; /* 材质选项在手机端建议单列，方便点击 */
+            }
+
+            .btn-group {
+                grid-template-columns: 1fr; /* 按钮上下堆叠 */
+            }
         }
+
+        /* 统一页脚移动端适配 */
+        @media (max-width: 768px) {
+            footer div[style*="grid-template-columns: repeat(5, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important; /* 改为两列 */
+                gap: 30px !important;
+            }
+            footer div[style*="justify-content: space-between"] {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            footer div[style*="margin-left: auto"] {
+                margin-left: 0 !important;
+            }
+        }
+
     </style>
 </head>
 <body>

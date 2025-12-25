@@ -187,6 +187,134 @@
             font-weight: bold;
         }
 
+/* --- Tech_Spec.html 移动端主内容适配补丁 --- */
+
+@media (max-width: 768px) {
+    /* 1. 顶部标题区域优化 */
+    .spec-header {
+        padding: 40px 0 60px !important; /* 减小留白 */
+    }
+
+    .spec-title {
+        font-size: 32px !important; /* 标题不宜过大 */
+        line-height: 1.2;
+    }
+
+    .spec-subtitle {
+        font-size: 18px !important;
+        margin-bottom: 40px !important;
+    }
+
+    /* 2. 3D 厚度视觉图适配 */
+    .thickness-visual {
+        height: auto !important;
+        margin-top: 0 !important;
+    }
+
+    .anim-svg {
+        width: 100% !important;
+        height: auto !important;
+        transform: scale(0.95); /* 略微缩小以防边缘切断 */
+    }
+
+    /* 3. 规格详情网格适配 */
+    .spec-section {
+        padding: 40px 0 !important;
+    }
+
+    .section-title {
+        font-size: 24px !important; /* 副标题缩小 */
+        margin-bottom: 30px !important;
+    }
+
+    .spec-grid {
+        grid-template-columns: 1fr !important; /* 强制单列排列 */
+        gap: 24px !important;
+    }
+
+    .spec-label {
+        font-size: 17px !important;
+        color: var(--accent-blue); /* 移动端用颜色强化标签感 */
+        margin-bottom: 4px !important;
+    }
+
+    .spec-value {
+        font-size: 16px !important;
+        line-height: 1.6;
+    }
+
+    /* 4. 重点：尺寸图标排列（解决原本 80px 间距导致的溢出） */
+    .dimension-box {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* 改为 2x2 网格 */
+        gap: 30px !important;
+        margin-top: 30px !important;
+    }
+
+    .dim-item:last-child {
+        grid-column: span 2; /* 厚度图标占据整行 */
+        margin-top: 10px;
+    }
+
+    .dim-icon {
+        width: 48px !important; /* 缩小图标 */
+        height: 48px !important;
+    }
+
+    .dim-val {
+        font-size: 18px !important;
+    }
+
+    /* 5. 列表项适配 (参数对比表) */
+    .spec-list li {
+        max-width: 100% !important; /* 撑满宽度 */
+        font-size: 14px !important;
+    }
+
+    /* 6. 兼容性描述适配 */
+    .compat-group {
+        background: rgba(255,255,255,0.03); /* 增加极淡背影提升移动端阅读感 */
+        padding: 16px;
+        border-radius: 12px;
+        margin-bottom: 20px !important;
+    }
+
+    .compat-title {
+        font-size: 18px !important;
+    }
+
+    .compat-desc {
+        font-size: 14px !important;
+    }
+}
+
+/* 针对极窄屏幕（如 iPhone SE）的微调 */
+@media (max-width: 375px) {
+    .spec-title {
+        font-size: 28px !important;
+    }
+    .dimension-box {
+        grid-template-columns: 1fr !important; /* 极窄屏改为全纵向 */
+    }
+    .dim-item:last-child {
+        grid-column: span 1;
+    }
+}
+        /* 统一页脚移动端适配 */
+        @media (max-width: 768px) {
+            footer div[style*="grid-template-columns: repeat(5, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important; /* 改为两列 */
+                gap: 30px !important;
+            }
+            footer div[style*="justify-content: space-between"] {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            footer div[style*="margin-left: auto"] {
+                margin-left: 0 !important;
+            }
+        }
+
 
     </style>
 </head>

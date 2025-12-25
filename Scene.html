@@ -7,262 +7,197 @@
     <title>Linkly-Scene</title>
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-        :root {
-            --apple-bg: #f5f5f7;
-            --apple-text: #1d1d1f;
-            --apple-secondary: #86868b;
-            --linkly-blue: #0071e3; 
-            --card-white: #ffffff;
-            --pain-text: rgba(29, 29, 31, 0.45); 
-            --benefit-text: #1d1d1f;
-            --apple-green: #34c759;
-        }
-
-        /* 强制覆盖 Tailwind 基础样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body {
-            background-color: var(--apple-bg);
-            color: var(--apple-text);
-            line-height: 1.5;
-        }
-
-        /* 导航栏 */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-        }
-        .navbar-links a { color: #1d1d1f; text-decoration: none; font-size: 0.875rem; transition: font-weight 0.3s ease; }
-        .navbar-links a:hover { font-weight: bold; color: #0071e3; }
-        .navbar-links a.active { font-weight: bold; color: #000000; }
-        
-        .navbar-btns .buy-btn { background-color: #1d1d1f; color: white; }
-        .navbar-btns .buy-btn:hover { background-color: #0071e3; font-weight: bold; }
-        .navbar-btns .login-btn:hover { color: #0071e3; font-weight: bold; }
-
-        /* 增加页面整体宽度 */
-        .main-content {
-            max-width: 1250px !important; 
-            margin: 0 auto;
-            padding: 120px 22px;
-        }
-
-        .scenario-section {
-            margin-bottom: 80px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 1s cubic-bezier(0.15, 0, 0.15, 1);
-        }
-
-        .scenario-section.reveal {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* 调整比例：图片占 45%，文字占 55%，让文案区更宽 */
-        .bento-grid {
-            display: grid;
-            grid-template-columns: 0.9fr 1.1fr; 
-            background: var(--card-white);
-            border-radius: 28px;
-            overflow: hidden;
-            border: 1px solid rgba(0,0,0,0.05);
-            min-height: 600px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.02);
-        }
-
-        .image-side { background-color: #fbfbfd; overflow: hidden; }
-        .image-side img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease; }
-        .scenario-section:hover img { transform: scale(1.04); }
-
-        .text-side {
-            padding: 60px 70px; /* 增加内边距更显高级 */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .scenario-tag {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--apple-secondary);
-            margin-bottom: 16px;
-        }
-
-        /* 强制修复标题字号 */
-        .text-side h2 {
-            font-size: 42px !important; 
-            font-weight: 600 !important;
-            margin-bottom: 35px !important;
-            line-height: 1.15 !important;
-            color: var(--apple-text) !important;
-            display: block !important;
-        }
-
-        .comparison-list { list-style: none; margin-bottom: 35px; }
-
-        /* 修复图标和文字在同一行 */
-        .list-item {
-            display: flex !important;
-            flex-direction: row !important;
-            align-items: flex-start !important;
-            margin-bottom: 18px;
-            font-size: 17px;
-            text-align: left;
-        }
-
-        .list-item.pain { color: var(--pain-text); font-weight: 400; }
-        .list-item.benefit { color: var(--benefit-text); font-weight: 400; }
-
-        /* 图标强制大小及不收缩 */
-        .icon-svg {
-            width: 20px !important;
-            height: 20px !important;
-            margin-right: 14px !important;
-            margin-top: 3px !important;
-            flex-shrink: 0 !important; 
-            display: inline-block !important;
-        }
-
-        .benefit .icon-svg { color: var(--apple-green) !important; }
-
-        /* 收益文字改为蓝色 */
-        .revenue-label {
-            color: var(--linkly-blue) !important;
-            font-weight: 600;
-            font-size: 20px;
-            margin-bottom: 30px;
-            display: block;
-        }
-
-        .divider { height: 1px; background-color: rgba(0,0,0,0.08); margin-bottom: 24px; }
-        .footer-features { font-size: 13px; font-weight: 500; color: var(--apple-secondary); }
-
-        @media (max-width: 900px) {
-            .bento-grid { grid-template-columns: 1fr; }
-            .image-side { height: 320px; }
-            .text-side { padding: 40px 25px; }
-            .text-side h2 { font-size: 30px !important; }
-        }
-
-        /* 功能标签容器 */
-        .features-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        /* 胶囊标签基础样式 - 延续 Apple 的轻盈感 */
-        .feature-tag {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 14px;
-            background-color: #f5f5f7; /* Apple 经典的浅灰色背景 */
-            color: #1d1d1f;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
-            border: 1px solid transparent;
-        }
-
-        /* 悬停动效：背景略微加深，文字变蓝 */
-        .feature-tag:hover {
-            background-color: #e8e8ed;
-            color: #0071e3;
-            transform: translateY(-1px); /* 轻微浮动感 */
-        }
-
-        /* 引导文字 */
-        .footer-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--apple-secondary);
-            margin-bottom: 12px;
-            display: block;
-        }
-/* 独立白底 Section 样式 */
-    .custom-modular-section {
-        /* 切换为纯白背景，与页面的 #f5f5f7 形成对比 */
-        background-color: #ffffff !important; 
-        border-radius: 28px; /* 在这里添加或修改数值，28px 是 Apple 常用的卡片圆角 */
-        margin: 40px 22px;   /* 如果加了圆角，通常需要增加左右边距让卡片“浮”起来 */
-        /* 增加上下边距，确保呼吸感 */
-        padding: 160px 22px;
-        text-align: center;
-        /* 可选：增加极其微弱的上下边框加强切分感 */
-        border-top: 1px solid rgba(0,0,0,0.02);
-        border-bottom: 1px solid rgba(0,0,0,0.02);
+<style>
+    :root {
+        --apple-bg: #f5f5f7;
+        --apple-text: #1d1d1f;
+        --apple-secondary: #86868b;
+        --linkly-blue: #0071e3; 
+        --card-white: #ffffff;
+        --pain-text: rgba(29, 29, 31, 0.45); 
+        --benefit-text: #1d1d1f;
+        --apple-green: #34c759;
     }
 
-    .custom-modular-container {
-        max-width: 980px;
+    /* --- 基础复位 --- */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", "Helvetica Neue", sans-serif;
+        -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+        background-color: var(--apple-bg);
+        color: var(--apple-text);
+        line-height: 1.5;
+        overflow-x: hidden;
+    }
+
+    /* --- 核心布局 --- */
+    .main-content {
+        max-width: 1250px !important; 
+        margin: 0 auto;
+        padding: 120px 22px;
+    }
+
+    .scenario-section {
+        margin-bottom: 80px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 1s cubic-bezier(0.15, 0, 0.15, 1);
+    }
+
+    .scenario-section.reveal {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .bento-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr; 
+        background: var(--card-white);
+        border-radius: 28px;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.05);
+        min-height: 600px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.02);
+    }
+
+    /* --- 详情图文区 --- */
+    .image-side { background-color: #fbfbfd; overflow: hidden; }
+    .image-side img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease; }
+    .scenario-section:hover img { transform: scale(1.04); }
+
+    .text-side { padding: 60px 70px; display: flex; flex-direction: column; justify-content: center; }
+    .scenario-tag { font-size: 14px; font-weight: 600; color: var(--apple-secondary); margin-bottom: 16px; }
+    .text-side h2 { font-size: 42px !important; font-weight: 600 !important; margin-bottom: 35px !important; line-height: 1.15 !important; color: var(--apple-text) !important; }
+    
+    .comparison-list { list-style: none; margin-bottom: 35px; }
+    .list-item { display: flex; align-items: flex-start; margin-bottom: 18px; font-size: 17px; }
+    .list-item.pain { color: var(--pain-text); }
+    .icon-svg { width: 20px; height: 20px; margin-right: 14px; margin-top: 3px; flex-shrink: 0; }
+    .benefit .icon-svg { color: var(--apple-green); }
+    .revenue-label { color: var(--linkly-blue); font-weight: 600; font-size: 20px; margin-bottom: 30px; display: block; }
+
+    /* --- 功能标签 --- */
+    .features-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+    .feature-tag {
+        padding: 6px 14px; background: #f5f5f7; border-radius: 20px; font-size: 13px;
+        font-weight: 500; text-decoration: none; color: #1d1d1f; transition: all 0.3s;
+    }
+    .feature-tag:hover { background: #e8e8ed; color: #0071e3; transform: translateY(-1px); }
+
+    /* --- 定制表单卡片 --- */
+    .custom-form-card {
+        background: #ffffff;
+        border-radius: 30px;
+        padding: 80px 60px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.04);
+        max-width: 900px;
         margin: 0 auto;
     }
 
-    .custom-modular-headline {
-        font-size: 80px !important;
-        font-weight: 700 !important;
-        line-height: 1.05 !important;
-        letter-spacing: -2.5px !important;
-        color: #1d1d1f !important;
-        margin: 0 0 28px 0 !important;
+    .minimal-input {
+        width: 100%; padding: 16px; font-size: 16px;
+        background: #f5f5f7; border: 1px solid transparent;
+        border-radius: 12px; transition: all 0.3s; outline: none;
+    }
+    .minimal-input:focus { border-color: #0071e3; background: #fff; box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1); }
+
+    .tag-button {
+        padding: 10px 20px; border-radius: 20px; background: #f5f5f7;
+        color: #1d1d1f; cursor: pointer; transition: all 0.2s;
+        font-size: 14px; font-weight: 500; border: 1.5px solid transparent;
+    }
+    .tag-button.active { background: #1d1d1f; color: #fff; }
+
+    /* --- 高级下拉功能清单 --- */
+    .feature-dropdown {
+        border: 1px solid #d2d2d7; border-radius: 12px;
+        overflow: hidden; margin-top: 10px; background: #fff;
+    }
+    .dropdown-header {
+        padding: 18px 20px; background: #f5f5f7; cursor: pointer;
+        display: flex; justify-content: space-between; align-items: center;
+        transition: background 0.3s;
+    }
+    .dropdown-header:hover { background: #eeeef0; }
+
+    .dropdown-content {
+        display: none; 
+        padding: 20px; 
+        background: #fff;
+        grid-template-columns: repeat(2, 1fr); /* 核心：双列排布 */
+        gap: 12px 24px;
+        border-top: 1px solid #d2d2d7;
+        max-height: 450px; /* 限制高度并开启滚动 */
+        overflow-y: auto;
+    }
+    .dropdown-content.show { display: grid; }
+
+    /* 分类标题样式 */
+    .dropdown-category-title {
+        grid-column: 1 / -1; /* 横跨两列 */
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--linkly-blue);
+        padding: 18px 0 8px 0;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border-bottom: 1px solid #f5f5f7;
+        background: #fff;
+        position: sticky; /* 滚动时标题悬停 */
+        top: -20px;
+        z-index: 10;
+    }
+    .dropdown-category-title svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .feature-checkbox-item {
+        display: flex; align-items: center; gap: 10px; font-size: 14px; 
+        color: #424245; cursor: pointer; padding: 6px 0; transition: color 0.2s;
+    }
+    .feature-checkbox-item:hover { color: var(--linkly-blue); }
+    .feature-checkbox-item input {
+        width: 17px; height: 17px; cursor: pointer; accent-color: var(--linkly-blue);
     }
 
-    .custom-modular-subtext {
-        font-size: 24px;
-        line-height: 1.45;
-        font-weight: 400;
-        color: #86868b;
-        max-width: 680px;
-        margin: 0 auto 48px auto;
-        letter-spacing: 0.011em;
+    /* --- 提交按钮 --- */
+    .minimal-button {
+        background: #0071e3; color: #fff; padding: 18px 60px;
+        border-radius: 30px; font-weight: 600; font-size: 17px;
+        transition: all 0.3s; border: none; cursor: pointer;
     }
+    .minimal-button:hover { transform: scale(1.02); box-shadow: 0 10px 20px rgba(0, 113, 227, 0.3); }
+    .minimal-button:disabled { background: #d2d2d7; cursor: not-allowed; transform: none; }
 
-    /* 黑色胶囊按钮样式 */
-    .apple-pill-black {
-        display: inline-block;
-        background-color: #1d1d1f;
-        color: #ffffff;
-        font-size: 17px;
-        font-weight: 600;
-        padding: 16px 38px;
-        border-radius: 980px;
-        text-decoration: none;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        border: none;
-        cursor: pointer;
+    /* --- 响应式适配 --- */
+    @media (max-width: 900px) {
+        .bento-grid { grid-template-columns: 1fr; }
+        .text-side { padding: 40px 25px; }
+        .text-side h2 { font-size: 30px !important; }
+        .custom-form-card { padding: 40px 20px; }
+        .dropdown-content { grid-template-columns: 1fr; } /* 移动端切回单列 */
     }
+        /* 统一页脚移动端适配 */
+        @media (max-width: 768px) {
+            footer div[style*="grid-template-columns: repeat(5, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important; /* 改为两列 */
+                gap: 30px !important;
+            }
+            footer div[style*="justify-content: space-between"] {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            footer div[style*="margin-left: auto"] {
+                margin-left: 0 !important;
+            }
+        }
 
-    .apple-pill-black:hover {
-        background-color: #000000;
-        transform: scale(1.02);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    }
-
-    .apple-pill-black:active {
-        transform: scale(0.98);
-    }
-
-    /* 移动端适配 */
-    @media (max-width: 768px) {
-        .custom-modular-section { padding: 100px 20px; }
-        .custom-modular-headline { font-size: 44px !important; letter-spacing: -1.2px !important; }
-        .custom-modular-subtext { font-size: 20px; margin-bottom: 35px; }
-    }
-
-    </style>
+</style>
 </head>
 <body>
 
@@ -622,143 +557,76 @@
 </section>
 
 
-<section class="scenario-section custom-modular-section">
-    <div class="custom-modular-container">
-        <h2 class="custom-modular-headline">软件能力，<br>由你亲手构筑。</h2>
-        
-        <p class="custom-modular-subtext">
-            摒弃千篇一律的套餐。像搭建积木一样，精准选择你所需的功能模块。
-        </p>
-        
-        <div>
-            <a href="VIP_Compare_2.html" class="apple-pill-black">
-                去定制我的软件套餐
-            </a>
-        </div>
-    </div>
-</section>
+<section class="scenario-section" id="custom-plan" style="padding: 100px 0; margin-bottom: 0;">
+        <div class="custom-form-card">
+            <div style="text-align: center; margin-bottom: 50px;">
+                <p style="color: var(--linkly-blue); font-size: 14px; font-weight: 600; letter-spacing: 1.2px; margin-bottom: 12px;">BESPOKE SERVICE</p>
+                <h2 style="font-size: 48px !important; font-weight: 600 !important; color: #1d1d1f !important; margin-bottom: 20px !important;">定制您的专属 Linkly 软件</h2>
+                <p style="color: #86868b; font-size: 19px; max-width: 600px; margin: 0 auto; line-height: 1.5;">
+                    所有软件功能，由您亲手定义。我们会根据您的个性化选择进行定价。购买数量越多，单价更优惠。
+                </p>
+            </div>
 
-<section class="scenario-section" id="idea-collection" style="padding: 120px 22px; margin-bottom: 0;">
-    <div style="max-width: 800px; margin: 0 auto;">
-        
-        <div style="text-align: center; margin-bottom: 60px;">
-            <p style="color: var(--linkly-blue); font-size: 14px; font-weight: 600; letter-spacing: 1.2px; margin-bottom: 12px;">CO-CREATE</p>
-            <h2 style="font-size: 48px !important; font-weight: 600 !important; color: #1d1d1f !important; margin-bottom: 24px !important; letter-spacing: -1px !important;">分享您的 Linkly 灵感</h2>
-            <p style="color: #86868b; font-size: 19px; line-height: 1.5; max-width: 600px; margin: 0 auto;">
-                好的想法不应被埋没。如果您的建议被我们采纳，我们将联系您并赠送 <strong>Linkly 全系列产品礼包</strong>。
-            </p>
-        </div>
-
-        <form id="idea-form" style="display: grid; gap: 32px;">
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
-                <div class="field-group">
-                    <label class="minimal-label">姓名</label>
-                    <input type="text" id="user-name" required class="minimal-input" placeholder="如何称呼您">
+            <form id="customization-form" style="display: grid; gap: 32px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label style="display:block; margin-bottom:8px; font-size:14px; font-weight:500;">姓名</label>
+                        <input type="text" id="user-name" required class="minimal-input" placeholder="如何称呼您">
+                    </div>
+                    <div>
+                        <label style="display:block; margin-bottom:8px; font-size:14px; font-weight:500;">联系电话</label>
+                        <input type="tel" id="user-phone" required class="minimal-input" placeholder="用于方案沟通">
+                    </div>
                 </div>
-                <div class="field-group">
-                    <label class="minimal-label">联系电话</label>
-                    <input type="tel" id="user-phone" required class="minimal-input" placeholder="用于获奖联系">
+
+                <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px;">
+                    <div>
+                        <label style="display:block; margin-bottom:8px; font-size:14px; font-weight:500;">电子邮箱</label>
+                        <input type="email" id="user-email" required class="minimal-input" placeholder="example@mail.com">
+                    </div>
+                    <div>
+                        <label style="display:block; margin-bottom:8px; font-size:14px; font-weight:500;">预计定制数量</label>
+                        <input type="number" id="user-quantity" required class="minimal-input" placeholder="例如：50" min="1">
+                    </div>
                 </div>
-            </div>
-            
-            <div class="field-group">
-                <label class="minimal-label">电子邮箱</label>
-                <input type="email" id="user-email" required class="minimal-input" placeholder="example@mail.com">
-            </div>
 
-            <div class="field-group">
-                <label class="minimal-label">您的创意想法</label>
-                <textarea id="user-idea" rows="4" required class="minimal-input" placeholder="请描述您想到的使用场景，例如：'在XX活动中通过一碰即刻实现XX功能'..." style="resize: none;"></textarea>
-            </div>
+                <div>
+                    <label style="display:block; margin-bottom:12px; font-size:14px; font-weight:500;">定制用途</label>
+                    <div id="usage-tags" style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:15px;">
+                        <span class="tag-button" onclick="selectUsage(this, '企业商务')">企业商务</span>
+                        <span class="tag-button" onclick="selectUsage(this, '个人品牌')">个人品牌</span>
+                        <span class="tag-button" onclick="selectUsage(this, '校园组织')">校园组织</span>
+                        <span class="tag-button" onclick="selectUsage(this, '活动会展')">活动会展</span>
+                        <span class="tag-button" onclick="selectUsage(this, '其它')">其它</span>
+                    </div>
+                    <input type="hidden" id="selected-usage" value="">
+                    <input type="text" id="usage-note" class="minimal-input" placeholder="补充描述具体使用场景（可选）">
+                </div>
 
-            <div style="text-align: center; margin-top: 20px;">
-                <button type="submit" id="submit-idea-btn" class="minimal-button">
-                    发送想法
-                </button>
-                <!-- <p style="margin-top: 24px; font-size: 12px; color: #a1a1a6;">
-                    点击发送即表示您同意我们的创意征集条款
-                </p> -->
-            </div>
-        </form>
-    </div>
-</section>
+                <div>
+                    <label style="display:block; margin-bottom:8px; font-size:14px; font-weight:500;">所需软件功能模块</label>
+                    <div class="feature-dropdown">
+                        <div class="dropdown-header" onclick="toggleDropdown()">
+                            <span id="feature-count-label" style="font-size:15px; color:#1d1d1f;">点击展开功能清单（可选多项）</span>
+                            <svg id="chevron" style="width:18px; transition: transform 0.3s;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                        <div class="dropdown-content" id="feature-list">
+                            </div>
+                    </div>
+                    <textarea id="feature-note" rows="3" class="minimal-input" style="margin-top:15px; resize:none;" placeholder="如果您有特定的需求或不知道如何选择，请在此留言，我们将为您匹配最佳功能组合..."></textarea>
+                </div>
 
-<style>
-    /* 极致简约的标签设计 */
-    .minimal-label {
-        display: block;
-        font-size: 14px;
-        font-weight: 500;
-        color: #1d1d1f;
-        margin-bottom: 10px;
-        padding-left: 2px;
-    }
-
-    /* 输入框：去掉厚重的边框，使用更细腻的阴影和背景色 */
-    .minimal-input {
-        width: 100%;
-        padding: 18px 20px;
-        font-size: 16px;
-        background: rgba(255, 255, 255, 0.8); /* 半透明白色，透出一点页面底色 */
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 14px;
-        color: #1d1d1f;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        outline: none;
-        -webkit-appearance: none;
-    }
-
-    .minimal-input:hover {
-        border-color: rgba(0, 0, 0, 0.2);
-        background: #ffffff;
-    }
-
-    /* 聚焦时：Apple 经典的蓝色呼吸效果 */
-    .minimal-input:focus {
-        background: #ffffff;
-        border-color: #0071e3;
-        box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
-    }
-
-    .minimal-input::placeholder {
-        color: #c1c1c6;
-    }
-
-    /* 提交按钮：高饱和度 Linkly 蓝 */
-    .minimal-button {
-        display: inline-block;
-        min-width: 200px;
-        padding: 16px 40px;
-        background-color: #0071e3;
-        color: #ffffff;
-        font-size: 17px;
-        font-weight: 600;
-        border: none;
-        border-radius: 30px; /* 圆角矩形胶囊状 */
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .minimal-button:hover {
-        background-color: #0077ed;
-        transform: scale(1.02);
-        box-shadow: 0 8px 20px rgba(0, 113, 227, 0.2);
-    }
-
-    .minimal-button:active {
-        transform: scale(0.98);
-        opacity: 0.9;
-    }
-
-    /* 响应式调整 */
-    @media (max-width: 768px) {
-        #idea-form > div:first-child {
-            grid-template-columns: 1fr;
-        }
-        h2 { font-size: 32px !important; }
-    }
-</style>
+                <div style="text-align: center; margin-top: 20px;">
+                    <p style="font-size: 14px; color: #86868b; margin-bottom: 25px;">
+                        点击提交后，Linkly 顾问将在 24 小时内为您出具初步技术方案与正式报价单。
+                    </p>
+                    <button type="submit" id="submit-btn" class="minimal-button">
+                        提交定制需求
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
 
 </div>
 
@@ -845,6 +713,7 @@
 </footer>
 
 <script>
+    // 1. 页面滚动显现动画
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) entry.target.classList.add('reveal');
@@ -852,26 +721,130 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.scenario-section').forEach(s => observer.observe(s));
 
-    document.getElementById('idea-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
+    // 2. 定制用途选择逻辑：支持再次点击取消选中
+    function selectUsage(el, val) {
+        const isAlreadyActive = el.classList.contains('active');
         
-        const btn = document.getElementById('submit-idea-btn');
-        const originalText = btn.textContent;
-        
-        // 1. 禁用按钮
-        btn.disabled = true;
-        btn.textContent = '正在发送...';
+        // 先清除所有同类按钮的选中状态
+        document.querySelectorAll('.tag-button').forEach(b => b.classList.remove('active'));
 
-        // 2. 收集数据 (这里的 ID 必须对应 UI 中的 input id)
+        if (isAlreadyActive) {
+            // 如果点的是已选中的，则取消，清空隐藏域
+            document.getElementById('selected-usage').value = "";
+        } else {
+            // 否则选中当前项，更新隐藏域
+            el.classList.add('active');
+            document.getElementById('selected-usage').value = val;
+        }
+    }
+
+    // 3. 功能下拉菜单开关
+    function toggleDropdown() {
+        const content = document.getElementById('feature-list');
+        const chevron = document.getElementById('chevron');
+        content.classList.toggle('show');
+        chevron.style.transform = content.classList.contains('show') ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+
+    // 4. 功能模块数据结构 (基于您提供的大类和图标)
+    const featureData = [
+        {
+            category: "身份与内容展示",
+            icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>`,
+            items: ["NFC 激活与绑定", "编辑个人主页", "动态管理主页", "多媒体上传", "批量录入信息", "多身份切换", "信息继承"]
+        },
+        {
+            category: "通讯与文件系统",
+            icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>`,
+            items: ["触即分享", "通讯方式(App/网页)", "5GB 存储空间", "文件分类管理", "聊天下单支付"]
+        },
+        {
+            category: "AI 沟通辅助",
+            icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>`,
+            items: ["智能匹配回复", "AI 模拟语气", "AI 提醒发送", "AI 摘要生成", "母语级商务翻译", "潜台词透视镜", "策略性回复", "对话直接下单"]
+        },
+        {
+            category: "AI 离线代理",
+            icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>`,
+            items: ["全时段自动接待", "知识库答疑", "智能需求留资"]
+        },
+        {
+            category: "AI 深度问答 & 检索",
+            icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>`,
+            items: ["7天对话记忆", "个性化问答", "账号资源检索", "全平台用户检索", "全网公开资源检索"]
+        },
+        {
+            category: "AI 数据洞察",
+            icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>`,
+            items: ["流量来源追踪", "内容热度分析", "用户群像生成", "360°访客档案", "交互行为记录", "AI 成交意向预测", "来信身份标注", "来信意图标注", "AI 需求预测"]
+        },
+        {
+            category: "附加服务",
+            icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"></path></svg>`,
+            items: ["域名/Logo/官网/邮箱定制"]
+        },
+        {
+            category: "企业专属管理",
+            icon: `<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>`,
+            items: ["账户批量管理", "公司资料分发", "员工权限设置", "自动分单系统", "效能看板", "合规审计", "数据一键导出", "项目进度管理", "全球资源检索", "产品库索引"]
+        }
+    ];
+
+    // 5. 动态初始化渲染功能列表
+    const listContainer = document.getElementById('feature-list');
+    const labelPlaceholder = document.getElementById('feature-count-label');
+
+    featureData.forEach(group => {
+        // 创建分类标题
+        const catTitle = document.createElement('div');
+        catTitle.className = 'dropdown-category-title';
+        catTitle.innerHTML = `${group.icon} <span>${group.category}</span>`;
+        listContainer.appendChild(catTitle);
+
+        // 创建该分类下的子项
+        group.items.forEach(f => {
+            const item = document.createElement('label');
+            item.className = 'feature-checkbox-item';
+            item.innerHTML = `<input type="checkbox" name="features" value="${f}" style="accent-color:#0071e3;"> <span>${f}</span>`;
+            listContainer.appendChild(item);
+        });
+    });
+
+    // 6. 监听复选框变化，更新头部文案
+    listContainer.addEventListener('change', () => {
+        const checkedCount = document.querySelectorAll('input[name="features"]:checked').length;
+        if (checkedCount > 0) {
+            labelPlaceholder.textContent = `已选择 ${checkedCount} 项功能模块`;
+            labelPlaceholder.style.color = "#0071e3";
+            labelPlaceholder.style.fontWeight = "600";
+        } else {
+            labelPlaceholder.textContent = "点击展开功能清单（可选多项）";
+            labelPlaceholder.style.color = "#1d1d1f";
+            labelPlaceholder.style.fontWeight = "400";
+        }
+    });
+
+    // 7. 表单提交逻辑
+    document.getElementById('customization-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submit-btn');
+        btn.disabled = true;
+        btn.textContent = '提交中...';
+
+        const selectedFeatures = Array.from(document.querySelectorAll('input[name="features"]:checked')).map(cb => cb.value);
+
         const payload = {
             name: document.getElementById('user-name').value,
             phone: document.getElementById('user-phone').value,
             email: document.getElementById('user-email').value,
-            idea: document.getElementById('user-idea').value
+            quantity: document.getElementById('user-quantity').value,
+            usage: document.getElementById('selected-usage').value || '未选择',
+            usageNote: document.getElementById('usage-note').value,
+            features: selectedFeatures.join(', '),
+            featureNote: document.getElementById('feature-note').value
         };
 
         try {
-            // 3. 调用专门的创意发送 API
             const response = await fetch('/api/send-idea-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -879,20 +852,21 @@
             });
 
             if (response.ok) {
-                alert('感谢您的灵感！想法已成功发送。');
-                document.getElementById('idea-form').reset();
+                alert('需求已收到！我们将尽快联系您。');
+                this.reset();
+                // 重置所有交互状态
+                document.querySelectorAll('.tag-button').forEach(b => b.classList.remove('active'));
+                labelPlaceholder.textContent = "点击展开功能清单（可选多项）";
             } else {
-                throw new Error('发送失败');
+                throw new Error();
             }
         } catch (error) {
-            alert('抱歉，提交出错了，请稍后重试。');
+            alert('提交失败，请检查网络或稍后重试。');
         } finally {
-            // 4. 恢复按钮
             btn.disabled = false;
-            btn.textContent = originalText;
+            btn.textContent = '提交定制需求';
         }
     });
-
 </script>
 
 <script src="Navbar_W.js"></script>
