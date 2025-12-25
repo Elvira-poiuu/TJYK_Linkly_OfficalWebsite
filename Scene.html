@@ -153,117 +153,119 @@
             .text-side { padding: 40px 25px; }
             .text-side h2 { font-size: 30px !important; }
         }
+
+        /* 功能标签容器 */
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* 胶囊标签基础样式 - 延续 Apple 的轻盈感 */
+        .feature-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 6px 14px;
+            background-color: #f5f5f7; /* Apple 经典的浅灰色背景 */
+            color: #1d1d1f;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+            border: 1px solid transparent;
+        }
+
+        /* 悬停动效：背景略微加深，文字变蓝 */
+        .feature-tag:hover {
+            background-color: #e8e8ed;
+            color: #0071e3;
+            transform: translateY(-1px); /* 轻微浮动感 */
+        }
+
+        /* 引导文字 */
+        .footer-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--apple-secondary);
+            margin-bottom: 12px;
+            display: block;
+        }
+/* 独立白底 Section 样式 */
+    .custom-modular-section {
+        /* 切换为纯白背景，与页面的 #f5f5f7 形成对比 */
+        background-color: #ffffff !important; 
+        border-radius: 28px; /* 在这里添加或修改数值，28px 是 Apple 常用的卡片圆角 */
+        margin: 40px 22px;   /* 如果加了圆角，通常需要增加左右边距让卡片“浮”起来 */
+        /* 增加上下边距，确保呼吸感 */
+        padding: 160px 22px;
+        text-align: center;
+        /* 可选：增加极其微弱的上下边框加强切分感 */
+        border-top: 1px solid rgba(0,0,0,0.02);
+        border-bottom: 1px solid rgba(0,0,0,0.02);
+    }
+
+    .custom-modular-container {
+        max-width: 980px;
+        margin: 0 auto;
+    }
+
+    .custom-modular-headline {
+        font-size: 80px !important;
+        font-weight: 700 !important;
+        line-height: 1.05 !important;
+        letter-spacing: -2.5px !important;
+        color: #1d1d1f !important;
+        margin: 0 0 28px 0 !important;
+    }
+
+    .custom-modular-subtext {
+        font-size: 24px;
+        line-height: 1.45;
+        font-weight: 400;
+        color: #86868b;
+        max-width: 680px;
+        margin: 0 auto 48px auto;
+        letter-spacing: 0.011em;
+    }
+
+    /* 黑色胶囊按钮样式 */
+    .apple-pill-black {
+        display: inline-block;
+        background-color: #1d1d1f;
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: 600;
+        padding: 16px 38px;
+        border-radius: 980px;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        cursor: pointer;
+    }
+
+    .apple-pill-black:hover {
+        background-color: #000000;
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .apple-pill-black:active {
+        transform: scale(0.98);
+    }
+
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+        .custom-modular-section { padding: 100px 20px; }
+        .custom-modular-headline { font-size: 44px !important; letter-spacing: -1.2px !important; }
+        .custom-modular-subtext { font-size: 20px; margin-bottom: 35px; }
+    }
+
     </style>
 </head>
 <body>
 
-    <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300">
-        <div class="max-w-[980px] mx-auto px-6 h-12 flex items-center justify-between">
-            
-            <div class="nav-content">
-                <a href="index.html" class="nav-link" style="display: flex; align-items: center;">
-                    <img src="Logo/lightBGver.png" alt="Linkly Logo" style="max-height: 28px; width: auto;"> 
-                </a>
-                <div style="display:flex; gap:24px;"></div>
-            </div>
-
-            <div class="hidden md:flex items-center gap-8 navbar-links">
-                
-                <div class="relative group h-full flex items-center">
-                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        产品
-                    </a>
-                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
-                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Shop_General.html#essential" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                智能名片·基础版
-                            </a>
-                            <a href="Shop_General.html#studio" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                智能名片·半定制版
-                            </a>
-                            <a href="Shop_General.html#bespoke" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                智能名片·全定制版
-                            </a>
-                            <a href="Shop_General.html#saas" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                软件会员
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="relative group h-full flex items-center">
-                    <a href="Product.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        功能
-                    </a>
-                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
-                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                功能概览
-                            </a>
-                            <a href="AI_Detailed_2.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly AI
-                            </a>
-                            <a href="B_Detailed_2black_WordPolish.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                Linkly 企业版
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="relative group h-full flex items-center">
-                    <a href="Scene.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        使用场景
-                    </a>
-                </div>
-                <div class="relative group h-full flex items-center">
-                    <a href="VIP_Compare_2.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        定价
-                    </a>
-                </div>
-                <div class="relative group h-full flex items-center">
-                    <a href="Download.html" class="text-[#1d1d1f] text-[0.875rem] hover:text-[#0071e3] transition-colors py-4">
-                        支持
-                    </a>
-                    <div class="absolute top-[80%] left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:top-[60%] transition-all duration-300 ease-out z-50">
-                        <div class="bg-white/90 backdrop-blur-xl border border-gray-200 rounded-xl shadow-xl p-2 min-w-[140px] flex flex-col gap-1 overflow-hidden">
-                            <a href="Download.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                应用下载
-                            </a>
-                            <a href="User_Guide.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                使用说明
-                            </a>
-                            <a href="Tech_Spec.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                技术详情
-                            </a>
-                            <a href="QA.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                常见问题
-                            </a>
-                            <a href="Contact_Us.html" class="block px-4 py-2.5 text-[13px] text-[#1d1d1f] hover:bg-[#f5f5f7] hover:text-[#0071e3] rounded-lg transition-colors text-center whitespace-nowrap">
-                                联系我们
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="flex items-center gap-4 text-[0.875rem] navbar-btns">
-                <!-- <a href="#" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/>
-                    </svg>
-                </a> -->
-                
-                <a href="ShopBag.html" class="text-[#1d1d1f] hover:text-[#0071e3] transition-colors relative group">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                    </svg>
-                </a>
-
-                <a href="Shop_General.html" class="px-3 py-1 rounded-full font-medium transition-all duration-300 buy-btn">购买</a>
-                
-                <a href="https://linkly.solutions" class="hidden md:block text-[#1d1d1f] transition-all duration-300 login-btn">登录</a>
-            </div>
-        </div>
-    </nav>
 
 <div class="main-content">
     
@@ -295,9 +297,22 @@
                         7x24h 自动化锁死询盘，成交效率大幅跃升
                     </li>
                 </ul>
-                <span class="revenue-label">收益：抢回流失客源，成交转化率倍增</span>
+                <span class="revenue-label">英语不好也不错过任何一个跨国订单。</span>
                 <div class="divider"></div>
-                <p class="footer-features">运用功能：NFC 极速直联 | AI 实时翻译 | 离线代理分身</p>
+                <div class="footer-wrapper">
+                    <span class="footer-label">运用功能</span>
+                    <div class="features-container">
+                        <a href="Product.html#hero-section" class="feature-tag">
+                            NFC 激活与绑定
+                        </a>
+                        <a href="AI_Detailed_2.html#assistant-deep" class="feature-tag">
+                            母语级商务翻译
+                        </a>
+                        <a href="AI_Detailed_2.html#agent" class="feature-tag">
+                            AI 离线代理
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -330,9 +345,21 @@
                         AI 意向雷达分级，优先转化高意向买家，获客效能翻倍
                     </li>
                 </ul>
-                <span class="revenue-label">收益：人脉数字化资产化，显著降低获客成本</span>
+                <span class="revenue-label">获得满场的高价值客户线索。</span>
                 <div class="divider"></div>
-                <p class="footer-features">运用功能：极速 Connect | 访客意向洞察 | 企业级 CRM</p>
+                <!-- <p class="footer-features">运用功能：极速 Connect | 访客意向洞察 | 企业级 CRM</p> -->
+                <div class="divider"></div>
+                <div class="footer-wrapper">
+                    <span class="footer-label">运用功能</span>
+                    <div class="features-container">
+                        <a href="Product.html#hero-section" class="feature-tag">
+                            NFC 激活与绑定
+                        </a>
+                        <a href="AI_Detailed_2.html#crm-global" class="feature-tag">
+                            AI 数据洞察
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -365,9 +392,21 @@
                         权威背调支持，极大缩短信任建立周期与决策流程
                     </li>
                 </ul>
-                <span class="revenue-label">收益：重塑商业竞争力，项目签单周期显著缩短</span>
+                <span class="revenue-label">更快的信任，更大的合同。</span>
                 <div class="divider"></div>
-                <p class="footer-features">运用功能：AI 官网生成 | 专属知识库 | 身份认证背调</p>
+                <!-- <p class="footer-features">运用功能：AI 官网生成 | 专属知识库 | 身份认证背调</p> -->
+                <div class="divider"></div>
+                <div class="footer-wrapper">
+                    <span class="footer-label">运用功能</span>
+                    <div class="features-container">
+                        <a href="B_Detailed_2black_WordPolish.html#AI generate" class="feature-tag">
+                            智能官网定制
+                        </a>
+                        <a href="AI_Detailed_2.html#assistant-deep" class="feature-tag">
+                            AI 沟通辅助
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -385,54 +424,341 @@
                     </li>
                     <li class="list-item benefit">
                         <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        个人主页展示动态作品集，让个人才华立体、直观呈现
+                        融合校园卡，实现展示身份和快速连接一卡搞定
                     </li>
                     <li class="list-item benefit">
                         <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        AI 辅助建立高度职业化人设，助力职场起点实现质的飞跃
+                        个人主页展示动态作品集，让个人才华立体、直观呈现
                     </li>
                 </ul>
-                <span class="revenue-label">收益：个人价值数字化呈现，职场沟通快速连接</span>
+                <span class="revenue-label">高效匹配与你合适的岗位。</span>
                 <div class="divider"></div>
-                <p class="footer-features">运用功能：多模态个人主页 | 全局 AI 助手</p>
+                <!-- <p class="footer-features">运用功能：多模态个人主页 | 全局 AI 助手</p> -->
+                <div class="divider"></div>
+                <div class="footer-wrapper">
+                    <span class="footer-label">运用功能</span>
+                    <div class="features-container">
+                        <a href="Product.html#identity-section" class="feature-tag">
+                            个人主页多媒体上传
+                        </a>
+                        <a href="AI_Detailed_2.html#crm-global" class="feature-tag">
+                            AI 数据洞察
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="scenario-section">
-        <div class="bento-grid">
-            <div class="image-side"><img src="Scene/05.png"></div>
-            <div class="text-side">
-                <p class="scenario-tag">场景 05 | 潮流聚会</p>
-                <h2>百变磁吸配件<br>定义你的数字社交人格</h2>
-                <ul class="comparison-list">
-                    <li class="list-item pain">
-                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                        手机配件风格单一，难以彰显每天不同的心情与独特人设
-                    </li>
-                    <li class="list-item pain">
-                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                        数字化名片缺乏温度，社交破冰环节往往显得生硬尴尬
-                    </li>
-                    <li class="list-item benefit">
-                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        磁吸造型随心 DIY，正月初一至十五每天换新，节日氛围拉满
-                    </li>
-                    <li class="list-item benefit">
-                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        星座与 MBTI 主题自由搭配，让手机壳后盖成为你的性格名片
-                    </li>
-                    <li class="list-item benefit">
-                        <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        极具趣味的形态切换，显著提升社交互动的参与感与话题性
-                    </li>
-                </ul>
-                <span class="revenue-label">收益：彰显独特品味，让每一次触碰都成为有趣的灵魂共鸣</span>
+<section class="scenario-section">
+    <div class="bento-grid">
+        <div class="image-side"><img src="Scene/05.png"></div>
+        <div class="text-side">
+            <p class="scenario-tag">场景 05 | 节日庆典</p>
+            <h2>赋予科技温度<br>让节日更有仪式氛围</h2>
+            <ul class="comparison-list">
+                <li class="list-item pain">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    配件样式一成不变，难以匹配重要节日的喜庆氛围
+                </li>
+                <li class="list-item pain">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    文字祝福缺乏仪式感，在碎片信息中极易被忽略
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    磁吸后盖随心 DIY，正月初一至十五每天换新
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    专属“节日胶囊”功能，触碰即可触发满屏惊喜祝福
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    限量版生肖纹样胸针，点缀你的节日造型
+                </li>
+            </ul>
+            <span class="revenue-label">最有温度的数字节日仪式。</span>
+            <div class="divider"></div>
+            <!-- <p class="footer-features">运用功能：节日视觉彩蛋</p> -->
                 <div class="divider"></div>
-                <p class="footer-features">运用功能：磁吸配件 DIY | 多态形象切换 | 趣味社交破冰</p>
-            </div>
+                <div class="footer-wrapper">
+                    <span class="footer-label">运用功能</span>
+                    <div class="features-container">
+                        <a href="" class="feature-tag">
+                            节日视觉彩蛋
+                        </a>
+                    </div>
+                </div>
         </div>
-    </section>
+    </div>
+</section>
+
+<section class="scenario-section">
+    <div class="bento-grid">
+        <div class="image-side"><img src="Scene/06.png"></div>
+        <div class="text-side">
+            <p class="scenario-tag">场景 06 | 破次元聚</p>
+            <h2>定义新自我<br>秀出你的数字社交人格</h2>
+            <ul class="comparison-list">
+                <li class="list-item pain">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    固定标签难以展现星座、MBTI 等多维性格表达
+                </li>
+                <li class="list-item pain">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    社交破冰生硬尴尬，无法快速寻找到同频的新朋友
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    星座与 MBTI 主题配件随心换，让表带戒指成为性格宣言
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    追星族磁吸卡套，一碰即刻交流同好
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    一眼识别“同类”玩家，形态切换显著增强交互爽感
+                </li>
+            </ul>
+            <span class="revenue-label">直观、快速的找到同好。</span>
+            <div class="divider"></div>
+            <!-- <p class="footer-features">运用功能：个人主页自定义</p> -->
+                <div class="divider"></div>
+                <div class="footer-wrapper">
+                    <span class="footer-label">运用功能</span>
+                    <div class="features-container">
+                        <a href="Product.html#identity-section" class="feature-tag">
+                            编辑个人主页
+                        </a>
+                        <a href="Product.html#identity-section" class="feature-tag">
+                            个人主页多媒体上传
+                        </a>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+<section class="scenario-section">
+    <div class="bento-grid">
+        <div class="image-side"><img src="Scene/07.png"></div>
+        <div class="text-side">
+            <p class="scenario-tag">场景 07 | 好友开黑</p>
+            <h2>指尖博弈爽<br>瞬间引爆派对竞技气氛</h2>
+            <ul class="comparison-list">
+                <li class="list-item pain">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    多人开黑步骤繁琐，扫码进房让简单的快乐变得沉重
+                </li>
+                <li class="list-item pain">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    游戏战绩无法立体展示，硬核实力在社交场合难以呈现
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    轻触手机，秒速拉起斗地主等多人对抗游戏
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    物理碰撞触发竞技仪式，让社交游戏回归纯粹快乐
+                </li>
+            </ul>
+            <span class="revenue-label">一开秒跟的纯粹竞技快感。</span>
+            <div class="divider"></div>
+            <!-- <p class="footer-features">运用功能：瞬时竞技开局</p> -->
+                <div class="divider"></div>
+                <div class="footer-wrapper">
+                    <span class="footer-label">运用功能</span>
+                    <div class="features-container">
+                        <a href="" class="feature-tag">
+                            瞬时竞技开局
+                        </a>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+<section class="scenario-section">
+    <div class="bento-grid">
+        <div class="image-side"><img src="Scene/08.png"></div>
+        <div class="text-side">
+            <p class="scenario-tag">场景 08 | 轰趴派对</p>
+            <h2>气氛指挥官<br>定义数字社交互动新规范</h2>
+            <ul class="comparison-list">
+                <li class="list-item pain">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    聚会决策众口难调，选餐厅或决定买单总是混乱低效
+                </li>
+                <li class="list-item pain">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    线下活动缺乏新意，单纯进食难以留下深刻的数字化印记
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    智能卡套内置随机工具，让“真心话 大冒险”充满刺激感
+                </li>
+                <li class="list-item benefit">
+                    <svg class="icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    自动分发派对挑战任务，让每一次聚会都成为社交狂欢
+                </li>
+            </ul>
+            <span class="revenue-label">聚会社交更加纯粹、便捷。</span>
+            <div class="divider"></div>
+            <!-- <p class="footer-features">运用功能：共享聚会游戏</p> -->
+                <div class="divider"></div>
+                <div class="footer-wrapper">
+                    <span class="footer-label">运用功能</span>
+                    <div class="features-container">
+                        <a href="" class="feature-tag">
+                            共享聚会游戏
+                        </a>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="scenario-section custom-modular-section">
+    <div class="custom-modular-container">
+        <h2 class="custom-modular-headline">软件能力，<br>由你亲手构筑。</h2>
+        
+        <p class="custom-modular-subtext">
+            摒弃千篇一律的套餐。像搭建积木一样，精准选择你所需的功能模块。
+        </p>
+        
+        <div>
+            <a href="VIP_Compare_2.html" class="apple-pill-black">
+                去定制我的软件套餐
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="scenario-section" id="idea-collection" style="padding: 120px 22px; margin-bottom: 0;">
+    <div style="max-width: 800px; margin: 0 auto;">
+        
+        <div style="text-align: center; margin-bottom: 60px;">
+            <p style="color: var(--linkly-blue); font-size: 14px; font-weight: 600; letter-spacing: 1.2px; margin-bottom: 12px;">CO-CREATE</p>
+            <h2 style="font-size: 48px !important; font-weight: 600 !important; color: #1d1d1f !important; margin-bottom: 24px !important; letter-spacing: -1px !important;">分享您的 Linkly 灵感</h2>
+            <p style="color: #86868b; font-size: 19px; line-height: 1.5; max-width: 600px; margin: 0 auto;">
+                好的想法不应被埋没。如果您的建议被我们采纳，我们将联系您并赠送 <strong>Linkly 全系列产品礼包</strong>。
+            </p>
+        </div>
+
+        <form id="idea-form" style="display: grid; gap: 32px;">
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                <div class="field-group">
+                    <label class="minimal-label">姓名</label>
+                    <input type="text" id="user-name" required class="minimal-input" placeholder="如何称呼您">
+                </div>
+                <div class="field-group">
+                    <label class="minimal-label">联系电话</label>
+                    <input type="tel" id="user-phone" required class="minimal-input" placeholder="用于获奖联系">
+                </div>
+            </div>
+            
+            <div class="field-group">
+                <label class="minimal-label">电子邮箱</label>
+                <input type="email" id="user-email" required class="minimal-input" placeholder="example@mail.com">
+            </div>
+
+            <div class="field-group">
+                <label class="minimal-label">您的创意想法</label>
+                <textarea id="user-idea" rows="4" required class="minimal-input" placeholder="请描述您想到的使用场景，例如：'在XX活动中通过一碰即刻实现XX功能'..." style="resize: none;"></textarea>
+            </div>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button type="submit" id="submit-idea-btn" class="minimal-button">
+                    发送想法
+                </button>
+                <!-- <p style="margin-top: 24px; font-size: 12px; color: #a1a1a6;">
+                    点击发送即表示您同意我们的创意征集条款
+                </p> -->
+            </div>
+        </form>
+    </div>
+</section>
+
+<style>
+    /* 极致简约的标签设计 */
+    .minimal-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #1d1d1f;
+        margin-bottom: 10px;
+        padding-left: 2px;
+    }
+
+    /* 输入框：去掉厚重的边框，使用更细腻的阴影和背景色 */
+    .minimal-input {
+        width: 100%;
+        padding: 18px 20px;
+        font-size: 16px;
+        background: rgba(255, 255, 255, 0.8); /* 半透明白色，透出一点页面底色 */
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 14px;
+        color: #1d1d1f;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        outline: none;
+        -webkit-appearance: none;
+    }
+
+    .minimal-input:hover {
+        border-color: rgba(0, 0, 0, 0.2);
+        background: #ffffff;
+    }
+
+    /* 聚焦时：Apple 经典的蓝色呼吸效果 */
+    .minimal-input:focus {
+        background: #ffffff;
+        border-color: #0071e3;
+        box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+    }
+
+    .minimal-input::placeholder {
+        color: #c1c1c6;
+    }
+
+    /* 提交按钮：高饱和度 Linkly 蓝 */
+    .minimal-button {
+        display: inline-block;
+        min-width: 200px;
+        padding: 16px 40px;
+        background-color: #0071e3;
+        color: #ffffff;
+        font-size: 17px;
+        font-weight: 600;
+        border: none;
+        border-radius: 30px; /* 圆角矩形胶囊状 */
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .minimal-button:hover {
+        background-color: #0077ed;
+        transform: scale(1.02);
+        box-shadow: 0 8px 20px rgba(0, 113, 227, 0.2);
+    }
+
+    .minimal-button:active {
+        transform: scale(0.98);
+        opacity: 0.9;
+    }
+
+    /* 响应式调整 */
+    @media (max-width: 768px) {
+        #idea-form > div:first-child {
+            grid-template-columns: 1fr;
+        }
+        h2 { font-size: 32px !important; }
+    }
+</style>
 
 </div>
 
@@ -525,7 +851,51 @@
         });
     }, { threshold: 0.1 });
     document.querySelectorAll('.scenario-section').forEach(s => observer.observe(s));
+
+    document.getElementById('idea-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const btn = document.getElementById('submit-idea-btn');
+        const originalText = btn.textContent;
+        
+        // 1. 禁用按钮
+        btn.disabled = true;
+        btn.textContent = '正在发送...';
+
+        // 2. 收集数据 (这里的 ID 必须对应 UI 中的 input id)
+        const payload = {
+            name: document.getElementById('user-name').value,
+            phone: document.getElementById('user-phone').value,
+            email: document.getElementById('user-email').value,
+            idea: document.getElementById('user-idea').value
+        };
+
+        try {
+            // 3. 调用专门的创意发送 API
+            const response = await fetch('/api/send-idea-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload),
+            });
+
+            if (response.ok) {
+                alert('感谢您的灵感！想法已成功发送。');
+                document.getElementById('idea-form').reset();
+            } else {
+                throw new Error('发送失败');
+            }
+        } catch (error) {
+            alert('抱歉，提交出错了，请稍后重试。');
+        } finally {
+            // 4. 恢复按钮
+            btn.disabled = false;
+            btn.textContent = originalText;
+        }
+    });
+
 </script>
+
+<script src="Navbar_W.js"></script>
 
 </body>
 </html>
