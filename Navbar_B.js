@@ -243,9 +243,17 @@
                     <a href="Product.html" style="color: #e8e8ed; font-size: 0.875rem; text-decoration: none; transition: color 0.3s;" onmouseover="this.style.color='#2997ff'" onmouseout="this.style.color='#e8e8ed'" class="py-4">产品</a>
                     <div class="dropdown-card">
                         <div class="bg-[#161617]/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl p-2 min-w-[150px] flex flex-col gap-1">
-                            <a href="Shop_General.html" class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap" style="text-decoration:none;">智能名片</a>
-                            <a href="" class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap" style="text-decoration:none;">智能网页</a>
-                            <a href="Shop_General.html#saas" class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap" style="text-decoration:none;">软件会员</a>
+                            <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap" style="text-decoration:none;">智能社交</a>
+                            <a
+                                href="WebGen.html"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap"
+                                style="text-decoration:none;"
+                                >
+                                智能网页
+                            </a>
+                            <a href="Entertainment.html" class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap" style="text-decoration:none;">智能文娱</a>
                         </div>
                     </div>
                 </div>

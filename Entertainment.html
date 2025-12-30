@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="Logo/webLOGOpart_icon_w_TRANSBG.png" type="image/x-icon">
+    <title>Linkly Play | 一碰，即刻开场</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"PingFang SC"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #000; color: #fff; -webkit-font-smoothing: antialiased; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 1.2s cubic-bezier(0.15, 0, 0.15, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+        .text-gradient { background: linear-gradient(to right, #2997ff, #ffffff, #2997ff); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 5s linear infinite; }
+        @keyframes shine { to { background-position: 200% center; } }
+        .glass-card { background: rgba(28, 28, 30, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.1); }
+
+        /* 统一页脚移动端适配 */
+        @media (max-width: 768px) {
+            footer div[style*="grid-template-columns: repeat(5, 1fr)"] {
+                grid-template-columns: repeat(2, 1fr) !important; /* 改为两列 */
+                gap: 30px !important;
+            }
+            footer div[style*="justify-content: space-between"] {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            footer div[style*="margin-left: auto"] {
+                margin-left: 0 !important;
+            }
+        }
+
+    </style>
+</head>
+<body class="font-sans overflow-x-hidden">
+
+<section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none"></div>
+
+    <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+        <div class="reveal inline-flex items-center gap-2 px-4 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 mb-8">
+            <span class="text-xs font-bold text-blue-400 uppercase tracking-widest">Linkly Play New Feature</span>
+        </div>
+
+        <h1 class="reveal text-5xl md:text-[88px] font-bold tracking-tight leading-[1.05] mb-8">
+            玩，大有可玩。<br>
+            <span class="text-gradient">一碰，即刻开场。</span>
+        </h1>
+
+        <p class="reveal text-lg md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12 font-medium">
+            摒弃繁琐的组队与码上操作。只需将手机靠近 Linkly 实体产品，瞬间开启数字游乐场。
+            让物理连接，化为众人的欢聚时刻。
+        </p>
+
+        <div class="reveal flex flex-col sm:flex-row items-center justify-center gap-6">
+            <a href="#" class="inline-flex items-center justify-center px-12 py-5 bg-white text-black text-[19px] font-bold rounded-full transition-all duration-300 hover:bg-[#f5f5f7] hover:scale-[1.05] active:scale-[0.98] shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+                立即选购
+            </a>
+            
+            <a href="#gaming-experience" class="inline-flex items-center justify-center px-10 py-5 bg-white/10 backdrop-blur-xl border border-white/10 text-white text-[19px] font-semibold rounded-full transition-all duration-300 hover:bg-white/20 hover:scale-[1.05] active:scale-[0.98] group">
+                探索游戏库
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="gaming-experience" class="py-32 md:py-48 px-6 bg-black border-t border-white/5 overflow-hidden">
+        <div class="max-w-[1250px] mx-auto">
+            
+            <div class="reveal text-center mb-24">
+                <h2 class="text-[#86868b] text-[19px] md:text-[21px] font-semibold mb-6 tracking-tight uppercase">社交新原力</h2>
+                <p class="text-white text-[48px] md:text-[72px] font-bold leading-[1.05] tracking-tight">
+                    百种玩法。<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/30">皆由一触即发。</span>
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                
+                <div class="reveal md:col-span-8 group relative p-12 bg-[#161617] rounded-[36px] border border-white/[0.08] overflow-hidden transition-all duration-700 hover:border-white/20">
+                    <div class="relative z-10">
+                        <h3 class="text-white text-[28px] md:text-[34px] font-bold mb-4">游戏库</h3>
+                        <p class="text-[#86868b] text-[17px] md:text-[19px] max-w-md leading-relaxed mb-12">
+                            从烧脑推理到轻松博弈，最流行的社交游戏已悉数就绪。无需下载，一触即入。
+                        </p>
+                        
+                        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-6">
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">🃏</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">掼蛋</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">🎩</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">狼人杀</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">⛪</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">血染钟楼</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">⚔️</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">阿瓦隆</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">🌈</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">UNO</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">🎲</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">飞行棋</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">🀄</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">大众麻将</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">💰</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">斗地主</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">🕵️</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">谁是卧底</span>
+                            </div>
+                            <div class="flex flex-col items-center gap-3 group/item">
+                                <div class="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center text-2xl border border-white/10 group-hover/item:bg-blue-600 transition-all">⚪</div>
+                                <span class="text-xs text-[#86868b] group-hover/item:text-white">五子棋</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute -bottom-20 -right-20 w-80 h-80 bg-blue-600/10 blur-[100px] pointer-events-none group-hover:bg-blue-600/20 transition-all"></div>
+                </div>
+
+                <div class="reveal md:col-span-4 p-12 bg-[#161617] rounded-[36px] border border-white/[0.08] flex flex-col justify-between group">
+                    <div>
+                        <h3 class="text-white text-[28px] font-bold mb-10">只需三步</h3>
+                        <div class="space-y-10">
+                            <div class="flex items-start gap-4">
+                                <span class="text-blue-500 font-mono text-lg font-bold">01</span>
+                                <div>
+                                    <h4 class="text-white font-semibold">近场扫描</h4>
+                                    <p class="text-[#86868b] text-sm mt-1">手机靠近 Linkly 实体配件，瞬间唤起连接感应。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span class="text-blue-500 font-mono text-lg font-bold">02</span>
+                                <div>
+                                    <h4 class="text-white font-semibold">自动并房</h4>
+                                    <p class="text-[#86868b] text-sm mt-1">无需搜索或加好友，扫码者自动汇聚于同一虚拟房间。</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4">
+                                <span class="text-blue-500 font-mono text-lg font-bold">03</span>
+                                <div>
+                                    <h4 class="text-white font-semibold">同步开场</h4>
+                                    <p class="text-[#86868b] text-sm mt-1">房主选定游戏，全员屏幕毫秒级同步开启竞技。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="culture-section" class="relative py-32 md:py-48 px-6 overflow-hidden flex items-center bg-[#000]">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=2574&auto=format&fit=crop" class="w-full h-full object-cover opacity-10 brightness-50" alt="Culture Background">
+            <div class="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black"></div>
+            <div class="absolute top-1/2 left-3/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none animate-pulse-slow"></div>
+        </div>
+
+        <div class="relative z-10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            
+            <div class="reveal">
+                <h2 class="text-5xl md:text-[80px] font-bold tracking-tight mb-12 text-white leading-[1.05]">
+                    节日，<br><span class="text-orange-500">更有温度。</span>
+                </h2>
+                <div class="space-y-12 max-w-lg">
+                    <div class="flex gap-8 group">
+                        <div class="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-md flex items-center justify-center border border-white/10 shrink-0 text-orange-500 shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5a2 2 0 10-2 2h2zM5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-width="1.5"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3 text-white">专属节日数字彩蛋</h3>
+                            <p class="text-gray-400 leading-relaxed text-lg font-medium">春节期间扫描产品，即可发放“口令红包”，伴随满屏的新春飘屏祝福。元宵之夜，更有专属汤圆动效温暖屏间。</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-8 group">
+                        <div class="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-md flex items-center justify-center border border-white/10 shrink-0 text-orange-500 shadow-lg">
+                            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke-width="1.5"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold mb-3 text-white">流动的仪式感</h3>
+                            <p class="text-gray-400 leading-relaxed text-lg font-medium">不只是冰冷的科技配件。我们赋予它感知时间的能力，在每一个特殊的时刻，为您和亲友献上独一无二的视觉盛宴。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="reveal relative flex justify-center perspective-[2000px]">
+                <div class="w-[300px] h-[620px] bg-[#050505] rounded-[54px] border-[10px] border-[#2c2c2e] relative overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.8)] z-10">
+                    
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-7 bg-black rounded-b-2xl z-50 flex items-center justify-center">
+                        <div class="w-2 h-2 rounded-full bg-red-500 animate-ping"></div>
+                    </div>
+                    
+                    <div class="p-6 pt-20 h-full flex flex-col items-center bg-[#0a0a0a] relative">
+                        
+                        <div class="relative w-full flex flex-col items-center">
+                            <div class="envelope-main relative z-20 w-32 h-32 bg-[#e63946] rounded-[24px] shadow-[0_20px_50px_rgba(230,57,70,0.4)] flex flex-col items-center justify-center border-t border-white/20 animate-pop-and-breathe">
+                                <div class="w-12 h-12 rounded-full bg-[#f1faee] shadow-inner flex items-center justify-center mb-1">
+                                    <span class="text-[#e63946] font-bold text-xl">🧧</span>
+                                </div>
+                                <div class="text-[10px] text-white font-bold tracking-widest opacity-80">恭贺新禧</div>
+                            </div>
+
+                            <div class="mt-12 w-full space-y-4">
+                                <div class="h-12 bg-white/5 backdrop-blur-xl rounded-2xl border border-white/10 flex items-center px-4 overflow-hidden relative">
+                                    <span class="text-xs text-orange-400 font-bold tracking-widest typing-animation">新年快乐，万事如意</span>
+                                    <div class="absolute right-4 w-1.5 h-4 bg-orange-500 rounded-full animate-blink"></div>
+                                </div>
+                                <div class="w-full py-3 bg-red-600 rounded-xl text-[11px] font-bold text-white text-center shadow-lg transform active:scale-95 transition-transform">
+                                    领取红包
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="absolute inset-0 z-30 pointer-events-none overflow-hidden">
+                            <div class="blessing-text top-[20%] left-[-10%] delay-0">🧧 财源广进</div>
+                            <div class="blessing-text top-[40%] right-[-10%] delay-[2s]">🧨 岁岁平安</div>
+                            <div class="blessing-text top-[60%] left-[-20%] delay-[4s]">🍊 大吉大利</div>
+                            <div class="particle-ty top-[15%] right-[20%] delay-500">⚪</div>
+                            <div class="particle-ty top-[55%] left-[30%] delay-[3s]">⚪</div>
+                        </div>
+
+                        <div class="absolute inset-0 bg-gradient-to-tr from-red-600/10 via-transparent to-orange-500/10 pointer-events-none"></div>
+                    </div>
+                </div>
+
+                <div class="absolute bottom-[-20px] w-48 h-6 bg-black/40 rounded-full blur-xl z-0"></div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        /* 1. 红包弹出与呼吸联动 */
+        @keyframes popAndBreathe {
+            0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+            15% { transform: scale(1.1) translateY(-10px); opacity: 1; }
+            30% { transform: scale(1) translateY(0); }
+            70% { transform: scale(1.05); box-shadow: 0 0 60px rgba(230,57,70,0.6); }
+            100% { transform: scale(1); }
+        }
+        .animate-pop-and-breathe {
+            animation: popAndBreathe 6s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+        }
+
+        /* 2. 模拟打字机光标闪烁 */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .animate-blink { animation: blink 0.8s infinite; }
+
+        /* 3. 模拟打字过程 (遮罩滑动) */
+        .typing-animation {
+            display: inline-block;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 6s steps(10) infinite;
+        }
+        @keyframes typing {
+            0%, 30% { width: 0; }
+            50%, 90% { width: 100%; }
+            100% { width: 0; }
+        }
+
+        /* 4. 飘屏祝福文字动效 (从一侧滑向另一侧) */
+        .blessing-text {
+            position: absolute;
+            font-size: 11px;
+            font-weight: bold;
+            color: #ff9f0a;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 4px 12px;
+            border-radius: 99px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            white-space: nowrap;
+            opacity: 0;
+            animation: slideAcross 8s linear infinite;
+        }
+        @keyframes slideAcross {
+            0% { transform: translateX(-50px); opacity: 0; }
+            20% { opacity: 0.8; }
+            80% { opacity: 0.8; }
+            100% { transform: translateX(300px); opacity: 0; }
+        }
+
+        /* 5. 汤圆粒子向上漂移并消失 */
+        .particle-ty {
+            position: absolute;
+            font-size: 16px;
+            opacity: 0;
+            filter: blur(1px);
+            animation: floatParticle 5s ease-in infinite;
+        }
+        @keyframes floatParticle {
+            0% { transform: translateY(50px) scale(0.5); opacity: 0; }
+            20% { opacity: 0.6; }
+            100% { transform: translateY(-300px) scale(1.5); opacity: 0; }
+        }
+
+        /* 6. 背景光的平滑脉冲 */
+        @keyframes pulseSlow {
+            0%, 100% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.2); opacity: 0.15; }
+        }
+        .animate-pulse-slow { animation: pulseSlow 5s ease-in-out infinite; }
+    </style>
+
+ 
+
+<section id="product-showcase" class="py-32 md:py-48 px-6 bg-[#000] border-t border-white/5 overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+        <div class="reveal text-center mb-24">
+            <h2 class="text-[#86868b] text-[19px] md:text-[21px] font-semibold mb-6 tracking-tight uppercase">选，你的所爱</h2>
+            <p class="text-white text-[48px] md:text-[72px] font-bold leading-[1.05] tracking-tight">
+                多样形态。<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-br from-white via-white to-white/30">适配你的每一种生活。</span>
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            
+            <div class="reveal flex flex-col items-center group">
+                <div class="w-full aspect-square bg-[#161617] rounded-[48px] mb-10 flex items-center justify-center relative overflow-hidden border border-white/5 shadow-2xl transition-all duration-700 hover:border-white/20">
+                    <div class="relative w-[220px] h-[340px] bg-gradient-to-br from-[#2a2a2c] to-[#0a0a0a] rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] transform rotate-[-5deg] group-hover:rotate-0 group-hover:scale-105 transition-all duration-700 overflow-hidden border border-white/10">
+                        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
+                        <div class="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/[0.05] to-transparent rotate-45 animate-[sheen_6s_infinite] pointer-events-none"></div>
+                        <div class="p-8 h-full flex flex-col justify-between">
+                            <span class="text-white/20 font-bold tracking-[0.3em] text-[10px]">LINKLY CARD</span>
+                            <div class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center px-4">
+                    <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Linkly 卡片</h3>
+                    <p class="text-[#86868b] mb-8 text-[17px] leading-relaxed font-medium">极致纤薄。钱包里的社交中枢。</p>
+                    <a href="Shop_Card.html" class="inline-flex items-center justify-center px-8 py-3 bg-white text-black text-sm font-bold rounded-full transition-all duration-300 hover:bg-[#f5f5f7] hover:scale-[1.05] active:scale-[0.98] shadow-lg">
+                        购买卡片
+                    </a>
+                </div>
+            </div>
+
+            <div class="reveal flex flex-col items-center group">
+                <div class="w-full aspect-square bg-[#161617] rounded-[48px] mb-10 flex items-center justify-center relative overflow-hidden border border-white/5 shadow-2xl transition-all duration-700 hover:border-white/20">
+                    <div class="relative w-32 h-32 transform group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-8 h-16 border-[4px] border-[#333] rounded-full shadow-lg"></div>
+                        <div class="w-full h-full bg-gradient-to-tr from-blue-600 via-indigo-500 to-purple-600 rounded-full shadow-[0_0_40px_rgba(41,151,255,0.4),inset_0_2px_10px_rgba(255,255,255,0.3)] flex items-center justify-center border border-white/20 relative z-10">
+                            <svg class="w-12 h-12 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center px-4">
+                    <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Linkly 挂件</h3>
+                    <p class="text-[#86868b] mb-8 text-[17px] leading-relaxed font-medium">随行，随兴。是潮流配饰，更是连接点。</p>
+                    <a href="Shop_Pendant.html" class="inline-flex items-center justify-center px-8 py-3 bg-white text-black text-sm font-bold rounded-full transition-all duration-300 hover:bg-[#f5f5f7] hover:scale-[1.05] active:scale-[0.98] shadow-lg">
+                        购买挂件
+                    </a>
+                </div>
+            </div>
+
+            <div class="reveal flex flex-col items-center group">
+                <div class="w-full aspect-square bg-[#161617] rounded-[48px] mb-10 flex items-center justify-center relative overflow-hidden border border-white/5 shadow-2xl transition-all duration-700 hover:border-white/20">
+                    <div class="relative w-[190px] h-[360px] bg-[#111112] rounded-[42px] border-[2px] border-white/5 shadow-[0_30px_60px_-10px_rgba(0,0,0,0.8)] overflow-hidden flex items-center justify-center">
+                        <div class="absolute top-1/4 w-32 h-32 rounded-full border border-white/[0.03]"></div>
+                        
+                        <div class="relative z-10 w-24 h-24 bg-[#1c1c1e] rounded-3xl border border-white/10 shadow-[0_15px_30px_rgba(0,0,0,0.5),inset_0_1px_2px_rgba(255,255,255,0.1)] flex items-center justify-center transform group-hover:translate-z-10 group-hover:scale-110 transition-all duration-700">
+                            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 flex items-center justify-center relative overflow-hidden group-hover:from-blue-600/40 group-hover:to-purple-600/40 transition-colors">
+                                <svg class="w-8 h-8 text-blue-400 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[sheen_3s_infinite]"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute bottom-8 text-[9px] text-white/10 font-bold tracking-[0.4em] uppercase">Mag-Charm System</div>
+                    </div>
+                </div>
+                <div class="text-center px-4">
+                    <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">Linkly 手机壳</h3>
+                    <p class="text-[#86868b] mb-8 text-[17px] leading-relaxed font-medium">彰显个性，更是交互入口。</p>
+                    <a href="Shop_Case.html" class="inline-flex items-center justify-center px-8 py-3 bg-white text-black text-sm font-bold rounded-full transition-all duration-300 hover:bg-[#f5f5f7] hover:scale-[1.05] active:scale-[0.98] shadow-lg">
+                        购买手机壳
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes sheen {
+        0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); opacity: 0; }
+        15%, 45% { opacity: 1; }
+        50%, 95% { transform: translateX(100%) translateY(100%) rotate(45deg); opacity: 0; }
+    }
+</style>
+
+
+<footer style="background-color: #000000; color: #86868b; font-size: 12px; line-height: 1.33337; font-weight: 400; padding: 0 20px; border-top: 1px solid #333; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+        <div style="max-width: 980px; margin: 0 auto; padding: 40px 0 20px;">
+            
+            <div style="border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px;">
+                更多选购方式：<a href="Shop_General.html" style="color: #2997ff; text-decoration: none;">前往 Linkly 商店</a>，或发送邮件至 <a href="mailto:contact@linklyai.net" style="color: #2997ff; text-decoration: none;">contact@linklyai.net</a> 与我们取得联系。
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;">
+                
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">选购与了解</h3>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 8px;"><a href="Shop_General.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 商店</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Shop_General.html#essential" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 基础版</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Shop_General.html#studio" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 半定制版</a></li>
+                        <li style="margin-bottom: 8px;"><a href="Shop_General.html#bespoke" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">Linkly 全定制版</a></li>
+                    </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">软件服务</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="AI_Detailed_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly AI</a></li>
+                            <li style="margin-bottom: 8px;"><a href="VIP_Compare_2.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">会员计划</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Download.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">应用下载</a></li>
+                            <li style="margin-bottom: 8px;"><a href="https://linkly.solutions" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">网页登录</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">商务应用</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="B_Detailed_2black_WordPolish.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">Linkly 企业版</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">企业版采购咨询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">客户支持</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Tech_Spec.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">技术规格参数</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">联系支持团队</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Order_Status_Check.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">订单状态查询</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div>
+                        <h3 style="font-size: 12px; font-weight: 600; color: #f5f5f7; margin-bottom: 10px;">关于 Linkly</h3>
+                        <ul style="list-style: none; padding: 0; margin: 0;">
+                            <li style="margin-bottom: 8px;"><a href="Brand_Story.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">品牌故事</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Environment.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">环境责任</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Privacy.html" style="color: #86868b; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私保护</a></li>
+                            <li style="margin-bottom: 8px;"><a href="Contact_Us.html" style="color: #6e6e73; text-decoration: none; transition: color 0.2s;" onmouseover="this.style.color='#1d1d1f';this.style.textDecoration='underline'" onmouseout="this.style.color='#6e6e73';this.style.textDecoration='none'">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 10px;">
+                <div style="color: #86868b;">Copyright © 2025 Linkly Inc. 保留所有权利。</div>
+                <div style="display: flex; flex-wrap: wrap;">
+                    <a href="Privacy_Policy.html" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">隐私政策</a>
+                    <a href="Legal_Terms.html" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">使用条款</a>
+                    <a href="Legal_Sales.html" style="color: #86868b; text-decoration: none; margin-right: 10px; padding-right: 10px; border-right: 1px solid #424245;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">销售政策</a>
+                    <a href="Legal_Info.html" style="color: #86868b; text-decoration: none;" onmouseover="this.style.color='#f5f5f7';this.style.textDecoration='underline'" onmouseout="this.style.color='#86868b';this.style.textDecoration='none'">法律信息</a>
+                </div>
+                <a href="#" style="color: #f5f5f7; text-decoration: none; margin-left: auto;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">中国大陆 (简体中文)</a>
+            </div>
+
+        </div>
+    </footer>
+
+    <script>
+        // Apple 风格滚动进入逻辑
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+    </script>
+
+<script src="Navbar_B.js"></script>
+</body>
+</html>
