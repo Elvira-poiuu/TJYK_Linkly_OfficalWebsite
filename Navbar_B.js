@@ -246,7 +246,8 @@
                             <a href="Product.html" class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap" style="text-decoration:none;">智能社交</a>
                             <a href="WebGen.html" class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap" style="text-decoration:none;">智能网页</a>
                             <a href="Entertainment.html" class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap" style="text-decoration:none;">智能文娱</a>
-                        </div>
+                            <a href="Identity.html" class="block px-4 py-2.5 text-[13px] text-[#e8e8ed] hover:bg-white/10 hover:text-[#2997ff] rounded-lg text-center whitespace-nowrap" style="text-decoration:none;">智能社群</a>
+                            </div>
                     </div>
                 </div>
                 <div class="nav-group relative h-full flex items-center">
